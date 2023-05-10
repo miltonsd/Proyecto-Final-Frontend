@@ -1,0 +1,29 @@
+<div class="reserva">
+    <form action="" class="reserva-content">
+        <h1 class="titulo">Hace tu reserva</h1>
+        <mat-form-field appearance="fill" class="reserva-input">
+            <mat-label>Seleccionar fecha</mat-label>
+            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" disabled>
+            <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="reserva-input">
+            <mat-label>Seleccionar horario</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let hora of horas" [value]="hora">{{hora}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="reserva-input">
+            <mat-label>Ingrese cantidad de personas</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let persona of personas" [value]="persona">{{persona}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="reserva-input">
+            <mat-label>Seleccionar mesa</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let mesa of mesas" [value]="mesa">{{mesa}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>

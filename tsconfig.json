@@ -29,6 +29,8 @@
       "@pa/core/components" : ["src/app/core/components/index.ts"],
       // home
       "@pa/home/views" : ["src/app/modules/home/views/index.ts"],
+      // shared
+      "@pa/shared/modules" : ["src/app/shared/modules/index.ts"],
     },
   },
   "angularCompilerOptions": {
