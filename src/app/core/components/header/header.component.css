@@ -5,6 +5,7 @@
 .barra {
   background-color: rgb(132, 126, 138);
   padding: 8px 8px;
+  height: 10vh;
 }
 
 .example-spacer {

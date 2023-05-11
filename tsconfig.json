@@ -31,6 +31,8 @@
       "@pa/home/views" : ["src/app/modules/home/views/index.ts"],
       // shared
       "@pa/shared/modules" : ["src/app/shared/modules/index.ts"],
+      // reservas
+      "@pa/reservas/services" : ["src/app/modules/reservas/services/index.ts"],
     },
   },
   "angularCompilerOptions": {

@@ -1,29 +1,84 @@
 <div class="reserva">
     <form action="" class="reserva-content">
         <h1 class="titulo">Hace tu reserva</h1>
+        
+        <div class="fechaHora">
+            <mat-form-field appearance="fill" class="reserva-input fechaHora">
+                <mat-label>Seleccionar fecha</mat-label>
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" disabled>
+                <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="reserva-input fechaHora">
+                <mat-label>Seleccionar horario</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let hora of horas" [value]="hora">{{hora}}</mat-option>
+                </mat-select>
+            </mat-form-field>        
+        </div>
+
         <mat-form-field appearance="fill" class="reserva-input">
-            <mat-label>Seleccionar fecha</mat-label>
-            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" disabled>
-            <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
-            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="reserva-input">
-            <mat-label>Seleccionar horario</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let hora of horas" [value]="hora">{{hora}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="reserva-input">
-            <mat-label>Ingrese cantidad de personas</mat-label>
+            <mat-label>Ingresar cantidad de personas</mat-label>
             <mat-select>
                 <mat-option *ngFor="let persona of personas" [value]="persona">{{persona}}</mat-option>
             </mat-select>
         </mat-form-field>
+
         <mat-form-field appearance="fill" class="reserva-input">
             <mat-label>Seleccionar mesa</mat-label>
             <mat-select>
                 <mat-option *ngFor="let mesa of mesas" [value]="mesa">{{mesa}}</mat-option>
             </mat-select>
         </mat-form-field>
+
+        <div class="boton">
+            <button type="submit" mat-raised-button color="primary">
+                Confirmar reserva
+            </button>
+
+            <ng-container *ngIf="!this.mostrarReservas; else ocultarReservas">
+                <button mat-raised-button color="accent" (click)="onVerReservas()">
+                    Ver reservas
+                </button>
+            </ng-container>
+
+            <ng-template #ocultarReservas>
+                <button mat-raised-button color="accent" (click)="onVerReservas()">
+                   Ocultar reservas
+                </button>
+            </ng-template>
+
+        </div>
+
     </form>
+
+    <ng-container *ngIf="this.mostrarReservas">
+        <table mat-table [dataSource]="reservasDatos" class="mat-elevation-z8">
+
+            <!-- Columna con la fecha y hora -->
+            <ng-container matColumnDef="fechaHora">
+              <th mat-header-cell *matHeaderCellDef>Fecha y Hora</th>
+              <td mat-cell *matCellDef="let element"> {{element.fechaHora}} </td>
+            </ng-container>
+          
+            <!-- Columna de cantidad de personas -->
+            <ng-container matColumnDef="cant_personas">
+              <th mat-header-cell *matHeaderCellDef>Cantidad de personas<th>
+              <td mat-cell *matCellDef="let element"> {{element.cant_personas}} </td>
+            </ng-container>
+          
+            <!-- Columna de mesa -->
+            <ng-container matColumnDef="id_mesa">
+              <th mat-header-cell *matHeaderCellDef>Mesa</th>
+              <td mat-cell *matCellDef="let element"> {{element.id_mesa}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+    </ng-container>
+
+
+
 </div>
