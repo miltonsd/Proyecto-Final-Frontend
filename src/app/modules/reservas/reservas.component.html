@@ -28,7 +28,7 @@
         <mat-form-field appearance="fill" class="reserva-input">
             <mat-label>Seleccionar mesa</mat-label>
             <mat-select>
-                <mat-option *ngFor="let mesa of mesas" [value]="mesa">{{mesa}}</mat-option>
+                <mat-option *ngFor="let mesa of mesas" [value]="mesa.id_mesa">{{mesa.id_mesa}} - {{mesa.ubicacion}}</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -54,7 +54,10 @@
     </form>
 
     <ng-container *ngIf="this.mostrarReservas">
-        <table mat-table [dataSource]="reservasDatos" class="mat-elevation-z8">
+        <div class="table-container">
+
+        
+        <table mat-table [dataSource]="reservasDatos" class="mat-elevation-z8 tabla">
 
             <!-- Columna con la fecha y hora -->
             <ng-container matColumnDef="fechaHora">
@@ -77,6 +80,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+        </div>
     </ng-container>
 
 

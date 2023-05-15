@@ -39,3 +39,26 @@ mat-form-field.fechaHora {
 .boton button {
   width: 30%;
 }
+
+.table-container {
+  width: 537px;
+  padding: 2%;
+}
+
+.tabla {
+  width: 100%;
+}
+
+.mat-column-fechaHora {
+  width: 60px;
+}
+
+.mat-column-cant_personas {
+  width: 200px;
+  text-align: center;
+}
+
+.mat-column-id_mesa {
+  width: 32px;
+  text-align: center;
+}

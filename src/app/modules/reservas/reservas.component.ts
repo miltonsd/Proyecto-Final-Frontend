@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
+import * as moment from 'moment';
+import 'moment/locale/es';
 
 import { ReservasService } from '@pa/reservas/services';
+import { MesasService } from '@pa/mesas/services';
 export interface PeriodicElement {
   name: string;
   position: number;
   weight: number;
   symbol: string;
 }
+
+moment.locale("es");
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -29,7 +34,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ReservasComponent {
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'];
   personas = [2,4,6,8,10,12,14,16];
-  mesas =  [];
+  mesas: any[] = [];
   minDate: Date;
   maxDate: Date;
   displayedColumns: string[] = ['fechaHora', 'cant_personas', 'id_mesa'];
@@ -38,34 +43,55 @@ export class ReservasComponent {
   respuesta: any;
   reservasDatos: any[] = [];
 
-  constructor(private _reservasService: ReservasService) {
+  constructor(private _reservasService: ReservasService, private _mesasService: MesasService) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const currentDate = new Date().getDate(); 
     this.minDate = new Date(currentYear, currentMonth, currentDate);
     this.maxDate = new Date(currentYear, currentMonth+1, 31);
+    this._mesasService.getAllMesas().subscribe({
+      next: (respuesta: any) => {
+        const listaMesas: any[] = [];
+        respuesta.forEach((mesa: any) => {
+          listaMesas.push({
+            id_mesa: mesa.id_mesa,
+            capacidad: mesa.capacidad,
+            ubicacion: mesa.ubicacion,
+            createdAt: mesa.createdAt,
+            updatedAt: mesa.updatedAt,
+          });
+        });
+        this.mesas = listaMesas;
+      },
+      error: (err) => {
+        console.error(`Código de error ${err.status}: `, err.error.msg);
+      },
+    });
   }
 
   ngOnInit(): void {
     // Buscar los juegos que posee el usuario
     this._reservasService.getAllReservas().subscribe({
       next: (response: any) => {
-        this.respuesta = response.reservas;
+        this.respuesta = response;
         const listaReservas: any[] = [];
         this.respuesta.forEach((reserva: any) => {
           listaReservas.push({
             id_reserva: reserva.id_reserva,
-            fechaHora: reserva.fechaHora,
+            // fechaHora: reserva.fechaHora,
+            // fechaHora: moment(reserva.fechaHora).format('LLL'),
+            fechaHora: moment(reserva.fechaHora).format('DD/MM/yyyy HH:mm'),
             cant_personas: reserva.cant_personas,
             estado: reserva.estado,
-            id_usuario: reserva.id_usuario,
-            id_mesa: reserva.id_mesa,
+            id_usuario: reserva.Usuario.id_usuario,
+            id_mesa: reserva.Mesa.id_mesa,
             createdAt: reserva.createdAt,
             updatedAt: reserva.updatedAt,
           });
         });
         this.reservasDatos = listaReservas;
+        console.log(this.reservasDatos);
       },
       error: (err) => {
         console.error(`Código de error ${err.status}: `, err.error.msg);

@@ -33,6 +33,8 @@
       "@pa/shared/modules" : ["src/app/shared/modules/index.ts"],
       // reservas
       "@pa/reservas/services" : ["src/app/modules/reservas/services/index.ts"],
+      // mesas
+      "@pa/mesas/services" : ["src/app/modules/mesas/services/index.ts"],
     },
   },
   "angularCompilerOptions": {
