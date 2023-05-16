@@ -35,6 +35,8 @@
       "@pa/reservas/services" : ["src/app/modules/reservas/services/index.ts"],
       // mesas
       "@pa/mesas/services" : ["src/app/modules/mesas/services/index.ts"],
+      // usuarios
+      "@pa/usuarios/services" : ["src/app/modules/usuarios/services/index.ts"]
     },
   },
   "angularCompilerOptions": {
