@@ -6,8 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ReservasService {
-  // url = environment.apiUrl + '/reservas';
-  url = 'http://localhost:3000/reservas';
+  url = environment.apiUrl + '/reservas';
 
   constructor(private _http: HttpClient) { }
   

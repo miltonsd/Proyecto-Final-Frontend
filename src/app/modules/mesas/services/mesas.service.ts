@@ -6,8 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class MesasService {
-  // url = environment.apiUrl + '/mesas';
-  url = 'http://localhost:3000/mesas';
+  url = environment.apiUrl + '/mesas';
 
   constructor(private _http: HttpClient) { }
 

@@ -6,13 +6,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UsuariosService {
-  // url = environment.apiUrl + '/usuarios';
-  url = 'http://localhost:3000/usuarios';
+  url = environment.apiUrl + '/usuarios';
 
   constructor(private _http: HttpClient) { }
 
   getAllUsuarios() {
     return this._http.get(`${this.url}/`);
   }
-
 }
