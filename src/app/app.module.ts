@@ -9,13 +9,19 @@ import { HeaderComponent } from './core/components/header/header.component';
 import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@pa/shared/modules';
+import { TablaComponent } from './shared/components/tabla/tabla.component';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    TablaComponent,
+    DialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ReservasRoutingModule } from './reservas-routing.module';
 import { ReservasComponent } from './reservas.component';
@@ -16,6 +17,7 @@ import { MesasService } from '@pa/mesas/services';
     CommonModule,
     ReservasRoutingModule,
     MaterialModule,
+    ReactiveFormsModule,
   ],
   providers: [ReservasService, MesasService]
 })

@@ -13,4 +13,21 @@ export class ReservasService {
   getAllReservas() {
     return this._http.get(`${this.url}/`);
   }
+
+  getOneReserva(id_reserva: number) {
+    return this._http.get(`${this.url}/${id_reserva}`);
+  }
+
+  createReserva(reserva: any) {
+    return this._http.post(`${this.url}/create`, reserva);
+  }
+
+  updateReserva(id_reserva: number, reserva: any) {
+    return this._http.patch(`${this.url}/${id_reserva}`, reserva);
+  }
+
+  deleteReserva(id_reserva: number) {
+    return this._http.delete(`${this.url}/${id_reserva}`);
+  }
+
 }

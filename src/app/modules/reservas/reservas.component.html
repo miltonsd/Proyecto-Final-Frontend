@@ -1,18 +1,18 @@
 <div class="reserva">
-    <form action="" class="reserva-content">
+    <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
         <h1 class="titulo">Hace tu reserva</h1>
         
         <div class="fechaHora">
             <mat-form-field appearance="fill" class="reserva-input fechaHora">
                 <mat-label>Seleccionar fecha</mat-label>
-                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" disabled>
+                <input matInput formControlName="fecha" [min]="minDate" [max]="maxDate" [matDatepicker]="dp3" readonly>
                 <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
                 <mat-datepicker #dp3 disabled="false"></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="reserva-input fechaHora">
                 <mat-label>Seleccionar horario</mat-label>
-                <mat-select>
+                <mat-select formControlName="hora"> 
                     <mat-option *ngFor="let hora of horas" [value]="hora">{{hora}}</mat-option>
                 </mat-select>
             </mat-form-field>        
@@ -20,14 +20,14 @@
 
         <mat-form-field appearance="fill" class="reserva-input">
             <mat-label>Ingresar cantidad de personas</mat-label>
-            <mat-select>
+            <mat-select formControlName="cantidad">
                 <mat-option *ngFor="let persona of personas" [value]="persona">{{persona}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="reserva-input">
             <mat-label>Seleccionar mesa</mat-label>
-            <mat-select>
+            <mat-select formControlName="mesa">
                 <mat-option *ngFor="let mesa of mesas" [value]="mesa.id_mesa">{{mesa.id_mesa}} - {{mesa.ubicacion}}</mat-option>
             </mat-select>
         </mat-form-field>

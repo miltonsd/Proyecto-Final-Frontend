@@ -31,6 +31,8 @@
       "@pa/home/views" : ["src/app/modules/home/views/index.ts"],
       // shared
       "@pa/shared/modules" : ["src/app/shared/modules/index.ts"],
+      "@pa/shared/models" : ["src/app/shared/models/index.ts"],
+      "@pa/shared/components" : ["src/app/shared/components/index.ts"],
       // reservas
       "@pa/reservas/services" : ["src/app/modules/reservas/services/index.ts"],
       // mesas
