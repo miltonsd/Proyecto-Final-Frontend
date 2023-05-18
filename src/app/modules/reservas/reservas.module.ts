@@ -9,9 +9,10 @@ import { MaterialModule } from '@pa/shared/modules';
 
 import { ReservasService } from '@pa/reservas/services';
 import { MesasService } from '@pa/mesas/services';
+import { TablaComponent } from '@pa/shared/components';
 @NgModule({
   declarations: [
-    ReservasComponent
+    ReservasComponent, TablaComponent
   ],
   imports: [
     CommonModule,

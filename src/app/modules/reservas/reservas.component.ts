@@ -5,6 +5,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ReservasService } from '@pa/reservas/services';
 import { MesasService } from '@pa/mesas/services';
+import { TablaComponent } from '@pa/shared/components';
+import { TableColumn } from '@pa/shared/models';
 
 moment.locale("es");
 
@@ -30,6 +32,7 @@ export class ReservasComponent implements OnInit {
     mesa: new FormControl('', {validators: [Validators.required]}),
   });
 
+  reservasColumnas: TableColumn[] = [];
 
   constructor(private _reservasService: ReservasService, private _mesasService: MesasService) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
@@ -59,7 +62,29 @@ export class ReservasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Buscar los juegos que posee el usuario
+    // Defino las columnas de la tabla de reservas
+    /*
+    export interface TableColumn {
+    name: string; // Nombre de la columna
+    dataKey: string; // Nombre de la key del dato actual en esta columna
+    isImage?: boolean; // La columna muestra una imagen?
+    showDetailsButton?: boolean; // La columna tiene un boton para ver detalles?
+    editButton?: boolean; // La columna tiene un boton para editar?
+    deleteButton?: boolean; // La columna tiene un boton para eliminar?
+    detailsUrl?: string;
+    editUrl?: string;
+    isSortable?: boolean; // Se puede ordenar la columna?
+    }
+
+    fechaHora', 'cant_personas', 'id_mesa'
+
+    */
+    this.reservasColumnas = [
+      { name: 'Fecha y hora', dataKey: 'fechaHora' },
+      { name: 'Cantidad de personas', dataKey: 'cant_personas' },
+      { name: 'Mesa', dataKey: 'id_mesa' },
+    ];
+    // Busca las reservas
     this._reservasService.getAllReservas().subscribe({
       next: (response: any) => {
         this.respuesta = response;
@@ -69,7 +94,7 @@ export class ReservasComponent implements OnInit {
             id_reserva: reserva.id_reserva,
             fechaHora: moment(reserva.fechaHora).format('DD/MM/yyyy HH:mm'),
             cant_personas: reserva.cant_personas,
-            estado: reserva.estado,
+            isPendiente: reserva.isPendiente,
             id_usuario: reserva.Usuario.id_usuario,
             id_mesa: reserva.Mesa.id_mesa,
             createdAt: reserva.createdAt,
@@ -97,8 +122,12 @@ export class ReservasComponent implements OnInit {
       const fecha = moment(this.formulario.value.fecha).format('yyyy-MM-DD');
       const fechaHora = fecha + ' ' + this.formulario.value.hora;
       console.log(fechaHora); 
-      const reserva = {fechaHora: fechaHora, cant_personas: this.formulario.value.cantidad,
-      estado: 'Pendiente', id_usuario: 1, id_mesa: this.formulario.value.mesa};
+      const reserva = {
+        fechaHora: fechaHora, 
+        cant_personas: this.formulario.value.cantidad,
+        id_usuario: 1, 
+        id_mesa: this.formulario.value.mesa
+      };
       this._reservasService.createReserva(reserva).subscribe({
         next: (respuesta:any) => {alert(respuesta.msg);
         window.location.href = '/';

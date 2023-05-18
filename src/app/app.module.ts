@@ -19,7 +19,6 @@ import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confi
     FooterComponent,
     HeaderComponent,
     PageNotFoundComponent,
-    TablaComponent,
     DialogComponent,
     ConfirmDialogComponent
   ],

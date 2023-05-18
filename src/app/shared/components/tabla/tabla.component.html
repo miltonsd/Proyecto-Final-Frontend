@@ -1,14 +1,17 @@
 <!-- Filtro (si la tabla lo requiere) -->
-<mat-form-field appearance="fill" class="filtro">
+<ng-container *ngIf="isFilter">
+  <mat-form-field appearance="fill" class="filtro">
     <mat-label>Filtrar</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar" #input>
   </mat-form-field>
+</ng-container>
+
   
   <!-- Tabla -->
   <table mat-table [dataSource]="dataSource" matSort class="tabla mat-elevation-z8">
     
     <!-- Columnas -->
-    <ng-container *ngFor="let tableColumn of tableColumns" [matColumnDef]="tableColumn.name">
+    <ng-container *ngFor="let tableColumn of tableColumns" [matColumnDef]="tableColumn.name" class="columna">
   
       <!-- Si se puede ordenar la columna -->
       <ng-container *ngIf="tableColumn.isSortable; else notSortable">
@@ -81,11 +84,17 @@
   
     
     <!-- Fila que se muestra cuando no se encuentran datos -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" [attr.colspan]="displayedColumns.length">No se encontraron elementos que contengan "{{input.value}}."</td>
-    </tr>
+    <ng-container *ngIf="isFilter">
+      <tr class="mat-row" *matNoDataRow>
+        <!-- <td class="mat-cell" [attr.colspan]="displayedColumns.length">No se encontraron elementos que contengan "{{input.value}}."</td> -->
+      </tr>
+    </ng-container>
+    
   
   </table>
   
   <!-- Paginación de la tabla -->
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Selecciona una página"></mat-paginator>
+  <ng-container *ngIf="isPaginator">
+    <mat-paginator [pageSizeOptions]="pageOptions" aria-label="Selecciona una página"></mat-paginator>
+  </ng-container>
+  

@@ -28,6 +28,9 @@ export class TablaComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   @Input() isSortable = false;
+  @Input() isFilter = false;
+  @Input() isPaginator = false;
+  @Input() pageOptions!: number[];
 
   @Input() tableColumns!: TableColumn[];
 
@@ -45,6 +48,10 @@ export class TablaComponent implements OnInit {
       (tableColumn: TableColumn) => tableColumn.name
     );
     this.displayedColumns = columnNames;
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   setTableDataSource(data: any) {
