@@ -1,0 +1,10 @@
+.footer {
+  /* background-color: rgb(41, 41, 41); */
+  background-color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  height: 15vh;
+}
+

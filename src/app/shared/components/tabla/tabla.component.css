@@ -1,0 +1,16 @@
+.filtro { width: 100%; }
+  
+.tabla {
+  width: 100%;
+  background-color: rgb(61, 61, 61);
+  font-family: 'Oswald', sans-serif;
+}
+
+.mat-mdc-header-cell, .mat-mdc-cell, .mat-cell { 
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+.cover { max-width: 80px; }
+  
+.boton { margin: 0% 1%; }

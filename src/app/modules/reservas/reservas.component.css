@@ -1,0 +1,68 @@
+.reserva {
+  display: flex;
+  justify-content: center;
+  background-color: lavender;
+  min-height: 30vh;
+  font-family: 'Oswald', sans-serif;
+}
+
+.reserva-content {
+  padding: 5%;
+  min-width: 30vw;
+}
+
+.reserva-content h1 {
+  font-weight: 600;
+  font-size: 45px;
+}
+
+.reserva-input {
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+div.fechaHora {
+  width: 100%;
+}
+
+mat-form-field.fechaHora {
+  height: 76px;
+  width: 40%;
+  margin-right: 10%;
+}
+
+.boton {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.boton button {
+  width: 30%;
+}
+
+.table-container {
+  width: 537px;
+  padding: 2%;
+}
+
+.tabla {
+  width: 100%;
+  background-color: rgb(61, 61, 61);
+}
+
+.mat-column-fechaHora {
+  width: 60px;
+  color: rgb(255, 255, 255);
+}
+
+.mat-column-cant_personas {
+  width: 200px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+.mat-column-id_mesa {
+  width: 32px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}

@@ -22,7 +22,24 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "tslib" : ["node_modules/tslib/tslib.d.ts"],
+      // core
+      "@pa/core/components" : ["src/app/core/components/index.ts"],
+      // home
+      "@pa/home/views" : ["src/app/modules/home/views/index.ts"],
+      // shared
+      "@pa/shared/modules" : ["src/app/shared/modules/index.ts"],
+      "@pa/shared/models" : ["src/app/shared/models/index.ts"],
+      "@pa/shared/components" : ["src/app/shared/components/index.ts"],
+      // reservas
+      "@pa/reservas/services" : ["src/app/modules/reservas/services/index.ts"],
+      // mesas
+      "@pa/mesas/services" : ["src/app/modules/mesas/services/index.ts"],
+      // usuarios
+      "@pa/usuarios/services" : ["src/app/modules/usuarios/services/index.ts"]
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
