@@ -1,35 +1,31 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FooterComponent } from './core/components/footer/footer.component';
-import { HeaderComponent } from './core/components/header/header.component';
-import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '@pa/shared/modules';
-import { TablaComponent } from './shared/components/tabla/tabla.component';
-import { DialogComponent } from './shared/components/dialog/dialog.component';
-import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
+
+// Angular Material
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+
+// Core
+import { HeaderComponent, FooterComponent, PageNotFoundComponent } from '@pa/core/components';
+
+// Shared
+import { ComponentsModule, MaterialModule } from '@pa/shared/modules';
+
+const core = [HeaderComponent, FooterComponent, PageNotFoundComponent];
+const modules = [ComponentsModule, MaterialModule];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    HeaderComponent,
-    PageNotFoundComponent,
-    DialogComponent,
-    ConfirmDialogComponent
+  declarations: [AppComponent, ...core],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, HttpClientModule, ...modules],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-  ],
-  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -5,21 +5,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ReservasRoutingModule } from './reservas-routing.module';
 import { ReservasComponent } from './reservas.component';
 
-import { MaterialModule } from '@pa/shared/modules';
-
+// Services
 import { ReservasService } from '@pa/reservas/services';
 import { MesasService } from '@pa/mesas/services';
-import { TablaComponent } from '@pa/shared/components';
+
+// Shared
+import { ComponentsModule, MaterialModule } from '@pa/shared/modules';
+
+const modules = [ComponentsModule, MaterialModule];
+const services = [ReservasService, MesasService];
+
 @NgModule({
-  declarations: [
-    ReservasComponent, TablaComponent
-  ],
-  imports: [
-    CommonModule,
-    ReservasRoutingModule,
-    MaterialModule,
-    ReactiveFormsModule,
-  ],
-  providers: [ReservasService, MesasService]
+  declarations: [ReservasComponent],
+  imports: [CommonModule, ReservasRoutingModule, ReactiveFormsModule, ...modules],
+  providers: [...services]
 })
 export class ReservasModule { }

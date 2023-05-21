@@ -48,14 +48,13 @@
                    Ocultar reservas
                 </button>
             </ng-template>
-
         </div>
 
     </form>
 
     <ng-container *ngIf="this.mostrarReservas">
         <div class="table-container">
-            <pa-tabla [tableData]="reservasDatos" [tableColumns]="reservasColumnas" [isPaginator]="true" [pageOptions]="[5, 10, 15]"></pa-tabla>
+            <pa-tabla [tableData]="reservasDatos" [tableColumns]="reservasColumnas" [isFilter]="true" [isPaginator]="true" [pageOptions]="[5, 10, 15]"></pa-tabla>
         </div>
     </ng-container>
 

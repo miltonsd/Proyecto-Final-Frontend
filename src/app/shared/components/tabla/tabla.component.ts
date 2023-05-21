@@ -1,19 +1,14 @@
-import { 
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  Output,
-  EventEmitter,
-} from '@angular/core'; 
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'; 
 
+// Angular Material
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableButtonAction, TableColumn } from '@pa/shared/models';
-
-import { ConfirmDialogComponent } from '@pa/shared/components';
 import { MatDialog } from '@angular/material/dialog';
+
+// Shared
+import { TableButtonAction, TableColumn } from '@pa/shared/models';
+import { ConfirmDialogComponent } from '@pa/shared/components';
 
 @Component({
   selector: 'pa-tabla',
@@ -35,7 +30,8 @@ export class TablaComponent implements OnInit {
   @Input() tableColumns!: TableColumn[];
 
   @Input() set tableData(data: any[]) {
-    this.setTableDataSource(data);
+    // Crea los datos de la tabla
+    this.dataSource = new MatTableDataSource(data);
   }
 
   @Output() action: EventEmitter<TableButtonAction> =
@@ -51,12 +47,6 @@ export class TablaComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  setTableDataSource(data: any) {
-    // Crea los datos de la tabla
-    this.dataSource = new MatTableDataSource(data);
     // Agregar paginación a la tabla
     this.dataSource.paginator = this.paginator;
     // Agregar sorting a la tabla

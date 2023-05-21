@@ -5,7 +5,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ReservasService } from '@pa/reservas/services';
 import { MesasService } from '@pa/mesas/services';
-import { TablaComponent } from '@pa/shared/components';
 import { TableColumn } from '@pa/shared/models';
 
 moment.locale("es");
@@ -75,13 +74,10 @@ export class ReservasComponent implements OnInit {
     editUrl?: string;
     isSortable?: boolean; // Se puede ordenar la columna?
     }
-
-    fechaHora', 'cant_personas', 'id_mesa'
-
     */
     this.reservasColumnas = [
       { name: 'Fecha y hora', dataKey: 'fechaHora' },
-      { name: 'Cantidad de personas', dataKey: 'cant_personas' },
+      { name: 'Cantidad de personas', dataKey: 'cant_personas', isSortable: true },
       { name: 'Mesa', dataKey: 'id_mesa' },
     ];
     // Busca las reservas
@@ -139,5 +135,4 @@ export class ReservasComponent implements OnInit {
       this.formulario.markAllAsTouched()
     }
   }
-  
 }

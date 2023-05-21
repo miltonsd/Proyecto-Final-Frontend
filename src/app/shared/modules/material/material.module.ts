@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 // Módulos de Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +26,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const modules = [
   MatToolbarModule,
@@ -52,14 +53,11 @@ const modules = [
   MatRadioModule,
   MatDatepickerModule,
   MatCheckboxModule,
-  MatNativeDateModule,
+  MatMomentDateModule,
 ];
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule, ...modules],
   exports: [...modules],
 })
 export class MaterialModule { }
