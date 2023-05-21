@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { ReservasService } from '@pa/reservas/services'
 import { MesasService } from '@pa/mesas/services'
-import { TableColumn } from '@pa/shared/models'
+import { IMesa, TableColumn } from '@pa/shared/models'
 
 moment.locale('es')
 
@@ -17,7 +17,30 @@ moment.locale('es')
 export class ReservasComponent implements OnInit {
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00']
   personas = [2, 4, 6, 8, 10, 12, 14, 16]
-  mesas: any[] = []
+  mesas: IMesa[] = [
+    { id: 1, available: true },
+    { id: 2, available: false },
+    { id: 3, available: true },
+    { id: 4, available: true },
+    { id: 5, available: false },
+    { id: 6, available: true },
+    { id: 7, available: false },
+    { id: 8, available: true },
+    { id: 9, available: true },
+    { id: 10, available: false },
+    { id: 11, available: true },
+    { id: 12, available: true },
+    { id: 13, available: true },
+    { id: 14, available: false },
+    { id: 15, available: true },
+    { id: 16, available: false },
+    { id: 17, available: true },
+    { id: 18, available: true },
+    { id: 19, available: false },
+    { id: 20, available: true },
+    { id: 21, available: false },
+    { id: 22, available: false }
+  ]
   minDate: Date
   maxDate: Date
   displayedColumns: string[] = ['fechaHora', 'cant_personas', 'id_mesa']
@@ -43,19 +66,21 @@ export class ReservasComponent implements OnInit {
     const currentDate = new Date().getDate()
     this.minDate = new Date(currentYear, currentMonth, currentDate)
     this.maxDate = new Date(currentYear, currentMonth + 1, 31)
+    //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
     this._mesasService.getAllMesas().subscribe({
       next: (respuesta: any) => {
-        const listaMesas: any[] = []
-        respuesta.forEach((mesa: any) => {
+        const listaMesas: IMesa[] = []
+        respuesta.forEach((mesa: IMesa) => {
           listaMesas.push({
-            id_mesa: mesa.id_mesa,
+            id: mesa.id,
             capacidad: mesa.capacidad,
             ubicacion: mesa.ubicacion,
             createdAt: mesa.createdAt,
-            updatedAt: mesa.updatedAt
+            updatedAt: mesa.updatedAt,
+            available: false
           })
         })
-        this.mesas = listaMesas
+        //this.mesas = listaMesas
       },
       error: (err) => {
         console.error(`Código de error ${err.status}: `, err.error.msg)

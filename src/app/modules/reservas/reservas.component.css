@@ -1,14 +1,18 @@
 .reserva {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   background-color: lavender;
   min-height: 30vh;
   font-family: 'Oswald', sans-serif;
 }
 
 .reserva-content {
+  display: flex;
+  flex-direction: column;
   padding: 5%;
   min-width: 30vw;
+  max-width: 40vw;
 }
 
 .reserva-content h1 {
@@ -22,12 +26,14 @@
 }
 
 div.fechaHora {
-  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 mat-form-field.fechaHora {
   height: 76px;
-  width: 40%;
   margin-right: 10%;
 }
 
