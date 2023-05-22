@@ -1,12 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { RouterModule } from '@angular/router'
 
 // Shared
-import { TablaComponent, DialogComponent, ConfirmDialogComponent } from '@pa/shared/components';
-import { MaterialModule } from '@pa/shared/modules';
+import {
+  TablaComponent,
+  DialogComponent,
+  ConfirmDialogComponent
+} from '@pa/shared/components'
+import { MaterialModule } from '@pa/shared/modules'
+import { MesaGridComponent } from '../../components/mesa-grid/mesa-grid.component'
 
-const components = [TablaComponent, DialogComponent, ConfirmDialogComponent];
+const components = [
+  TablaComponent,
+  DialogComponent,
+  ConfirmDialogComponent,
+  MesaGridComponent
+]
 
 @NgModule({
   declarations: [...components],

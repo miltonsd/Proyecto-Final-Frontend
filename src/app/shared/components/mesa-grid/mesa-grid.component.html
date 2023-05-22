@@ -1,0 +1,14 @@
+<div class="mesas-container">
+  <div
+    *ngFor="let mesa of mesas"
+    class="mesa-item"
+    [ngClass]="{
+      available: mesa.available,
+      unavailable: !mesa.available,
+      selected: mesaSeleccionada && mesaSeleccionada.id === mesa.id
+    }"
+    (click)="reservaMesa(mesa)"
+  >
+    <h3 class="text">{{ mesa.id }}</h3>
+  </div>
+</div>

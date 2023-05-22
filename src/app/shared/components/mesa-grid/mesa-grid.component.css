@@ -1,0 +1,40 @@
+.mesas-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 10%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+.mesa-item {
+  width: 50px;
+  height: 50px;
+  margin: 1%;
+  border-radius: 20%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  text-align: center;
+  font-weight: bold;
+}
+
+.available {
+  background-color: green;
+  color: white;
+}
+
+.unavailable {
+  background-color: lightslategray;
+  color: white;
+}
+
+.selected {
+  background-color: blue;
+  color: white;
+}
