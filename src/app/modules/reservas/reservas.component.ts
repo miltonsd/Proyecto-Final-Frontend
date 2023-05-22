@@ -15,7 +15,7 @@ moment.locale('es')
   styleUrls: ['./reservas.component.css']
 })
 export class ReservasComponent implements OnInit {
-  horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00']
+  horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   personas = [2, 4, 6, 8, 10, 12, 14, 16]
   mesas: IMesa[] = [
     { id: 1, available: true },
@@ -65,7 +65,7 @@ export class ReservasComponent implements OnInit {
     const currentMonth = new Date().getMonth()
     const currentDate = new Date().getDate()
     this.minDate = new Date(currentYear, currentMonth, currentDate)
-    this.maxDate = new Date(currentYear, currentMonth + 1, 31)
+    this.maxDate = new Date(currentYear, currentMonth + 2, 0)
     //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
     this._mesasService.getAllMesas().subscribe({
       next: (respuesta: any) => {
