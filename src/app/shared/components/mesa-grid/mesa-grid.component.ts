@@ -18,7 +18,7 @@ export class MesaGridComponent implements OnInit {
     if (mesa.available) {
       this.mesaSeleccionada = mesa
       // Implement the reservation logic here
-      console.log('Reserved table:', mesa.id)
+      console.log('Reserved table:', mesa.id_mesa)
     }
   }
 }

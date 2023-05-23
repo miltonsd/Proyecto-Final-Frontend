@@ -25,16 +25,16 @@
 }
 
 .available {
-  background-color: green;
+  background-color: #1fcf1f;
   color: white;
 }
 
 .unavailable {
-  background-color: lightslategray;
+  background-color: #c72519;
   color: white;
 }
 
 .selected {
-  background-color: blue;
-  color: white;
+  background-color: #f7bd00;
+  color: rgb(41, 41, 41);
 }

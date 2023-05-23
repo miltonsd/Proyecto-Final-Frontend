@@ -2,7 +2,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-color: lavender;
+  background-color: rgb(41, 41, 41);
   min-height: 30vh;
   font-family: 'Oswald', sans-serif;
 }
@@ -13,11 +13,13 @@
   padding: 5%;
   min-width: 30vw;
   max-width: 40vw;
+  color: #f7bd00;
 }
 
 .reserva-content h1 {
   font-weight: 600;
   font-size: 45px;
+  color: #f7bd00;
 }
 
 .reserva-input {

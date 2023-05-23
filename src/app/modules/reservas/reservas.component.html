@@ -18,6 +18,9 @@
           [for]="dp3"
         ></mat-datepicker-toggle>
         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        <mat-error *ngIf="formulario.controls.fecha.hasError('required')">
+          Campo obligatorio.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="reserva-input fechaHora">
@@ -27,28 +30,27 @@
             hora
           }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="formulario.controls.hora.hasError('required')">
+          Campo obligatorio.
+        </mat-error>
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="fill" class="reserva-input">
       <mat-label>Ingresar cantidad de personas</mat-label>
-      <mat-select formControlName="cantidad">
-        <mat-option *ngFor="let persona of personas" [value]="persona">{{
-          persona
-        }}</mat-option>
-      </mat-select>
+      <input matInput type="number" formControlName="cantidad">
+      <mat-hint>Para reservas de más de 6 personas, comunicarse con el bar.</mat-hint>
+      <mat-error *ngIf="formulario.controls.cantidad.hasError('required')">
+        Campo obligatorio.
+      </mat-error>
+      <mat-error *ngIf="formulario.controls.cantidad.hasError('min')">
+        La cantidad mínima es 1 persona.
+      </mat-error>
+      <mat-error *ngIf="formulario.controls.cantidad.hasError('max')">
+        Para reservas de más de 6 personas, comunicarse con el bar.
+      </mat-error>
     </mat-form-field>
-    En caso de requerir una reserva para más de 6 personas, comunicarse con el bar
-
-    <mat-form-field appearance="fill" class="reserva-input">
-      <mat-label>Seleccionar mesa</mat-label>
-      <mat-select formControlName="mesa">
-        <mat-option *ngFor="let mesa of mesas" [value]="mesa.id"
-          >{{ mesa.id }} - {{ mesa.ubicacion }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-
+    <p>Seleccionar mesa:</p>
     <pa-mesa-grid [mesas]="this.mesas" />
 
     <div class="boton">
@@ -58,7 +60,7 @@
 
       <ng-container *ngIf="!this.mostrarReservas; else ocultarReservas">
         <button mat-raised-button color="accent" (click)="onVerReservas()">
-          Ver reservas
+          Reservas pendientes
         </button>
       </ng-container>
 

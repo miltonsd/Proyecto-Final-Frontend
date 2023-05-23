@@ -1,5 +1,5 @@
 export interface IMesa {
-  id: number
+  id_mesa: number
   capacidad?: number
   ubicacion?: string
   createdAt?: Date

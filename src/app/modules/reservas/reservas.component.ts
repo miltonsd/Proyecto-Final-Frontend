@@ -16,30 +16,29 @@ moment.locale('es')
 })
 export class ReservasComponent implements OnInit {
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
-  personas = [2, 4, 6, 8, 10, 12, 14, 16]
   mesas: IMesa[] = [
-    { id: 1, available: true },
-    { id: 2, available: false },
-    { id: 3, available: true },
-    { id: 4, available: true },
-    { id: 5, available: false },
-    { id: 6, available: true },
-    { id: 7, available: false },
-    { id: 8, available: true },
-    { id: 9, available: true },
-    { id: 10, available: false },
-    { id: 11, available: true },
-    { id: 12, available: true },
-    { id: 13, available: true },
-    { id: 14, available: false },
-    { id: 15, available: true },
-    { id: 16, available: false },
-    { id: 17, available: true },
-    { id: 18, available: true },
-    { id: 19, available: false },
-    { id: 20, available: true },
-    { id: 21, available: false },
-    { id: 22, available: false }
+    // { id: 1, available: true },
+    // { id: 2, available: false },
+    // { id: 3, available: true },
+    // { id: 4, available: true },
+    // { id: 5, available: false },
+    // { id: 6, available: true },
+    // { id: 7, available: false },
+    // { id: 8, available: true },
+    // { id: 9, available: true },
+    // { id: 10, available: false },
+    // { id: 11, available: true },
+    // { id: 12, available: true },
+    // { id: 13, available: true },
+    // { id: 14, available: false },
+    // { id: 15, available: true },
+    // { id: 16, available: false },
+    // { id: 17, available: true },
+    // { id: 18, available: true },
+    // { id: 19, available: false },
+    // { id: 20, available: true },
+    // { id: 21, available: false },
+    // { id: 22, available: false }
   ]
   minDate: Date
   maxDate: Date
@@ -50,7 +49,9 @@ export class ReservasComponent implements OnInit {
   formulario = new FormGroup({
     fecha: new FormControl('', { validators: [Validators.required] }),
     hora: new FormControl('', { validators: [Validators.required] }),
-    cantidad: new FormControl('', { validators: [Validators.required] }),
+    cantidad: new FormControl('', {
+      validators: [Validators.required, Validators.min(1), Validators.max(6)]
+    }),
     mesa: new FormControl('', { validators: [Validators.required] })
   })
 
@@ -72,15 +73,16 @@ export class ReservasComponent implements OnInit {
         const listaMesas: IMesa[] = []
         respuesta.forEach((mesa: IMesa) => {
           listaMesas.push({
-            id: mesa.id,
+            id_mesa: mesa.id_mesa,
             capacidad: mesa.capacidad,
             ubicacion: mesa.ubicacion,
             createdAt: mesa.createdAt,
             updatedAt: mesa.updatedAt,
-            available: false
+            available: true
           })
         })
-        //this.mesas = listaMesas
+        this.mesas = listaMesas
+        console.log(this.mesas)
       },
       error: (err) => {
         console.error(`Código de error ${err.status}: `, err.error.msg)
@@ -89,6 +91,8 @@ export class ReservasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.formulario.controls.fecha.value)
+    console.log(this.formulario.controls.hora.value)
     // Defino las columnas de la tabla de reservas
     /*
     export interface TableColumn {
@@ -118,16 +122,18 @@ export class ReservasComponent implements OnInit {
         this.respuesta = response
         const listaReservas: any[] = []
         this.respuesta.forEach((reserva: any) => {
-          listaReservas.push({
-            id_reserva: reserva.id_reserva,
-            fechaHora: moment(reserva.fechaHora).format('DD/MM/yyyy HH:mm'),
-            cant_personas: reserva.cant_personas,
-            isPendiente: reserva.isPendiente,
-            id_usuario: reserva.Usuario.id_usuario,
-            id_mesa: reserva.Mesa.id_mesa,
-            createdAt: reserva.createdAt,
-            updatedAt: reserva.updatedAt
-          })
+          if (reserva.isPendiente) {
+            listaReservas.push({
+              id_reserva: reserva.id_reserva,
+              fechaHora: moment(reserva.fechaHora).format('DD/MM/yyyy HH:mm'),
+              cant_personas: reserva.cant_personas,
+              isPendiente: reserva.isPendiente,
+              id_usuario: reserva.Usuario.id_usuario,
+              id_mesa: reserva.Mesa.id_mesa,
+              createdAt: reserva.createdAt,
+              updatedAt: reserva.updatedAt
+            })
+          }
         })
         this.reservasDatos = listaReservas
       },
