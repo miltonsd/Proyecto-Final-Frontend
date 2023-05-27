@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core'
 import { IMesa } from '../../models/IMesa'
 
 @Component({
@@ -6,19 +6,36 @@ import { IMesa } from '../../models/IMesa'
   templateUrl: './mesa-grid.component.html',
   styleUrls: ['./mesa-grid.component.css']
 })
-export class MesaGridComponent implements OnInit {
-  @Input() mesas: IMesa[] = []
-
+export class MesaGridComponent implements DoCheck {
+  @Input() mesas: IMesa[] = [] // Lista de mesas de la DB
+  @Input() fechaHora!: string // Fecha y hora ingresadas desde el formulario
+  @Output() mesaSeleccionadaId = new EventEmitter<{ id: number }>()
   mesaSeleccionada: IMesa | undefined
+  fechaHoraInit!: string
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.')
-  }
-  reservaMesa(mesa: IMesa) {
-    if (mesa.available) {
-      this.mesaSeleccionada = mesa
-      // Implement the reservation logic here
-      console.log('Reserved table:', mesa.id_mesa)
+  ngDoCheck(): void {
+    // Comprueba si se cambia la fecha y hora ingresadas. En caso de modificarlas, desmarca la mesa seleccionada previamente.
+    if (this.fechaHoraInit !== this.fechaHora) {
+      // Guarda la fechaHora actual para comparar si hay modificacion
+      this.fechaHoraInit = this.fechaHora
+      this.deseleccionarMesa()
     }
+  }
+
+  reservaMesa(mesa: IMesa) {
+    // Si la mesa está disponible y no es la que está seleccionada
+    if (mesa.available && this.mesaSeleccionada != mesa) {
+      this.mesaSeleccionada = mesa
+      // Pasa el id de la mesa al componente Padre (reservas.component.ts)
+      this.mesaSeleccionadaId.emit({ id: mesa.id_mesa })
+    } else {
+      this.deseleccionarMesa()
+    }
+  }
+
+  deseleccionarMesa() {
+    // Deselecciona la mesa y pasa el id = 0
+    this.mesaSeleccionada = undefined
+    this.mesaSeleccionadaId.emit({ id: 0 })
   }
 }
