@@ -34,6 +34,7 @@
       "@pa/shared/models" : ["src/app/shared/models/index.ts"],
       "@pa/shared/components" : ["src/app/shared/components/index.ts"],
       // reservas
+      "@pa/reservas/models" : ["src/app/modules/reservas/models/reserva.ts"],
       "@pa/reservas/services" : ["src/app/modules/reservas/services/index.ts"],
       // mesas
       "@pa/mesas/services" : ["src/app/modules/mesas/services/index.ts"],

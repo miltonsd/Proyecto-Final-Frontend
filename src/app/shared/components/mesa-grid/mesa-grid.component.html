@@ -5,10 +5,10 @@
     [ngClass]="{
       available: mesa.available,
       unavailable: !mesa.available,
-      selected: mesaSeleccionada === mesa
+      selected: mesaSeleccionada !== undefined && mesaSeleccionada.id_mesa === mesa.id_mesa
     }"
     (click)="reservaMesa(mesa)"
-  >
+    >
     <h3 class="text">{{ mesa.id_mesa }}</h3>
   </div>
 </div>
