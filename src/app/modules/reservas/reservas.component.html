@@ -2,7 +2,7 @@
   <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
     <h1 class="titulo">Hace tu reserva</h1>
 
-    <div class="fechaHora">
+    <div class="fechaHora" formGroupName="fechaHoraCantidad">
       <mat-form-field appearance="fill" class="reserva-input fechaHora">
         <mat-label>Seleccionar fecha</mat-label>
         <input
@@ -10,15 +10,15 @@
           formControlName="fecha"
           [min]="minDate"
           [max]="maxDate"
-          [matDatepicker]="dp3"
+          [matDatepicker]="calendario"
           readonly
         />
         <mat-datepicker-toggle
           matIconSuffix
-          [for]="dp3"
+          [for]="calendario"
         ></mat-datepicker-toggle>
-        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-        <mat-error *ngIf="formulario.controls.fecha.hasError('required')">
+        <mat-datepicker #calendario disabled="false"></mat-datepicker>
+        <mat-error *ngIf="formulario.controls.fechaHoraCantidad.controls.fecha.hasError('required')">
           Campo obligatorio.
         </mat-error>
       </mat-form-field>
@@ -30,28 +30,34 @@
             hora
           }}</mat-option>
         </mat-select>
-        <mat-error *ngIf="formulario.controls.hora.hasError('required')">
+        <mat-error *ngIf="formulario.controls.fechaHoraCantidad.controls.hora.hasError('required')">
           Campo obligatorio.
         </mat-error>
       </mat-form-field>
     </div>
 
-    <mat-form-field appearance="fill" class="reserva-input">
-      <mat-label>Ingresar cantidad de personas</mat-label>
-      <input matInput type="number" formControlName="cantidad">
-      <mat-hint>Para reservas de más de 6 personas, comunicarse con el bar.</mat-hint>
-      <mat-error *ngIf="formulario.controls.cantidad.hasError('required')">
-        Campo obligatorio.
-      </mat-error>
-      <mat-error *ngIf="formulario.controls.cantidad.hasError('min')">
-        La cantidad mínima es 1 persona.
-      </mat-error>
-      <mat-error *ngIf="formulario.controls.cantidad.hasError('max')">
-        Para reservas de más de 6 personas, comunicarse con el bar.
-      </mat-error>
-    </mat-form-field>
-    <p>Seleccionar mesa:</p>
-    <pa-mesa-grid [mesas]="this.mesas" />
+    <div formGroupName="fechaHoraCantidad">
+      <mat-form-field appearance="fill" class="reserva-input">
+        <mat-label>Ingresar cantidad de personas</mat-label>
+        <input matInput type="number" formControlName="cantidad">
+        <mat-hint>Para reservas de más de 6 personas, comunicarse con el bar.</mat-hint>
+        <mat-error *ngIf="formulario.controls.fechaHoraCantidad.controls.cantidad.hasError('required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formulario.controls.fechaHoraCantidad.controls.cantidad.hasError('min')">
+          La cantidad mínima es 1 persona.
+        </mat-error>
+        <mat-error *ngIf="formulario.controls.fechaHoraCantidad.controls.cantidad.hasError('max')">
+          Para reservas de más de 6 personas, comunicarse con el bar.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <p>Seleccionar mesa:</p>
+      <!-- [] = Input y () = Output  -->
+      <pa-mesa-grid [mesas]="this.mesas" [fechaHora]="this.fechaHora" [cantidad]="this.cantidad" (mesaSeleccionadaId)="onSelectMesa($event)"/>
+    </div>
 
     <div class="boton">
       <button type="submit" mat-raised-button color="primary">
@@ -75,8 +81,8 @@
   <ng-container *ngIf="this.mostrarReservas">
     <div class="table-container">
       <pa-tabla
-        [tableData]="reservasDatos"
-        [tableColumns]="reservasColumnas"
+        [tableData]="reservas"
+        [tableColumns]="columnas"
         [isFilter]="true"
         [isPaginator]="true"
         [pageOptions]="[5, 10, 15]"

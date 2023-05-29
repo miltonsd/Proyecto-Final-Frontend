@@ -9,15 +9,22 @@ import { IMesa } from '../../models/IMesa'
 export class MesaGridComponent implements DoCheck {
   @Input() mesas: IMesa[] = [] // Lista de mesas de la DB
   @Input() fechaHora!: string // Fecha y hora ingresadas desde el formulario
+  @Input() cantidad!: number // Cantidad de personas ingresada desde el formulario
   @Output() mesaSeleccionadaId = new EventEmitter<{ id: number }>()
   mesaSeleccionada: IMesa | undefined
-  fechaHoraInit!: string
+  fechaHoraInit = ''
+  cantidadInit = 0
 
   ngDoCheck(): void {
-    // Comprueba si se cambia la fecha y hora ingresadas. En caso de modificarlas, desmarca la mesa seleccionada previamente.
-    if (this.fechaHoraInit !== this.fechaHora) {
+    // Comprueba si se cambia la fecha, hora y cantidad ingresadas. En caso de modificarlas, desmarca la mesa seleccionada previamente.
+    if (
+      this.fechaHoraInit !== this.fechaHora ||
+      this.cantidadInit !== this.cantidad
+    ) {
       // Guarda la fechaHora actual para comparar si hay modificacion
       this.fechaHoraInit = this.fechaHora
+      // Guarda la cantidad actual para comparar si hay modificacion
+      this.cantidadInit = this.cantidad
       this.deseleccionarMesa()
     }
   }
