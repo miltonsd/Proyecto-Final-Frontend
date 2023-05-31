@@ -10,6 +10,7 @@ import { Reserva } from '@pa/reservas/models'
 import { map } from 'rxjs/operators'
 import { DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'
+import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
 
 moment.locale('es')
 
@@ -56,8 +57,7 @@ export class ReservasComponent implements OnInit {
       name: ' ',
       dataKey: 'actionButtons',
       editButton: true,
-      deleteButton: true, 
-      editUrl: '/editar'
+      deleteButton: true
     }
   ]
 
@@ -121,8 +121,12 @@ export class ReservasComponent implements OnInit {
               id_usuario: res[r].Usuario.id_usuario,
               id_mesa: res[r].Mesa.id_mesa
             }))
+            .sort(
+              (a, b) =>
+                moment(a.fechaHora, 'DD/MM/yyyy HH:mm').unix() -
+                moment(b.fechaHora, 'DD/MM/yyyy HH:mm').unix()
+            )
             .filter((r) => r.isPendiente)
-            .sort((a, b) => a.fechaHora.localeCompare(b.fechaHora))
         })
       )
       .subscribe({
@@ -192,10 +196,12 @@ export class ReservasComponent implements OnInit {
     }
   }
 
-  onDelete(reserva: any){
+  onDelete(reserva: any) {
     this._reservasService.deleteReserva(reserva.id_reserva).subscribe({
       next: () => {
-        const dialogRef = this.dialog.open(DialogComponent, {width:'300 px', data: {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '300 px',
+          data: {
             title: 'Eliminar reserva',
             msg: 'Se ha eliminado la reserva con éxito.'
           }
@@ -212,6 +218,33 @@ export class ReservasComponent implements OnInit {
             msg: err.error.msg
           }
         })
+      }
+    })
+  }
+
+  onEditReserva(reserva: any) {
+    const dialogRef = this.dialog.open(DialogEditarReservaComponent, {
+      width: '900px',
+      data: {
+        reserva,
+        listaReservas: this.reservas,
+        listaMesas: this.mesas
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._reservasService
+          .updateReserva(reserva.id_reserva, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/reservas'
+            },
+            error: (err) => {
+              alert(err.msg)
+            }
+          })
       }
     })
   }

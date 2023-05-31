@@ -1,12 +1,18 @@
+.cartel {
+  border: 10px solid rgb(61, 61, 61)
+}
+
 h1 {
     background-color: #f7bd00;  
     font-family: 'Oswald', sans-serif;
-    font-size: large;
+    margin: 0%;
+    padding: 2%;
+    text-align: center;
 }
 
 .reserva {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     background-color: #f7bd00;
     min-height: 30vh;
@@ -38,6 +44,7 @@ h1 {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-left: 9%;
   }
   
   mat-form-field.fechaHora {

@@ -36,7 +36,7 @@
                 </ng-container>
                 <!-- Si existe botón de 'Editar' -->        
                 <ng-container *ngIf="tableColumn.editButton">
-                    <a mat-flat-button color="primary" (click)="openEditDialog(row)"class="boton">
+                    <a mat-flat-button color="primary" (click)="onEdit(row)"class="boton">
                         <mat-icon>
                             <span class="material-symbols-outlined">edit</span>
                         </mat-icon>
@@ -45,7 +45,7 @@
                 </ng-container>
                 <!-- Si existe botón de 'Eliminar' -->
                 <ng-container *ngIf="tableColumn.deleteButton">
-                    <a mat-flat-button color="warn" (click)="openDialog(row)" class="boton">
+                    <a mat-flat-button color="warn" (click)="onDelete(row)" class="boton">
                         <mat-icon>
                             <span class="material-symbols-outlined">delete</span>
                         </mat-icon>

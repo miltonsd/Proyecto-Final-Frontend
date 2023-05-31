@@ -86,7 +86,8 @@
         [isFilter]="true"
         [isPaginator]="true"
         [pageOptions]="[5, 10, 15]"
-        (action)="onDelete($event)"
+        (deleteAction)="onDelete($event)"
+        (editAction)="onEditReserva($event)"
       ></pa-tabla>
     </div>
   </ng-container>

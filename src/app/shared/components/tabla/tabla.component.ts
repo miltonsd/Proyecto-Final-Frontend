@@ -16,7 +16,6 @@ import { MatDialog } from '@angular/material/dialog'
 // Shared
 import { TableButtonAction, TableColumn } from '@pa/shared/models'
 import { ConfirmDialogComponent } from '@pa/shared/components'
-import { DialogEditarReservaComponent } from 'src/app/modules/reservas/components/dialog-editar-reserva/dialog-editar-reserva.component'
 
 @Component({
   selector: 'pa-tabla',
@@ -42,7 +41,9 @@ export class TablaComponent implements OnInit {
     this.dataSource = new MatTableDataSource(data)
   }
 
-  @Output() action: EventEmitter<TableButtonAction> =
+  @Output() deleteAction: EventEmitter<TableButtonAction> =
+    new EventEmitter<TableButtonAction>()
+  @Output() editAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
 
   constructor(public dialog: MatDialog) {}
@@ -66,27 +67,19 @@ export class TablaComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase()
   }
 
-  openDialog(element: any) {
+  onDelete(element: any) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
       data: { msg: element.name }
     })
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.action.emit(element)
+        this.deleteAction.emit(element)
       }
     })
   }
 
-  openEditDialog(element: any) {
-    const dialogRef = this.dialog.open(DialogEditarReservaComponent, {
-      width: '900px',
-      data: { msg: element.name }
-    })
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        this.action.emit(element)
-      }
-    })
-  } 
+  onEdit(element: any) {
+    this.editAction.emit(element)
+  }
 }

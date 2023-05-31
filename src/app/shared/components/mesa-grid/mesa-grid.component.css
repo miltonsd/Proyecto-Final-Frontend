@@ -17,6 +17,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid rgb(41, 41, 41);
+  color: white;
 }
 
 .text {
@@ -26,12 +28,10 @@
 
 .available {
   background-color: #1fcf1f;
-  color: white;
 }
 
 .unavailable {
   background-color: #c72519;
-  color: white;
 }
 
 .selected {

@@ -1,57 +1,64 @@
-<h1 mat-dialog-title>Modificar reserva</h1>
-<div mat-dialog-content class="reserva">
-  <div class="reserva">
-    <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
-  
-      <div class="fechaHora" formGroupName="fechaHora">
-        <mat-form-field appearance="fill" class="reserva-input fechaHora">
-          <mat-label>Seleccionar fecha</mat-label>
-          <input
+<div class="cartel">
+
+  <h1>Modificar reserva</h1>
+  <!-- <h1 mat-dialog-title>Modificar reserva</h1> -->
+  <div mat-dialog-content class="reserva">
+    <div class="reserva">
+      <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
+        
+        <div class="fechaHora" formGroupName="fechaHora">
+          <mat-form-field appearance="fill" class="reserva-input fechaHora">
+            <mat-label>Seleccionar fecha</mat-label>
+            <input
             matInput
             formControlName="fecha"
             [min]="minDate"
             [max]="maxDate"
             [matDatepicker]="calendario"
             readonly
-          />
-          <mat-datepicker-toggle
+            />
+            <mat-datepicker-toggle
             matIconSuffix
             [for]="calendario"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #calendario disabled="false"></mat-datepicker>
-          <mat-error *ngIf="formulario.controls.fechaHora.controls.fecha.hasError('required')">
-            Campo obligatorio.
-          </mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="reserva-input fechaHora">
-          <mat-label>Seleccionar horario</mat-label>
-          <mat-select formControlName="hora">
-            <mat-option *ngFor="let hora of horas" [value]="hora">{{
-              hora
-            }}</mat-option>
-          </mat-select>
+            ></mat-datepicker-toggle>
+            <mat-datepicker #calendario disabled="false"></mat-datepicker>
+            <mat-hint>(Original: {{data.reserva.fechaHora.slice(0,10)}})</mat-hint>
+            <mat-error *ngIf="formulario.controls.fechaHora.controls.fecha.hasError('required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+          
+          <mat-form-field appearance="fill" class="reserva-input fechaHora">
+            <mat-label>Seleccionar horario</mat-label>
+            <mat-select formControlName="hora">
+              <mat-option *ngFor="let hora of horas" [value]="hora">{{
+                hora
+              }}</mat-option>
+            </mat-select>
+            <mat-hint>(Original: {{data.reserva.fechaHora.slice(10,16)}})</mat-hint>
           <mat-error *ngIf="formulario.controls.fechaHora.controls.hora.hasError('required')">
             Campo obligatorio.
           </mat-error>
         </mat-form-field>
       </div>
-  
+      
       <div>
-        <p>Seleccionar mesa:</p>
+        <p>Seleccionar mesa (Original: {{data.reserva.id_mesa}}):</p>
         <!-- [] = Input y () = Output  -->
         <pa-mesa-grid [mesas]="this.mesas" [fechaHora]="this.fechaHora" (mesaSeleccionadaId)="onSelectMesa($event)"/>
       </div>
-  
+      
       <div class="boton">
-        <button type="submit" mat-raised-button color="primary">
+        <button type="submit" mat-raised-button color="primary" [mat-dialog-close]="reservaEditada">
           Confirmar reserva
         </button>
+        <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
       </div>
-
-      <button mat-button (click)="onNoClick()">Cancelar</button>
+      
     </form>
+    
+  </div>
+  
+  
   
 </div>
-
-

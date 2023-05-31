@@ -28,6 +28,7 @@ export class DialogEditarReservaComponent implements OnInit {
   @Output() cantidad = 1
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   mesas: IMesa[] = []
+  reservaEditada!: any
   reservas: Reserva[] = []
   minDate: Date
   maxDate: Date
@@ -56,9 +57,10 @@ export class DialogEditarReservaComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    console.log('La data es: ', this.data.reserva)
     // Busca las reservas
-    this.getAllReservas() // Busca las reservas pendientes del usuario
-    this.getAllMesas() // Busca las mesas para el formulario
+    this.reservas = this.data.listaReservas // Busca las reservas pendientes del usuario
+    this.mesas = this.data.listaMesas // Busca las mesas para el formulario
     // Controla si hubo cambios en el input de hora
     this.formulario.get('fechaHora')?.valueChanges.subscribe((valor) => {
       if (valor.hora != '') {
@@ -84,50 +86,6 @@ export class DialogEditarReservaComponent implements OnInit {
     })
   }
 
-  getAllReservas() {
-    // Se obtiene el listado de reservas pendientes del usuario
-    this._reservasService
-      .getAllReservas()
-      .pipe(
-        map((res: any) => {
-          this.reservas = Object.keys(res)
-            .map((r) => ({
-              id_reserva: res[r].id_reserva,
-              fechaHora: moment(res[r].fechaHora).format('DD/MM/yyyy HH:mm'),
-              cant_personas: res[r].cant_personas,
-              isPendiente: res[r].isPendiente,
-              id_usuario: res[r].Usuario.id_usuario,
-              id_mesa: res[r].Mesa.id_mesa
-            }))
-            .filter((r) => r.isPendiente)
-            .sort((a, b) => a.fechaHora.localeCompare(b.fechaHora))
-        })
-      )
-      .subscribe({
-        error: (err: any) =>
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-      })
-  }
-
-  getAllMesas() {
-    this._mesasService
-      .getAllMesas()
-      .pipe(
-        map((res: any) => {
-          this.mesas = Object.keys(res).map((m) => ({
-            id_mesa: res[m].id_mesa,
-            capacidad: res[m].capacidad,
-            ubicacion: res[m].ubicacion,
-            available: true
-          }))
-        })
-      )
-      .subscribe({
-        error: (err: any) =>
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-      })
-  }
-
   onNoClick(): void {
     this.dialogRef.close()
   }
@@ -146,21 +104,11 @@ export class DialogEditarReservaComponent implements OnInit {
         'yyyy-MM-DD'
       )
       const fechaHora = fecha + ' ' + this.formulario.value.fechaHora?.hora
-      const reserva = {
+      this.reservaEditada = {
         fechaHora: fechaHora,
         id_mesa: this.formulario.value.mesa
       }
-      this._reservasService.updateReserva(37, reserva).subscribe({
-        next: (respuesta: any) => {
-          alert(respuesta.msg)
-          window.location.href = '/reservas'
-        },
-        error: (err) => {
-          alert(err.msg)
-        }
-      })
-      console.log('Reserva: ')
-      console.log(reserva)
+      this.dialogRef.close({ data: this.reservaEditada })
     } else {
       this.formulario.markAllAsTouched()
     }
