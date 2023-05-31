@@ -8,6 +8,8 @@ import { MesasService } from '@pa/mesas/services'
 import { IMesa, TableColumn } from '@pa/shared/models'
 import { Reserva } from '@pa/reservas/models'
 import { map } from 'rxjs/operators'
+import { DialogComponent } from '@pa/shared/components'
+import { MatDialog } from '@angular/material/dialog'
 
 moment.locale('es')
 
@@ -49,12 +51,20 @@ export class ReservasComponent implements OnInit {
       dataKey: 'cant_personas',
       isSortable: true
     },
-    { name: 'Mesa', dataKey: 'id_mesa' }
+    { name: 'Mesa', dataKey: 'id_mesa' },
+    {
+      name: ' ',
+      dataKey: 'actionButtons',
+      editButton: true,
+      deleteButton: true, 
+      editUrl: '/editar'
+    }
   ]
 
   constructor(
     private _reservasService: ReservasService,
-    private _mesasService: MesasService
+    private _mesasService: MesasService,
+    public dialog: MatDialog
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
     const currentYear = new Date().getFullYear()
@@ -180,5 +190,29 @@ export class ReservasComponent implements OnInit {
     } else {
       this.formulario.markAllAsTouched()
     }
+  }
+
+  onDelete(reserva: any){
+    this._reservasService.deleteReserva(reserva.id_reserva).subscribe({
+      next: () => {
+        const dialogRef = this.dialog.open(DialogComponent, {width:'300 px', data: {
+            title: 'Eliminar reserva',
+            msg: 'Se ha eliminado la reserva con éxito.'
+          }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          window.location.href = '/reservas'
+        })
+      },
+      error: (err) => {
+        this.dialog.open(DialogComponent, {
+          width: '300 px',
+          data: {
+            title: 'Error',
+            msg: err.error.msg
+          }
+        })
+      }
+    })
   }
 }
