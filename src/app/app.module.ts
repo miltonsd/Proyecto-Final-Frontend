@@ -33,17 +33,21 @@ const modules = [ComponentsModule, MaterialModule]
     ...modules
   ],
   providers: [
-    { provide: MAT_DATE_FORMATS, useValue: {
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
         parse: { dateInput: ['l', 'LL'] },
         display: {
           dateInput: 'L',
           monthYearLabel: 'MMM YYYY',
           dateA11yLabel: 'LL',
           monthYearA11yLabel: 'MMMM YYYY'
-        }}},
-        
+        }
+      }
+    },
+
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { disableClose: true } }
   ],
   bootstrap: [AppComponent]
 })

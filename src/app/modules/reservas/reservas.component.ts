@@ -227,8 +227,7 @@ export class ReservasComponent implements OnInit {
       width: '900px',
       data: {
         reserva,
-        listaReservas: this.reservas,
-        listaMesas: this.mesas
+        listaReservas: this.reservas
       }
     })
     dialogRef.afterClosed().subscribe((resultado) => {

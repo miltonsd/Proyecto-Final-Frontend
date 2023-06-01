@@ -1,13 +1,13 @@
 .cartel {
-  border: 10px solid rgb(61, 61, 61)
+  border: 10px solid rgb(41, 41, 41)
 }
 
 h1 {
     background-color: #f7bd00;  
-    font-family: 'Oswald', sans-serif;
     margin: 0%;
     padding: 2%;
     text-align: center;
+    color:rgb(41, 41, 41)
 }
 
 .reserva {
@@ -16,7 +16,6 @@ h1 {
     align-items: center;
     background-color: #f7bd00;
     min-height: 30vh;
-    font-family: 'Oswald', sans-serif;
   }
   
   .reserva-content {
@@ -87,4 +86,18 @@ h1 {
     text-align: center;
     color: rgb(255, 255, 255);
   }
-  
+
+ /* Límite hasta donde se puede desplazar la barra  */
+::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+}
+
+ /* Barra renderizada  */
+::-webkit-scrollbar-thumb {
+  background: rgb(61, 61, 61);
+}
+
+/* Cuando se posiciona arriba de la barra  */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(119, 119, 119);
+}

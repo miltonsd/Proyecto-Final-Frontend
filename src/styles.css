@@ -4,4 +4,24 @@ body {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Oswald', sans-serif; }
+
+/* Ancho de la barra  */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+ /* Límite hasta donde se puede desplazar la barra  */
+::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+}
+
+ /* Barra renderizada  */
+::-webkit-scrollbar-thumb {
+  background: rgb(61, 61, 61);
+}
+
+/* Cuando se posiciona arriba de la barra  */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(119, 119, 119);
+}

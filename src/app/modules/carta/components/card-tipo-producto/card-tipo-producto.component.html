@@ -1,0 +1,13 @@
+<mat-card class="card">
+    
+    <mat-card-header class="header">
+      <mat-card-title>{{tipo.descripcion}}</mat-card-title>
+    </mat-card-header>
+          
+      <img mat-card-image [src]="tipo.imagen" alt="{{tipo.descripcion}} cover">
+            
+    <mat-card-actions >
+      <a mat-flat-button color="accent" routerLink="/carta/productos" class="button">Ver detalles</a>
+    </mat-card-actions>
+  
+  </mat-card>

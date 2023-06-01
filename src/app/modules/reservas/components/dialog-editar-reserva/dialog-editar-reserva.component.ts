@@ -3,19 +3,10 @@ import * as moment from 'moment'
 import 'moment/locale/es'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
-import { ReservasService } from '@pa/reservas/services'
 import { MesasService } from '@pa/mesas/services'
 import { IMesa } from '@pa/shared/models'
 import { Reserva } from '@pa/reservas/models'
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogModule
-} from '@angular/material/dialog'
-import { MatButtonModule } from '@angular/material/button'
-import { FormsModule } from '@angular/forms'
-import { MatInputModule } from '@angular/material/input'
-import { MatFormFieldModule } from '@angular/material/form-field'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { map } from 'rxjs/operators'
 
 @Component({
@@ -25,7 +16,7 @@ import { map } from 'rxjs/operators'
 })
 export class DialogEditarReservaComponent implements OnInit {
   @Output() fechaHora!: string
-  @Output() cantidad = 1
+  @Output() cantidad!: number
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   mesas: IMesa[] = []
   reservaEditada!: any
@@ -34,7 +25,6 @@ export class DialogEditarReservaComponent implements OnInit {
   maxDate: Date
   constructor(
     public dialogRef: MatDialogRef<DialogEditarReservaComponent>,
-    private _reservasService: ReservasService,
     private _mesasService: MesasService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -57,10 +47,10 @@ export class DialogEditarReservaComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    console.log('La data es: ', this.data.reserva)
     // Busca las reservas
     this.reservas = this.data.listaReservas // Busca las reservas pendientes del usuario
-    this.mesas = this.data.listaMesas // Busca las mesas para el formulario
+    this.cantidad = this.data.reserva.cant_personas
+    this.getAllMesas() // Busca las mesas para el formulario
     // Controla si hubo cambios en el input de hora
     this.formulario.get('fechaHora')?.valueChanges.subscribe((valor) => {
       if (valor.hora != '') {
@@ -70,13 +60,6 @@ export class DialogEditarReservaComponent implements OnInit {
         const reservasFiltradas = this.reservas.filter(
           (r) => r.fechaHora === this.fechaHora
         )
-        this.mesas.forEach((mesa) => {
-          if (mesa.capacidad < this.cantidad) {
-            mesa.available = false
-          } else {
-            mesa.available = true
-          }
-        })
         reservasFiltradas.forEach((reserva) => {
           // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
           const posMesa = reserva.id_mesa - 1
@@ -112,5 +95,25 @@ export class DialogEditarReservaComponent implements OnInit {
     } else {
       this.formulario.markAllAsTouched()
     }
+  }
+
+  getAllMesas() {
+    //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
+    this._mesasService
+      .getAllMesas()
+      .pipe(
+        map((res: any) => {
+          this.mesas = Object.keys(res).map((m) => ({
+            id_mesa: res[m].id_mesa,
+            capacidad: res[m].capacidad,
+            ubicacion: res[m].ubicacion,
+            available: this.cantidad > res[m].capacidad ? false : true
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
   }
 }

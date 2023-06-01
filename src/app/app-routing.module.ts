@@ -16,6 +16,13 @@ const routes: Routes = [
       import('./modules/reservas/reservas.module').then((m) => m.ReservasModule)
   },
 
+  {
+    path: 'carta',
+    canLoad: [],
+    loadChildren: () =>
+      import('./modules/carta/carta.module').then((m) => m.CartaModule)
+  },
+
   // Página 404
   { path: '**', component: PageNotFoundComponent }
 ]

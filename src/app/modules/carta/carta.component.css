@@ -1,0 +1,15 @@
+.carta {
+    align-items: center;
+    background-color: rgb(41, 41, 41);
+    min-height: 30vh;
+    display: grid;
+    justify-content: center;
+    margin-bottom: 5vh;
+  }
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    min-height: 72vh;
+  }

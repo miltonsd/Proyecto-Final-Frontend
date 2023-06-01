@@ -10,7 +10,7 @@ import { ReservasService } from '@pa/reservas/services'
 import { MesasService } from '@pa/mesas/services'
 
 // Shared
-import { ComponentsModule, MaterialModule } from '@pa/shared/modules';
+import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
 
 const modules = [ComponentsModule, MaterialModule]

@@ -1,0 +1,17 @@
+.card {
+    max-width: 388px;
+    height: 352px;
+  }
+  
+.button {
+    width: 100%;
+  }
+
+.header {
+  min-height: 55px;
+}
+
+.mat-card-image {
+  width: 388px;
+  height: 292px;
+}
