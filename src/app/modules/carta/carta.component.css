@@ -1,10 +1,11 @@
 .carta {
     align-items: center;
-    background-color: rgb(41, 41, 41);
     min-height: 30vh;
     display: grid;
     justify-content: center;
     margin-bottom: 5vh;
+    padding-top: 2%;
+    padding-bottom: 2%;
   }
 
 .cards {

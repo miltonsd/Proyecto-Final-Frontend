@@ -3,7 +3,7 @@
 }
 
 .foto {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://picsum.photos/id/395/1920/1080");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://picsum.photos/id/395/1920/1080");
   min-height: 100vh;
   display: flex;
   align-items: center;
