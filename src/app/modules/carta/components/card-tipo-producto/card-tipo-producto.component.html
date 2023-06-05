@@ -1,7 +1,7 @@
 <mat-card class="card" style="background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url({{tipo.imagen}})">  
 
       <h2 class="header">
-        <a routerLink="/carta/productos">{{tipo.descripcion}}</a>
+        <a routerLink='/carta/productos' fragment="{{urlTipo}}">{{tipo.descripcion}}</a>
       </h2>
             
 </mat-card>

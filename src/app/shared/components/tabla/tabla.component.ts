@@ -45,6 +45,10 @@ export class TablaComponent implements OnInit {
     new EventEmitter<TableButtonAction>()
   @Output() editAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
+  @Output() addAction: EventEmitter<TableButtonAction> =
+    new EventEmitter<TableButtonAction>()
+  @Output() removeAction: EventEmitter<TableButtonAction> =
+    new EventEmitter<TableButtonAction>()
 
   constructor(public dialog: MatDialog) {}
 
@@ -81,5 +85,13 @@ export class TablaComponent implements OnInit {
 
   onEdit(element: any) {
     this.editAction.emit(element)
+  }
+
+  onAddCart(element: any) {
+    this.addAction.emit(element)
+  }
+
+  onRemoveCart(element: any) {
+    this.removeAction.emit(element)
   }
 }

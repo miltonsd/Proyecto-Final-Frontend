@@ -26,33 +26,60 @@
       
         <!-- Si el contenido de la columna tiene botones -->
         <ng-container *ngIf="tableColumn.dataKey === 'actionButtons'">
-            <td mat-cell *matCellDef="let row">
-                
-                <!-- Si existe botón de 'Ver detalles' --> 
-                <ng-container *ngIf="tableColumn.showDetailsButton">
-                    <a mat-flat-button color="primary" routerLink="{{tableColumn.detailsUrl}}{{row.id}}" class="boton">
-                        Ver detalles
-                    </a>
-                </ng-container>
-                <!-- Si existe botón de 'Editar' -->        
-                <ng-container *ngIf="tableColumn.editButton">
-                    <a mat-flat-button color="primary" (click)="onEdit(row)"class="boton">
-                        <mat-icon>
-                            <span class="material-symbols-outlined">edit</span>
-                        </mat-icon>
-                        Editar
-                    </a>
-                </ng-container>
-                <!-- Si existe botón de 'Eliminar' -->
-                <ng-container *ngIf="tableColumn.deleteButton">
-                    <a mat-flat-button color="warn" (click)="onDelete(row)" class="boton">
-                        <mat-icon>
-                            <span class="material-symbols-outlined">delete</span>
-                        </mat-icon>
-                        Eliminar
-                    </a>
-                </ng-container>
-        
+            <td mat-cell *matCellDef="let row" class="botones">
+                <div class="botones">
+                    <!-- Si existe botón de 'Ver detalles' --> 
+                    <ng-container *ngIf="tableColumn.showDetailsButton">
+                        <div class="boton-c">
+                            <a mat-flat-button color="primary" routerLink="{{tableColumn.detailsUrl}}{{row.id}}" class="boton">
+                                Ver detalles
+                            </a>
+                        </div>
+                    </ng-container>
+                    <!-- Si existe botón de 'Editar' -->        
+                    <ng-container *ngIf="tableColumn.editButton">
+                        <div class="boton-c">
+                            <a mat-flat-button color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>
+                                    <span class="material-symbols-outlined">edit</span>
+                                </mat-icon>
+                                Editar
+                            </a>
+                        </div>
+                    </ng-container>
+                    <!-- Si existe botón de 'Eliminar' -->
+                    <ng-container *ngIf="tableColumn.deleteButton">
+                        <div class="boton-c">
+                            <a mat-flat-button color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>
+                                    <span class="material-symbols-outlined">delete</span>
+                                </mat-icon>
+                                Eliminar
+                            </a>
+                        </div>
+                    </ng-container>
+                    <!-- Si existe botón de '+1' -->
+                    <ng-container *ngIf="tableColumn.addButton">
+                        <div class="boton-c">
+                            <button mat-mini-fab color="primary" (click)="onAddCart(row)" class="boton">
+                                <mat-icon>exposure_plus_1
+                                    <!-- <span class="material-symbols-outlined">exposure_plus_1</span> -->
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </ng-container>
+                    <!-- Si existe botón de '-1' -->
+                    <ng-container *ngIf="tableColumn.removeButton">
+                        <div class="boton-c">
+                            <button mat-mini-fab color="primary" (click)="onRemoveCart(row)" class="boton">
+                                <mat-icon>exposure_neg_1
+                                    <!-- <span class="material-symbols-outlined">exposure_neg_1</span> -->
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </ng-container>
+                    
+                </div>
             </td>  
         </ng-container>
         

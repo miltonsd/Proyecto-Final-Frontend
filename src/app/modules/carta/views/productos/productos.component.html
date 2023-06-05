@@ -1,1 +1,77 @@
-<p>producto works!</p>
+<h1 id="Ensaladasyentradas">Ensaladas y entradas</h1>
+<pa-tabla [tableData]="ensaladas"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+
+<h1 id="Parapicar">Para picar</h1>
+<pa-tabla [tableData]="paraPicar"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+<h1 id="Sandwichesypizzas">Sandwiches y pizzas</h1>
+<pa-tabla [tableData]="sandwiches"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+<h1 id="Platosprincipales">Platos principales</h1>
+<pa-tabla [tableData]="principales"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+<h1 id="Postresycafetería">Postres y cafetería</h1>
+<pa-tabla [tableData]="postres"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+<h1 id="Bebidassinalcohol">Bebidas sin alcohol</h1>
+<pa-tabla [tableData]="bebidasSA"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+<h1 id="Cervezas">Cervezas</h1>
+<pa-tabla [tableData]="cervezas"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+<h1 id="Vinosyespumantes">Vinos y espumantes</h1>
+<pa-tabla [tableData]="vinos"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+<h1 id="Tragos">Tragos</h1>
+<pa-tabla [tableData]="tragos"
+[tableColumns]="columnas"
+[isFilter]="false"
+[isPaginator]="false"
+(addAction)="addToCart($event)"
+(removeAction)="removeToCart($event)"
+></pa-tabla>
+
+<button type="submit" mat-raised-button color="primary" (click)="onSubmit()">
+  Ir al carrito
+</button>

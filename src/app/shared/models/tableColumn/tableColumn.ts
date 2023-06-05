@@ -8,4 +8,6 @@ export interface TableColumn {
   detailsUrl?: string
   editUrl?: string
   isSortable?: boolean // Se puede ordenar la columna?
+  addButton?: boolean // Tiene un boton de '+1'?
+  removeButton?: boolean // Tiene un boton de '-1'?
 }
