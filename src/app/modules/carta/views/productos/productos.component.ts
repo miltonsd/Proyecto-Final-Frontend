@@ -22,7 +22,7 @@ export class ProductosComponent implements OnInit {
 
   // Defino las columnas de los productos
   columnas: TableColumn[] = [
-    { name: 'Descripcion', dataKey: 'descripcion' },
+    { name: 'Descripción', dataKey: 'descripcion' },
     {
       name: 'Precio unitario (AR$)',
       dataKey: 'precio'

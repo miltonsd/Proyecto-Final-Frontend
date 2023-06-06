@@ -5,3 +5,8 @@ h1 {
 }
 
 p { color: #f7bd00; height: 500px;}
+
+.submit{
+  margin-left: 88em;
+  /* float: right; */
+}
