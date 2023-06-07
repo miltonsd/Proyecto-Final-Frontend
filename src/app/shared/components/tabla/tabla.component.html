@@ -61,21 +61,21 @@
                     <!-- Si existe botón de '+1' -->
                     <ng-container *ngIf="tableColumn.addButton">
                         <div class="boton-c">
-                            <button mat-mini-fab color="primary" (click)="onAddCart(row)" class="boton">
+                            <a mat-fab color="primary" (click)="onAddCart(row)" class="boton">
                                 <mat-icon>exposure_plus_1
                                     <!-- <span class="material-symbols-outlined">exposure_plus_1</span> -->
                                 </mat-icon>
-                            </button>
+                            </a>
                         </div>
                     </ng-container>
                     <!-- Si existe botón de '-1' -->
                     <ng-container *ngIf="tableColumn.removeButton">
                         <div class="boton-c">
-                            <button mat-mini-fab color="primary" (click)="onRemoveCart(row)" class="boton">
+                            <a mat-fab color="primary" (click)="onRemoveCart(row)" class="boton">
                                 <mat-icon>exposure_neg_1
                                     <!-- <span class="material-symbols-outlined">exposure_neg_1</span> -->
                                 </mat-icon>
-                            </button>
+                            </a>
                         </div>
                     </ng-container>
                     

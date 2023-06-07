@@ -10,3 +10,16 @@ p { color: #f7bd00; height: 500px;}
   margin-left: 88em;
   /* float: right; */
 }
+
+div .lista-prod{
+  display: flex;
+  margin-left: 10%;
+  margin-right: 10%;
+  text-align: center;
+}
+
+.lista-prod{
+  display: flex;
+  flex-direction: column;
+}
+

@@ -4,7 +4,7 @@ import { PageNotFoundComponent } from '@pa/core/components'
 
 const routes: Routes = [
   {
-    path: '',
+    path: '', // La / no se indica
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule)
   },

@@ -10,21 +10,25 @@
 .mat-mdc-header-cell, .mat-mdc-cell, .mat-cell, .mat-mdc-sort-header { 
   text-align: center;
   color: rgb(255, 255, 255);
+  /* border: 1px solid rgb(255, 255, 255); */
 }
 
 .cover { max-width: 80px; }
 
 .botones {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
 }
 
 .boton-c {
   display: flex;
   justify-content: center;
   width: 120px;
-  /* margin: 0% 1%; */
 }
 
-.boton { margin: 0% 1%; }
+.boton { 
+  margin: 0% 1%; 
+}
