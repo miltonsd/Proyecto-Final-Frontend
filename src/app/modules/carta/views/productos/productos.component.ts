@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { TableColumn } from '@pa/shared/models'
 import { ProductosService } from '../../services/productos.service'
 import { map } from 'rxjs/operators'
+import { PedidosService } from '../../services/pedidos.service'
 
 @Component({
   selector: 'pa-productos',
@@ -40,7 +41,10 @@ export class ProductosComponent implements OnInit {
     }
   ]
 
-  constructor(private _productoService: ProductosService) {}
+  constructor(
+    private _productoService: ProductosService,
+    private _pedidoService: PedidosService
+  ) {}
 
   ngOnInit(): void {
     this.getAllProductos()
@@ -103,16 +107,29 @@ export class ProductosComponent implements OnInit {
         // p.cant_actual = 0
         this._productoService.updateProducto(p.id_producto, p.stock)
       })
-      if (localStorage.getItem('carrito') !== null) {
-        const pedidoViejo = localStorage.getItem('carrito') as string
-        const nuevoPedido = this.carrito
-        this.carrito = JSON.parse(pedidoViejo)
-        this.carrito.push(...nuevoPedido)
-        console.log('Nueva lista: ', this.carrito)
+      const pedido = {
+        fechaHoraPedido: new Date(),
+        montoImporte: 10000, // Pendiente de hacer el cálculo
+        id_usuario: 1,
+        lista_productos: this.carrito
       }
-      localStorage.setItem('carrito', JSON.stringify(this.carrito)) //Para ver el localStorage ir al inspeccionar del buscador - Aplicación - Almacenamiento local
-      alert('Pedido realizado') //Mostar detalles del pedido (productos seleccionados con sus cants y al cerrar esa vista que se cargue el home)
-      window.location.href = '/'
+      this._pedidoService.createPedido(pedido).subscribe({
+        complete: () => {
+          // if (localStorage.getItem('carrito') !== null) {
+          //   const pedidoViejo = localStorage.getItem('carrito') as string
+          //   const nuevoPedido = this.carrito
+          //   this.carrito = JSON.parse(pedidoViejo)
+          //   this.carrito.push(...nuevoPedido)
+          //   console.log('Nueva lista: ', this.carrito)
+          // }
+          // localStorage.setItem('carrito', JSON.stringify(this.carrito)) //Para ver el localStorage ir al inspeccionar del buscador - Aplicación - Almacenamiento local
+          alert('Pedido realizado') //Mostar detalles del pedido (productos seleccionados con sus cants y al cerrar esa vista que se cargue el home)
+          window.location.href = '/'
+        },
+        error: (err: any) => {
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+        }
+      })
     } else {
       alert('No hay productos seleccionados en el pedido')
     }
