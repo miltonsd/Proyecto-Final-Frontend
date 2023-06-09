@@ -8,6 +8,9 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
+      "i18n": {
+        "sourceLocale": "es"
+      },
       "prefix": "pa",
       "architect": {
         "build": {

@@ -26,8 +26,8 @@ export class ProductosComponent implements OnInit {
   columnas: TableColumn[] = [
     { name: 'Descripción', dataKey: 'descripcion' },
     {
-      name: 'Precio unitario (AR$)',
-      dataKey: 'precio'
+      name: 'Precio unitario',
+      dataKey: 'precio', isCurrency: true
     },
     {
       name: ' ',
@@ -37,7 +37,7 @@ export class ProductosComponent implements OnInit {
     },
     {
       name: 'Cantidad seleccionada',
-      dataKey: 'cant_actual'
+      dataKey: 'cant_selecc'
     }
   ]
 
@@ -62,7 +62,7 @@ export class ProductosComponent implements OnInit {
             stock: res[p].stock,
             id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
             imagen: res[p].imagen,
-            cant_actual: 0
+            cant_selecc: 0
           }))
           this.ensaladas = this.productos.filter((p) => p.id_tipoProducto === 1)
           this.paraPicar = this.productos.filter((p) => p.id_tipoProducto === 2)
@@ -87,29 +87,28 @@ export class ProductosComponent implements OnInit {
 
   addToCart(producto: any) {
     // Como regla de negocio, solo dejamos seleccionar hasta 10 items de un mismo producto y valida que no supere el stock actual
-    if (producto.cant_actual < 10 && producto.cant_actual < producto.stock) {
-      producto.cant_actual += 1
+    if (producto.cant_selecc < 10 && producto.cant_selecc < producto.stock) {
+      producto.cant_selecc += 1
     }
   }
 
   removeToCart(producto: any) {
-    if (producto.cant_actual > 0) {
-      producto.cant_actual -= 1
+    if (producto.cant_selecc > 0) {
+      producto.cant_selecc -= 1
     }
   }
 
   // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
   onSubmit() {
-    this.carrito = this.productos.filter((p) => p.cant_actual > 0)
+    this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
     if (this.carrito.length > 0) {
       this.carrito.forEach((p) => {
-        p.stock -= p.cant_actual
-        // p.cant_actual = 0
+        p.stock -= p.cant_selecc
         this._productoService.updateProducto(p.id_producto, p.stock)
       })
       const pedido = {
-        fechaHoraPedido: new Date(),
-        montoImporte: 10000, // Pendiente de hacer el cálculo
+        fechaHora: new Date(),
+        montoImporte: this.calculaMonto(), 
         id_usuario: 1,
         lista_productos: this.carrito
       }
@@ -134,4 +133,13 @@ export class ProductosComponent implements OnInit {
       alert('No hay productos seleccionados en el pedido')
     }
   }
+
+  calculaMonto():number {
+    let monto = 0
+    this.carrito.forEach((p) => {
+      monto += p.precio * p.cant_selecc
+    })
+    return monto
+  }
+
 }

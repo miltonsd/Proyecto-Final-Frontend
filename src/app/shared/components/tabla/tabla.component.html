@@ -86,7 +86,12 @@
         <!-- Si el contenido de la columna no es una imagen -->
         <ng-container *ngIf="!tableColumn.isImage; else isImage">
             <td mat-cell *matCellDef="let row">
-                {{row[tableColumn.dataKey]}}
+                <ng-container *ngIf="tableColumn.isCurrency; else isText">
+                    {{row[tableColumn.dataKey]|currency:'$':'symbol':'1.2-2':'es'}}
+                </ng-container>
+                <ng-template #isText >
+                    {{row[tableColumn.dataKey]}}
+                </ng-template>
             </td>
         </ng-container>
                 

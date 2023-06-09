@@ -23,6 +23,13 @@ const routes: Routes = [
       import('./modules/carta/carta.module').then((m) => m.CartaModule)
   },
 
+  {
+    path: 'pedidos',
+    canLoad: [],
+    loadChildren: () =>
+      import('./modules/pedidos/pedidos.module').then((m) => m.PedidosModule)
+  },
+
   // Página 404
   { path: '**', component: PageNotFoundComponent }
 ]

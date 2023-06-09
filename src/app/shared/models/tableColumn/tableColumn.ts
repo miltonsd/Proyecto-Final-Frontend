@@ -10,4 +10,5 @@ export interface TableColumn {
   isSortable?: boolean // Se puede ordenar la columna?
   addButton?: boolean // Tiene un boton de '+1'?
   removeButton?: boolean // Tiene un boton de '-1'?
+  isCurrency?: boolean // Si tiene un valor monetario
 }

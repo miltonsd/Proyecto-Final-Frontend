@@ -39,7 +39,9 @@
       // mesas
       "@pa/mesas/services" : ["src/app/modules/mesas/services/index.ts"],
       // usuarios
-      "@pa/usuarios/services" : ["src/app/modules/usuarios/services/index.ts"]
+      "@pa/usuarios/services" : ["src/app/modules/usuarios/services/index.ts"],
+      // carta (hay 3 servicios)
+      "@pa/carta/services" : ["src/app/modules/carta/services/index.ts"]
     },
   },
   "angularCompilerOptions": {
