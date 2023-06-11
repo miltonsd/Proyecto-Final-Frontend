@@ -1,11 +1,9 @@
 <div class="carta">
-
-    <ng-container *ngIf="this.tiposP.length > 0">
-        <div class="cards">
-          <section class="card" *ngFor="let tipo of this.tiposP">
-            <pa-card-tipo-producto [tipo]="tipo"></pa-card-tipo-producto>
-          </section>
-        </div>
-      </ng-container>
-
+  <ng-container *ngIf="this.tiposP.length > 0">
+    <div class="cards" [@slide]>
+      <section class="card" *ngFor="let tipo of this.tiposP">
+        <pa-card-tipo-producto [tipo]="tipo"></pa-card-tipo-producto>
+      </section>
+    </div>
+  </ng-container>
 </div>
