@@ -5,6 +5,10 @@ import 'moment/locale/es'
 import { TableColumn } from '@pa/shared/models'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
+import { CartaService, PedidosService } from '@pa/carta/services'
+import { PromocionesService } from '../../services/promociones.service'
+import { RolesService } from '../../services/roles.service'
+import { MesasService } from '@pa/mesas/services'
 
 @Component({
   selector: 'pa-listado',
@@ -18,7 +22,12 @@ export class ListadoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private _usuarioService: UsuariosService
+    private _usuarioService: UsuariosService,
+    private _mesaService: MesasService,
+    private _rolService: RolesService,
+    private _cartaService: CartaService,
+    private _promocionService: PromocionesService,
+    private _pedidoService: PedidosService
   ) {}
 
   ngOnInit(): void {
@@ -115,9 +124,163 @@ export class ListadoComponent implements OnInit {
   cargarReservas() {}
   cargarCategorias() {}
   cargarMenues() {}
-  cargarMesas() {}
-  cargarRoles() {}
-  cargarTiposProducto() {}
-  cargarPromociones() {}
-  cargarPedidos() {}
+
+  cargarMesas() {
+    // Obtengo los datos de la tabla mesas
+    this._mesaService
+      .getAllMesas()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((m) => ({
+            id_mesa: res[m].id_mesa,
+            capacidad: res[m].capacidad,
+            ubicacion: res[m].ubicacion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla mesas
+    this.columnas = [
+      { name: 'ID', dataKey: ' id_mesa' },
+      { name: 'Capacidad', dataKey: 'capacidad' },
+      { name: 'Ubicacion', dataKey: 'ubicacion' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
+
+  cargarRoles() {
+    // Obtengo los datos de la tabla roles
+    this._rolService
+      .getAllRoles()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((r) => ({
+            id_rol: res[r].id_rol,
+            descripcion: res[r].descripcion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla roles
+    this.columnas = [
+      { name: 'ID', dataKey: ' id_rol' },
+      { name: 'Descripcion', dataKey: 'descripcion' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
+
+  cargarTiposProducto() {
+    // Obtengo los datos de la tabla tipos_productos
+    this._cartaService
+      .getAllTiposProducto()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((tp) => ({
+            id_tipoProducto: res[tp].id_tipoProducto,
+            descripcion: res[tp].descripcion,
+            imagen: res[tp].imagen
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla tipos_productos
+    this.columnas = [
+      { name: 'ID', dataKey: ' id_tipoProducto' },
+      { name: 'Descripcion', dataKey: 'descripcion' },
+      { name: 'Imagen', dataKey: 'imagen' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
+
+  cargarPromociones() {
+    // Obtengo los datos de la tabla Promociones
+    this._promocionService
+      .getAllPromociones()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((p) => ({
+            id_promocion: res[p].id_promocion,
+            porcentaje_desc: res[p].porcentaje_desc,
+            fecha_desde: moment(res[p].fecha_desde).format('DD/MM/yyyy'),
+            fecha_hasta: moment(res[p].fecha_hasta).format('DD/MM/yyyy')
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla Promociones
+    this.columnas = [
+      { name: 'ID', dataKey: 'id_promocion' },
+      { name: 'Porcentaje de descuento', dataKey: 'porcentaje_desc' },
+      { name: 'Fecha desde', dataKey: 'fecha_desde' },
+      { name: 'Fecha hasta', dataKey: 'fecha_hasta' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
+
+  cargarPedidos() {
+    // Obtengo los datos de la tabla Pedidos
+    this._pedidoService
+      .getAllPedidos()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((p) => ({
+            id_pedido: res[p].id_pedido,
+            fechaHora: moment(res[p].fechaHora).format('DD/MM/yyyy HH:mm'),
+            isPendiente: res[p].isPendiente,
+            montoImporte: res[p].montoImporte,
+            usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla Pedidos
+    this.columnas = [
+      { name: 'ID', dataKey: 'id_pedido' },
+      { name: 'Fecha y hora', dataKey: 'fechaHora' },
+      { name: '¿Está pendiente?', dataKey: 'isPendiente' },
+      { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },
+      { name: 'Usuario', dataKey: 'usuario' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
 }
