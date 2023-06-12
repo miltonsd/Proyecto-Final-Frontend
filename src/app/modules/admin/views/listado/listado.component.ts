@@ -9,6 +9,10 @@ import { CartaService, PedidosService } from '@pa/carta/services'
 import { PromocionesService } from '../../services/promociones.service'
 import { RolesService } from '../../services/roles.service'
 import { MesasService } from '@pa/mesas/services'
+import { ProductosService } from '@pa/carta/services'
+import { ReservasService } from '@pa/reservas/services'
+import { CategoriasService } from '../../services/categorias.service'
+import { MenuesService } from '../../services/menues.service'
 
 @Component({
   selector: 'pa-listado',
@@ -27,7 +31,11 @@ export class ListadoComponent implements OnInit {
     private _rolService: RolesService,
     private _cartaService: CartaService,
     private _promocionService: PromocionesService,
-    private _pedidoService: PedidosService
+    private _pedidoService: PedidosService,
+    private _productoService: ProductosService,
+    private _reservaService: ReservasService,
+    private _categoriaService: CategoriasService,
+    private _menuService: MenuesService
   ) {}
 
   ngOnInit(): void {
@@ -120,10 +128,149 @@ export class ListadoComponent implements OnInit {
     ]
   }
 
-  cargarProductos() {}
-  cargarReservas() {}
-  cargarCategorias() {}
-  cargarMenues() {}
+  cargarProductos() {
+    // Obtengo los datos de la tabla Productos
+    this._productoService
+      .getAllProductos()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((p) => ({
+            id_producto: res[p].id_producto,
+            precio: res[p].precio,
+            stock: res[p].stock,
+            descripcion: res[p].descripcion,
+            imagen: res[p].imagen,
+            tipoProducto: res[p].TipoProducto.descripcion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla Productos
+    this.columnas = [
+      { name: 'ID', dataKey: 'id_producto' },
+      {
+        name: 'Precio unitario',
+        dataKey: 'precio',
+        isCurrency: true
+      },
+      { name: 'Stock', dataKey: 'stock' },
+      { name: 'Descripción', dataKey: 'descripcion' },
+      { name: 'Imágen', dataKey: 'imagen', isImage: true },
+      { name: 'Tipo de producto', dataKey: 'tipoProducto' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
+
+  cargarReservas() {
+    // Obtengo los datos de la tabla Reservas
+    this._reservaService
+      .getAllReservas()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((r) => ({
+            id_reserva: res[r].id_reserva,
+            fechaHora: moment(res[r].fechaNacimiento).format(
+              'DD/MM/yyyy HH:mm'
+            ),
+            cant_personas: res[r].cant_personas,
+            isPendiente: res[r].isPendiente,
+            usuario: res[r].Usuario.nombre + ' ' + res[r].Usuario.apellido,
+            mesa: res[r].Mesa.id_mesa + ' - ' + res[r].Mesa.ubicacion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla Reservas
+    this.columnas = [
+      { name: 'ID', dataKey: 'id_reserva' },
+      { name: 'Fecha y hora', dataKey: 'fechaHora' },
+      { name: 'Cantidad de personas', dataKey: 'cant_personas' },
+      { name: '¿Está pendiente?', dataKey: 'isPendiente' },
+      { name: 'Usuario', dataKey: 'usuario' },
+      { name: 'Mesa', dataKey: 'mesa' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
+
+  cargarCategorias() {
+    // Obtengo los datos de la tabla Categorías
+    this._categoriaService
+      .getAllCategorias()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((c) => ({
+            id_categoria: res[c].id_categoria,
+            descripcion: res[c].descripcion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla Categorías
+    this.columnas = [
+      { name: 'ID', dataKey: 'id_categoria' },
+      { name: 'Descripción de la categoría', dataKey: 'descripcion' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
+
+  cargarMenues() {
+    // Obtengo los datos de la tabla Menues
+    this._menuService
+      .getAllMenues()
+      .pipe(
+        map((res: any) => {
+          this.datosTabla = Object.keys(res).map((m) => ({
+            id_menu: res[m].id_menu,
+            titulo: res[m].titulo,
+            usuario: res[m].Usuario.nombre + ' ' + res[m].Usuario.apellido,
+            productos: res[m].Productos.map((p: any) => p.descripcion).join(
+              ', '
+            )
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+    // Defino las columnas de la tabla Menues
+    this.columnas = [
+      { name: 'ID', dataKey: 'id_menu' },
+      { name: 'Título del menú', dataKey: 'titulo' },
+      { name: 'Usuario', dataKey: 'usuario' },
+      { name: 'Lista de productos', dataKey: 'productos' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+  }
 
   cargarMesas() {
     // Obtengo los datos de la tabla mesas
@@ -144,7 +291,7 @@ export class ListadoComponent implements OnInit {
       })
     // Defino las columnas de la tabla mesas
     this.columnas = [
-      { name: 'ID', dataKey: ' id_mesa' },
+      { name: 'ID', dataKey: 'id_mesa' },
       { name: 'Capacidad', dataKey: 'capacidad' },
       { name: 'Ubicacion', dataKey: 'ubicacion' },
       {
@@ -174,7 +321,7 @@ export class ListadoComponent implements OnInit {
       })
     // Defino las columnas de la tabla roles
     this.columnas = [
-      { name: 'ID', dataKey: ' id_rol' },
+      { name: 'ID', dataKey: 'id_rol' },
       { name: 'Descripcion', dataKey: 'descripcion' },
       {
         name: ' ',
@@ -204,9 +351,9 @@ export class ListadoComponent implements OnInit {
       })
     // Defino las columnas de la tabla tipos_productos
     this.columnas = [
-      { name: 'ID', dataKey: ' id_tipoProducto' },
+      { name: 'ID', dataKey: 'id_tipoProducto' },
       { name: 'Descripcion', dataKey: 'descripcion' },
-      { name: 'Imagen', dataKey: 'imagen' },
+      { name: 'Imagen', dataKey: 'imagen', isImage: true },
       {
         name: ' ',
         dataKey: 'actionButtons',
