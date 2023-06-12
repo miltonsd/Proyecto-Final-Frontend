@@ -61,6 +61,11 @@ export class ReservasComponent implements OnInit {
     }
   ]
 
+  msgConfirmacion = {
+    title: 'Confirmar cancelación de la reserva',
+    msg: '¿Estás seguro de cancelar esta reserva? Esta acción no se puede deshacer.'
+  }
+
   constructor(
     private _reservasService: ReservasService,
     private _mesasService: MesasService,
@@ -202,8 +207,8 @@ export class ReservasComponent implements OnInit {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
           data: {
-            title: 'Eliminar reserva',
-            msg: 'Se ha eliminado la reserva con éxito.'
+            title: 'Cancelar reserva',
+            msg: 'Se ha cancelado la reserva con éxito.'
           }
         })
         dialogRef.afterClosed().subscribe(() => {

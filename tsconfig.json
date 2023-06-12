@@ -41,7 +41,9 @@
       // usuarios
       "@pa/usuarios/services" : ["src/app/modules/usuarios/services/index.ts"],
       // carta (hay 3 servicios)
-      "@pa/carta/services" : ["src/app/modules/carta/services/index.ts"]
+      "@pa/carta/services" : ["src/app/modules/carta/services/index.ts"],
+      // Admin (hay 4 servicios)
+      "@pa/admin/services" : ["src/app/modules/admin/services/index.ts"]
     },
   },
   "angularCompilerOptions": {

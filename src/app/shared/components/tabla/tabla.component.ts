@@ -40,6 +40,7 @@ export class TablaComponent implements OnInit {
     // Crea los datos de la tabla
     this.dataSource = new MatTableDataSource(data)
   }
+  @Input() confirmDialogMsg!: any
 
   @Output() deleteAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
@@ -74,7 +75,8 @@ export class TablaComponent implements OnInit {
   onDelete(element: any) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
-      data: { msg: element.name }
+      data: this.confirmDialogMsg
+      // data: { msg: element.productos }
     })
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {

@@ -1,0 +1,9 @@
+<div class="carta">
+  <ng-container *ngIf="this.tablasDB.length > 0">
+    <div class="cards">
+      <section class="card" *ngFor="let tabla of this.tablasDB">
+        <pa-card-admin [tablaDB]="tabla"></pa-card-admin>
+      </section>
+    </div>
+  </ng-container>
+</div>

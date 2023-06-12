@@ -29,6 +29,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/pedidos/pedidos.module').then((m) => m.PedidosModule)
   },
+  {
+    path: 'admin',
+    canLoad: [],
+    loadChildren: () =>
+      import('./modules/admin/admin.module').then((m) => m.AdminModule)
+  },
 
   // Página 404
   { path: '**', component: PageNotFoundComponent }

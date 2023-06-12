@@ -1,0 +1,26 @@
+.card {
+  width: 320px;
+  height: 320px;
+  background-size: cover;
+  /* background-position: center; */
+  justify-content: center;
+  align-items: center;
+}
+
+.header{
+text-align: center;
+vertical-align: baseline;
+font-family: 'Oswald', sans-serif;
+}
+
+a {
+font-size: 22px;
+font-weight: 700;
+color: white;
+text-decoration: none;
+}
+
+.mat-card-image {
+width: 388px;
+height: 292px;
+}

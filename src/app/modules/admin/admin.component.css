@@ -1,0 +1,16 @@
+.carta {
+  align-items: center;
+  min-height: 30vh;
+  display: grid;
+  justify-content: center;
+  margin-bottom: 5vh;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  min-height: 72vh;
+}

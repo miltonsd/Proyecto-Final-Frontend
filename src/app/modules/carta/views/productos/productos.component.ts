@@ -27,7 +27,8 @@ export class ProductosComponent implements OnInit {
     { name: 'Descripción', dataKey: 'descripcion' },
     {
       name: 'Precio unitario',
-      dataKey: 'precio', isCurrency: true
+      dataKey: 'precio',
+      isCurrency: true
     },
     {
       name: ' ',
@@ -108,7 +109,7 @@ export class ProductosComponent implements OnInit {
       })
       const pedido = {
         fechaHora: new Date(),
-        montoImporte: this.calculaMonto(), 
+        montoImporte: this.calculaMonto(),
         id_usuario: 1,
         lista_productos: this.carrito
       }
@@ -134,12 +135,11 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  calculaMonto():number {
+  calculaMonto(): number {
     let monto = 0
     this.carrito.forEach((p) => {
       monto += p.precio * p.cant_selecc
     })
     return monto
   }
-
 }
