@@ -13,4 +13,20 @@ export class MesasService {
   getAllMesas() {
     return this._http.get(`${this.url}/`)
   }
+
+  getOneMesa(id_mesa: number) {
+    return this._http.get(`${this.url}/${id_mesa}`)
+  }
+
+  createMesa(mesa: any) {
+    return this._http.post(`${this.url}/create`, mesa)
+  }
+
+  updateMesa(id_mesa: number, mesa: any) {
+    return this._http.patch(`${this.url}/${id_mesa}`, mesa)
+  }
+
+  deleteMesa(id_mesa: number) {
+    return this._http.delete(`${this.url}/${id_mesa}`)
+  }
 }

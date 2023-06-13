@@ -13,4 +13,20 @@ export class UsuariosService {
   getAllUsuarios() {
     return this._http.get(`${this.url}/`)
   }
+
+  getOneUsuario(id_usuario: number) {
+    return this._http.get(`${this.url}/${id_usuario}`)
+  }
+
+  createUsuario(usuario: any) {
+    return this._http.post(`${this.url}/create`, usuario)
+  }
+
+  updateUsuario(id_usuario: number, usuario: any) {
+    return this._http.patch(`${this.url}/${id_usuario}`, usuario)
+  }
+
+  deleteUsuario(id_usuario: number) {
+    return this._http.delete(`${this.url}/${id_usuario}`)
+  }
 }

@@ -7,15 +7,15 @@ import { Component } from '@angular/core'
 })
 export class AdminComponent {
   tablasDB = [
-    'Usuarios',
-    'Pedidos',
-    'Productos',
-    'Reservas',
-    'Categorias',
-    'Menues',
-    'Mesas',
-    'Roles',
-    'Tipos_producto',
-    'Promociones'
+    { nombre: 'Usuarios', url: 'usuarios' },
+    { nombre: 'Pedidos', url: 'pedidos' },
+    { nombre: 'Productos', url: 'productos' },
+    { nombre: 'Reservas', url: 'reservas' },
+    { nombre: 'Categorias', url: 'categorias' },
+    { nombre: 'Menues', url: 'menues' },
+    { nombre: 'Mesas', url: 'mesas' },
+    { nombre: 'Roles', url: 'roles' },
+    { nombre: 'Tipos producto', url: 'tipos-producto' },
+    { nombre: 'Promociones', url: 'promociones' }
   ]
 }

@@ -1,0 +1,18 @@
+<h1 style="color:white">Categorias</h1>
+<div>
+  <pa-tabla 
+  [tableData]="datosTabla" 
+  [tableColumns]="columnas" 
+  [isPaginator]="true"
+  [pageOptions]="[5, 10, 15]"
+  (editAction)="onEdit($event)"
+  (deleteAction)="onDelete($event)"
+  [confirmDialogMsg]="msgConfirmacion"
+  ></pa-tabla>
+</div>
+
+<div>
+  <button class= "submit" type="submit" mat-raised-button color="primary" (click)="addCategoria()">
+    Agregar categoría (+)
+  </button>
+</div>
