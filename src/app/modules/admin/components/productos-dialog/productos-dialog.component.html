@@ -34,6 +34,17 @@
                   Ingrese un stock válido
                 </mat-error>
               </mat-form-field>
+              <mat-form-field appearance="fill" class="reserva-input fechaHora">
+                <mat-label>Seleccionar tipo producto</mat-label>
+                <mat-select formControlName="tipoProducto">
+                  <mat-option *ngFor="let tp of tiposProducto" [value]="tp.id_tipoProducto">{{
+                    tp.descripcion
+                  }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formulario.controls.tipoProducto.hasError('required')">
+                  Campo obligatorio.
+                </mat-error>
+              </mat-form-field>
           
           <div class="boton">
             <button type="submit" mat-raised-button color="primary">

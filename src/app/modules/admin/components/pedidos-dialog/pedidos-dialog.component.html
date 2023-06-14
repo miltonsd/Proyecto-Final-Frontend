@@ -20,6 +20,20 @@
                 Ingrese un monto del importe válido
               </mat-error>
             </mat-form-field>
+            <mat-checkbox class="example-full-width" [formControl]="isPendiente">
+              ¿Pedido pendiente?
+            </mat-checkbox>
+            <mat-form-field appearance="fill" class="reserva-input fechaHora">
+              <mat-label>Seleccionar ID de usuario</mat-label>
+              <mat-select formControlName="usuario">
+                <mat-option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">{{
+                  usuario.nombre
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.usuario.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
           
           <div class="boton">
             <button type="submit" mat-raised-button color="primary">

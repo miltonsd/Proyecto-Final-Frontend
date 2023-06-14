@@ -42,10 +42,8 @@ export class MesasDialogComponent {
       }
     } else {
       this.mesa = {
-        capacidad:
-          this.formulario.value.capacidad || this.data.tipoProducto.capacidad,
-        ubicacion:
-          this.formulario.value.ubicacion || this.data.tipoProducto.ubicacion
+        capacidad: this.formulario.value.capacidad || this.data.mesa.capacidad,
+        ubicacion: this.formulario.value.ubicacion || this.data.mesa.ubicacion
       }
       this.dialogRef.close({ data: this.mesa })
     }

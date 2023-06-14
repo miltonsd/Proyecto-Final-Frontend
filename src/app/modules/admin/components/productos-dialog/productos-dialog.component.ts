@@ -1,19 +1,40 @@
-import { Component, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { CartaService } from '@pa/carta/services'
+import { map } from 'rxjs'
 
 @Component({
   selector: 'pa-productos-dialog',
   templateUrl: './productos-dialog.component.html',
   styleUrls: ['./productos-dialog.component.css']
 })
-export class ProductosDialogComponent {
+export class ProductosDialogComponent implements OnInit {
   producto!: any
+  tiposProducto!: any[]
 
   constructor(
     public dialogRef: MatDialogRef<ProductosDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _cartaService: CartaService
   ) {}
+
+  ngOnInit(): void {
+    this._cartaService
+      .getAllTiposProducto()
+      .pipe(
+        map((res: any) => {
+          this.tiposProducto = Object.keys(res).map((tp) => ({
+            id_tipoProducto: res[tp].id_tipoProducto,
+            descripcion: res[tp].descripcion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+  }
 
   formulario = new FormGroup({
     descripcion: new FormControl('', {
@@ -26,6 +47,9 @@ export class ProductosDialogComponent {
       validators: [Validators.required]
     }),
     stock: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    tipoProducto: new FormControl('', {
       validators: [Validators.required]
     })
   })
@@ -42,7 +66,8 @@ export class ProductosDialogComponent {
           descripcion: this.formulario.value.descripcion,
           imagen: this.formulario.value.imagen,
           precio: this.formulario.value.precio,
-          stock: this.formulario.value.stock
+          stock: this.formulario.value.stock,
+          id_tipoProducto: this.formulario.value.tipoProducto
         }
         this.dialogRef.close({ data: this.producto })
       } else {
@@ -51,11 +76,12 @@ export class ProductosDialogComponent {
     } else {
       this.producto = {
         descripcion:
-          this.formulario.value.descripcion ||
-          this.data.tipoProducto.descripcion,
-        imagen: this.formulario.value.imagen || this.data.tipoProducto.imagen,
-        precio: this.formulario.value.precio || this.data.tipoProducto.precio,
-        stock: this.formulario.value.stock || this.data.tipoProducto.stock
+          this.formulario.value.descripcion || this.data.producto.descripcion,
+        imagen: this.formulario.value.imagen || this.data.producto.imagen,
+        precio: this.formulario.value.precio || this.data.producto.precio,
+        stock: this.formulario.value.stock || this.data.producto.stock,
+        id_tipoProducto:
+          this.formulario.value.tipoProducto || this.data.producto.id_tipoProducto
       }
       this.dialogRef.close({ data: this.producto })
     }
