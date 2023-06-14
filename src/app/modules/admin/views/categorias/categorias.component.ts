@@ -110,7 +110,7 @@ export class CategoriasComponent implements OnInit {
     })
   }
 
-  addCategoria() {
+  onAdd() {
     const dialogRef = this.dialog.open(CategoriasDialogComponent, {
       width: '900px',
       data: {

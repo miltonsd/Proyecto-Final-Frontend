@@ -4,6 +4,7 @@ import { map } from 'rxjs'
 import { CartaService } from '@pa/carta/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { TiposProductoDialogComponent } from '../../components/tipos-producto-dialog/tipos-producto-dialog.component'
 
 @Component({
   selector: 'pa-tipos-producto',
@@ -82,5 +83,54 @@ export class TiposProductoComponent implements OnInit {
           })
         }
       })
+  }
+
+  onEdit(tipoProducto: any) {
+    const dialogRef = this.dialog.open(TiposProductoDialogComponent, {
+      width: '900px',
+      data: {
+        tipoProducto,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._cartaService
+          .updateTipoProducto(tipoProducto.id_tipoProducto, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/admin/tipos-producto'
+            },
+            error: (err) => {
+              alert(err.msg)
+            }
+          })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(TiposProductoDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._cartaService.createTipoProducto(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/tipos-producto'
+          },
+          error: (err) => {
+            alert(err.msg)
+          }
+        })
+      }
+    })
   }
 }

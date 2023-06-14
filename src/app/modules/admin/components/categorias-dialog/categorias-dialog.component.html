@@ -1,32 +1,24 @@
 <div class="cartel">
-    <ng-container *ngIf="data.accion === 'editar'; else agregar">
-        <h1>Modificar categoria</h1>
-    </ng-container> 
-    
-    <ng-template #agregar>
-        <h1>Agregar categoria</h1> 
-    </ng-template>
+  <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
+  <h1>{{data.accion === 'editar'? 'Modificar' : 'Agregar'}} categoría</h1>
 
     <div mat-dialog-content class="reserva">
       <div class="reserva">
         <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
 
-        <div>
-          <p>Descripcion de la categoría</p>
           <mat-form-field class="example-full-width">
-            <mat-label>Email</mat-label>
-            <input type="text" matInput formControlName="descripcion">
+            <mat-label>Descripcion de la categoría</mat-label>
+            <input type="text" matInput formControlName="descripcion" placeholder="{{data.accion === 'editar'? 'Original: ' + data.categoria.descripcion : ''}}">
             <mat-error *ngIf="formulario.controls.descripcion.hasError('required')">
               Ingrese una descripcion válida
             </mat-error>
           </mat-form-field>
-        </div>
         
         <div class="boton">
-          <button type="submit" mat-raised-button color="primary" [mat-dialog-close]="categoria">
+          <button type="submit" mat-raised-button color="primary">
             Confirmar categoria
           </button>
-          <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+          <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
         </div>
         
       </form>
