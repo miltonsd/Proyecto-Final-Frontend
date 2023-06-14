@@ -1,1 +1,29 @@
-<p>menues-dialog works!</p>
+<div class="cartel">
+    <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
+    <h1>{{data.accion === 'editar'? 'Modificar' : 'Agregar'}} menu</h1>
+  
+      <div mat-dialog-content class="reserva">
+        <div class="reserva">
+          <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
+  
+            <mat-form-field class="example-full-width">
+              <mat-label>Título del menú</mat-label>
+              <input type="text" matInput formControlName="titulo" placeholder="{{data.accion === 'editar'? 'Original: ' + data.menu.titulo : ''}}">
+              <mat-error *ngIf="formulario.controls.titulo.hasError('required')">
+                Ingrese un título válido
+              </mat-error>
+            </mat-form-field>
+          
+          <div class="boton">
+            <button type="submit" mat-raised-button color="primary">
+              Confirmar menu
+            </button>
+            <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+          </div>
+          
+        </form>
+        
+      </div>
+      
+  </div>
+  

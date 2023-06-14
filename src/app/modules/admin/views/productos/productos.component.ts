@@ -4,6 +4,7 @@ import { map } from 'rxjs'
 import { ProductosService } from '@pa/carta/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { ProductosDialogComponent } from '../../components/productos-dialog/productos-dialog.component'
 
 @Component({
   selector: 'pa-productos',
@@ -89,6 +90,55 @@ export class ProductosComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(producto: any) {
+    const dialogRef = this.dialog.open(ProductosDialogComponent, {
+      width: '900px',
+      data: {
+        producto,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._productoService
+          .updateProducto(producto.id_producto, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/admin/productos'
+            },
+            error: (err) => {
+              alert(err.msg)
+            }
+          })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(ProductosDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._productoService.createProducto(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/productos'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

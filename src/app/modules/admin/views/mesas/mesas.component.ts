@@ -4,6 +4,7 @@ import { map } from 'rxjs'
 import { MesasService } from '@pa/mesas/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { MesasDialogComponent } from '../../components/mesas-dialog/mesas-dialog.component'
 
 @Component({
   selector: 'pa-mesas',
@@ -76,6 +77,53 @@ export class MesasComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(mesa: any) {
+    const dialogRef = this.dialog.open(MesasDialogComponent, {
+      width: '900px',
+      data: {
+        mesa,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._mesaService.updateMesa(mesa.id_mesa, resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/mesas'
+          },
+          error: (err) => {
+            alert(err.msg)
+          }
+        })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(MesasDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._mesaService.createMesa(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/mesas'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

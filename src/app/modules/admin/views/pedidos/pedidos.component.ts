@@ -6,6 +6,7 @@ import { map } from 'rxjs'
 import { PedidosService } from '@pa/carta/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { PedidosDialogComponent } from '../../components/pedidos-dialog/pedidos-dialog.component'
 
 @Component({
   selector: 'pa-pedidos',
@@ -85,6 +86,55 @@ export class PedidosComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(pedido: any) {
+    const dialogRef = this.dialog.open(PedidosDialogComponent, {
+      width: '900px',
+      data: {
+        pedido,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._pedidoService
+          .updatePedido(pedido.id_pedido, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/admin/pedidos'
+            },
+            error: (err) => {
+              alert(err.msg)
+            }
+          })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(PedidosDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._pedidoService.createPedido(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/pedidos'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

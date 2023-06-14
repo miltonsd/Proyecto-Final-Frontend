@@ -1,1 +1,36 @@
-<p>pedidos-dialog works!</p>
+<div class="cartel">
+    <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
+    <h1>{{data.accion === 'editar'? 'Modificar' : 'Agregar'}} pedido</h1>
+  
+      <div mat-dialog-content class="reserva">
+        <div class="reserva">
+          <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
+  
+            <mat-form-field class="example-full-width">
+              <mat-label>Fecha y hora del pedido</mat-label>
+              <input type="text" matInput formControlName="fechaHora" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.fechaHora : ''}}">
+              <mat-error *ngIf="formulario.controls.fechaHora.hasError('required')">
+                Ingrese una fecha y hora válida
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Monto del importe del pedido</mat-label>
+              <input type="text" matInput formControlName="montoImporte" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.montoImporte : ''}}">
+              <mat-error *ngIf="formulario.controls.montoImporte.hasError('required')">
+                Ingrese un monto del importe válido
+              </mat-error>
+            </mat-form-field>
+          
+          <div class="boton">
+            <button type="submit" mat-raised-button color="primary">
+              Confirmar pedido
+            </button>
+            <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+          </div>
+          
+        </form>
+        
+      </div>
+      
+  </div>
+  

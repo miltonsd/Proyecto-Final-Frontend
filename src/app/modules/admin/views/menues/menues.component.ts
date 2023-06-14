@@ -4,6 +4,7 @@ import { map } from 'rxjs'
 import { MenuesService } from '../../services/menues.service'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { MenuesDialogComponent } from '../../components/menues-dialog/menues-dialog.component'
 
 @Component({
   selector: 'pa-menues',
@@ -80,6 +81,53 @@ export class MenuesComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(menu: any) {
+    const dialogRef = this.dialog.open(MenuesDialogComponent, {
+      width: '900px',
+      data: {
+        menu,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._menuService.updateMenu(menu.id_menu, resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/menues'
+          },
+          error: (err) => {
+            alert(err.msg)
+          }
+        })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(MenuesDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._menuService.createMenu(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/menues'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

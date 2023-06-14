@@ -5,7 +5,14 @@
   [tableColumns]="columnas" 
   [isPaginator]="true"
   [pageOptions]="[5, 10, 15]"
+  (editAction)="onEdit($event)"
   (deleteAction)="onDelete($event)"
   [confirmDialogMsg]="msgConfirmacion"
   ></pa-tabla>
+</div>
+
+<div>
+  <button class= "submit" type="submit" mat-raised-button color="primary" (click)="onAdd()">
+    Agregar producto (+)
+  </button>
 </div>
