@@ -6,6 +6,7 @@ import { map } from 'rxjs'
 import { UsuariosService } from '@pa/usuarios/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { UsuariosDialogComponent } from '../../components/usuarios-dialog/usuarios-dialog.component'
 
 @Component({
   selector: 'pa-usuarios',
@@ -102,6 +103,55 @@ export class UsuariosComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(usuario: any) {
+    const dialogRef = this.dialog.open(UsuariosDialogComponent, {
+      width: '900px',
+      data: {
+        usuario,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._usuarioService
+          .updateUsuario(usuario.id_usuario, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/admin/usuarios'
+            },
+            error: (err) => {
+              alert(err.msg)
+            }
+          })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(UsuariosDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._usuarioService.createUsuario(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/usuarios'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

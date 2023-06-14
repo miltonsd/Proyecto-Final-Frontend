@@ -6,6 +6,7 @@ import { map } from 'rxjs'
 import { PromocionesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { PromocionesDialogComponent } from '../../components/promociones-dialog/promociones-dialog.component'
 
 @Component({
   selector: 'pa-promociones',
@@ -83,6 +84,55 @@ export class PromocionesComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(promocion: any) {
+    const dialogRef = this.dialog.open(PromocionesDialogComponent, {
+      width: '900px',
+      data: {
+        promocion,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._promocionService
+          .updatePromocion(promocion.id_promocion, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/admin/promociones'
+            },
+            error: (err) => {
+              alert(err.msg)
+            }
+          })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(PromocionesDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._promocionService.createPromocion(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/promociones'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

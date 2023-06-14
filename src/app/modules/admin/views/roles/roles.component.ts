@@ -4,6 +4,7 @@ import { map } from 'rxjs'
 import { RolesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { RolesDialogComponent } from '../../components/roles-dialog/roles-dialog.component'
 
 @Component({
   selector: 'pa-roles',
@@ -74,6 +75,53 @@ export class RolesComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(rol: any) {
+    const dialogRef = this.dialog.open(RolesDialogComponent, {
+      width: '900px',
+      data: {
+        rol,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._rolService.updateRol(rol.id_rol, resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/roles'
+          },
+          error: (err) => {
+            alert(err.msg)
+          }
+        })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(RolesDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._rolService.createRol(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/roles'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

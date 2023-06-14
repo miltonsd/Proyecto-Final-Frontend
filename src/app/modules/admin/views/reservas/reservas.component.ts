@@ -6,6 +6,7 @@ import { map } from 'rxjs'
 import { ReservasService } from '@pa/reservas/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
+import { ReservasDialogComponent } from '../../components/reservas-dialog/reservas-dialog.component'
 
 @Component({
   selector: 'pa-reservas',
@@ -80,7 +81,7 @@ export class ReservasComponent implements OnInit {
           }
         })
         dialogRef.afterClosed().subscribe(() => {
-          window.location.href = '/admin/reserva'
+          window.location.href = '/admin/reservas'
         })
       },
       error: (err) => {
@@ -89,6 +90,55 @@ export class ReservasComponent implements OnInit {
           data: {
             title: 'Error',
             msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(reserva: any) {
+    const dialogRef = this.dialog.open(ReservasDialogComponent, {
+      width: '900px',
+      data: {
+        reserva,
+        accion: 'editar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._reservaService
+          .updateReserva(reserva.id_reserva, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/admin/reservas'
+            },
+            error: (err) => {
+              alert(err.msg)
+            }
+          })
+      }
+    })
+  }
+
+  onAdd() {
+    const dialogRef = this.dialog.open(ReservasDialogComponent, {
+      width: '900px',
+      data: {
+        accion: 'agregar'
+      }
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._reservaService.createReserva(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            alert(respuesta.msg)
+            window.location.href = '/admin/reservas'
+          },
+          error: (err) => {
+            alert(err.msg)
           }
         })
       }

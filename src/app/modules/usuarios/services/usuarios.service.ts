@@ -19,7 +19,7 @@ export class UsuariosService {
   }
 
   createUsuario(usuario: any) {
-    return this._http.post(`${this.url}/create`, usuario)
+    return this._http.post(`${this.url}/register`, usuario)
   }
 
   updateUsuario(id_usuario: number, usuario: any) {
