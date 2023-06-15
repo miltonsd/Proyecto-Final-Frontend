@@ -13,6 +13,7 @@
                 Ingrese una fecha y hora válida
               </mat-error>
             </mat-form-field>
+
             <mat-form-field class="example-full-width">
               <mat-label>Monto del importe del pedido</mat-label>
               <input type="text" matInput formControlName="montoImporte" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.montoImporte : ''}}">
@@ -23,6 +24,7 @@
             <mat-checkbox class="example-full-width" [formControl]="isPendiente">
               ¿Pedido pendiente?
             </mat-checkbox>
+
             <mat-form-field appearance="fill" class="reserva-input fechaHora">
               <mat-label>Seleccionar ID de usuario</mat-label>
               <mat-select formControlName="usuario">
@@ -34,6 +36,50 @@
                 Campo obligatorio.
               </mat-error>
             </mat-form-field>
+
+            <div formArrayName="productos">
+              <div *ngFor="let producto of productos; let i = index;" [formGroupName]="i">
+               
+                <mat-form-field appearance="fill" class="reserva-input fechaHora">
+                  <mat-label>Seleccionar producto(s)</mat-label>
+                  <mat-select formControlName="id_producto">
+                    <mat-option *ngFor="let p of lista_productos" [value]="p.id_producto">{{
+                      p.descripcion
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formulario.controls.productos.hasError('required')">
+                    Campo obligatorio.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="reserva-input fechaHora">
+                  <mat-label>Seleccionar el precio del producto</mat-label>
+                  <mat-select formControlName="precio">
+                    <mat-option *ngFor="let p of lista_productos" [value]="p.precio">{{
+                      p.precio + ' ' + p.descripcion
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formulario.controls.productos.hasError('required')">
+                    Campo obligatorio.
+                  </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field class="example-full-width">
+                  <mat-label>Cantidad</mat-label>
+                  <input type="number" matInput formControlName="cant_selecc" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.cantidad : ''}}">
+                  <mat-error *ngIf="formulario.controls.productos.hasError('required')">
+                    Ingrese un monto del importe válido
+                  </mat-error>
+                </mat-form-field>
+
+                <button (click)="removeProducto(i)">Eliminar producto</button>
+                <br><br>
+          
+              </div>
+            </div>
+            <button type="button" (click)="addProducto()">
+              Agregar producto
+            </button>
           
           <div class="boton">
             <button type="submit" mat-raised-button color="primary">

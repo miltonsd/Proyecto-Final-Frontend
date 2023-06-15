@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { ProductosService } from '@pa/carta/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
 
@@ -12,11 +13,13 @@ import { map } from 'rxjs'
 export class MenuesDialogComponent implements OnInit {
   menu!: any
   usuarios!: any[]
+  productos!: any[]
 
   constructor(
     public dialogRef: MatDialogRef<MenuesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _usuarioService: UsuariosService
+    private _usuarioService: UsuariosService,
+    private _productoService: ProductosService
   ) {}
   ngOnInit(): void {
     this._usuarioService
@@ -33,6 +36,20 @@ export class MenuesDialogComponent implements OnInit {
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
+    this._productoService
+      .getAllProductos()
+      .pipe(
+        map((res: any) => {
+          this.productos = Object.keys(res).map((p) => ({
+            id_producto: res[p].id_producto,
+            descripcion: res[p].descripcion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
   }
 
   formulario = new FormGroup({
@@ -40,6 +57,9 @@ export class MenuesDialogComponent implements OnInit {
       validators: [Validators.required]
     }),
     usuario: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    producto: new FormControl('', {
       validators: [Validators.required]
     })
   })
@@ -54,7 +74,8 @@ export class MenuesDialogComponent implements OnInit {
       if (this.formulario.valid) {
         this.menu = {
           titulo: this.formulario.value.titulo,
-          id_usuario: this.formulario.value.usuario
+          id_usuario: this.formulario.value.usuario,
+          lista_productos: this.formulario.value.producto
         }
         this.dialogRef.close({ data: this.menu })
       } else {
@@ -63,7 +84,11 @@ export class MenuesDialogComponent implements OnInit {
     } else {
       this.menu = {
         titulo: this.formulario.value.titulo || this.data.menu.titulo,
-        id_usuario: this.formulario.value.usuario || this.data.menu.usuario
+        id_usuario: this.formulario.value.usuario || this.data.menu.usuario,
+        lista_productos: [
+          this.formulario.value.producto || this.data.promocion.producto,
+          { id_producto: 4, descripcion: 'Empanada de carne' }
+        ]
       }
       this.dialogRef.close({ data: this.menu })
     }

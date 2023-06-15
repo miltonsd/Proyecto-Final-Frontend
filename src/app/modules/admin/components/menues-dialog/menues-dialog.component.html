@@ -13,6 +13,7 @@
                 Ingrese un título válido
               </mat-error>
             </mat-form-field>
+
             <mat-form-field appearance="fill" class="reserva-input fechaHora">
               <mat-label>Seleccionar ID de usuario</mat-label>
               <mat-select formControlName="usuario">
@@ -24,7 +25,19 @@
                 Campo obligatorio.
               </mat-error>
             </mat-form-field>
-          
+
+            <mat-form-field appearance="fill" class="reserva-input fechaHora">
+              <mat-label>Seleccionar producto(s)</mat-label>
+              <mat-select formControlName="producto" multiple>
+                <mat-option *ngFor="let producto of productos" [value]="producto">{{
+                  producto.descripcion
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.producto.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+            
           <div class="boton">
             <button type="submit" mat-raised-button color="primary">
               Confirmar menu

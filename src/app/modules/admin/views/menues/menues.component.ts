@@ -37,7 +37,7 @@ export class MenuesComponent implements OnInit {
             titulo: res[m].titulo,
             usuario: res[m].Usuario.nombre + ' ' + res[m].Usuario.apellido,
             productos: res[m].Productos.map((p: any) => p.descripcion).join(
-              ', '
+              ' - '
             )
           }))
         })

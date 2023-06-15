@@ -42,7 +42,11 @@ export class PedidosComponent implements OnInit {
             fechaHora: moment(res[p].fechaHora).format('DD/MM/yyyy HH:mm'),
             isPendiente: res[p].isPendiente,
             montoImporte: res[p].montoImporte,
-            usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido
+            usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido,
+            productos: res[p].Productos.map(
+              (pr: any) =>
+                pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'
+            ).join(' - ')
           }))
         })
       )
@@ -57,6 +61,7 @@ export class PedidosComponent implements OnInit {
       { name: '¿Está pendiente?', dataKey: 'isPendiente' },
       { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },
       { name: 'Usuario', dataKey: 'usuario' },
+      { name: 'Productos', dataKey: 'productos' },
       {
         name: ' ',
         dataKey: 'actionButtons',
