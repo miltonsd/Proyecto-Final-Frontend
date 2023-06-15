@@ -1,1 +1,76 @@
-<p>promociones-dialog works!</p>
+<div class="cartel">
+  <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
+  <h1>{{data.accion === 'editar'? 'Modificar' : 'Agregar'}} promoción</h1>
+
+    <div mat-dialog-content class="reserva">
+      <div class="reserva">
+        <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
+
+          <mat-form-field class="example-full-width">
+            <mat-label>% de descuento</mat-label>
+            <input type="number" matInput formControlName="porcentaje_desc" placeholder="{{data.accion === 'editar'? 'Original: ' + data.promocion.porcentaje_desc : ''}}">
+            <mat-error *ngIf="formulario.controls.porcentaje_desc.hasError('required')">
+              Ingrese un % de descuento válido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="reserva-input fechaHora">
+            <mat-label>Fecha de inicio del descuento</mat-label>
+            <input
+              matInput
+              formControlName="fecha_desde"
+              [matDatepicker]="calendario_fecha_desde"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="calendario_fecha_desde"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #calendario_fecha_desde disabled="false"></mat-datepicker>
+            <mat-error *ngIf="formulario.controls.fecha_desde.hasError('required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="reserva-input fechaHora">
+            <mat-label>Fecha de fin del descuento</mat-label>
+            <input
+              matInput
+              formControlName="fecha_hasta"
+              [matDatepicker]="calendario_fecha_hasta"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="calendario_fecha_hasta"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #calendario_fecha_hasta disabled="false"></mat-datepicker>
+            <mat-error *ngIf="formulario.controls.fecha_hasta.hasError('required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+          
+          <mat-form-field appearance="fill" class="reserva-input fechaHora">
+            <mat-label>Seleccionar producto(s)</mat-label>
+            <mat-select formControlName="producto" multiple>
+              <mat-option *ngFor="let producto of productos" [value]="producto">{{
+                producto.descripcion
+              }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.controls.producto.hasError('required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+          
+        <div class="boton">
+          <button type="submit" mat-raised-button color="primary">
+            Confirmar promoción
+          </button>
+          <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+        </div>
+        
+      </form>
+      
+    </div>
+    
+</div>

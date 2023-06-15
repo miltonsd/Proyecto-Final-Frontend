@@ -63,7 +63,7 @@ export class MenuesDialogComponent implements OnInit {
     } else {
       this.menu = {
         titulo: this.formulario.value.titulo || this.data.menu.titulo,
-        id_usuario: this.formulario.value.usuario || this.data.pedido.usuario
+        id_usuario: this.formulario.value.usuario || this.data.menu.usuario
       }
       this.dialogRef.close({ data: this.menu })
     }

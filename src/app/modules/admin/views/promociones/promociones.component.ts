@@ -21,7 +21,7 @@ export class PromocionesComponent implements OnInit {
     title: 'Confirmar eliminación de la promoción',
     msg: '¿Estás seguro de eliminar la promoción? Esta acción no se puede deshacer.'
   }
-  
+
   constructor(
     private _promocionService: PromocionesService,
     public dialog: MatDialog
@@ -41,7 +41,10 @@ export class PromocionesComponent implements OnInit {
             id_promocion: res[p].id_promocion,
             porcentaje_desc: res[p].porcentaje_desc,
             fecha_desde: moment(res[p].fecha_desde).format('DD/MM/yyyy'),
-            fecha_hasta: moment(res[p].fecha_hasta).format('DD/MM/yyyy')
+            fecha_hasta: moment(res[p].fecha_hasta).format('DD/MM/yyyy'),
+            productos: res[p].Productos.map((pr: any) => pr.descripcion).join(
+              ' - '
+            )
           }))
         })
       )
@@ -52,9 +55,10 @@ export class PromocionesComponent implements OnInit {
     // Defino las columnas de la tabla Promociones
     this.columnas = [
       { name: 'ID', dataKey: 'id_promocion' },
-      { name: 'Porcentaje de descuento', dataKey: 'porcentaje_desc' },
+      { name: 'Descuento', dataKey: 'porcentaje_desc' },
       { name: 'Fecha desde', dataKey: 'fecha_desde' },
       { name: 'Fecha hasta', dataKey: 'fecha_hasta' },
+      { name: 'Productos', dataKey: 'productos' },
       {
         name: ' ',
         dataKey: 'actionButtons',
@@ -124,6 +128,7 @@ export class PromocionesComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe((resultado) => {
+      console.log(resultado)
       if (resultado) {
         this._promocionService.createPromocion(resultado.data).subscribe({
           // next - error - complete
