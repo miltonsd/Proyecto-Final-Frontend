@@ -39,9 +39,7 @@ export class ReservasComponent implements OnInit {
         map((res: any) => {
           this.datosTabla = Object.keys(res).map((r) => ({
             id_reserva: res[r].id_reserva,
-            fechaHora: moment(res[r].fechaNacimiento).format(
-              'DD/MM/yyyy HH:mm'
-            ),
+            fechaHora: moment(res[r].fechaHora).format('DD/MM/yyyy HH:mm'),
             cant_personas: res[r].cant_personas,
             isPendiente: res[r].isPendiente,
             usuario: res[r].Usuario.nombre + ' ' + res[r].Usuario.apellido,
@@ -101,7 +99,8 @@ export class ReservasComponent implements OnInit {
       width: '900px',
       data: {
         reserva,
-        accion: 'editar'
+        accion: 'editar',
+        lista_reservas: this.getListaReservas()
       }
     })
     dialogRef.afterClosed().subscribe((resultado) => {
@@ -126,7 +125,8 @@ export class ReservasComponent implements OnInit {
     const dialogRef = this.dialog.open(ReservasDialogComponent, {
       width: '900px',
       data: {
-        accion: 'agregar'
+        accion: 'agregar',
+        lista_reservas: this.getListaReservas()
       }
     })
     dialogRef.afterClosed().subscribe((resultado) => {
@@ -141,6 +141,16 @@ export class ReservasComponent implements OnInit {
             alert(err.msg)
           }
         })
+      }
+    })
+  }
+
+  getListaReservas(): any {
+    return this.datosTabla.map((r: any) => {
+      return {
+        id_reserva: r.id_reserva,
+        fechaHora: r.fechaHora,
+        id_mesa: parseInt(r.mesa)
       }
     })
   }
