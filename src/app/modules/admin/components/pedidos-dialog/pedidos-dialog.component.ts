@@ -21,6 +21,7 @@ export class PedidosDialogComponent implements OnInit {
   isPendiente = new FormControl(true)
   usuarios!: any[]
   lista_productos!: any[]
+  productosSeleccionados: any[] = []
 
   constructor(
     public dialogRef: MatDialogRef<PedidosDialogComponent>,
@@ -63,10 +64,10 @@ export class PedidosDialogComponent implements OnInit {
   }
 
   formulario = new FormGroup({
-    fechaHora: new FormControl('', {
-      validators: [Validators.required]
-    }),
-    montoImporte: new FormControl('', {
+    // fechaHora: new FormControl('', {
+    //   validators: [Validators.required]
+    // }),
+    montoImporte: new FormControl(0, {
       validators: [Validators.required]
     }),
     isPendiente: this.isPendiente,
@@ -85,7 +86,10 @@ export class PedidosDialogComponent implements OnInit {
     if (this.data.accion === 'agregar') {
       if (this.formulario.valid) {
         this.pedido = {
-          fechaHora: this.formulario.value.fechaHora,
+          // fechaHora: moment(this.formulario.value.fechaHora).format(
+          //   'yyyy-MM-DD'
+          // ),
+          fechaHora: new Date(),
           montoImporte: this.formulario.value.montoImporte,
           isPendiente: this.formulario.value.isPendiente,
           id_usuario: this.formulario.value.usuario,
@@ -97,8 +101,8 @@ export class PedidosDialogComponent implements OnInit {
       }
     } else {
       this.pedido = {
-        fechaHora:
-          this.formulario.value.fechaHora || this.data.pedido.fechaHora,
+        // fechaHora:
+        //   this.formulario.value.fechaHora || this.data.pedido.fechaHora,
         montoImporte:
           this.formulario.value.montoImporte || this.data.pedido.montoImporte,
         isPendiente:
@@ -114,18 +118,43 @@ export class PedidosDialogComponent implements OnInit {
   addProducto() {
     ;(<FormArray>this.formulario.get('productos')).push(
       this.fb.group({
-        id_producto: [],
-        cant_selecc: [],
-        precio: []
+        id_producto: new FormControl(''),
+        precio: new FormControl(),
+        cant_selecc: new FormControl(1),
+        subtotal: new FormControl(0)
       })
     )
   }
 
   get productos() {
-    return (<FormArray>this.formulario.get('productos')).controls
+    return <FormArray>this.formulario.get('productos')
   }
 
   removeProducto(p: any) {
     (<FormArray>this.formulario.get('productos')).removeAt(p)
+  }
+
+  onSelectChange(value: number, index: number) {
+    const productoSeleccionado = this.lista_productos.find(
+      (p) => p.id_producto === value
+    )
+    this.productosSeleccionados[index] = productoSeleccionado
+
+    const control = this.productos.at(index).get('precio')
+    control?.setValue(productoSeleccionado.precio)
+  }
+
+  // getValue(controlName: string, index: number) {
+  //   return this.productos.at(index).get(controlName)?.value
+  // }
+
+  calculaMonto() {
+    let monto = 0
+    this.productos.controls.forEach((p) => {
+      const subtotal = p.get('precio')?.value * p.get('cant_selecc')?.value
+      p.get('subtotal')?.setValue(subtotal)
+      monto += p.get('subtotal')?.value
+    })
+    this.formulario.controls.montoImporte.setValue(monto)
   }
 }

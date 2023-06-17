@@ -6,20 +6,17 @@
         <div class="reserva">
           <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
   
-            <mat-form-field class="example-full-width">
+            <!-- <mat-form-field class="example-full-width">
               <mat-label>Fecha y hora del pedido</mat-label>
               <input type="text" matInput formControlName="fechaHora" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.fechaHora : ''}}">
               <mat-error *ngIf="formulario.controls.fechaHora.hasError('required')">
                 Ingrese una fecha y hora válida
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
 
             <mat-form-field class="example-full-width">
               <mat-label>Monto del importe del pedido</mat-label>
-              <input type="text" matInput formControlName="montoImporte" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.montoImporte : ''}}">
-              <mat-error *ngIf="formulario.controls.montoImporte.hasError('required')">
-                Ingrese un monto del importe válido
-              </mat-error>
+              <input type="text" matInput formControlName="montoImporte" readonly [value]="calculaMonto()">
             </mat-form-field>
             <mat-checkbox class="example-full-width" [formControl]="isPendiente">
               ¿Pedido pendiente?
@@ -38,25 +35,13 @@
             </mat-form-field>
 
             <div formArrayName="productos">
-              <div *ngFor="let producto of productos; let i = index;" [formGroupName]="i">
+              <div *ngFor="let producto of productos.controls; let i = index;" [formGroupName]="i">
                
                 <mat-form-field appearance="fill" class="reserva-input fechaHora">
                   <mat-label>Seleccionar producto(s)</mat-label>
-                  <mat-select formControlName="id_producto">
+                  <mat-select formControlName="id_producto" (selectionChange)="onSelectChange($event.value, i)">
                     <mat-option *ngFor="let p of lista_productos" [value]="p.id_producto">{{
                       p.descripcion
-                    }}</mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="formulario.controls.productos.hasError('required')">
-                    Campo obligatorio.
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" class="reserva-input fechaHora">
-                  <mat-label>Seleccionar el precio del producto</mat-label>
-                  <mat-select formControlName="precio">
-                    <mat-option *ngFor="let p of lista_productos" [value]="p.precio">{{
-                      p.precio + ' ' + p.descripcion
                     }}</mat-option>
                   </mat-select>
                   <mat-error *ngIf="formulario.controls.productos.hasError('required')">
@@ -72,6 +57,12 @@
                   </mat-error>
                 </mat-form-field>
 
+                <mat-form-field class="example-full-width">
+                  <mat-label>Precio</mat-label>
+                  <input type="text" matInput formControlName="subtotal" readonly>
+                  <!-- <input type="text" matInput formControlName="subtotal" [value]="getValue('precio', i) * getValue('cant_selecc', i)" readonly> -->
+                </mat-form-field>
+                
                 <button (click)="removeProducto(i)">Eliminar producto</button>
                 <br><br>
           
@@ -80,7 +71,7 @@
             <button type="button" (click)="addProducto()">
               Agregar producto
             </button>
-          
+
           <div class="boton">
             <button type="submit" mat-raised-button color="primary">
               Confirmar pedido
