@@ -29,4 +29,11 @@ export class MesasService {
   deleteMesa(id_mesa: number) {
     return this._http.delete(`${this.url}/${id_mesa}`)
   }
+
+  habilitarMesa(id_mesa: number) {
+    return this._http.post(`${this.url}/habilitar/${id_mesa}`, undefined)
+  }
+  deshabilitarMesa(id_mesa: number) {
+    return this._http.post(`${this.url}/deshabilitar/${id_mesa}`, undefined)
+  }
 }

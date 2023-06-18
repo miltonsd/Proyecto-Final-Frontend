@@ -29,4 +29,12 @@ export class PedidosService {
   deletePedido(id_pedido: number) {
     return this._http.delete(`${this.url}/${id_pedido}`)
   }
+
+  getPendientes() {
+    return this._http.get(`${this.url}/pendientes`)
+  }
+
+  setEntregado(id_pedido: number) {
+    return this._http.post(`${this.url}/entregado/${id_pedido}`, undefined)
+  }
 }
