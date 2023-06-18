@@ -14,7 +14,7 @@ import { map } from 'rxjs'
       transition(':leave', [
         animate(
           '0.5s 500ms ease-in-out',
-          style({ transform: 'translateX(2000%)', opacity: '0%' })
+          style({ transform: 'translateX(200%)', opacity: '0%' })
         )
       ])
     ])
