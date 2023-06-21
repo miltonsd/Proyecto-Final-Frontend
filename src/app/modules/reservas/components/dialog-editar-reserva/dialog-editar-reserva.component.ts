@@ -3,11 +3,11 @@ import * as moment from 'moment'
 import 'moment/locale/es'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
-import { MesasService } from '@pa/mesas/services'
-import { IMesa } from '@pa/shared/models'
-import { Reserva } from '@pa/reservas/models'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs'
+import { MesasService } from '@pa/mesas/services'
+import { ReservaPOST, ReservaTabla } from '@pa/reservas/models'
+import { IMesa } from '@pa/shared/models'
 
 @Component({
   selector: 'pa-dialog-editar-reserva',
@@ -19,8 +19,8 @@ export class DialogEditarReservaComponent implements OnInit {
   @Output() cantidad!: number
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   mesas: IMesa[] = []
-  reservaEditada!: any
-  reservas: Reserva[] = []
+  reservaEditada!: ReservaPOST
+  reservas: ReservaTabla[] = []
   minDate: Date
   maxDate: Date
   constructor(
@@ -89,7 +89,7 @@ export class DialogEditarReservaComponent implements OnInit {
       const fechaHora = fecha + ' ' + this.formulario.value.fechaHora?.hora
       this.reservaEditada = {
         fechaHora: fechaHora,
-        id_mesa: this.formulario.value.mesa
+        id_mesa: this.formulario.value.mesa as number
       }
       this.dialogRef.close({ data: this.reservaEditada })
     } else {
@@ -112,7 +112,7 @@ export class DialogEditarReservaComponent implements OnInit {
         })
       )
       .subscribe({
-        error: (err: any) =>
+        error: (err) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
   }

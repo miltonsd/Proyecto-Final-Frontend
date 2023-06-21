@@ -3,9 +3,18 @@ import * as moment from 'moment'
 import 'moment/locale/es'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
-import { map } from 'rxjs'
+import { Observable, map } from 'rxjs'
 import { UsuariosService } from '@pa/usuarios/services'
 import { MesasService } from '@pa/mesas/services'
+import {
+  ReservaData,
+  ReservaForm,
+  ReservaPOST,
+  ReservaTabla
+} from '@pa/reservas/models'
+import { AdminDataDialog } from '@pa/admin/models'
+import { Mesa } from '@pa/mesas/models'
+import { Usuario } from '@pa/usuarios/models'
 
 @Component({
   selector: 'pa-reservas-dialog',
@@ -13,16 +22,15 @@ import { MesasService } from '@pa/mesas/services'
   styleUrls: ['./reservas-dialog.component.css']
 })
 export class ReservasDialogComponent implements OnInit {
-  reserva!: any
-  mesas!: any[]
-  lista_mesas!: any[]
-  usuarios!: any[]
-  isPendiente = new FormControl(true)
+  mesas: Mesa[] = []
+  listaMesas: Mesa[] = []
+  usuarios: Usuario[] = []
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
 
   constructor(
     public dialogRef: MatDialogRef<ReservasDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA)
+    public data: AdminDataDialog<ReservaTabla, ReservaData>,
     private _mesaService: MesasService,
     private _usuarioService: UsuariosService
   ) {}
@@ -35,39 +43,31 @@ export class ReservasDialogComponent implements OnInit {
         validators: [Validators.required, Validators.min(1), Validators.max(6)]
       })
     }),
-    // fechaHora: new FormControl('', {
-    //   validators: [Validators.required]
-    // }),
-    // cant_personas: new FormControl('', {
-    //   validators: [Validators.required]
-    // }),
-    isPendiente: this.isPendiente,
-    usuario: new FormControl('', {
-      validators: [Validators.required]
+    isPendiente: new FormControl(true),
+    usuario: new FormControl<number>(0, {
+      validators: [Validators.required, Validators.min(1)]
     }),
-    mesa: new FormControl('', {
-      validators: [Validators.required]
+    mesa: new FormControl(0, {
+      validators: [Validators.required, Validators.min(1)]
     })
   })
 
-  ngOnInit(): void {
-    console.log(this.data)
-    this._mesaService
-      .getAllMesas()
-      .pipe(
-        map((res: any) => {
-          this.mesas = Object.keys(res).map((m) => ({
-            id_mesa: res[m].id_mesa,
-            capacidad: res[m].capacidad,
-            ubicacion: res[m].ubicacion,
-            available: true
-          }))
-        })
-      )
-      .subscribe({
-        error: (err: any) =>
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-      })
+  ngOnInit() {
+    this.cargarUsuarios()
+    this.cargarMesas().subscribe({
+      next: () => {
+        this.listaMesas = this.mesas
+        this.detectarCambios()
+        if (this.data.editar) {
+          this.cargarFormulario()
+        }
+      },
+      error: (err) =>
+        console.error(`Código de error ${err.status}: `, err.error.msg)
+    })
+  }
+
+  cargarUsuarios() {
     this._usuarioService
       .getAllUsuarios()
       .pipe(
@@ -76,24 +76,37 @@ export class ReservasDialogComponent implements OnInit {
             id_usuario: res[u].id_usuario,
             nombre: res[u].nombre + ' ' + res[u].apellido
           }))
-          this.lista_mesas = this.mesas
         })
       )
       .subscribe({
-        error: (err: any) =>
+        error: (err) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
-    // Controla si hubo cambios en el input de hora
-    this.formulario
-      .get('fechaHoraCantidad')
-      ?.valueChanges.subscribe((valor) => {
-        if (valor.cantidad != 0) {
-          const cantidad = valor.cantidad || 1
-          const fechaHora =
-            moment(valor.fecha).format('DD/MM/yyyy') + ' ' + valor.hora
-          // Filtra las reservas pendientes por la fecha y hora ingresadas
-          const reservasFiltradas = this.data.lista_reservas.filter(
-            (r: any) => r.fechaHora === fechaHora
+  }
+
+  cargarMesas(): Observable<void> {
+    return this._mesaService.getAllMesas().pipe(
+      map((res: any) => {
+        this.mesas = Object.keys(res).map((m) => ({
+          id_mesa: res[m].id_mesa,
+          capacidad: res[m].capacidad,
+          ubicacion: res[m].ubicacion,
+          available: true
+        }))
+      })
+    )
+  }
+
+  detectarCambios() {
+    this.formulario.get('fechaHoraCantidad')?.valueChanges.subscribe({
+      next: (valor) => {
+        if (valor.fecha !== '' && valor.hora !== '') {
+          const fecha = moment(valor.fecha).format('DD/MM/yyyy')
+          const fechaHora = fecha + ' ' + valor.hora
+          const cantidad = valor.cantidad as number
+          // Filtra las reservas pendientes por la fecha y hora
+          const reservas = this.data.listaElementos?.filter(
+            (r) => r.fechaHora === fechaHora
           )
           this.mesas.forEach((mesa) => {
             if (mesa.capacidad < cantidad) {
@@ -102,15 +115,37 @@ export class ReservasDialogComponent implements OnInit {
               mesa.available = true
             }
           })
-          reservasFiltradas.forEach((reserva: any) => {
-            // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
+          reservas?.forEach((reserva) => {
+            // Asigna las mesas para las reservas existentes en esa fecha y hora como ocupadas
             const posMesa = reserva.id_mesa - 1
             this.mesas[posMesa].available = false
           })
-          this.lista_mesas = this.mesas.filter((mesa) => mesa.available)
-          console.log('Lista Mesas:', this.lista_mesas)
+          // Filtra las mesas disponibles para que se puedan seleccionar en el formulario
+          this.listaMesas = this.mesas.filter((mesa) => mesa.available)
         }
-      })
+      }
+    })
+  }
+
+  cargarFormulario() {
+    const reserva: ReservaForm = {
+      fecha: this.data.elemento?.fechaHora.slice(0, 10) as string,
+      hora: this.data.elemento?.fechaHora.slice(11) as string,
+      cant_personas: this.data.elemento?.cant_personas as number,
+      isPendiente: this.data.elemento?.isPendiente as boolean,
+      id_usuario: this.data.elemento?.id_usuario as number,
+      id_mesa: this.data.elemento?.id_mesa as number
+    }
+    this.formulario.patchValue({
+      fechaHoraCantidad: {
+        fecha: moment(reserva.fecha, 'DD/MM/yyyy', false).format(), // Forgiving mode (los formatos de fechas son distintos)
+        hora: reserva.hora,
+        cantidad: reserva.cant_personas
+      },
+      isPendiente: reserva.isPendiente,
+      usuario: reserva.id_usuario,
+      mesa: reserva.id_mesa
+    })
   }
 
   onNoClick(): void {
@@ -118,45 +153,23 @@ export class ReservasDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formulario)
-    // Si 'agregar' -> Valide el form y pasar el objeto tipoProducto al padre / Si 'editar' -> No valide pero que pase el objeto tipoProducto al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.reserva = {
-          fechaHora:
-            moment(this.formulario.value.fechaHoraCantidad?.fecha).format(
-              'yyyy-MM-DD'
-            ) +
-            ' ' +
-            this.formulario.value.fechaHoraCantidad?.hora,
-          cant_personas: this.formulario.value.fechaHoraCantidad?.cantidad,
-          isPendiente: this.formulario.value.isPendiente,
-          id_usuario: this.formulario.value.usuario,
-          id_mesa: this.formulario.value.mesa
-        }
-        this.dialogRef.close({ data: this.reserva })
-      } else {
-        this.formulario.markAllAsTouched()
-      }
-    } else {
-      // Aun no funciona
-      this.reserva = {
+    if (this.formulario.valid) {
+      const reserva: ReservaPOST = {
         fechaHora:
           moment(this.formulario.value.fechaHoraCantidad?.fecha).format(
             'yyyy-MM-DD'
           ) +
-            ' ' +
-            this.formulario.value.fechaHoraCantidad?.hora ||
-          this.data.reserva.fechaHora,
-        cant_personas:
-          this.formulario.value.fechaHoraCantidad?.cantidad ||
-          this.data.reserva.cant_personas,
-        isPendiente:
-          this.formulario.value.isPendiente || this.data.reserva.isPendiente,
-        id_usuario: this.formulario.value.usuario || this.data.reserva.usuario,
-        id_mesa: this.formulario.value.mesa || this.data.reserva.mesa
+          ' ' +
+          this.formulario.value.fechaHoraCantidad?.hora,
+        cant_personas: this.formulario.value.fechaHoraCantidad
+          ?.cantidad as number,
+        isPendiente: this.formulario.value.isPendiente as boolean,
+        id_usuario: this.formulario.value.usuario as number,
+        id_mesa: this.formulario.value.mesa as number
       }
-      this.dialogRef.close({ data: this.reserva })
+      this.dialogRef.close({ data: reserva })
+    } else {
+      this.formulario.markAllAsTouched()
     }
   }
 }

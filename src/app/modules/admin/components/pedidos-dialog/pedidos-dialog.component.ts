@@ -33,6 +33,24 @@ export class PedidosDialogComponent implements OnInit {
     private _mesasService: MesasService,
     private fb: FormBuilder
   ) {}
+
+  formulario = new FormGroup({
+    // fechaHora: new FormControl('', {
+    //   validators: [Validators.required]
+    // }),
+    montoImporte: new FormControl(0, {
+      validators: [Validators.required]
+    }),
+    isPendiente: this.isPendiente,
+    usuario: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    mesa: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    productos: this.fb.array([])
+  })
+
   ngOnInit(): void {
     this._usuarioService
       .getAllUsuarios()
@@ -79,23 +97,6 @@ export class PedidosDialogComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
   }
-
-  formulario = new FormGroup({
-    // fechaHora: new FormControl('', {
-    //   validators: [Validators.required]
-    // }),
-    montoImporte: new FormControl(0, {
-      validators: [Validators.required]
-    }),
-    isPendiente: this.isPendiente,
-    usuario: new FormControl('', {
-      validators: [Validators.required]
-    }),
-    mesa: new FormControl('', {
-      validators: [Validators.required]
-    }),
-    productos: this.fb.array([])
-  })
 
   onNoClick(): void {
     this.dialogRef.close()

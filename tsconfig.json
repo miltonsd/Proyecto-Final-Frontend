@@ -27,6 +27,9 @@
       "tslib" : ["node_modules/tslib/tslib.d.ts"],
       // core
       "@pa/core/components" : ["src/app/core/components/index.ts"],
+      // admin
+      "@pa/admin/models" : ["src/app/modules/admin/models/index.ts"],
+      "@pa/admin/components" : ["src/app/modules/admin/components/index.ts"],
       // home
       "@pa/home/views" : ["src/app/modules/home/views/index.ts"],
       // shared
@@ -34,11 +37,13 @@
       "@pa/shared/models" : ["src/app/shared/models/index.ts"],
       "@pa/shared/components" : ["src/app/shared/components/index.ts"],
       // reservas
-      "@pa/reservas/models" : ["src/app/modules/reservas/models/reserva.ts"],
+      "@pa/reservas/models" : ["src/app/modules/reservas/models/index.ts"],
       "@pa/reservas/services" : ["src/app/modules/reservas/services/index.ts"],
       // mesas
+      "@pa/mesas/models" : ["src/app/modules/mesas/models/index.ts"],
       "@pa/mesas/services" : ["src/app/modules/mesas/services/index.ts"],
       // usuarios
+      "@pa/usuarios/models" : ["src/app/modules/usuarios/models/index.ts"],
       "@pa/usuarios/services" : ["src/app/modules/usuarios/services/index.ts"],
       // carta (hay 3 servicios)
       "@pa/carta/services" : ["src/app/modules/carta/services/index.ts"],

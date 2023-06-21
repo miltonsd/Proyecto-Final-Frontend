@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core'
 import * as moment from 'moment'
 import 'moment/locale/es'
-import { TableColumn } from '@pa/shared/models'
+
 import { map } from 'rxjs'
-import { ReservasService } from '@pa/reservas/services'
 import { MatDialog } from '@angular/material/dialog'
+
+import { AdminDataDialog } from '@pa/admin/models'
+import { ReservasDialogComponent } from '@pa/admin/components'
+import { ReservasService } from '@pa/reservas/services'
+import { ReservaData, ReservaTabla } from '@pa/reservas/models'
 import { DialogComponent } from '@pa/shared/components'
-import { ReservasDialogComponent } from '../../components/reservas-dialog/reservas-dialog.component'
+import { TableColumn } from '@pa/shared/models'
 
 @Component({
   selector: 'pa-reservas',
@@ -14,7 +18,7 @@ import { ReservasDialogComponent } from '../../components/reservas-dialog/reserv
   styleUrls: ['./reservas.component.css']
 })
 export class ReservasComponent implements OnInit {
-  datosTabla: any = []
+  datosTabla: ReservaTabla[] = []
   columnas: TableColumn[] = []
 
   msgConfirmacion = {
@@ -42,13 +46,15 @@ export class ReservasComponent implements OnInit {
             fechaHora: moment(res[r].fechaHora).format('DD/MM/yyyy HH:mm'),
             cant_personas: res[r].cant_personas,
             isPendiente: res[r].isPendiente,
+            id_usuario: res[r].Usuario.id_usuario,
+            id_mesa: res[r].Mesa.id_mesa,
             usuario: res[r].Usuario.nombre + ' ' + res[r].Usuario.apellido,
             mesa: res[r].Mesa.id_mesa + ' - ' + res[r].Mesa.ubicacion
           }))
         })
       )
       .subscribe({
-        error: (err: any) =>
+        error: (err) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla Reservas
@@ -95,13 +101,16 @@ export class ReservasComponent implements OnInit {
   }
 
   onEdit(reserva: any) {
+    const dataDialog: AdminDataDialog<ReservaTabla, ReservaData> = {
+      editar: true,
+      elemento: reserva,
+      listaElementos: this.getListaReservas().filter(
+        (r) => r.id_reserva != reserva.id_reserva
+      )
+    }
     const dialogRef = this.dialog.open(ReservasDialogComponent, {
       width: '900px',
-      data: {
-        reserva,
-        accion: 'editar',
-        lista_reservas: this.getListaReservas()
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -122,12 +131,13 @@ export class ReservasComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<ReservaTabla, ReservaData> = {
+      editar: false,
+      listaElementos: this.getListaReservas()
+    }
     const dialogRef = this.dialog.open(ReservasDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar',
-        lista_reservas: this.getListaReservas()
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -145,12 +155,12 @@ export class ReservasComponent implements OnInit {
     })
   }
 
-  getListaReservas(): any {
-    return this.datosTabla.map((r: any) => {
+  getListaReservas(): ReservaData[] {
+    return this.datosTabla.map((r) => {
       return {
         id_reserva: r.id_reserva,
         fechaHora: r.fechaHora,
-        id_mesa: parseInt(r.mesa)
+        id_mesa: r.id_mesa
       }
     })
   }

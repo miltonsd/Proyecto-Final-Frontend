@@ -6,8 +6,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ReservasService } from '@pa/reservas/services'
 import { MesasService } from '@pa/mesas/services'
 import { IMesa, TableColumn } from '@pa/shared/models'
-import { Reserva } from '@pa/reservas/models'
-import { map } from 'rxjs/operators'
+import { ReservaData, ReservaPOST, ReservaTabla } from '@pa/reservas/models'
+import { map } from 'rxjs'
 import { DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
@@ -28,7 +28,7 @@ export class ReservasComponent implements OnInit {
   maxDate: Date
   mostrarReservas = false
   respuesta: any
-  reservas: Reserva[] = []
+  reservas: ReservaTabla[] = []
 
   // Formulario de reservas
   formulario = new FormGroup({
@@ -135,7 +135,7 @@ export class ReservasComponent implements OnInit {
         })
       )
       .subscribe({
-        error: (err: any) =>
+        error: (err) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
   }
@@ -155,7 +155,7 @@ export class ReservasComponent implements OnInit {
         })
       )
       .subscribe({
-        error: (err: any) =>
+        error: (err) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
   }
@@ -174,16 +174,17 @@ export class ReservasComponent implements OnInit {
 
   onSubmit() {
     if (this.formulario.valid) {
-      const fecha = moment(
-        this.formulario.value.fechaHoraCantidad?.fecha
-      ).format('yyyy-MM-DD')
-      const fechaHora =
-        fecha + ' ' + this.formulario.value.fechaHoraCantidad?.hora
-      const reserva = {
-        fechaHora: fechaHora,
-        cant_personas: this.formulario.value.fechaHoraCantidad?.cantidad,
-        id_usuario: 1,
-        id_mesa: this.formulario.value.mesa
+      const reserva: ReservaPOST = {
+        fechaHora:
+          moment(this.formulario.value.fechaHoraCantidad?.fecha).format(
+            'yyyy-MM-DD'
+          ) +
+          ' ' +
+          this.formulario.value.fechaHoraCantidad?.hora,
+        cant_personas: this.formulario.value.fechaHoraCantidad
+          ?.cantidad as number,
+        id_usuario: 1, // Usar el ID del usuario logueado
+        id_mesa: this.formulario.value.mesa as number
       }
       this._reservasService.createReserva(reserva).subscribe({
         next: (respuesta: any) => {
@@ -194,8 +195,6 @@ export class ReservasComponent implements OnInit {
           alert(err.msg)
         }
       })
-      console.log('Reserva: ')
-      console.log(reserva)
     } else {
       this.formulario.markAllAsTouched()
     }
@@ -228,11 +227,18 @@ export class ReservasComponent implements OnInit {
   }
 
   onEditReserva(reserva: any) {
+    const listaReservas: ReservaData[] = this.reservas
+      .map(({ id_reserva, fechaHora, id_mesa }) => ({
+        id_reserva,
+        fechaHora,
+        id_mesa
+      }))
+      .filter((r) => r.id_reserva != reserva.id_reserva)
     const dialogRef = this.dialog.open(DialogEditarReservaComponent, {
       width: '900px',
       data: {
         reserva,
-        listaReservas: this.reservas
+        listaReservas
       }
     })
     dialogRef.afterClosed().subscribe((resultado) => {
