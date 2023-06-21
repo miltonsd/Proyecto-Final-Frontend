@@ -27,7 +27,8 @@ import { ReservasDialogComponent } from './components/reservas-dialog/reservas-d
 import { RolesDialogComponent } from './components/roles-dialog/roles-dialog.component';
 import { TiposProductoDialogComponent } from './components/tipos-producto-dialog/tipos-producto-dialog.component';
 import { UsuariosDialogComponent } from './components/usuarios-dialog/usuarios-dialog.component'
-import { ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
+import { PedidosPendientesComponent } from './views/pedidosPendientes/pedidos-pendientes/pedidos-pendientes.component'
 
 const modules = [ComponentsModule, MaterialModule]
 const views = [
@@ -44,7 +45,7 @@ const views = [
 ]
 
 @NgModule({
-  declarations: [AdminComponent, CardAdminComponent, ...views, CategoriasDialogComponent, MenuesDialogComponent, MesasDialogComponent, PedidosDialogComponent, ProductosDialogComponent, PromocionesDialogComponent, ReservasDialogComponent, RolesDialogComponent, TiposProductoDialogComponent, UsuariosDialogComponent],
+  declarations: [AdminComponent, CardAdminComponent, ...views, CategoriasDialogComponent, MenuesDialogComponent, MesasDialogComponent, PedidosDialogComponent, ProductosDialogComponent, PromocionesDialogComponent, ReservasDialogComponent, RolesDialogComponent, TiposProductoDialogComponent, UsuariosDialogComponent, PedidosPendientesComponent],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, ...modules]
 })
 export class AdminModule {}

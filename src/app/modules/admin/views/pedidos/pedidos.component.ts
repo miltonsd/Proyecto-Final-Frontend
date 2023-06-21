@@ -43,6 +43,7 @@ export class PedidosComponent implements OnInit {
             isPendiente: res[p].isPendiente,
             montoImporte: res[p].montoImporte,
             usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido,
+            mesa: res[p].id_mesa,
             productos: res[p].Productos.map(
               (pr: any) =>
                 pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'
@@ -61,6 +62,7 @@ export class PedidosComponent implements OnInit {
       { name: '¿Está pendiente?', dataKey: 'isPendiente' },
       { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },
       { name: 'Usuario', dataKey: 'usuario' },
+      { name: 'Mesa', dataKey: 'mesa' },
       { name: 'Productos', dataKey: 'productos' },
       {
         name: ' ',

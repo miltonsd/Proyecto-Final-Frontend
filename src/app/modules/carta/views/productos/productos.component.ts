@@ -110,7 +110,8 @@ export class ProductosComponent implements OnInit {
       const pedido = {
         fechaHora: new Date(),
         montoImporte: this.calculaMonto(),
-        id_usuario: 1,
+        id_usuario: 1, // TODO: Se debe asignar el id_usuario correspondiente para el usuario logueado
+        id_mesa: 1, // TODO: Se debe asignar el id_mesa correspondiente al usuario logueado
         lista_productos: this.carrito
       }
       this._pedidoService.createPedido(pedido).subscribe({

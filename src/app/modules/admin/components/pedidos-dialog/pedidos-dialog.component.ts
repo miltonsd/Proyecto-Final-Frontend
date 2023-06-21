@@ -8,6 +8,7 @@ import {
 } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { ProductosService } from '@pa/carta/services'
+import { MesasService } from '@pa/mesas/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
 
@@ -21,6 +22,7 @@ export class PedidosDialogComponent implements OnInit {
   isPendiente = new FormControl(true)
   usuarios!: any[]
   lista_productos!: any[]
+  mesas!: any[]
   productosSeleccionados: any[] = []
 
   constructor(
@@ -28,6 +30,7 @@ export class PedidosDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _usuarioService: UsuariosService,
     private _productoService: ProductosService,
+    private _mesasService: MesasService,
     private fb: FormBuilder
   ) {}
   ngOnInit(): void {
@@ -61,6 +64,20 @@ export class PedidosDialogComponent implements OnInit {
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
+    this._mesasService
+      .getAllMesas()
+      .pipe(
+        map((res: any) => {
+          this.mesas = Object.keys(res).map((m) => ({
+            id_mesa: res[m].id_mesa,
+            ubicacion: res[m].ubicacion
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
   }
 
   formulario = new FormGroup({
@@ -72,6 +89,9 @@ export class PedidosDialogComponent implements OnInit {
     }),
     isPendiente: this.isPendiente,
     usuario: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    mesa: new FormControl('', {
       validators: [Validators.required]
     }),
     productos: this.fb.array([])
@@ -93,6 +113,7 @@ export class PedidosDialogComponent implements OnInit {
           montoImporte: this.formulario.value.montoImporte,
           isPendiente: this.formulario.value.isPendiente,
           id_usuario: this.formulario.value.usuario,
+          id_mesa: this.formulario.value.mesa,
           lista_productos: this.formulario.value.productos
         }
         this.dialogRef.close({ data: this.pedido })
@@ -108,6 +129,7 @@ export class PedidosDialogComponent implements OnInit {
         isPendiente:
           this.formulario.value.isPendiente || this.data.pedido.isPendiente,
         id_usuario: this.formulario.value.usuario || this.data.pedido.usuario,
+        id_mesa: this.formulario.value.mesa || this.data.pedido.mesa,
         lista_productos:
           this.formulario.value.productos || this.data.pedido.productos
       }
@@ -131,7 +153,7 @@ export class PedidosDialogComponent implements OnInit {
   }
 
   removeProducto(p: any) {
-    (<FormArray>this.formulario.get('productos')).removeAt(p)
+    ;(<FormArray>this.formulario.get('productos')).removeAt(p)
   }
 
   onSelectChange(value: number, index: number) {

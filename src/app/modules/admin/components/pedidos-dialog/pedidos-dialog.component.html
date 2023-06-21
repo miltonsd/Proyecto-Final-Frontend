@@ -33,6 +33,18 @@
                 Campo obligatorio.
               </mat-error>
             </mat-form-field>
+            
+            <mat-form-field appearance="fill" class="reserva-input fechaHora">
+              <mat-label>Seleccionar mesa</mat-label>
+              <mat-select formControlName="mesa">
+                <mat-option *ngFor="let mesa of mesas" [value]="mesa.id_mesa">{{
+                  mesa.id_mesa + ' - ' + mesa.ubicacion
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.mesa.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
 
             <div formArrayName="productos">
               <div *ngFor="let producto of productos.controls; let i = index;" [formGroupName]="i">
