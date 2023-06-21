@@ -16,18 +16,18 @@ import { MenuesComponent } from './views/menues/menues.component'
 import { MesasComponent } from './views/mesas/mesas.component'
 import { RolesComponent } from './views/roles/roles.component'
 import { PromocionesComponent } from './views/promociones/promociones.component'
-import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.component';
-import { CategoriasDialogComponent } from './components/categorias-dialog/categorias-dialog.component';
-import { MenuesDialogComponent } from './components/menues-dialog/menues-dialog.component';
-import { MesasDialogComponent } from './components/mesas-dialog/mesas-dialog.component';
-import { PedidosDialogComponent } from './components/pedidos-dialog/pedidos-dialog.component';
-import { ProductosDialogComponent } from './components/productos-dialog/productos-dialog.component';
-import { PromocionesDialogComponent } from './components/promociones-dialog/promociones-dialog.component';
-import { ReservasDialogComponent } from './components/reservas-dialog/reservas-dialog.component';
-import { RolesDialogComponent } from './components/roles-dialog/roles-dialog.component';
-import { TiposProductoDialogComponent } from './components/tipos-producto-dialog/tipos-producto-dialog.component';
+import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.component'
+import { CategoriasDialogComponent } from './components/categorias-dialog/categorias-dialog.component'
+import { MenuesDialogComponent } from './components/menues-dialog/menues-dialog.component'
+import { MesasDialogComponent } from './components/mesas-dialog/mesas-dialog.component'
+import { PedidosDialogComponent } from './components/pedidos-dialog/pedidos-dialog.component'
+import { ProductosDialogComponent } from './components/productos-dialog/productos-dialog.component'
+import { PromocionesDialogComponent } from './components/promociones-dialog/promociones-dialog.component'
+import { ReservasDialogComponent } from './components/reservas-dialog/reservas-dialog.component'
+import { RolesDialogComponent } from './components/roles-dialog/roles-dialog.component'
+import { TiposProductoDialogComponent } from './components/tipos-producto-dialog/tipos-producto-dialog.component'
 import { UsuariosDialogComponent } from './components/usuarios-dialog/usuarios-dialog.component'
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms'
 import { PedidosPendientesComponent } from './views/pedidosPendientes/pedidos-pendientes/pedidos-pendientes.component'
 
 const modules = [ComponentsModule, MaterialModule]
@@ -45,7 +45,22 @@ const views = [
 ]
 
 @NgModule({
-  declarations: [AdminComponent, CardAdminComponent, ...views, CategoriasDialogComponent, MenuesDialogComponent, MesasDialogComponent, PedidosDialogComponent, ProductosDialogComponent, PromocionesDialogComponent, ReservasDialogComponent, RolesDialogComponent, TiposProductoDialogComponent, UsuariosDialogComponent, PedidosPendientesComponent],
+  declarations: [
+    AdminComponent,
+    CardAdminComponent,
+    ...views,
+    CategoriasDialogComponent,
+    MenuesDialogComponent,
+    MesasDialogComponent,
+    PedidosDialogComponent,
+    ProductosDialogComponent,
+    PromocionesDialogComponent,
+    ReservasDialogComponent,
+    RolesDialogComponent,
+    TiposProductoDialogComponent,
+    UsuariosDialogComponent,
+    PedidosPendientesComponent
+  ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, ...modules]
 })
 export class AdminModule {}
