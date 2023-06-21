@@ -42,7 +42,7 @@
             <mat-form-field  appearance="outline" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input">
               <mat-label>Ingresar cantidad de personas</mat-label>
               <!-- <input matInput type="number" formControlName="cantidad"> -->
-              <input matInput type="number" [min]="1" formControlName="cantidad">
+              <input matInput type="number" [min]="1" [max]="6" formControlName="cantidad">
               <mat-hint>Para reservas de más de 6 personas, comunicarse con el bar.</mat-hint>
               <mat-error *ngIf="formulario.controls.fechaHoraCantidad.controls.cantidad.hasError('required')">
                 Campo obligatorio.

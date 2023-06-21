@@ -11,14 +11,12 @@ import { PromocionesComponent } from './views/promociones/promociones.component'
 import { RolesComponent } from './views/roles/roles.component'
 import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.component'
 import { UsuariosComponent } from './views/usuarios/usuarios.component'
-import { PedidosPendientesComponent } from './views/pedidosPendientes/pedidos-pendientes/pedidos-pendientes.component'
 
 const routes: Routes = [
   { path: '', component: AdminComponent },
   { path: 'menues', component: MenuesComponent },
   { path: 'mesas', component: MesasComponent },
   { path: 'pedidos', component: PedidosComponent },
-  { path: 'pedidosPendientes', component: PedidosPendientesComponent },
   { path: 'productos', component: ProductosComponent },
   { path: 'promociones', component: PromocionesComponent },
   { path: 'reservas', component: ReservasComponent },

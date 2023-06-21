@@ -28,7 +28,6 @@ import { RolesDialogComponent } from './components/roles-dialog/roles-dialog.com
 import { TiposProductoDialogComponent } from './components/tipos-producto-dialog/tipos-producto-dialog.component'
 import { UsuariosDialogComponent } from './components/usuarios-dialog/usuarios-dialog.component'
 import { ReactiveFormsModule } from '@angular/forms'
-import { PedidosPendientesComponent } from './views/pedidosPendientes/pedidos-pendientes/pedidos-pendientes.component'
 
 const modules = [ComponentsModule, MaterialModule]
 const views = [
@@ -59,7 +58,6 @@ const views = [
     RolesDialogComponent,
     TiposProductoDialogComponent,
     UsuariosDialogComponent,
-    PedidosPendientesComponent
   ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, ...modules]
 })

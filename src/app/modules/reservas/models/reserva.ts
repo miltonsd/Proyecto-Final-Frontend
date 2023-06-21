@@ -32,12 +32,6 @@ export interface ReservaForm {
   id_mesa: number
 }
 
-export interface DataDialogo<T, TData> {
-  editar: boolean
-  elemento?: T
-  listaObjetos: TData[]
-}
-
 // export interface Rol {
 //   id_rol: number
 //   descripcion: string

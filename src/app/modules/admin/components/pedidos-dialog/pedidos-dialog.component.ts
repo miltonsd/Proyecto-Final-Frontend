@@ -74,7 +74,6 @@ export class PedidosDialogComponent implements OnInit {
             id_producto: res[p].id_producto,
             descripcion: res[p].descripcion,
             precio: res[p].precio,
-            cant_selecc: 0
           }))
         })
       )
@@ -161,6 +160,7 @@ export class PedidosDialogComponent implements OnInit {
     const productoSeleccionado = this.lista_productos.find(
       (p) => p.id_producto === value
     )
+    console.log(productoSeleccionado)
     this.productosSeleccionados[index] = productoSeleccionado
 
     const control = this.productos.at(index).get('precio')

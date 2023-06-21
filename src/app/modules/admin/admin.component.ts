@@ -9,7 +9,6 @@ export class AdminComponent {
   tablasDB = [
     { nombre: 'Usuarios', url: 'usuarios' },
     { nombre: 'Pedidos', url: 'pedidos' },
-    { nombre: 'Pedidos pendientes', url: 'pedidosPendientes' },
     { nombre: 'Productos', url: 'productos' },
     { nombre: 'Reservas', url: 'reservas' },
     { nombre: 'Categorias', url: 'categorias' },
