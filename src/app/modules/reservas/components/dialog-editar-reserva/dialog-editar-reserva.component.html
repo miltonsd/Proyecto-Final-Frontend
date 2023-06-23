@@ -22,7 +22,6 @@
             [for]="calendario"
             ></mat-datepicker-toggle>
             <mat-datepicker #calendario disabled="false"></mat-datepicker>
-            <mat-hint>(Original: {{data.reserva.fechaHora.slice(0,10)}})</mat-hint>
             <mat-error *ngIf="formulario.controls.fechaHora.controls.fecha.hasError('required')">
               Campo obligatorio.
             </mat-error>
@@ -35,7 +34,6 @@
                 hora
               }}</mat-option>
             </mat-select>
-            <mat-hint>(Original: {{data.reserva.fechaHora.slice(10,16)}})</mat-hint>
           <mat-error *ngIf="formulario.controls.fechaHora.controls.hora.hasError('required')">
             Campo obligatorio.
           </mat-error>
@@ -43,16 +41,16 @@
       </div>
       
       <div>
-        <p>Seleccionar mesa para {{cantidad}} persona(s). (Original: {{data.reserva.id_mesa}}):</p>
+        <p>Seleccionar mesa para {{cantidad}} persona(s). (Mesa original: {{data.reserva.id_mesa}}):</p>
         <!-- [] = Input y () = Output  -->
-        <pa-mesa-grid [mesas]="this.mesas" [fechaHora]="this.fechaHora" [cantidad]="this.cantidad" (mesaSeleccionadaId)="onSelectMesa($event)"/>
+        <pa-mesa-grid [mesas]="this.mesas" [mesaSeleccionada]="this.mesaSeleccionada" [fechaHora]="this.fechaHora" [cantidad]="this.cantidad" (mesaSeleccionadaId)="onSelectMesa($event)"/>
       </div>
       
       <div class="boton">
         <button type="submit" mat-raised-button color="primary">
           Confirmar reserva
         </button>
-        <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Cancelar</button>
       </div>
       
     </form>

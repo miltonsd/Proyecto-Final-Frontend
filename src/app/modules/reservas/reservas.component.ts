@@ -20,8 +20,10 @@ moment.locale('es')
   styleUrls: ['./reservas.component.css']
 })
 export class ReservasComponent implements OnInit {
-  @Output() fechaHora!: string
-  @Output() cantidad!: number
+  @Output() fechaHora = ''
+  @Output() cantidad = 1
+  // @Output() fechaHora!: string
+  // @Output() cantidad!: number
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   mesas: IMesa[] = []
   minDate: Date
@@ -173,6 +175,7 @@ export class ReservasComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.formulario.controls)
     if (this.formulario.valid) {
       const reserva: ReservaPOST = {
         fechaHora:

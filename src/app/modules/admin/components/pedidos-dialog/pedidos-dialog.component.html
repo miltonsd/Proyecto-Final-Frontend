@@ -75,12 +75,19 @@
                   <!-- <input type="text" matInput formControlName="subtotal" [value]="getValue('precio', i) * getValue('cant_selecc', i)" readonly> -->
                 </mat-form-field>
                 
-                <button (click)="removeProducto(i)">Eliminar producto</button>
+                <button mat-raised-button color="warn" (click)="removeProducto(i)">
+                  <mat-icon>delete</mat-icon>
+                  Eliminar producto
+                </button>
                 <br><br>
           
               </div>
             </div>
-            <button type="button" (click)="addProducto()">
+            <button mat-raised-button color="green" type="button" (click)="addProducto()">
+              <mat-icon>add_circle
+                <!-- exposure_plus_1 -->
+                <!-- <span class="material-symbols-outlined">exposure_plus_1</span> -->
+              </mat-icon>
               Agregar producto
             </button>
 

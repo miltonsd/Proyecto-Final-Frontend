@@ -73,7 +73,7 @@ export class PedidosDialogComponent implements OnInit {
           this.lista_productos = Object.keys(res).map((p) => ({
             id_producto: res[p].id_producto,
             descripcion: res[p].descripcion,
-            precio: res[p].precio,
+            precio: res[p].precio
           }))
         })
       )

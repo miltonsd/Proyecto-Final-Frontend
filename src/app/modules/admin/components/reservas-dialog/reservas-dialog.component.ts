@@ -115,6 +115,7 @@ export class ReservasDialogComponent implements OnInit {
               mesa.available = true
             }
           })
+          console.log(reservas)
           reservas?.forEach((reserva) => {
             // Asigna las mesas para las reservas existentes en esa fecha y hora como ocupadas
             const posMesa = reserva.id_mesa - 1

@@ -26,7 +26,7 @@
       
         <!-- Si el contenido de la columna tiene botones -->
         <ng-container *ngIf="tableColumn.dataKey === 'actionButtons'">
-            <td mat-cell *matCellDef="let row" class="botones">
+            <td mat-cell *matCellDef="let row">
                 <div class="botones">
                     <!-- Si existe botón de 'Ver detalles' --> 
                     <ng-container *ngIf="tableColumn.showDetailsButton">
@@ -61,7 +61,7 @@
                     <!-- Si existe botón de '+1' -->
                     <ng-container *ngIf="tableColumn.addButton">
                         <div class="boton-c">
-                            <a mat-fab color="primary" (click)="onAddCart(row)" class="boton">
+                            <a mat-mini-fab color="primary" (click)="onAddCart(row)" class="boton">
                                 <mat-icon>exposure_plus_1
                                     <!-- <span class="material-symbols-outlined">exposure_plus_1</span> -->
                                 </mat-icon>
@@ -71,7 +71,7 @@
                     <!-- Si existe botón de '-1' -->
                     <ng-container *ngIf="tableColumn.removeButton">
                         <div class="boton-c">
-                            <a mat-fab color="primary" (click)="onRemoveCart(row)" class="boton">
+                            <a mat-mini-fab color="primary" (click)="onRemoveCart(row)" class="boton">
                                 <mat-icon>exposure_neg_1
                                     <!-- <span class="material-symbols-outlined">exposure_neg_1</span> -->
                                 </mat-icon>

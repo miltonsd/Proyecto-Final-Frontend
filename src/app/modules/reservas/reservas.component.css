@@ -3,12 +3,14 @@
   justify-content: flex-start;
   align-items: center;
   min-height: 30vh;
+  margin: 2% 5%; /* Top: 2% Right: 5% Bottom: 2% Left: 5% */
 }
 
 .reserva-content {
   display: flex;
   flex-direction: column;
-  padding: 5%;
+  align-self: flex-start;
+  padding: 2% 5%;
   min-width: 30vw;
   max-width: 40vw;
   color: #f7bd00;
@@ -47,8 +49,9 @@ mat-form-field.fechaHora {
 }
 
 .table-container {
-  width: 537px;
-  padding: 2%;
+  width: 100%;
+  padding: 4% 6%; /* Top: 7% Right: 6% Bottom: 7% Left: 6% */
+  align-self: flex-start;
 }
 
 .tabla {
