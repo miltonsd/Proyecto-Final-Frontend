@@ -35,6 +35,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule)
   },
+  {
+    path: 'auth',
+    canLoad: [],
+    loadChildren: () =>
+      import('./modules/auth/auth.module').then((m) => m.AuthModule)
+  },
 
   // Página 404
   { path: '**', component: PageNotFoundComponent }

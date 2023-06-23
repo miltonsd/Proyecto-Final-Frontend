@@ -1,0 +1,99 @@
+<div class="register">
+    <form [formGroup]="formulario" class="register-content mat-elevation-z6" (submit)="onSubmit()">
+      <h1>REGISTRAR USUARIO</h1>
+  
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Ingrese su nombre</mat-label>
+        <input matInput formControlName="nombre" placeholder="Nombre" tabindex="1">
+        <mat-error *ngIf="formulario.controls.nombre.hasError('required')">El nombre es necesario</mat-error>
+        <mat-error *ngIf="formulario.controls.nombre.hasError('pattern')">El nombre no puede contener números</mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Ingrese su apellido</mat-label>
+        <input matInput formControlName="apellido" placeholder="Apellido" required tabindex="2">
+        <mat-error *ngIf="formulario.controls.apellido.hasError('required')">El apellido es necesario</mat-error>
+        <mat-error *ngIf="formulario.controls.apellido.hasError('pattern')">El apellido no puede contener números</mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Ingrese su email</mat-label>
+        <input matInput formControlName="email" placeholder="Email" tabindex="3">
+        <mat-error *ngIf="formulario.controls.email.hasError('required')">El email es necesario</mat-error>
+        <mat-error *ngIf="formulario.controls.email.hasError('email')">El email debe tener un formato válido</mat-error>
+        <mat-error *ngIf="formulario.controls.email.hasError('minlength')">El email debe contener 5 o más caracteres</mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Ingrese una contraseña</mat-label>
+        <input matInput [type]="ocultarContrasenia ? 'password' : 'text'" formControlName="contrasenia" placeholder="Contraseña"  required tabindex="4">
+        <button type="button" mat-icon-button matSuffix (click)="ocultarContrasenia = !ocultarContrasenia" [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="ocultarContrasenia" tabindex="-1">
+          <mat-icon>{{ocultarContrasenia ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formulario.controls.contrasenia.hasError('required')">La contraseña es necesaria</mat-error>
+        <mat-error *ngIf="formulario.controls.contrasenia.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</mat-error>
+        <mat-error *ngIf="formulario.controls.contrasenia.hasError('maxlength')">La contraseña debe contener máximo 20 caracteres</mat-error>
+    </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Confirme la contraseña</mat-label>
+        <input matInput [type]="ocultarConfirmarContrasenia ? 'password' : 'text'" formControlName="confirmarContrasenia" placeholder="Confirmar contraseña" required tabindex="5">
+        <button type="button" mat-icon-button matSuffix (click)="ocultarConfirmarContrasenia = !ocultarConfirmarContrasenia" [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="ocultarConfirmarContrasenia" tabindex="-1">
+          <mat-icon>{{ocultarConfirmarContrasenia ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formulario.controls.confirmarContrasenia.hasError('required')">La contraseña es necesaria</mat-error>
+        <mat-error *ngIf="formulario.controls.confirmarContrasenia.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</mat-error>
+        <mat-error *ngIf="formulario.controls.confirmarContrasenia.hasError('maxlength')">La contraseña debe contener máximo 20 caracteres</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Ingrese su documento</mat-label>
+        <input matInput formControlName="documento" placeholder="Ingresar documento" required tabindex="6">
+        <mat-error *ngIf="formulario.controls.documento.hasError('required')">El documento es necesaria</mat-error>
+        <mat-error *ngIf="formulario.controls.documento.hasError('minlength')">El documento debe contener mínimo 7 caracteres</mat-error>
+        <mat-error *ngIf="formulario.controls.documento.hasError('maxlength')">El documento debe contener máximo 8 caracteres</mat-error>
+        <mat-error *ngIf="formulario.controls.documento.hasError('pattern')">El documento solo debe contener números</mat-error>
+    </mat-form-field>
+
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Ingrese su dirección</mat-label>
+        <input matInput formControlName="direccion" placeholder="Ingresar dirección" required tabindex="7">
+        <mat-error *ngIf="formulario.controls.direccion.hasError('required')">La dirección es necesaria</mat-error>
+        <mat-error *ngIf="formulario.controls.direccion.hasError('minlength')">La dirección debe contener mínimo 3 caracteres</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="register-input">
+        <mat-label>Ingrese su teléfono</mat-label>
+        <input matInput formControlName="telefono" placeholder="Ingresar teléfono" required tabindex="8">
+        <mat-error *ngIf="formulario.controls.telefono.hasError('required')">El teléfono es necesario</mat-error>
+        <mat-error *ngIf="formulario.controls.telefono.hasError('pattern')">El teléfono solo debe contener números</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="register-input">
+        <mat-label>Ingrese su fecha de nacimiento</mat-label>
+        <input
+          matInput
+          formControlName="fechaNacimiento"
+          [matDatepicker]="calendario"
+          readonly
+          required tabindex="9"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="calendario"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #calendario disabled="false"></mat-datepicker>
+        <mat-error *ngIf="formulario.controls.fechaNacimiento.hasError('required')">
+          La fecha de nacimiento es necesaria
+        </mat-error>
+      </mat-form-field>
+  
+      <button type="submit" mat-flat-button color="primary" class="register-submit" tabindex="10">
+        Registrarse
+      </button>
+  
+      <section class="register-redirect">
+        <a [routerLink]="['/auth/login']" tabindex="11">¿Tienes una cuenta? Iniciar sesión</a>
+      </section>
+    </form>
+  </div>

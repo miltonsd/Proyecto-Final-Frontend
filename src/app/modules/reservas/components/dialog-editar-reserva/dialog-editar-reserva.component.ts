@@ -15,18 +15,14 @@ import { IMesa } from '@pa/shared/models'
   styleUrls: ['./dialog-editar-reserva.component.css']
 })
 export class DialogEditarReservaComponent implements OnInit {
-  // @Output() fechaHora!: string
   @Output() fechaHora = ''
-  // @Output() cantidad!: number
   @Output() cantidad = 1
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   mesas: IMesa[] = []
-  // mesas!: IMesa[]
   reservaEditada!: ReservaPOST
   reservas: ReservaTabla[] = []
   minDate: Date
   maxDate: Date
-  // mesaSeleccionada!: IMesa | object
   mesaSeleccionada!: IMesa | undefined
   constructor(
     public dialogRef: MatDialogRef<DialogEditarReservaComponent>,

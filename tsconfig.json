@@ -48,7 +48,9 @@
       // carta (hay 3 servicios)
       "@pa/carta/services" : ["src/app/modules/carta/services/index.ts"],
       // Admin (hay 4 servicios)
-      "@pa/admin/services" : ["src/app/modules/admin/services/index.ts"]
+      "@pa/admin/services" : ["src/app/modules/admin/services/index.ts"],
+      // auth
+      "@pa/auth/services" : ["src/app/modules/auth/services/index.ts"]
     },
   },
   "angularCompilerOptions": {

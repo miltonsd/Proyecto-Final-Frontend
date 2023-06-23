@@ -57,7 +57,7 @@ const views = [
     ReservasDialogComponent,
     RolesDialogComponent,
     TiposProductoDialogComponent,
-    UsuariosDialogComponent,
+    UsuariosDialogComponent
   ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, ...modules]
 })
