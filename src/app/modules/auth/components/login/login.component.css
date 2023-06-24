@@ -6,11 +6,13 @@
   }
   
   .login-content {
-    background-color: rgb(248, 234, 190);
+    background-color: rgb(61, 61, 61);
     width: 300px;
     padding: 5%;
     border-radius: 5%;
-    border: 1px solid black;
+    border: 1px solid #f7bd00;
+    box-shadow: 0px 0px 10px 1px #f7bd00;
+    color: rgb(255, 255, 255);
   }
   
   .login-input {
@@ -33,4 +35,12 @@
     .login-content {
       padding: 2%;
     }
+  }
+
+  .login-input .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    background: #f7bd00;
+  }
+
+  .mdc-notched-outline__leading {
+    border: 1px solid #f7bd00;
   }

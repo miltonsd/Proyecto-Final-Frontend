@@ -1,10 +1,13 @@
 .footer {
-  /* background-color: rgb(41, 41, 41); */
-  background-color: aliceblue;
+  background-color: #f7bd00;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   height: 15vh;
+  color: rgb(25, 25, 25);
 }
 
+.enlaces {
+  font-weight: 550;
+}

@@ -3,9 +3,11 @@
 }
 
 .barra {
-  background-color: rgb(132, 126, 138);
+  /* background-color: rgb(132, 126, 138); */
+  background-color: rgb(25, 25, 25);
   padding: 8px 8px;
   height: 10vh;
+  color: white
 }
 
 .example-spacer {
