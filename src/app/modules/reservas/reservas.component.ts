@@ -99,15 +99,15 @@ export class ReservasComponent implements OnInit {
           )
           this.mesas.forEach((mesa) => {
             if (mesa.capacidad < this.cantidad) {
-              mesa.available = false
+              mesa.habilitada = false
             } else {
-              mesa.available = true
+              mesa.habilitada = true
             }
           })
           reservasFiltradas.forEach((reserva) => {
             // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
             const posMesa = reserva.id_mesa - 1
-            this.mesas[posMesa].available = false
+            this.mesas[posMesa].habilitada = false
           })
         }
       })
@@ -152,7 +152,7 @@ export class ReservasComponent implements OnInit {
             id_mesa: res[m].id_mesa,
             capacidad: res[m].capacidad,
             ubicacion: res[m].ubicacion,
-            available: true
+            habilitada: true
           }))
         })
       )

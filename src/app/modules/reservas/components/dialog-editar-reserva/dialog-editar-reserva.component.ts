@@ -78,7 +78,7 @@ export class DialogEditarReservaComponent implements OnInit {
           id_mesa: res[m].id_mesa,
           capacidad: res[m].capacidad,
           ubicacion: res[m].ubicacion,
-          available: this.cantidad > res[m].capacidad ? false : true
+          habilitada: this.cantidad > res[m].capacidad ? false : true
         }))
       })
     )
@@ -103,15 +103,15 @@ export class DialogEditarReservaComponent implements OnInit {
           // Vuelve a poner las mesas como disponibles
           this.mesas.forEach((mesa) => {
             if (mesa.capacidad < this.cantidad) {
-              mesa.available = false
+              mesa.habilitada = false
             } else {
-              mesa.available = true
+              mesa.habilitada = true
             }
           })
           reservasFiltradas.forEach((reserva) => {
             // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
             const posMesa = reserva.id_mesa - 1
-            this.mesas[posMesa].available = false
+            this.mesas[posMesa].habilitada = false
           })
         }
       }

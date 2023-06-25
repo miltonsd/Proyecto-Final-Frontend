@@ -3,12 +3,12 @@
     *ngFor="let mesa of mesas"
     class="mesa-item"
     [ngClass]="{
-      available: mesa.available,
-      unavailable: !mesa.available,
+      available: mesa.habilitada,
+      unavailable: !mesa.habilitada,
       selected: mesaSeleccionada !== undefined && mesaSeleccionada === mesa
     }"
     (click)="reservaMesa(mesa)"
-    >
+  >
     <h3 class="text">{{ mesa.id_mesa }}</h3>
   </div>
 </div>
