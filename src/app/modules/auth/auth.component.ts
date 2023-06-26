@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'pa-auth',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent {
+  authOption = 1 // Por defecto 1: Login / 2: Register / 3: Reset Password
 
+  changeAuthOption(option: number) {
+    this.authOption = option
+  }
 }

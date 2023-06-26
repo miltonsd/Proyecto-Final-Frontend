@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, EventEmitter, Output } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
@@ -59,6 +59,7 @@ export class RegisterComponent {
   })
   ocultarContrasenia = true
   ocultarConfirmarContrasenia = true
+  @Output() authOptionSwitch: EventEmitter<number> = new EventEmitter<number>()
 
   constructor(
     private _router: Router,
@@ -122,5 +123,9 @@ export class RegisterComponent {
     } else {
       this.formulario.markAllAsTouched()
     }
+  }
+
+  onClick() {
+    this.authOptionSwitch.emit(1)
   }
 }

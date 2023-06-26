@@ -87,13 +87,12 @@
           Campo obligatorio.
         </mat-error>
       </mat-form-field>
-  
       <button type="submit" mat-flat-button color="primary" class="register-submit" tabindex="10">
         Registrarse
       </button>
   
       <section class="register-redirect">
-        <a [routerLink]="['/auth/login']" tabindex="11">¿Tienes una cuenta? Iniciar sesión</a>
+        <a mat-raised-button (click)="onClick()" tabindex="11">¿Tienes una cuenta? Iniciar sesión</a>
       </section>
     </form>
   </div>

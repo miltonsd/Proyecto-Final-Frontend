@@ -59,11 +59,12 @@ export class ProductosComponent implements OnInit {
     })
   }
 
-  //No se si anda esto, mi back esta roto y no me trae la mesa
+  //No se si anda esto, mi back esta roto y no me trae la mesa // El back está funcionando porque este método trae la mesa con sus propiedades
   getMesa(id: string) {
     this._mesaService.getOneMesa(Number(id)).subscribe({
       next: (res: any) => {
         this.mesa = res
+        console.log(res) // Este console.log muestra la mesa traída desde el back (Ver en consola del navegodor)
       },
       error: (err: any) => {
         console.error(`Código de error ${err.status}: `, err.error.msg)

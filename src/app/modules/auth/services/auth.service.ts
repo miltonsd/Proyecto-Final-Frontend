@@ -18,6 +18,13 @@ export class AuthService {
     return this._http.post(`${environment.apiUrl}/usuarios/login`, usuario)
   }
 
+  resetPassword(usuario: any) {
+    return this._http.patch(
+      `${environment.apiUrl}/usuarios/resetPassword`,
+      usuario
+    )
+  }
+
   // Comprueba si el token esta almacenado
   loggedIn() {
     return !!localStorage.getItem('token') && this.expiredToken() > 0
@@ -25,7 +32,8 @@ export class AuthService {
 
   // Cerrar sesion de usuario
   logout() {
-    localStorage.removeItem('token')
+    // localStorage.removeItem('token')
+    return this._http.post(`${environment.apiUrl}/usuarios/logout`, null)
   }
 
   // Comprueba el rol del usuario al hacer login

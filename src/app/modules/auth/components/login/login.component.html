@@ -21,13 +21,15 @@
         <mat-error *ngIf="formulario.controls.contrasenia.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</mat-error>
         <mat-error *ngIf="formulario.controls.contrasenia.hasError('maxlength')">La contraseña debe contener máximo 20 caracteres</mat-error>
     </mat-form-field>
-      
+    <p>
+      <a mat-raised-button (click)="onClick(3)" tabindex="4">¿Olvidaste tu contraseña?</a>
+    </p>
       <button type="submit" mat-flat-button color="primary" class="login-submit" tabindex="3">
         Iniciar sesión
       </button>
       
       <section class="login-redirect">
-        <a [routerLink]="['/auth/register']" tabindex="4">¿No tiene una cuenta? Registrarse</a>
+        <a mat-raised-button (click)="onClick(2)" tabindex="4">¿No tienes una cuenta? Registrate</a>
       </section>
     </form>
   </div>
