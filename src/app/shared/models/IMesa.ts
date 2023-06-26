@@ -4,5 +4,5 @@ export interface IMesa {
   ubicacion?: string
   createdAt?: Date
   updatedAt?: Date
-  available: boolean
+  habilitada: boolean
 }

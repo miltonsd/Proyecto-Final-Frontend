@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { TableColumn } from '@pa/shared/models'
+import { IMesa, TableColumn } from '@pa/shared/models'
 import { ProductosService } from '../../services/productos.service'
 import { map } from 'rxjs/operators'
 import { PedidosService } from '../../services/pedidos.service'
+import { ActivatedRoute } from '@angular/router'
+import { MesasService } from '@pa/mesas/services'
 
 @Component({
   selector: 'pa-productos',
@@ -21,6 +23,7 @@ export class ProductosComponent implements OnInit {
   tragos!: any[]
   carrito: any[] = []
   productos!: any[]
+  mesa: IMesa | undefined
 
   // Defino las columnas de los productos
   columnas: TableColumn[] = [
@@ -44,11 +47,28 @@ export class ProductosComponent implements OnInit {
 
   constructor(
     private _productoService: ProductosService,
-    private _pedidoService: PedidosService
+    private _pedidoService: PedidosService,
+    private route: ActivatedRoute,
+    private _mesaService: MesasService
   ) {}
 
   ngOnInit(): void {
     this.getAllProductos()
+    this.route.queryParams.subscribe((params) => {
+      params['id_mesa'] !== '0' && this.getMesa(params['id_mesa'])
+    })
+  }
+
+  //No se si anda esto, mi back esta roto y no me trae la mesa
+  getMesa(id: string) {
+    this._mesaService.getOneMesa(Number(id)).subscribe({
+      next: (res: any) => {
+        this.mesa = res
+      },
+      error: (err: any) => {
+        console.error(`Código de error ${err.status}: `, err.error.msg)
+      }
+    })
   }
 
   getAllProductos() {
@@ -102,7 +122,7 @@ export class ProductosComponent implements OnInit {
   // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
   onSubmit() {
     this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
-    if (this.carrito.length > 0) {
+    if (this.carrito.length > 0 && this.mesa?.habilitada) {
       this.carrito.forEach((p) => {
         p.stock -= p.cant_selecc
         this._productoService.updateProducto(p.id_producto, p.stock)
@@ -111,7 +131,7 @@ export class ProductosComponent implements OnInit {
         fechaHora: new Date(),
         montoImporte: this.calculaMonto(),
         id_usuario: 1, // TODO: Se debe asignar el id_usuario correspondiente para el usuario logueado
-        id_mesa: 1, // TODO: Se debe asignar el id_mesa correspondiente al usuario logueado
+        id_mesa: this.mesa?.id_mesa,
         lista_productos: this.carrito
       }
       this._pedidoService.createPedido(pedido).subscribe({

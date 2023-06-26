@@ -5,8 +5,11 @@
   }})"
 >
   <h2 class="header">
-    <a routerLink="/carta/productos" fragment="{{ urlTipo }}">{{
-      tipo.descripcion
-    }}</a>
+    <a
+      routerLink="/carta/productos"
+      [queryParams]="{ id_mesa: 0 }"
+      fragment="{{ urlTipo }}"
+      >{{ tipo.descripcion }}</a
+    >
   </h2>
 </mat-card>

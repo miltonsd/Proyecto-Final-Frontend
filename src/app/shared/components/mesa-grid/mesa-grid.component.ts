@@ -29,7 +29,7 @@ export class MesaGridComponent implements OnChanges {
 
   reservaMesa(mesa: IMesa) {
     // Si la mesa está disponible y no es la que está seleccionada
-    if (mesa.available && this.mesaSeleccionada != mesa) {
+    if (mesa.habilitada && this.mesaSeleccionada != mesa) {
       this.mesaSeleccionada = mesa
       // Pasa el id de la mesa al componente Padre (reservas.component.ts)
       this.mesaSeleccionadaId.emit({ id: mesa.id_mesa })
