@@ -5,8 +5,8 @@
     <a mat-button routerLink="/carta">Carta</a>
     <a mat-button routerLink="/reservas">Reservar</a>
     <a mat-button routerLink="/auth">Autenticación</a>
-    <a mat-button routerLink="/perfil">Mi perfil</a>
-    <a mat-raised-button color="warn" (click)="logout()" routerLink="/">Cerrar sesión</a>
+    <a mat-button routerLink="/perfil/info"> <mat-icon>account_circle</mat-icon>Mi perfil</a>
+    <a mat-raised-button color="warn" (click)="logout()" routerLink="/"> <mat-icon>power_settings_new</mat-icon>Cerrar sesión</a>
     
     <!-- <ng-container *ngIf=""> Despues habria que renderizar el boton solo para la vista de mozo/cocina  -->
       <a mat-button routerLink="/pedidos">Pedidos pendientes</a>

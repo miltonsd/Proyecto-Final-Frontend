@@ -1,4 +1,24 @@
-<mat-drawer-container class="example-container">
-    <mat-drawer mode="side" opened>Drawer content</mat-drawer>
-    <mat-drawer-content>Main content</mat-drawer-content>
-</mat-drawer-container>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" opened>
+        <mat-nav-list>
+               <a mat-list-item routerLinkActive routerLink="/perfil/info">Información de mi cuenta</a>               
+               <a mat-list-item routerLink="/perfil/reservas">Histórico de reservas</a>               
+               <a mat-list-item routerLink="/perfil/pedidos">Histórico de pedidos</a>               
+               <a mat-list-item routerLink="/perfil/menues">Mis menúes</a>               
+               <a mat-list-item routerLink="/perfil/consumiciones">Mis consumiciones en el día</a>               
+               
+            <div style="height: 450px;"></div>
+            <mat-divider></mat-divider>
+
+            <mat-list-item>
+               <a mat-list-item (click)="logout()"> 
+                <mat-icon>logout</mat-icon> 
+                <!-- <mat-icon>power_settings_new</mat-icon>  -->
+                Cerrar sesión</a>               
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
