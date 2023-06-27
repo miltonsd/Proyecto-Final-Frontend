@@ -9,13 +9,7 @@ import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 const modules = [ComponentsModule, MaterialModule]
 
 @NgModule({
-  declarations: [
-    UsuariosComponent
-  ],
-  imports: [
-    CommonModule,
-    UsuariosRoutingModule,
-    ...modules
-  ]
+  declarations: [UsuariosComponent],
+  imports: [CommonModule, UsuariosRoutingModule, ...modules]
 })
-export class UsuariosModule { }
+export class UsuariosModule {}
