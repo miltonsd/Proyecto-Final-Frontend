@@ -28,4 +28,4 @@ const modules = [ComponentsModule, MaterialModule]
     ...modules
   ]
 })
-export class UsuariosModule { }
+export class UsuariosModule {}
