@@ -41,6 +41,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule)
   },
+  {
+    path: 'perfil',
+    canLoad: [],
+    loadChildren: () =>
+      import('./modules/usuarios/usuarios.module').then((m) => m.UsuariosModule)
+  },
 
   // Página 404
   { path: '**', component: PageNotFoundComponent }
