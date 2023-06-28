@@ -1,9 +1,51 @@
-.example-container {
-  /* position: absolute; */
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #eee;
+.usuario-container {
   min-height: 85vh;
+}
+
+.barra {
+  width: 260px;
+}
+
+.opciones {
+  min-height: 100vh;
+  background-color: rgb(41, 41, 41);
+  width: 100%;
+}
+
+.contenido {
+  background-color: rgb(61, 61, 61);
+  color: rgb(255, 255, 255) !important;
+  min-height: 100vh;
+}
+
+/* Color de fondo de la opción(item) seleccionada */
+a.seleccionado{
+  background-color: rgb(25, 25, 25);
+}
+
+/* Texto de la opción(item) seleccionada */
+::ng-deep a.seleccionado .mdc-list-item__primary-text {
+  font-weight: 600;
+  color: rgb(255, 255, 255) !important
+}
+
+/* Texto por defecto de todos los items de la lista */
+::ng-deep .mdc-list-item__primary-text {
+  color: #f7bd00 !important
+}
+
+/* Item de la lista cuando pasas el mouse */
+::ng-deep .mdc-list-item:hover {
+  background-color: rgb(255, 255, 255, 0.2);
+}
+
+/* Cuando pasas el mouse por cerrar sesión*/
+.logout:hover {
+  background-color: rgb(255, 0, 0, 0.6);
+}
+
+/* Color de la letra del cerrar sesión cuando pasas el mouse */
+::ng-deep .logout:hover .mdc-list-item__primary-text { 
+  color: rgb(255, 255, 255) !important;
+  font-weight: 600;
 }

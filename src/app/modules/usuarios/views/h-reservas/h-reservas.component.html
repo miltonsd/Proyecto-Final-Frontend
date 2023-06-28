@@ -1,1 +1,7 @@
-<p>h-reservas works!</p>
+<pa-tabla
+        [tableData]="reservas"
+        [tableColumns]="columnas"
+        [isFilter]="true"
+        [isPaginator]="true"
+        [pageOptions]="[5, 10, 15]">
+</pa-tabla>

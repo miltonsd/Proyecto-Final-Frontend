@@ -29,4 +29,16 @@ export class UsuariosService {
   deleteUsuario(id_usuario: number) {
     return this._http.delete(`${this.url}/${id_usuario}`)
   }
+
+  getAllReservasUsuario(id_usuario: number) {
+    return this._http.get(`${this.url}/${id_usuario}/reservas`)
+  }
+
+  getAllPedidosUsuario(id_usuario: number) {
+    return this._http.get(`${this.url}/${id_usuario}/pedidos`)
+  }
+
+  getAllMenuesUsuario(id_usuario: number) {
+    return this._http.get(`${this.url}/${id_usuario}/menues`)
+  }
 }

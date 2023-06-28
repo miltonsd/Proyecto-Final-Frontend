@@ -1,1 +1,7 @@
-<p>h-pedidos works!</p>
+<pa-tabla
+        [tableData]="pedidos"
+        [tableColumns]="columnas"
+        [isFilter]="true"
+        [isPaginator]="true"
+        [pageOptions]="[5, 10, 15]">
+</pa-tabla>
