@@ -8,6 +8,7 @@ import { TableColumn } from '@pa/shared/models'
 import { map } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogEditarPerfilComponent } from '../../components/dialog-editar-perfil/dialog-editar-perfil.component'
+import { DialogCambiarPasswordComponent } from '../../components/dialog-cambiar-password/dialog-cambiar-password.component'
 
 @Component({
   selector: 'pa-perfil',
@@ -82,6 +83,29 @@ export class PerfilComponent implements AfterContentInit {
     const dialogRef = this.dialog.open(DialogEditarPerfilComponent, {
       width: '900px',
       data: dataUsuario
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        console.log(resultado)
+        // this._usuariosService
+        //   .updateUsuario(this.usuarioInfo.id_reserva, resultado.data)
+        //   .subscribe({
+        //     // next - error - complete
+        //     next: (respuesta: any) => {
+        //       alert(respuesta.msg)
+        //       window.location.href = '/admin/reservas'
+        //     },
+        //     error: (err) => {
+        //       alert(err.msg)
+        //     }
+        //   })
+      }
+    })
+  }
+
+  onChangePassword() {
+    const dialogRef = this.dialog.open(DialogCambiarPasswordComponent, {
+      width: '900px'
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
