@@ -1,1 +1,14 @@
-<p>consumiciones-dia works!</p>
+<pa-tabla
+        [tableData]="consumiciones"
+        [tableColumns]="columnas">
+</pa-tabla>
+<div>
+ <h4>
+   Total: ${{ calculaTotal() }}
+ </h4> 
+</div>
+<button mat-raised-button type="button" color="primary">Pedir la cuenta</button>
+
+<div *ngIf="pedidoFinal">
+  {{ pedidoFinal | json }}
+</div>

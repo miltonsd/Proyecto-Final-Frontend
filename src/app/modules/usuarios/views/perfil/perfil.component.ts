@@ -48,9 +48,7 @@ export class PerfilComponent implements AfterContentInit {
             documento: res.documento,
             direccion: res.direccion,
             telefono: res.telefono,
-            fechaNacimiento: moment(res.fechaNacimiento).format(
-              'DD/MM/yyyy HH:mm'
-            ),
+            fechaNacimiento: moment(res.fechaNacimiento).format('DD/MM/yyyy'),
             fechaRegistro: moment(res.createdAt).format('DD/MM/yyyy HH:mm'),
             ultimaModificacion: moment(res.updatedAt).format(
               'DD/MM/yyyy HH:mm'
@@ -73,32 +71,24 @@ export class PerfilComponent implements AfterContentInit {
       direccion: this.usuarioInfo.direccion,
       telefono: this.usuarioInfo.telefono
     }
-    // const dataDialog: AdminDataDialog<ReservaTabla, ReservaData> = {
-    //   editar: true,
-    //   elemento: reserva,
-    //   listaElementos: this.getListaReservas().filter(
-    //     (r) => r.id_reserva != reserva.id_reserva
-    //   )
-    // }
     const dialogRef = this.dialog.open(DialogEditarPerfilComponent, {
       width: '900px',
       data: dataUsuario
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
-        console.log(resultado)
-        // this._usuariosService
-        //   .updateUsuario(this.usuarioInfo.id_reserva, resultado.data)
-        //   .subscribe({
-        //     // next - error - complete
-        //     next: (respuesta: any) => {
-        //       alert(respuesta.msg)
-        //       window.location.href = '/admin/reservas'
-        //     },
-        //     error: (err) => {
-        //       alert(err.msg)
-        //     }
-        //   })
+        this._usuariosService
+          .modificarPerfil(this.usuarioInfo.id_usuario, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/perfil/info'
+            },
+            error: (err) => {
+              alert(err.error.msg)
+            }
+          })
       }
     })
   }
@@ -109,19 +99,18 @@ export class PerfilComponent implements AfterContentInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
-        console.log(resultado)
-        // this._usuariosService
-        //   .updateUsuario(this.usuarioInfo.id_reserva, resultado.data)
-        //   .subscribe({
-        //     // next - error - complete
-        //     next: (respuesta: any) => {
-        //       alert(respuesta.msg)
-        //       window.location.href = '/admin/reservas'
-        //     },
-        //     error: (err) => {
-        //       alert(err.msg)
-        //     }
-        //   })
+        this._usuariosService
+          .modificarPerfil(this.usuarioInfo.id_usuario, resultado.data)
+          .subscribe({
+            // next - error - complete
+            next: (respuesta: any) => {
+              alert(respuesta.msg)
+              window.location.href = '/perfil/info'
+            },
+            error: (err) => {
+              alert(err.error.msg)
+            }
+          })
       }
     })
   }

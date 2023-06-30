@@ -26,6 +26,11 @@ export class UsuariosService {
     return this._http.patch(`${this.url}/${id_usuario}`, usuario)
   }
 
+  modificarPerfil(id_usuario: number, datos: any) {
+    console.log(this.url + '/modificarPerfil/' + id_usuario)
+    return this._http.patch(`${this.url}/modificarPerfil/${id_usuario}`, datos)
+  }
+
   deleteUsuario(id_usuario: number) {
     return this._http.delete(`${this.url}/${id_usuario}`)
   }

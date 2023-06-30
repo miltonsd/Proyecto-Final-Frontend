@@ -9,7 +9,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
   styleUrls: ['./dialog-cambiar-password.component.css']
 })
 export class DialogCambiarPasswordComponent {
-  ocultar = true
+  ocultarActual = true
+  ocultarNueva = true
+  ocultarConfirm = true
   constructor(
     public dialogRef: MatDialogRef<DialogCambiarPasswordComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -46,13 +48,16 @@ export class DialogCambiarPasswordComponent {
 
   onSubmit() {
     if (this.formulario.valid) {
-      const perfilActualizado = {
-        actualContrasenia: this.formulario.value.actualContrasenia as string,
-        nuevaContrasenia: this.formulario.value.nuevaContrasenia as string,
-        confirmarContrasenia: this.formulario.value
-          .confirmarContrasenia as string
+      if (
+        this.formulario.value.confirmarContrasenia ===
+        this.formulario.value.nuevaContrasenia
+      ) {
+        const perfilActualizado = {
+          contrasenia: this.formulario.value.actualContrasenia as string, // Contraseña actual sin modificar
+          nuevaContrasenia: this.formulario.value.nuevaContrasenia as string
+        }
+        this.dialogRef.close({ data: perfilActualizado })
       }
-      this.dialogRef.close({ data: perfilActualizado })
     } else {
       this.formulario.markAllAsTouched()
     }
