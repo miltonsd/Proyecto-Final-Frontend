@@ -1,1 +1,50 @@
-<p>perfil works!</p>
+<h1>Perfil del usuario</h1>
+<div class="perfil">
+  <div class="perfil-container" *ngIf="usuarioInfo">
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Nombre y apellido</h3>
+      <p>{{usuarioInfo.nombre}} {{usuarioInfo.apellido}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Correo electrónico</h3>
+      <p>{{usuarioInfo.email}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Estado del usuario</h3>
+      <p>{{usuarioInfo.isConfirmado}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Nro de documento</h3>
+      <p>{{usuarioInfo.documento}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Dirección</h3>
+      <p>{{usuarioInfo.direccion}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Teléfono</h3>
+      <p>{{usuarioInfo.telefono}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Fecha de Nacimiento</h3>
+      <p>{{usuarioInfo.fechaNacimiento}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Fecha de registro</h3>
+      <p>{{usuarioInfo.fechaRegistro}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Última modificación</h3>
+      <p>{{usuarioInfo.ultimaModificacion}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Rol</h3>
+      <p>{{usuarioInfo.rol}}</p>
+    </div>
+    <div class="perfil-campo">
+      <h3 class="titulo-campo">Categoría</h3>
+      <p>{{usuarioInfo.categoria}}</p>
+    </div>
+  </div>
+  <button mat-raised-button color="primary" type="button" (click)="onEdit()">Editar perfil</button>
+</div>
