@@ -5,6 +5,8 @@ import { CategoriasService } from '../../services/categorias.service'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { CategoriasDialogComponent } from '../../components/categorias-dialog/categorias-dialog.component'
+import { CategoriaTabla } from './models'
+import { AdminDataDialog } from '../../models/adminDataDialog'
 
 @Component({
   selector: 'pa-categorias',
@@ -12,7 +14,7 @@ import { CategoriasDialogComponent } from '../../components/categorias-dialog/ca
   styleUrls: ['./categorias.component.css']
 })
 export class CategoriasComponent implements OnInit {
-  datosTabla: any = []
+  datosTabla: CategoriaTabla[] = []
   columnas: TableColumn[] = []
 
   msgConfirmacion = {
@@ -85,12 +87,13 @@ export class CategoriasComponent implements OnInit {
   }
 
   onEdit(categoria: any) {
+    const dataDialog: AdminDataDialog<CategoriaTabla> = {
+      editar: true,
+      elemento: categoria
+    }
     const dialogRef = this.dialog.open(CategoriasDialogComponent, {
       width: '900px',
-      data: {
-        categoria,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -111,11 +114,12 @@ export class CategoriasComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<CategoriaTabla> = {
+      editar: true
+    }
     const dialogRef = this.dialog.open(CategoriasDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

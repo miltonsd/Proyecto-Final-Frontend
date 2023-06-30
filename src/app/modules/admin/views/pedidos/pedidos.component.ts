@@ -7,6 +7,8 @@ import { PedidosService } from '@pa/carta/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { PedidosDialogComponent } from '../../components/pedidos-dialog/pedidos-dialog.component'
+import { PedidoTabla } from 'src/app/modules/pedidos/models/pedido'
+import { AdminDataDialog } from '../../models/adminDataDialog'
 
 @Component({
   selector: 'pa-pedidos',
@@ -14,7 +16,7 @@ import { PedidosDialogComponent } from '../../components/pedidos-dialog/pedidos-
   styleUrls: ['./pedidos.component.css']
 })
 export class PedidosComponent implements OnInit {
-  datosTabla: any = []
+  datosTabla: PedidoTabla[] = []
   columnas: TableColumn[] = []
 
   msgConfirmacion = {
@@ -47,7 +49,8 @@ export class PedidosComponent implements OnInit {
             productos: res[p].Productos.map(
               (pr: any) =>
                 pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'
-            ).join(' - ')
+            ).join(' - '),
+            id_usuario: res[p].Usuario.id_usuario
           }))
         })
       )
@@ -100,12 +103,13 @@ export class PedidosComponent implements OnInit {
   }
 
   onEdit(pedido: any) {
+    const dataDialog: AdminDataDialog<PedidoTabla> = {
+      editar: true,
+      elemento: pedido
+    }
     const dialogRef = this.dialog.open(PedidosDialogComponent, {
       width: '900px',
-      data: {
-        pedido,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -126,11 +130,12 @@ export class PedidosComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<PedidoTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(PedidosDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

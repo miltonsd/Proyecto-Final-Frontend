@@ -11,6 +11,7 @@ import { ProductosService } from '@pa/carta/services'
 import { MesasService } from '@pa/mesas/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
+import { PedidoForm } from 'src/app/modules/pedidos/models/pedido'
 
 @Component({
   selector: 'pa-pedidos-dialog',
@@ -35,17 +36,14 @@ export class PedidosDialogComponent implements OnInit {
   ) {}
 
   formulario = new FormGroup({
-    // fechaHora: new FormControl('', {
-    //   validators: [Validators.required]
-    // }),
     montoImporte: new FormControl(0, {
       validators: [Validators.required]
     }),
     isPendiente: this.isPendiente,
-    usuario: new FormControl('', {
+    usuario: new FormControl(0, {
       validators: [Validators.required]
     }),
-    mesa: new FormControl('', {
+    mesa: new FormControl(0, {
       validators: [Validators.required]
     }),
     productos: this.fb.array([])
@@ -92,9 +90,31 @@ export class PedidosDialogComponent implements OnInit {
         })
       )
       .subscribe({
+        next: () => {
+          if (this.data.editar) {
+            this.cargarFormulario()
+          }
+        },
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
+  }
+
+  cargarFormulario() {
+    const pedido: PedidoForm = {
+      productos: this.data.elemento?.productos,
+      montoImporte: this.data.elemento?.montoImporte as number,
+      isPendiente: this.data.elemento?.isPendiente as boolean,
+      id_usuario: this.data.elemento?.id_usuario as number,
+      id_mesa: this.data.elemento?.mesa as number
+    }
+    this.formulario.patchValue({
+      // productos: pedido.productos
+      montoImporte: pedido.montoImporte,
+      isPendiente: pedido.isPendiente,
+      usuario: pedido.id_usuario,
+      mesa: pedido.id_mesa
+    })
   }
 
   onNoClick(): void {
@@ -172,12 +192,18 @@ export class PedidosDialogComponent implements OnInit {
   // }
 
   calculaMonto() {
-    let monto = 0
-    this.productos.controls.forEach((p) => {
-      const subtotal = p.get('precio')?.value * p.get('cant_selecc')?.value
-      p.get('subtotal')?.setValue(subtotal)
-      monto += p.get('subtotal')?.value
-    })
-    this.formulario.controls.montoImporte.setValue(monto)
+    if (!this.data.editar) {
+      let monto = 0
+      this.productos.controls.forEach((p) => {
+        const subtotal = p.get('precio')?.value * p.get('cant_selecc')?.value
+        p.get('subtotal')?.setValue(subtotal)
+        monto += p.get('subtotal')?.value
+      })
+      this.formulario.controls.montoImporte.setValue(monto)
+    } else {
+      this.formulario.controls.montoImporte.setValue(
+        this.data.elemento.montoImporte
+      )
+    }
   }
 }

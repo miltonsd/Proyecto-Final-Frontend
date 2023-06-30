@@ -1,13 +1,14 @@
-import { Component, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { CategoriaForm } from '../../views/categorias/models'
 
 @Component({
   selector: 'pa-categorias-dialog',
   templateUrl: './categorias-dialog.component.html',
   styleUrls: ['./categorias-dialog.component.css']
 })
-export class CategoriasDialogComponent {
+export class CategoriasDialogComponent implements OnInit {
   categoria!: any
 
   constructor(
@@ -23,6 +24,21 @@ export class CategoriasDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close()
+  }
+
+  ngOnInit(): void {
+    if (this.data.editar) {
+      this.cargarFormulario()
+    }
+  }
+
+  cargarFormulario() {
+    const categoria: CategoriaForm = {
+      descripcion: this.data.elemento?.descripcion
+    }
+    this.formulario.patchValue({
+      descripcion: categoria.descripcion
+    })
   }
 
   onSubmit() {

@@ -1,20 +1,12 @@
 <div class="cartel">
     <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
-    <h1>{{data.accion === 'editar'? 'Modificar' : 'Agregar'}} pedido</h1>
+    <h1>{{data.editar ? 'Modificar' : 'Agregar'}} pedido</h1>
   
       <div mat-dialog-content class="reserva">
         <div class="reserva">
           <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
-  
-            <!-- <mat-form-field class="example-full-width">
-              <mat-label>Fecha y hora del pedido</mat-label>
-              <input type="text" matInput formControlName="fechaHora" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.fechaHora : ''}}">
-              <mat-error *ngIf="formulario.controls.fechaHora.hasError('required')">
-                Ingrese una fecha y hora válida
-              </mat-error>
-            </mat-form-field> -->
 
-            <mat-form-field appearance="fill" class="reserva-input fechaHora">
+            <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input fechaHora">
               <mat-label>Seleccionar usuario</mat-label>
               <mat-select formControlName="usuario">
                 <mat-option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">{{
@@ -26,7 +18,7 @@
               </mat-error>
             </mat-form-field>
             
-            <mat-form-field appearance="fill" class="reserva-input fechaHora">
+            <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input fechaHora">
               <mat-label>Seleccionar mesa</mat-label>
               <mat-select formControlName="mesa">
                 <mat-option *ngFor="let mesa of mesas" [value]="mesa.id_mesa">{{
@@ -38,7 +30,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="example-full-width">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
               <mat-label>Monto del importe del pedido</mat-label>
               <input type="text" matInput formControlName="montoImporte" readonly [value]="calculaMonto()">
             </mat-form-field>
@@ -49,7 +41,7 @@
             <div formArrayName="productos">
               <div *ngFor="let producto of productos.controls; let i = index;" [formGroupName]="i">
                
-                <mat-form-field appearance="fill" class="reserva-input fechaHora">
+                <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input fechaHora">
                   <mat-label>Seleccionar producto(s)</mat-label>
                   <mat-select formControlName="id_producto" (selectionChange)="onSelectChange($event.value, i)">
                     <mat-option *ngFor="let p of lista_productos" [value]="p.id_producto">{{
@@ -61,7 +53,7 @@
                   </mat-error>
                 </mat-form-field>
                 
-                <mat-form-field class="example-full-width">
+                <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
                   <mat-label>Cantidad</mat-label>
                   <input type="number" matInput formControlName="cant_selecc" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.cantidad : ''}}">
                   <mat-error *ngIf="formulario.controls.productos.hasError('required')">
@@ -69,7 +61,7 @@
                   </mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
+                <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
                   <mat-label>Precio</mat-label>
                   <input type="text" matInput formControlName="subtotal" readonly>
                   <!-- <input type="text" matInput formControlName="subtotal" [value]="getValue('precio', i) * getValue('cant_selecc', i)" readonly> -->

@@ -12,7 +12,7 @@ import {
   ReservaPOST,
   ReservaTabla
 } from '@pa/reservas/models'
-import { AdminDataDialog } from '@pa/admin/models'
+import { ReservaDataDialog } from '@pa/admin/models'
 import { Mesa } from '@pa/mesas/models'
 import { Usuario } from '@pa/usuarios/models'
 
@@ -30,7 +30,7 @@ export class ReservasDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ReservasDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: AdminDataDialog<ReservaTabla, ReservaData>,
+    public data: ReservaDataDialog<ReservaTabla, ReservaData>,
     private _mesaService: MesasService,
     private _usuarioService: UsuariosService
   ) {}

@@ -5,7 +5,7 @@ import 'moment/locale/es'
 import { map } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 
-import { AdminDataDialog } from '@pa/admin/models'
+import { ReservaDataDialog } from '@pa/admin/models'
 import { ReservasDialogComponent } from '@pa/admin/components'
 import { ReservasService } from '@pa/reservas/services'
 import { ReservaData, ReservaTabla } from '@pa/reservas/models'
@@ -101,7 +101,7 @@ export class ReservasComponent implements OnInit {
   }
 
   onEdit(reserva: any) {
-    const dataDialog: AdminDataDialog<ReservaTabla, ReservaData> = {
+    const dataDialog: ReservaDataDialog<ReservaTabla, ReservaData> = {
       editar: true,
       elemento: reserva,
       listaElementos: this.getListaReservas().filter(
@@ -131,7 +131,7 @@ export class ReservasComponent implements OnInit {
   }
 
   onAdd() {
-    const dataDialog: AdminDataDialog<ReservaTabla, ReservaData> = {
+    const dataDialog: ReservaDataDialog<ReservaTabla, ReservaData> = {
       editar: false,
       listaElementos: this.getListaReservas()
     }

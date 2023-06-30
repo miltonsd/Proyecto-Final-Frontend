@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators'
 import { PedidosService } from '../../services/pedidos.service'
 import { ActivatedRoute } from '@angular/router'
 import { MesasService } from '@pa/mesas/services'
+import { PedidoPOST } from 'src/app/modules/pedidos/models/pedido'
 
 @Component({
   selector: 'pa-productos',
@@ -128,7 +129,7 @@ export class ProductosComponent implements OnInit {
         p.stock -= p.cant_selecc
         this._productoService.updateProducto(p.id_producto, p.stock)
       })
-      const pedido = {
+      const pedido: PedidoPOST = {
         fechaHora: new Date(),
         montoImporte: this.calculaMonto(),
         id_usuario: 1, // TODO: Se debe asignar el id_usuario correspondiente para el usuario logueado
