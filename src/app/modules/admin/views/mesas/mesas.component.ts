@@ -5,6 +5,8 @@ import { MesasService } from '@pa/mesas/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { MesasDialogComponent } from '../../components/mesas-dialog/mesas-dialog.component'
+import { MesaTabla } from '@pa/mesas/models'
+import { AdminDataDialog } from '../../models/adminDataDialog'
 
 @Component({
   selector: 'pa-mesas',
@@ -84,12 +86,13 @@ export class MesasComponent implements OnInit {
   }
 
   onEdit(mesa: any) {
+    const dataDialog: AdminDataDialog<MesaTabla> = {
+      editar: true,
+      elemento: mesa
+    }
     const dialogRef = this.dialog.open(MesasDialogComponent, {
       width: '900px',
-      data: {
-        mesa,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -108,11 +111,12 @@ export class MesasComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<MesaTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(MesasDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

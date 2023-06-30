@@ -11,7 +11,7 @@ import { ProductosService } from '@pa/carta/services'
 import { MesasService } from '@pa/mesas/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
-import { PedidoForm } from 'src/app/modules/pedidos/models/pedido'
+import { PedidoForm, PedidoPOST, Producto } from 'src/app/modules/pedidos/models/pedido'
 
 @Component({
   selector: 'pa-pedidos-dialog',
@@ -122,39 +122,18 @@ export class PedidosDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    // Si 'agregar' -> Valide el form y pasar el objeto pedido al padre / Si 'editar' -> No valide pero que pase el objeto pedido al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.pedido = {
-          // fechaHora: moment(this.formulario.value.fechaHora).format(
-          //   'yyyy-MM-DD'
-          // ),
+    if (this.formulario.valid) {
+        const pedido: PedidoPOST = {
           fechaHora: new Date(),
-          montoImporte: this.formulario.value.montoImporte,
-          isPendiente: this.formulario.value.isPendiente,
-          id_usuario: this.formulario.value.usuario,
-          id_mesa: this.formulario.value.mesa,
-          lista_productos: this.formulario.value.productos
+          montoImporte: this.formulario.value.montoImporte as number,
+          id_usuario: this.formulario.value.usuario as number,
+          id_mesa: this.formulario.value.mesa as number,
+          lista_productos: this.formulario.value.productos as Producto[]
         }
-        this.dialogRef.close({ data: this.pedido })
-      } else {
+        this.dialogRef.close({ data: pedido })
+    } else {
         this.formulario.markAllAsTouched()
       }
-    } else {
-      this.pedido = {
-        // fechaHora:
-        //   this.formulario.value.fechaHora || this.data.pedido.fechaHora,
-        montoImporte:
-          this.formulario.value.montoImporte || this.data.pedido.montoImporte,
-        isPendiente:
-          this.formulario.value.isPendiente || this.data.pedido.isPendiente,
-        id_usuario: this.formulario.value.usuario || this.data.pedido.usuario,
-        id_mesa: this.formulario.value.mesa || this.data.pedido.mesa,
-        lista_productos:
-          this.formulario.value.productos || this.data.pedido.productos
-      }
-      this.dialogRef.close({ data: this.pedido })
-    }
   }
 
   addProducto() {

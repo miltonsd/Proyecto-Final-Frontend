@@ -5,6 +5,8 @@ import { MenuesService } from '../../services/menues.service'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { MenuesDialogComponent } from '../../components/menues-dialog/menues-dialog.component'
+import { AdminDataDialog } from '../../models/adminDataDialog'
+import { MenuTabla } from './models'
 
 @Component({
   selector: 'pa-menues',
@@ -35,6 +37,8 @@ export class MenuesComponent implements OnInit {
           this.datosTabla = Object.keys(res).map((m) => ({
             id_menu: res[m].id_menu,
             titulo: res[m].titulo,
+            id_usuario: res[m].Usuario.id_usuario,
+            lista_productos: res[m].Productos,
             usuario: res[m].Usuario.nombre + ' ' + res[m].Usuario.apellido,
             productos: res[m].Productos.map((p: any) => p.descripcion).join(
               ' - '
@@ -88,12 +92,13 @@ export class MenuesComponent implements OnInit {
   }
 
   onEdit(menu: any) {
+    const dataDialog: AdminDataDialog<MenuTabla> = {
+      editar: true,
+      elemento: menu
+    }
     const dialogRef = this.dialog.open(MenuesDialogComponent, {
       width: '900px',
-      data: {
-        menu,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -112,11 +117,12 @@ export class MenuesComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<MenuTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(MenuesDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

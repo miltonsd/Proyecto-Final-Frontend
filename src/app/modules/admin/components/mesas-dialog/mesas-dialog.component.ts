@@ -1,13 +1,14 @@
-import { Component, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { MesaForm, MesaPOST } from '@pa/mesas/models'
 
 @Component({
   selector: 'pa-mesas-dialog',
   templateUrl: './mesas-dialog.component.html',
   styleUrls: ['./mesas-dialog.component.css']
 })
-export class MesasDialogComponent {
+export class MesasDialogComponent implements OnInit {
   mesa!: any
 
   constructor(
@@ -16,7 +17,7 @@ export class MesasDialogComponent {
   ) {}
 
   formulario = new FormGroup({
-    capacidad: new FormControl('', {
+    capacidad: new FormControl(0, {
       validators: [Validators.required]
     }),
     ubicacion: new FormControl('', {
@@ -28,24 +29,32 @@ export class MesasDialogComponent {
     this.dialogRef.close()
   }
 
+  ngOnInit(): void {
+    if (this.data.editar) {
+      this.cargarFormulario()
+    }
+  }
+
+  cargarFormulario() {
+    const mesa: MesaForm = {
+      capacidad: this.data.elemento?.capacidad,
+      ubicacion: this.data.elemento?.ubicacion
+    }
+    this.formulario.patchValue({
+      capacidad: mesa.capacidad,
+      ubicacion: mesa.ubicacion
+    })
+  }
+
   onSubmit() {
-    // Si 'agregar' -> Valide el form y pasar el objeto mesa al padre / Si 'editar' -> No valide pero que pase el mesa tipoProducto al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.mesa = {
-          capacidad: this.formulario.value.capacidad,
-          ubicacion: this.formulario.value.ubicacion
+    if (this.formulario.valid) {
+      const mesa: MesaPOST = {
+          capacidad: this.formulario.value.capacidad as number,
+          ubicacion: this.formulario.value.ubicacion as string,
         }
-        this.dialogRef.close({ data: this.mesa })
+        this.dialogRef.close({ data: mesa })
       } else {
         this.formulario.markAllAsTouched()
-      }
-    } else {
-      this.mesa = {
-        capacidad: this.formulario.value.capacidad || this.data.mesa.capacidad,
-        ubicacion: this.formulario.value.ubicacion || this.data.mesa.ubicacion
-      }
-      this.dialogRef.close({ data: this.mesa })
     }
   }
 }

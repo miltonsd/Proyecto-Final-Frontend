@@ -115,7 +115,7 @@ export class CategoriasComponent implements OnInit {
 
   onAdd() {
     const dataDialog: AdminDataDialog<CategoriaTabla> = {
-      editar: true
+      editar: false
     }
     const dialogRef = this.dialog.open(CategoriasDialogComponent, {
       width: '900px',

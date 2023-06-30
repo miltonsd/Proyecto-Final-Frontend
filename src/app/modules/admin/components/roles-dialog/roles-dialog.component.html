@@ -6,7 +6,7 @@
       <div class="reserva">
         <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
 
-          <mat-form-field class="example-full-width">
+          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
             <mat-label>Descripcion del rol</mat-label>
             <input type="text" matInput formControlName="descripcion" placeholder="{{data.accion === 'editar'? 'Original: ' + data.rol.descripcion : ''}}">
             <mat-error *ngIf="formulario.controls.descripcion.hasError('required')">

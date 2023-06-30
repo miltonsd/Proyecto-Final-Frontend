@@ -5,6 +5,9 @@ import { RolesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { RolesDialogComponent } from '../../components/roles-dialog/roles-dialog.component'
+import { AdminDataDialog } from '../../models/adminDataDialog'
+import { CategoriaTabla } from '../categorias/models'
+import { RolTabla } from './models'
 
 @Component({
   selector: 'pa-roles',
@@ -82,12 +85,13 @@ export class RolesComponent implements OnInit {
   }
 
   onEdit(rol: any) {
+    const dataDialog: AdminDataDialog<CategoriaTabla> = {
+      editar: true,
+      elemento: rol
+    }
     const dialogRef = this.dialog.open(RolesDialogComponent, {
       width: '900px',
-      data: {
-        rol,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -106,11 +110,12 @@ export class RolesComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<RolTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(RolesDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

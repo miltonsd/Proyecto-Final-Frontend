@@ -1,1 +1,1 @@
-export * from './mesas'
+export * from './mesa'

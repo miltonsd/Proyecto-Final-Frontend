@@ -6,14 +6,14 @@
         <div class="reserva">
           <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
   
-            <mat-form-field class="example-full-width">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
               <mat-label>Capacidad de la mesa</mat-label>
               <input type="text" matInput formControlName="capacidad" placeholder="{{data.accion === 'editar'? 'Original: ' + data.mesa.capacidad : ''}}">
               <mat-error *ngIf="formulario.controls.capacidad.hasError('required')">
                 Ingrese una capacidad válida
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
               <mat-label>Ubicación de la mesa</mat-label>
               <input type="text" matInput formControlName="ubicacion" placeholder="{{data.accion === 'editar'? 'Original: ' + data.mesa.ubicacion : ''}}">
               <mat-error *ngIf="formulario.controls.ubicacion.hasError('required')">

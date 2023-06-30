@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
-import { CategoriaForm } from '../../views/categorias/models'
+import { CategoriaForm, CategoriaPOST } from '../../views/categorias/models'
 
 @Component({
   selector: 'pa-categorias-dialog',
@@ -42,22 +42,13 @@ export class CategoriasDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    // Si 'agregar' -> Valide el form y pasar el objeto categoria al padre / Si 'editar' -> No valide pero que pase el objeto categoria al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.categoria = {
-          descripcion: this.formulario.value.descripcion
+    if (this.formulario.valid) {
+      const categoria: CategoriaPOST = {
+          descripcion: this.formulario.value.descripcion as string
         }
-        this.dialogRef.close({ data: this.categoria })
+        this.dialogRef.close({ data: categoria })
       } else {
         this.formulario.markAllAsTouched()
-      }
-    } else {
-      this.categoria = {
-        descripcion:
-          this.formulario.value.descripcion || this.data.categoria.descripcion
-      }
-      this.dialogRef.close({ data: this.categoria })
     }
   }
 }

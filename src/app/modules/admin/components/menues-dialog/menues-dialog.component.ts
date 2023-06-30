@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { ProductosService } from '@pa/carta/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
+import { MenuForm, MenuPOST } from '../../views/menues/models'
+import { Producto } from 'src/app/modules/admin/views/menues/models/menu'
 
 @Component({
   selector: 'pa-menues-dialog',
@@ -47,6 +49,11 @@ export class MenuesDialogComponent implements OnInit {
         })
       )
       .subscribe({
+        next: () => {
+          if (this.data.editar) {
+            this.cargarFormulario()
+          }
+        },
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
@@ -56,41 +63,46 @@ export class MenuesDialogComponent implements OnInit {
     titulo: new FormControl('', {
       validators: [Validators.required]
     }),
-    usuario: new FormControl('', {
+    usuario: new FormControl(0, {
       validators: [Validators.required]
     }),
-    producto: new FormControl('', {
+    producto: new FormControl<number[]>([], {
       validators: [Validators.required]
     })
   })
+
+  cargarFormulario() {
+    const menu: MenuForm = {
+      titulo: this.data.elemento?.titulo as string,
+      id_usuario: this.data.elemento?.id_usuario as number,
+      lista_productos: this.data.elemento?.lista_productos.map((p: any) => ({id_producto: p.id_producto,
+      descripcion: p.descripcion})) // 1° opción
+      // lista_productos: this.data.elemento?.lista_productos.map((p: any) => 
+      //    p.id_producto
+      // )  2° opción: Es lo mismo que la sentencia anterior
+    }
+    console.log(this.productos)
+    this.formulario.patchValue({
+      producto: menu.lista_productos,
+      titulo: menu.titulo,
+      usuario: menu.id_usuario,
+    })
+  }
 
   onNoClick(): void {
     this.dialogRef.close()
   }
 
   onSubmit() {
-    // Si 'agregar' -> Valide el form y pasar el objeto menu al padre / Si 'editar' -> No valide pero que pase el objeto menu al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.menu = {
-          titulo: this.formulario.value.titulo,
-          id_usuario: this.formulario.value.usuario,
-          lista_productos: this.formulario.value.producto
-        }
-        this.dialogRef.close({ data: this.menu })
-      } else {
-        this.formulario.markAllAsTouched()
+    if (this.formulario.valid) {
+      const menu: MenuPOST = {
+        titulo: this.formulario.value.titulo as string,
+        id_usuario: this.formulario.value.usuario as number,
+        lista_productos: this.formulario.value.producto as number[]
       }
-    } else {
-      this.menu = {
-        titulo: this.formulario.value.titulo || this.data.menu.titulo,
-        id_usuario: this.formulario.value.usuario || this.data.menu.usuario,
-        lista_productos: [
-          this.formulario.value.producto || this.data.promocion.producto,
-          { id_producto: 4, descripcion: 'Empanada de carne' }
-        ]
-      }
-      this.dialogRef.close({ data: this.menu })
+      this.dialogRef.close({ data: menu })
+  } else {
+      this.formulario.markAllAsTouched()
     }
-  }
+}
 }
