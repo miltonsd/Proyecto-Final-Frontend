@@ -75,13 +75,19 @@ export class MenuesDialogComponent implements OnInit {
     const menu: MenuForm = {
       titulo: this.data.elemento?.titulo as string,
       id_usuario: this.data.elemento?.id_usuario as number,
-      lista_productos: this.data.elemento?.lista_productos.map(
+      lista_productos: this.data.elemento.lista_productos.map(
         (p: any) => p.id_producto
-      ) // 1° opción
+      )
+      // lista_productos: this.data.elemento?.lista_productos.map((p: any) => ({
+        // id_producto: p.id_producto,
+        // id_producto: p.id_producto,
+        // descripcion: p.descripcion
+      // })) // 1° opción
       // lista_productos: this.data.elemento?.lista_productos.map((p: any) =>
       //    p.id_producto
       // )  2° opción: Es lo mismo que la sentencia anterior
     }
+    console.log(this.productos)
     console.log(menu)
     this.formulario.patchValue({
       producto: menu.lista_productos,
@@ -96,6 +102,7 @@ export class MenuesDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.formulario.valid) {
+      console.log(this.formulario.value.producto)
       const menu: MenuPOST = {
         titulo: this.formulario.value.titulo as string,
         id_usuario: this.formulario.value.usuario as number,

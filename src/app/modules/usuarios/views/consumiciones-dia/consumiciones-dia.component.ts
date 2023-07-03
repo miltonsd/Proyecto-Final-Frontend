@@ -4,8 +4,23 @@ import 'moment/locale/es'
 
 import { UsuariosService } from '../../services/usuarios.service'
 import { AuthService } from '@pa/auth/services'
-import { TableColumn } from '@pa/shared/models'
 import { map } from 'rxjs'
+
+interface Pedido {
+  fechaHora: Date
+  isPendiente: boolean
+  montoImporte: number
+  id_mesa: number
+  id_usuario: number
+  productos: Producto[]
+}
+
+interface Producto {
+  id_producto: number
+  precio: number
+  cantidad: number
+  descripcion: string
+}
 
 @Component({
   selector: 'pa-consumiciones-dia',
@@ -14,16 +29,10 @@ import { map } from 'rxjs'
 })
 export class ConsumicionesDiaComponent {
   pedidos: any[] = []
-  pedidoFinal!: any
-  // Defino las columnas de la tabla de histórico de pedidos
-  columnas: TableColumn[] = [
-    { name: 'Hora', dataKey: 'hora' },
-    { name: 'Productos', dataKey: 'productos' },
-    { name: 'Subtotal', dataKey: 'subtotal', isCurrency: true },
-    { name: 'Mesa', dataKey: 'mesa' },
-    { name: 'Estado', dataKey: 'estado' }
-  ]
+  pedidoFinal!: Pedido
+  estadoPanel = false
 
+  // Datos para trabajar con la lógica de la vista, después debe traer los datos reales de consumición del usuario
   consumiciones = [
     {
       hora: '18:00',
@@ -34,36 +43,36 @@ export class ConsumicionesDiaComponent {
           cantidad: 2,
           descripcion: 'Ensalada Mediterránea'
         },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        }
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // }
       ],
       subtotal: 100,
       mesa: 5,
@@ -84,30 +93,30 @@ export class ConsumicionesDiaComponent {
           cantidad: 2,
           descripcion: 'Ensalada Mediterránea'
         },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        }
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // }
       ],
       subtotal: 100,
       mesa: 5,
@@ -134,24 +143,24 @@ export class ConsumicionesDiaComponent {
           cantidad: 2,
           descripcion: 'Ensalada Mediterránea'
         },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        }
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // }
       ],
       subtotal: 100,
       mesa: 5,
@@ -184,18 +193,18 @@ export class ConsumicionesDiaComponent {
           cantidad: 2,
           descripcion: 'Ensalada Mediterránea'
         },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        },
-        {
-          id_producto: 1,
-          precio: 1800,
-          cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
-        }
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // },
+        // {
+        //   id_producto: 1,
+        //   precio: 1800,
+        //   cantidad: 2,
+        //   descripcion: 'Ensalada Mediterránea'
+        // }
       ],
       subtotal: 100,
       mesa: 5,
@@ -217,10 +226,10 @@ export class ConsumicionesDiaComponent {
           descripcion: 'Ensalada Mediterránea'
         },
         {
-          id_producto: 1,
-          precio: 1800,
+          id_producto: 2,
+          precio: 1000,
           cantidad: 2,
-          descripcion: 'Ensalada Mediterránea'
+          descripcion: 'Ensalada Mixta'
         },
         {
           id_producto: 1,
@@ -284,5 +293,43 @@ export class ConsumicionesDiaComponent {
       monto += c.subtotal
     })
     return monto
+  }
+
+  pedirCuenta() {
+    const lista_productos: Producto[] = []
+    const listaResultado: Producto[] = []
+
+    // Guarda los productos de cada consumicion en un solo array
+    this.consumiciones.forEach((c) => {
+      lista_productos.push(...c.productos)
+    })
+
+    // Agrupa los productos guardados anteriormente según su id_producto
+    lista_productos.forEach((producto) => {
+      // Busca en otro array si el producto de la lista ya existe
+      const prod = listaResultado.find(
+        (p) => p.id_producto === producto.id_producto
+      )
+
+      if (prod) {
+        // Si existe, suma las cantidades de las consumiciones
+        prod.cantidad += producto.cantidad
+      } else {
+        // Si no existe, guarda el producto en la otra lista
+        listaResultado.push({ ...producto })
+      }
+    })
+
+    // Arma el pedido para enviar al backend para guardar en la DB
+    this.pedidoFinal = {
+      fechaHora: new Date(),
+      isPendiente: false, // El pedido ya fue entregado
+      montoImporte: this.calculaTotal(), // Suma todos los subtotales de las consumiciones
+      id_mesa: 5, // id_mesa tiene que ser la mesa habilitada para el usuario
+      id_usuario: this._authService.getCurrentUserId(),
+      productos: listaResultado // Los productos que se van a guardar en la tabla intermedia (Pedidos-Productos)
+    }
+
+    console.log(this.pedidoFinal)
   }
 }

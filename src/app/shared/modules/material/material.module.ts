@@ -27,6 +27,7 @@ import { MatRadioModule } from '@angular/material/radio'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatMomentDateModule } from '@angular/material-moment-adapter'
+import { MatExpansionModule } from '@angular/material/expansion'
 
 const modules = [
   MatToolbarModule,
@@ -53,7 +54,8 @@ const modules = [
   MatRadioModule,
   MatDatepickerModule,
   MatCheckboxModule,
-  MatMomentDateModule
+  MatMomentDateModule,
+  MatExpansionModule
 ]
 @NgModule({
   declarations: [],
