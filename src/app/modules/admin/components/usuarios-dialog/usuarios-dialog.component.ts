@@ -6,6 +6,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { RolesService } from '../../services/roles.service'
 import { CategoriasService } from '../../services/categorias.service'
 import { map } from 'rxjs'
+import {
+  UsuarioForm,
+  UsuarioPOST
+} from 'src/app/modules/usuarios/models/usuarios'
 
 @Component({
   selector: 'pa-usuarios-dialog',
@@ -31,7 +35,7 @@ export class UsuariosDialogComponent implements OnInit {
       validators: [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(50),
+        Validators.maxLength(50)
         // Validators.pattern('[/^[a-zA-ZáéíóúÁÉÍÓÚ\\s]+$/]*')
       ]
     }),
@@ -39,7 +43,7 @@ export class UsuariosDialogComponent implements OnInit {
       validators: [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(50),
+        Validators.maxLength(50)
         // Validators.pattern('[/^[a-zA-ZáéíóúÁÉÍÓÚ\\s]+$/]*')
       ]
     }),
@@ -69,13 +73,13 @@ export class UsuariosDialogComponent implements OnInit {
     telefono: new FormControl('', {
       validators: [Validators.required, Validators.pattern('[0-9]*')]
     }),
-    fechaNacimiento: new FormControl(new Date(), {
+    fechaNacimiento: new FormControl('', {
       validators: [Validators.required]
     }),
-    rol: new FormControl('', {
+    rol: new FormControl(0, {
       validators: [Validators.required]
     }),
-    categoria: new FormControl('', {
+    categoria: new FormControl(0, {
       validators: [Validators.required]
     })
   })
@@ -106,9 +110,48 @@ export class UsuariosDialogComponent implements OnInit {
         })
       )
       .subscribe({
+        next: () => {
+          if (this.data.editar) {
+            this.cargarFormulario()
+          }
+        },
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
+  }
+
+  cargarFormulario() {
+    console.log(this.data.elemento)
+    const usuario: UsuarioForm = {
+      nombre: this.data.elemento?.nombre as string,
+      apellido: this.data.elemento?.apellido as string,
+      email: this.data.elemento?.email as string,
+      password: this.data.elemento?.password as string,
+      isConfirmado: this.data.elemento?.isConfirmado as boolean,
+      documento: this.data.elemento?.documento as string,
+      direccion: this.data.elemento?.direccion as string,
+      telefono: this.data.elemento?.telefono as string,
+      fechaNacimiento: moment(
+        this.data.elemento?.fechaNacimiento,
+        'DD/MM/yyyy',
+        false
+      ).format(),
+      rol: this.data.elemento?.id_rol as number,
+      categoria: this.data.elemento?.id_categoria as number
+    }
+    this.formulario.patchValue({
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      email: usuario.email,
+      password: usuario.password,
+      isConfirmado: usuario.isConfirmado,
+      documento: usuario.documento,
+      direccion: usuario.direccion,
+      telefono: usuario.telefono,
+      fechaNacimiento: usuario.fechaNacimiento,
+      rol: usuario.rol,
+      categoria: usuario.categoria
+    })
   }
 
   onNoClick(): void {
@@ -116,51 +159,26 @@ export class UsuariosDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formulario)
-    // Si 'agregar' -> Valide el form y pasar el objeto tipoProducto al padre / Si 'editar' -> No valide pero que pase el objeto tipoProducto al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.usuario = {
-          nombre: this.formulario.value.nombre,
-          apellido: this.formulario.value.apellido,
-          email: this.formulario.value.email,
-          contraseña: this.formulario.value.password,
-          isConfirmado: this.formulario.value.isConfirmado || false,
-          documento: this.formulario.value.documento,
-          direccion: this.formulario.value.direccion,
-          telefono: this.formulario.value.telefono,
-          fechaNacimiento: moment(this.formulario.value.fechaNacimiento).format(
-            'yyyy-MM-DD'
-          ),
-          id_rol: this.formulario.value.rol || 2,
-          id_categoria: this.formulario.value.categoria || 1
-        }
-        this.dialogRef.close({ data: this.usuario })
-      } else {
-        this.formulario.markAllAsTouched()
+    if (this.formulario.valid) {
+      const usuario: UsuarioPOST = {
+        nombre: this.formulario.value.nombre as string,
+        apellido: this.formulario.value.apellido as string,
+        email: this.formulario.value.email as string,
+        password: this.formulario.value.password as string,
+        isConfirmado: this.formulario.value.isConfirmado as boolean,
+        documento: this.formulario.value.documento as string,
+        direccion: this.formulario.value.direccion as string,
+        telefono: this.formulario.value.telefono as string,
+        fechaNacimiento: moment(
+          this.formulario.value.fechaNacimiento,
+          'yyyy-MM-DD'
+        ).format(),
+        rol: this.formulario.value.rol as number,
+        categoria: this.formulario.value.categoria as number
       }
+      this.dialogRef.close({ data: usuario })
     } else {
-      this.usuario = {
-        nombre: this.formulario.value.nombre || this.data.usuario.nombre,
-        apellido: this.formulario.value.apellido || this.data.usuario.apellido,
-        email: this.formulario.value.email || this.data.usuario.email,
-        contraseña:
-          this.formulario.value.password || this.data.usuario.contraseña,
-        isConfirmado:
-          this.formulario.value.isConfirmado || this.data.usuario.isConfirmado,
-        documento:
-          this.formulario.value.documento || this.data.usuario.documento,
-        direccion:
-          this.formulario.value.direccion || this.data.usuario.direccion,
-        telefono: this.formulario.value.telefono || this.data.usuario.telefono,
-        fechaNacimiento:
-          moment(this.formulario.value.fechaNacimiento).format('yyyy-MM-DD') ||
-          this.data.usuario.fechaNacimiento,
-        id_rol: this.formulario.value.rol || this.data.usuario.id_rol,
-        id_categoria:
-          this.formulario.value.categoria || this.data.usuario.id_categoria
-      }
-      this.dialogRef.close({ data: this.usuario })
+      this.formulario.markAllAsTouched()
     }
   }
 }

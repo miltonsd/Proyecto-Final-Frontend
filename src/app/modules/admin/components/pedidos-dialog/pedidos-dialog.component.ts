@@ -11,7 +11,11 @@ import { ProductosService } from '@pa/carta/services'
 import { MesasService } from '@pa/mesas/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
-import { PedidoForm, PedidoPOST, Producto } from 'src/app/modules/pedidos/models/pedido'
+import {
+  PedidoForm,
+  PedidoPOST,
+  Producto
+} from 'src/app/modules/pedidos/models/pedido'
 
 @Component({
   selector: 'pa-pedidos-dialog',
@@ -123,17 +127,17 @@ export class PedidosDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.formulario.valid) {
-        const pedido: PedidoPOST = {
-          fechaHora: new Date(),
-          montoImporte: this.formulario.value.montoImporte as number,
-          id_usuario: this.formulario.value.usuario as number,
-          id_mesa: this.formulario.value.mesa as number,
-          lista_productos: this.formulario.value.productos as Producto[]
-        }
-        this.dialogRef.close({ data: pedido })
-    } else {
-        this.formulario.markAllAsTouched()
+      const pedido: PedidoPOST = {
+        fechaHora: new Date(),
+        montoImporte: this.formulario.value.montoImporte as number,
+        id_usuario: this.formulario.value.usuario as number,
+        id_mesa: this.formulario.value.mesa as number,
+        lista_productos: this.formulario.value.productos as Producto[]
       }
+      this.dialogRef.close({ data: pedido })
+    } else {
+      this.formulario.markAllAsTouched()
+    }
   }
 
   addProducto() {

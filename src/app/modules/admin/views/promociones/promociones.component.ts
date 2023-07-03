@@ -7,6 +7,8 @@ import { PromocionesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { PromocionesDialogComponent } from '../../components/promociones-dialog/promociones-dialog.component'
+import { AdminDataDialog } from '../../models/adminDataDialog'
+import { PromocionTabla } from './models/promocion'
 
 @Component({
   selector: 'pa-promociones',
@@ -42,6 +44,7 @@ export class PromocionesComponent implements OnInit {
             porcentaje_desc: res[p].porcentaje_desc,
             fecha_desde: moment(res[p].fecha_desde).format('DD/MM/yyyy'),
             fecha_hasta: moment(res[p].fecha_hasta).format('DD/MM/yyyy'),
+            lista_productos: res[p].Productos,
             productos: res[p].Productos.map((pr: any) => pr.descripcion).join(
               ' - '
             )
@@ -95,12 +98,13 @@ export class PromocionesComponent implements OnInit {
   }
 
   onEdit(promocion: any) {
+    const dataDialog: AdminDataDialog<PromocionTabla> = {
+      editar: true,
+      elemento: promocion
+    }
     const dialogRef = this.dialog.open(PromocionesDialogComponent, {
       width: '900px',
-      data: {
-        promocion,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -121,11 +125,12 @@ export class PromocionesComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<PromocionTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(PromocionesDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       console.log(resultado)

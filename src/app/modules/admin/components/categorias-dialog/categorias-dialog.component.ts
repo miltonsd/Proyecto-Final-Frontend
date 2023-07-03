@@ -44,11 +44,11 @@ export class CategoriasDialogComponent implements OnInit {
   onSubmit() {
     if (this.formulario.valid) {
       const categoria: CategoriaPOST = {
-          descripcion: this.formulario.value.descripcion as string
-        }
-        this.dialogRef.close({ data: categoria })
-      } else {
-        this.formulario.markAllAsTouched()
+        descripcion: this.formulario.value.descripcion as string
+      }
+      this.dialogRef.close({ data: categoria })
+    } else {
+      this.formulario.markAllAsTouched()
     }
   }
 }

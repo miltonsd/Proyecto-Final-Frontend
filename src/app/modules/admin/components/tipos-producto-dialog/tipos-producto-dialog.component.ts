@@ -1,13 +1,17 @@
-import { Component, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import {
+  TipoProductoForm,
+  TipoProductoPOST
+} from '../../views/tipos-producto/models/tipo-producto'
 
 @Component({
   selector: 'pa-tipos-producto-dialog',
   templateUrl: './tipos-producto-dialog.component.html',
   styleUrls: ['./tipos-producto-dialog.component.css']
 })
-export class TiposProductoDialogComponent {
+export class TiposProductoDialogComponent implements OnInit {
   tipoProducto!: any
 
   constructor(
@@ -28,26 +32,32 @@ export class TiposProductoDialogComponent {
     this.dialogRef.close()
   }
 
+  ngOnInit(): void {
+    if (this.data.editar) {
+      this.cargarFormulario()
+    }
+  }
+
+  cargarFormulario() {
+    const tipoProducto: TipoProductoForm = {
+      descripcion: this.data.elemento.descripcion as string,
+      imagen: this.data.elemento.imagen as string
+    }
+    this.formulario.patchValue({
+      descripcion: tipoProducto.descripcion,
+      imagen: tipoProducto.imagen
+    })
+  }
+
   onSubmit() {
-    // Si 'agregar' -> Valide el form y pasar el objeto tipoProducto al padre / Si 'editar' -> No valide pero que pase el objeto tipoProducto al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.tipoProducto = {
-          descripcion: this.formulario.value.descripcion,
-          imagen: this.formulario.value.imagen
-        }
-        this.dialogRef.close({ data: this.tipoProducto })
-      } else {
-        this.formulario.markAllAsTouched()
+    if (this.formulario.valid) {
+      const tipoProducto: TipoProductoPOST = {
+        descripcion: this.formulario.value.descripcion as string,
+        imagen: this.formulario.value.imagen as string
       }
+      this.dialogRef.close({ data: tipoProducto })
     } else {
-      this.tipoProducto = {
-        descripcion:
-          this.formulario.value.descripcion ||
-          this.data.tipoProducto.descripcion,
-        imagen: this.formulario.value.imagen || this.data.tipoProducto.imagen
-      }
-      this.dialogRef.close({ data: this.tipoProducto })
+      this.formulario.markAllAsTouched()
     }
   }
 }

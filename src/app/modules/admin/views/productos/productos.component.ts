@@ -5,6 +5,8 @@ import { ProductosService } from '@pa/carta/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { ProductosDialogComponent } from '../../components/productos-dialog/productos-dialog.component'
+import { AdminDataDialog } from '../../models/adminDataDialog'
+import { ProductoTabla } from './models/producto'
 
 @Component({
   selector: 'pa-productos',
@@ -41,7 +43,8 @@ export class ProductosComponent implements OnInit {
             stock: res[p].stock,
             descripcion: res[p].descripcion,
             imagen: res[p].imagen,
-            tipoProducto: res[p].TipoProducto.descripcion
+            tipoProducto: res[p].TipoProducto.descripcion,
+            id_tipoProducto: res[p].TipoProducto.id_tipoProducto
           }))
         })
       )
@@ -97,12 +100,13 @@ export class ProductosComponent implements OnInit {
   }
 
   onEdit(producto: any) {
+    const dataDialog: AdminDataDialog<ProductoTabla> = {
+      editar: true,
+      elemento: producto
+    }
     const dialogRef = this.dialog.open(ProductosDialogComponent, {
       width: '900px',
-      data: {
-        producto,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -123,11 +127,12 @@ export class ProductosComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<ProductoTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(ProductosDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

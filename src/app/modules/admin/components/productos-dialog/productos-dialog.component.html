@@ -1,40 +1,44 @@
 <div class="cartel">
     <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
-    <h1>{{data.accion === 'editar'? 'Modificar' : 'Agregar'}} producto</h1>
+    <h1>{{data.editar ? 'Modificar' : 'Agregar'}} producto</h1>
   
       <div mat-dialog-content class="reserva">
         <div class="reserva">
           <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
   
-            <mat-form-field class="example-full-width">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width" > 
               <mat-label>Descripcion del producto</mat-label>
-              <input type="text" matInput formControlName="descripcion" placeholder="{{data.accion === 'editar'? 'Original: ' + data.producto.descripcion : ''}}">
+              <input type="text" matInput formControlName="descripcion">
               <mat-error *ngIf="formulario.controls.descripcion.hasError('required')">
                 Ingrese una descripcion válida
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
               <mat-label>Imagen del producto</mat-label>
-              <input type="text" matInput formControlName="imagen" placeholder="{{data.accion === 'editar'? 'Original: ' + data.producto.imagen : ''}}">
+              <input type="text" matInput formControlName="imagen">
               <mat-error *ngIf="formulario.controls.imagen.hasError('required')">
                 Ingrese una imagen válida
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
                 <mat-label>Precio del producto</mat-label>
-                <input type="text" matInput formControlName="precio" placeholder="{{data.accion === 'editar'? 'Original: ' + data.producto.precio : ''}}">
+                <input type="text" matInput formControlName="precio">
                 <mat-error *ngIf="formulario.controls.precio.hasError('required')">
                   Ingrese un precio válido
                 </mat-error>
               </mat-form-field>
-              <mat-form-field class="example-full-width">
+
+              <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
                 <mat-label>Stock del producto</mat-label>
-                <input type="text" matInput formControlName="stock" placeholder="{{data.accion === 'editar'? 'Original: ' + data.producto.stock : ''}}">
+                <input type="text" matInput formControlName="stock">
                 <mat-error *ngIf="formulario.controls.stock.hasError('required')">
                   Ingrese un stock válido
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill" class="reserva-input fechaHora">
+
+              <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
                 <mat-label>Seleccionar tipo producto</mat-label>
                 <mat-select formControlName="tipoProducto">
                   <mat-option *ngFor="let tp of tiposProducto" [value]="tp.id_tipoProducto">{{

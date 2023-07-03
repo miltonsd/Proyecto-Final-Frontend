@@ -7,6 +7,8 @@ import { UsuariosService } from '@pa/usuarios/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { UsuariosDialogComponent } from '../../components/usuarios-dialog/usuarios-dialog.component'
+import { AdminDataDialog } from '../../models/adminDataDialog'
+import { UsuarioTabla } from 'src/app/modules/usuarios/models/usuarios'
 
 @Component({
   selector: 'pa-usuarios',
@@ -50,7 +52,9 @@ export class UsuariosComponent implements OnInit {
               'DD/MM/yyyy'
             ),
             rol: res[u].Rol.descripcion,
-            categoria: res[u].Categoria.descripcion
+            categoria: res[u].Categoria.descripcion,
+            id_rol: res[u].Rol.id_rol,
+            id_categoria: res[u].Categoria.id_categoria
           }))
         })
       )
@@ -110,12 +114,13 @@ export class UsuariosComponent implements OnInit {
   }
 
   onEdit(usuario: any) {
+    const dataDialog: AdminDataDialog<UsuarioTabla> = {
+      editar: true,
+      elemento: usuario
+    }
     const dialogRef = this.dialog.open(UsuariosDialogComponent, {
       width: '900px',
-      data: {
-        usuario,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -136,11 +141,12 @@ export class UsuariosComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<UsuarioTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(UsuariosDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

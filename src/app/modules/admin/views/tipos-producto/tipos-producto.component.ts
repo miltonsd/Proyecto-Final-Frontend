@@ -5,6 +5,8 @@ import { CartaService } from '@pa/carta/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { TiposProductoDialogComponent } from '../../components/tipos-producto-dialog/tipos-producto-dialog.component'
+import { TipoProductoTabla } from './models/tipo-producto'
+import { AdminDataDialog } from '../../models/adminDataDialog'
 
 @Component({
   selector: 'pa-tipos-producto',
@@ -86,12 +88,13 @@ export class TiposProductoComponent implements OnInit {
   }
 
   onEdit(tipoProducto: any) {
+    const dataDialog: AdminDataDialog<TipoProductoTabla> = {
+      editar: true,
+      elemento: tipoProducto
+    }
     const dialogRef = this.dialog.open(TiposProductoDialogComponent, {
       width: '900px',
-      data: {
-        tipoProducto,
-        accion: 'editar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
@@ -112,11 +115,12 @@ export class TiposProductoComponent implements OnInit {
   }
 
   onAdd() {
+    const dataDialog: AdminDataDialog<TipoProductoTabla> = {
+      editar: false
+    }
     const dialogRef = this.dialog.open(TiposProductoDialogComponent, {
       width: '900px',
-      data: {
-        accion: 'agregar'
-      }
+      data: dataDialog
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

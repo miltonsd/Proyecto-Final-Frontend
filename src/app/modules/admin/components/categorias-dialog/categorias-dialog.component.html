@@ -8,7 +8,7 @@
 
           <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
             <mat-label>Descripcion de la categoría</mat-label>
-            <input type="text" matInput formControlName="descripcion" placeholder="{{data.accion === 'editar'? 'Original: ' + data.categoria.descripcion : ''}}">
+            <input type="text" matInput formControlName="descripcion">
             <mat-error *ngIf="formulario.controls.descripcion.hasError('required')">
               Ingrese una descripcion válida
             </mat-error>

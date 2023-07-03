@@ -55,7 +55,7 @@
                 
                 <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
                   <mat-label>Cantidad</mat-label>
-                  <input type="number" matInput formControlName="cant_selecc" placeholder="{{data.accion === 'editar'? 'Original: ' + data.pedido.cantidad : ''}}">
+                  <input type="number" matInput formControlName="cant_selecc">
                   <mat-error *ngIf="formulario.controls.productos.hasError('required')">
                     Ingrese un monto del importe válido
                   </mat-error>

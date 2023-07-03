@@ -5,6 +5,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { map } from 'rxjs'
 import { ProductosService } from '@pa/carta/services'
+import {
+  PromocionForm,
+  PromocionPOST
+} from '../../views/promociones/models/promocion'
 
 @Component({
   selector: 'pa-promociones-dialog',
@@ -32,7 +36,7 @@ export class PromocionesDialogComponent implements OnInit {
     fecha_hasta: new FormControl('', {
       validators: [Validators.required]
     }),
-    producto: new FormControl('', {
+    producto: new FormControl<number[]>([], {
       validators: [Validators.required]
     })
   })
@@ -49,9 +53,41 @@ export class PromocionesDialogComponent implements OnInit {
         })
       )
       .subscribe({
+        next: () => {
+          if (this.data.editar) {
+            this.cargarFormulario()
+          }
+        },
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
+  }
+
+  cargarFormulario() {
+    const promocion: PromocionForm = {
+      // Del lado izquierdo van los nombres de la interfaz y del lado derecho como se llaman en el back
+      descuento: this.data.elemento?.porcentaje_desc as number,
+      fechaDesde: moment(
+        this.data.elemento?.fecha_desde,
+        'DD/MM/yyyy',
+        false
+      ).format(),
+      fechaHasta: moment(
+        this.data.elemento?.fecha_hasta,
+        'DD/MM/yyyy',
+        false
+      ).format(),
+      lista_productos: this.data.elemento?.lista_productos.map(
+        (p: any) => p.id_producto
+      )
+    }
+    this.formulario.patchValue({
+      // Del lado izquierdo van los nombres de los controles del form y del lado derecho como se llaman en la interfaz
+      porcentaje_desc: promocion.descuento * 100,
+      fecha_desde: promocion.fechaDesde,
+      fecha_hasta: promocion.fechaHasta,
+      producto: promocion.lista_productos
+    })
   }
 
   onNoClick(): void {
@@ -59,46 +95,23 @@ export class PromocionesDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formulario)
-    // Si 'agregar' -> Valide el form y pasar el objeto promocion al padre / Si 'editar' -> No valide pero que pase el objeto promocion al padre
-    if (this.data.accion === 'agregar') {
-      if (this.formulario.valid) {
-        this.promocion = {
-          porcentaje_desc: (this.formulario.value.porcentaje_desc || 0) / 100,
-          fecha_desde: moment(this.formulario.value.fecha_desde).format(
-            'yyyy-MM-DD'
-          ),
-          fecha_hasta: moment(this.formulario.value.fecha_hasta).format(
-            'yyyy-MM-DD'
-          ),
-          lista_productos: this.formulario.value.producto
-          // lista_productos: [
-          //   this.formulario.value.producto,
-          //   { id_producto: 4, descripcion: 'Empanada de carne' }
-          // ]
-        }
-        console.log(this.promocion)
-        this.dialogRef.close({ data: this.promocion })
-      } else {
-        this.formulario.markAllAsTouched()
-      }
-    } else {
-      this.promocion = {
+    if (this.formulario.valid) {
+      const promocion: PromocionPOST = {
         porcentaje_desc:
-          (this.formulario.value.porcentaje_desc || 0) / 100 ||
-          this.data.promocion.porcentaje_desc,
-        fecha_desde:
-          moment(this.formulario.value.fecha_desde).format('yyyy-MM-DD') ||
-          this.data.promocion.fecha_desde,
-        fecha_hasta:
-          moment(this.formulario.value.fecha_hasta).format('yyyy-MM-DD') ||
-          this.data.promocion.fecha_hasta,
-        lista_productos: [
-          this.formulario.value.producto || this.data.promocion.producto,
-          { id_producto: 4, descripcion: 'Empanada de carne' }
-        ]
+          (this.formulario.value.porcentaje_desc as number) / 100,
+        fecha_desde: moment(
+          this.formulario.value.fecha_desde,
+          'yyyy-MM-DD'
+        ).format(),
+        fecha_hasta: moment(
+          this.formulario.value.fecha_hasta,
+          'yyyy-MM-DD'
+        ).format(),
+        lista_productos: this.formulario.value.producto as number[]
       }
-      this.dialogRef.close({ data: this.promocion })
+      this.dialogRef.close({ data: promocion })
+    } else {
+      this.formulario.markAllAsTouched()
     }
   }
 }
