@@ -8,7 +8,7 @@
   
             <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
               <mat-label>Capacidad de la mesa</mat-label>
-              <input type="text" matInput formControlName="capacidad">
+              <input type="number" min="2" max="6" matInput formControlName="capacidad">
               <mat-error *ngIf="formulario.controls.capacidad.hasError('required')">
                 Ingrese una capacidad válida
               </mat-error>

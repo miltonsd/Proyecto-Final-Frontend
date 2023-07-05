@@ -34,7 +34,7 @@ export class ProductosDialogComponent implements OnInit {
       validators: [Validators.required]
     }),
     stock: new FormControl(0, {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.min(0)]
     }),
     tipoProducto: new FormControl(0, {
       validators: [Validators.required]

@@ -6,7 +6,7 @@ export interface UsuarioPOST {
   nombre: string
   apellido: string
   email: string
-  password: string
+  contraseña: string
   isConfirmado: boolean
   documento: string
   direccion: string
@@ -21,7 +21,6 @@ export interface UsuarioTabla {
   nombre: string
   apellido: string
   email: string
-  password: string
   isConfirmado: boolean
   documento: string
   direccion: string
@@ -35,7 +34,6 @@ export interface UsuarioForm {
   nombre: string
   apellido: string
   email: string
-  password: string
   isConfirmado: boolean
   documento: string
   direccion: string

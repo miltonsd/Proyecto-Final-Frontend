@@ -106,14 +106,19 @@ export class PedidosDialogComponent implements OnInit {
 
   cargarFormulario() {
     const pedido: PedidoForm = {
-      productos: this.data.elemento?.productos,
+      productos: this.data.elemento?.lista_productos,
       montoImporte: this.data.elemento?.montoImporte as number,
       isPendiente: this.data.elemento?.isPendiente as boolean,
       id_usuario: this.data.elemento?.id_usuario as number,
       id_mesa: this.data.elemento?.mesa as number
     }
+    // Crea un nuevo array de FormGroup utilizando la función crearProductoFormGroup
+    pedido.productos.forEach((producto) => {
+      this.addProducto()
+    })
+    // Utiliza patchValue para asignar los nuevos valores al FormArray
     this.formulario.patchValue({
-      // productos: pedido.productos
+      productos: pedido.productos,
       montoImporte: pedido.montoImporte,
       isPendiente: pedido.isPendiente,
       usuario: pedido.id_usuario,
@@ -145,7 +150,9 @@ export class PedidosDialogComponent implements OnInit {
       this.fb.group({
         id_producto: new FormControl(''),
         precio: new FormControl(),
-        cant_selecc: new FormControl(1),
+        cant_selecc: new FormControl(1, {
+          validators: [Validators.min(0), Validators.max(10)]
+        }),
         subtotal: new FormControl(0)
       })
     )
@@ -174,19 +181,29 @@ export class PedidosDialogComponent implements OnInit {
   //   return this.productos.at(index).get(controlName)?.value
   // }
 
+  // calculaMonto() {
+  //   if (!this.data.editar) {
+  //     let monto = 0
+  //     this.productos.controls.forEach((p) => {
+  //       const subtotal = p.get('precio')?.value * p.get('cant_selecc')?.value
+  //       p.get('subtotal')?.setValue(subtotal)
+  //       monto += p.get('subtotal')?.value
+  //     })
+  //     this.formulario.controls.montoImporte.setValue(monto)
+  //   } else {
+  //     this.formulario.controls.montoImporte.setValue(
+  //       this.data.elemento.montoImporte
+  //     )
+  //   }
+  // }
+
   calculaMonto() {
-    if (!this.data.editar) {
-      let monto = 0
-      this.productos.controls.forEach((p) => {
-        const subtotal = p.get('precio')?.value * p.get('cant_selecc')?.value
-        p.get('subtotal')?.setValue(subtotal)
-        monto += p.get('subtotal')?.value
-      })
-      this.formulario.controls.montoImporte.setValue(monto)
-    } else {
-      this.formulario.controls.montoImporte.setValue(
-        this.data.elemento.montoImporte
-      )
-    }
+    let monto = 0
+    this.productos.controls.forEach((p) => {
+      const subtotal = p.get('precio')?.value * p.get('cant_selecc')?.value
+      p.get('subtotal')?.setValue(subtotal)
+      monto += p.get('subtotal')?.value
+    })
+    this.formulario.controls.montoImporte.setValue(monto)
   }
 }

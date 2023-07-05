@@ -8,7 +8,7 @@
 
           <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
             <mat-label>% de descuento</mat-label>
-            <input type="number" matInput formControlName="porcentaje_desc"/>
+            <input type="number" min="0" max="50" matInput formControlName="porcentaje_desc"/>
             <mat-error *ngIf="formulario.controls.porcentaje_desc.hasError('required')">
               Ingrese un % de descuento válido
             </mat-error>
@@ -20,6 +20,7 @@
               matInput
               formControlName="fecha_desde"
               [matDatepicker]="calendario_fecha_desde"
+              [min]="minDate"
               readonly
             />
             <mat-datepicker-toggle
@@ -38,6 +39,7 @@
               matInput
               formControlName="fecha_hasta"
               [matDatepicker]="calendario_fecha_hasta"
+              [max]="maxDate"
               readonly
             />
             <mat-datepicker-toggle

@@ -21,7 +21,11 @@ export class UsuariosDialogComponent implements OnInit {
   roles!: any[]
   categorias!: any[]
   isConfirmado = new FormControl(false)
-  horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
+  maxDate = new Date(
+    new Date().getFullYear() - 15,
+    new Date().getMonth(),
+    new Date().getDate()
+  )
 
   constructor(
     public dialogRef: MatDialogRef<UsuariosDialogComponent>,
@@ -29,7 +33,6 @@ export class UsuariosDialogComponent implements OnInit {
     private _rolService: RolesService,
     private _categoriaService: CategoriasService
   ) {}
-
   formulario = new FormGroup({
     nombre: new FormControl('', {
       validators: [
@@ -126,7 +129,6 @@ export class UsuariosDialogComponent implements OnInit {
       nombre: this.data.elemento?.nombre as string,
       apellido: this.data.elemento?.apellido as string,
       email: this.data.elemento?.email as string,
-      password: this.data.elemento?.password as string,
       isConfirmado: this.data.elemento?.isConfirmado as boolean,
       documento: this.data.elemento?.documento as string,
       direccion: this.data.elemento?.direccion as string,
@@ -143,7 +145,6 @@ export class UsuariosDialogComponent implements OnInit {
       nombre: usuario.nombre,
       apellido: usuario.apellido,
       email: usuario.email,
-      password: usuario.password,
       isConfirmado: usuario.isConfirmado,
       documento: usuario.documento,
       direccion: usuario.direccion,
@@ -164,7 +165,7 @@ export class UsuariosDialogComponent implements OnInit {
         nombre: this.formulario.value.nombre as string,
         apellido: this.formulario.value.apellido as string,
         email: this.formulario.value.email as string,
-        password: this.formulario.value.password as string,
+        contraseña: this.formulario.value.password as string,
         isConfirmado: this.formulario.value.isConfirmado as boolean,
         documento: this.formulario.value.documento as string,
         direccion: this.formulario.value.direccion as string,

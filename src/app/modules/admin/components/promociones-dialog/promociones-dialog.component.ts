@@ -19,6 +19,12 @@ export class PromocionesDialogComponent implements OnInit {
   promocion!: any
   productos!: any[]
   isConfirmado = new FormControl(false)
+  minDate = new Date()
+  maxDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() + 2,
+    new Date().getDate()
+  )
 
   constructor(
     public dialogRef: MatDialogRef<PromocionesDialogComponent>,
@@ -28,14 +34,20 @@ export class PromocionesDialogComponent implements OnInit {
 
   formulario = new FormGroup({
     porcentaje_desc: new FormControl(0, {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.min(0), Validators.max(50)]
     }),
-    fecha_desde: new FormControl('', {
-      validators: [Validators.required]
-    }),
-    fecha_hasta: new FormControl('', {
-      validators: [Validators.required]
-    }),
+    fecha_desde: new FormControl(
+      moment(this.minDate, 'DD/MM/yyyy', false).format(),
+      {
+        validators: [Validators.required]
+      }
+    ),
+    fecha_hasta: new FormControl(
+      moment(this.maxDate, 'DD/MM/yyyy', false).format(),
+      {
+        validators: [Validators.required]
+      }
+    ),
     producto: new FormControl<number[]>([], {
       validators: [Validators.required]
     })

@@ -32,7 +32,7 @@
 
               <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
                 <mat-label>Stock del producto</mat-label>
-                <input type="text" matInput formControlName="stock">
+                <input type="number" min="0" matInput formControlName="stock">
                 <mat-error *ngIf="formulario.controls.stock.hasError('required')">
                   Ingrese un stock válido
                 </mat-error>

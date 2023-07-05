@@ -46,6 +46,14 @@ export class PedidosComponent implements OnInit {
             montoImporte: res[p].montoImporte,
             usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido,
             mesa: res[p].id_mesa,
+            lista_productos: res[p].Productos.map((prod: any) => {
+              return {
+                id_producto: prod.id_producto,
+                precio: prod.precio,
+                cant_selecc: prod.PedidoProductos.cantidad_prod,
+                subtotal: prod.precio * prod.PedidoProductos.cantidad_prod
+              }
+            }),
             productos: res[p].Productos.map(
               (pr: any) =>
                 pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'

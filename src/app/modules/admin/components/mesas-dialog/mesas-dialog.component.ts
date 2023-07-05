@@ -17,8 +17,8 @@ export class MesasDialogComponent implements OnInit {
   ) {}
 
   formulario = new FormGroup({
-    capacidad: new FormControl(0, {
-      validators: [Validators.required]
+    capacidad: new FormControl(2, {
+      validators: [Validators.required, Validators.min(2), Validators.max(6)]
     }),
     ubicacion: new FormControl('', {
       validators: [Validators.required]
@@ -49,12 +49,12 @@ export class MesasDialogComponent implements OnInit {
   onSubmit() {
     if (this.formulario.valid) {
       const mesa: MesaPOST = {
-          capacidad: this.formulario.value.capacidad as number,
-          ubicacion: this.formulario.value.ubicacion as string,
-        }
-        this.dialogRef.close({ data: mesa })
-      } else {
-        this.formulario.markAllAsTouched()
+        capacidad: this.formulario.value.capacidad as number,
+        ubicacion: this.formulario.value.ubicacion as string
+      }
+      this.dialogRef.close({ data: mesa })
+    } else {
+      this.formulario.markAllAsTouched()
     }
   }
 }
