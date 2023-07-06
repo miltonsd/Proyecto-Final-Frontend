@@ -1,8 +1,15 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { ReservasComponent } from './reservas.component'
+import { canActivateAuthGuard } from 'src/app/shared/guards/auth/can-activate-auth.guard'
 
-const routes: Routes = [{ path: '', component: ReservasComponent }]
+const routes: Routes = [
+  {
+    path: '',
+    component: ReservasComponent,
+    canActivate: [canActivateAuthGuard]
+  }
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -39,7 +39,7 @@ export class AuthService {
   // Comprueba el rol del usuario al hacer login
   getRol(): number {
     const payload: any = this.getDecodedToken()
-    return payload.rol
+    return payload.id_rol
   }
 
   getCurrentUserId(): number {

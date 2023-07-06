@@ -11,19 +11,60 @@ import { PromocionesComponent } from './views/promociones/promociones.component'
 import { RolesComponent } from './views/roles/roles.component'
 import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.component'
 import { UsuariosComponent } from './views/usuarios/usuarios.component'
+import { canActivateAuthGuard } from 'src/app/shared/guards/auth/can-activate-auth.guard'
 
 const routes: Routes = [
-  { path: '', component: AdminComponent },
-  { path: 'menues', component: MenuesComponent },
-  { path: 'mesas', component: MesasComponent },
-  { path: 'pedidos', component: PedidosComponent },
-  { path: 'productos', component: ProductosComponent },
-  { path: 'promociones', component: PromocionesComponent },
-  { path: 'reservas', component: ReservasComponent },
-  { path: 'roles', component: RolesComponent },
-  { path: 'tipos-producto', component: TiposProductoComponent },
-  { path: 'usuarios', component: UsuariosComponent },
-  { path: 'categorias', component: CategoriasComponent }
+  { path: '', component: AdminComponent, canActivate: [canActivateAuthGuard] },
+  {
+    path: 'menues',
+    component: MenuesComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'mesas',
+    component: MesasComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'pedidos',
+    component: PedidosComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'productos',
+    component: ProductosComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'promociones',
+    component: PromocionesComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'reservas',
+    component: ReservasComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'roles',
+    component: RolesComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'tipos-producto',
+    component: TiposProductoComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'usuarios',
+    component: UsuariosComponent,
+    canActivate: [canActivateAuthGuard]
+  },
+  {
+    path: 'categorias',
+    component: CategoriasComponent,
+    canActivate: [canActivateAuthGuard]
+  }
 ]
 
 @NgModule({

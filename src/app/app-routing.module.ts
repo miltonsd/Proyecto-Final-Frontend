@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { PageNotFoundComponent } from '@pa/core/components'
+import { canMatchAuthGuard } from './shared/guards/auth/can-match-auth.guard'
 
 const routes: Routes = [
   {
@@ -11,41 +12,43 @@ const routes: Routes = [
 
   {
     path: 'reservas',
-    canLoad: [],
     loadChildren: () =>
-      import('./modules/reservas/reservas.module').then((m) => m.ReservasModule)
+      import('./modules/reservas/reservas.module').then(
+        (m) => m.ReservasModule
+      ),
+    canMatch: [canMatchAuthGuard]
   },
 
   {
     path: 'carta',
-    canLoad: [],
     loadChildren: () =>
       import('./modules/carta/carta.module').then((m) => m.CartaModule)
   },
 
   {
     path: 'pedidos',
-    canLoad: [],
     loadChildren: () =>
-      import('./modules/pedidos/pedidos.module').then((m) => m.PedidosModule)
+      import('./modules/pedidos/pedidos.module').then((m) => m.PedidosModule),
+    canMatch: [canMatchAuthGuard]
   },
   {
     path: 'admin',
-    canLoad: [],
     loadChildren: () =>
-      import('./modules/admin/admin.module').then((m) => m.AdminModule)
+      import('./modules/admin/admin.module').then((m) => m.AdminModule),
+    canMatch: [canMatchAuthGuard]
   },
   {
     path: 'auth',
-    canLoad: [],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule)
   },
   {
     path: 'perfil',
-    canLoad: [],
     loadChildren: () =>
-      import('./modules/usuarios/usuarios.module').then((m) => m.UsuariosModule)
+      import('./modules/usuarios/usuarios.module').then(
+        (m) => m.UsuariosModule
+      ),
+    canMatch: [canMatchAuthGuard]
   },
 
   // Página 404

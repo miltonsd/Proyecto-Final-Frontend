@@ -6,6 +6,7 @@ import { PedidosService } from '../../services/pedidos.service'
 import { ActivatedRoute } from '@angular/router'
 import { MesasService } from '@pa/mesas/services'
 import { PedidoPOST } from 'src/app/modules/pedidos/models/pedido'
+import { AuthService } from '@pa/auth/services'
 
 @Component({
   selector: 'pa-productos',
@@ -25,6 +26,7 @@ export class ProductosComponent implements OnInit {
   carrito: any[] = []
   productos!: any[]
   mesa: IMesa | undefined
+  usuarioLogueado = this._authService.loggedIn()
 
   // Defino las columnas de los productos
   columnas: TableColumn[] = [
@@ -50,7 +52,8 @@ export class ProductosComponent implements OnInit {
     private _productoService: ProductosService,
     private _pedidoService: PedidosService,
     private route: ActivatedRoute,
-    private _mesaService: MesasService
+    private _mesaService: MesasService,
+    private _authService: AuthService
   ) {}
 
   ngOnInit(): void {

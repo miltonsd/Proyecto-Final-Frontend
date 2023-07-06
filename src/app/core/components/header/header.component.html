@@ -2,18 +2,28 @@
   <mat-toolbar class="barra">
     <a mat-button routerLink="/" class="logo">PedidosÁgiles</a> 
     <span class="example-spacer"></span> 
-    <a mat-button routerLink="/carta">Carta</a>
-    <a mat-button routerLink="/reservas">Reservar</a>
-    <a mat-button routerLink="/auth">Autenticación</a>
-    <a mat-button routerLink="/perfil/info"> <mat-icon>account_circle</mat-icon>Mi perfil</a>
-    <a mat-raised-button color="warn" (click)="logout()" routerLink="/"> <mat-icon>power_settings_new</mat-icon>Cerrar sesión</a>
     
-    <!-- <ng-container *ngIf=""> Despues habria que renderizar el boton solo para la vista de mozo/cocina  -->
-      <a mat-button routerLink="/pedidos">Pedidos pendientes</a>
-    <!-- </ng-container> -->
-    <!-- <ng-container *ngIf=""> Despues habria que renderizar el boton solo para la vista de Administrador  -->
-      <a mat-button routerLink="/admin">Administrador</a>
-    <!-- </ng-container> -->
+    <a mat-button routerLink="/carta"><mat-icon>menu_book</mat-icon>Carta</a>
+    
+    <ng-template #noLogueado>
+      <a mat-button routerLink="/auth"><mat-icon>input</mat-icon>Autenticación</a>
+    </ng-template>
+    
+    <ng-container *ngIf="this._authService.loggedIn(); else noLogueado">
+
+      <!-- Renderiza el boton solo para la vista de Usuario  -->
+      <a *ngIf="this._authService.getRol() === 2" mat-button routerLink="/reservas"><mat-icon>event</mat-icon>Reservar</a>
+    
+      <!-- Renderiza el boton solo para la vista de Mozo/cocina  -->
+      <a *ngIf="this._authService.getRol() === 3" mat-button routerLink="/pedidos"><mat-icon>pending_actions</mat-icon>Pedidos pendientes</a>
+
+      <!-- Renderiza el boton solo para la vista de Administrador  -->
+        <a *ngIf="this._authService.getRol() === 1" mat-button routerLink="/admin"><mat-icon>person_apron</mat-icon>Administrador</a>
+      <a mat-button routerLink="/perfil/info"> <mat-icon>account_circle</mat-icon>Mi perfil</a>
+      <a mat-raised-button color="warn" (click)="logout()" routerLink="/"> <mat-icon>power_settings_new</mat-icon>Cerrar sesión</a>
+    </ng-container>
+    
   </mat-toolbar>
 </div>
 
+<!--  -->
