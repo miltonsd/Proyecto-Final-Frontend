@@ -75,6 +75,7 @@
           matInput
           formControlName="fechaNacimiento"
           [matDatepicker]="calendario"
+          [max]="maxDate"
           readonly
           required tabindex="9"
         />
@@ -83,6 +84,7 @@
           [for]="calendario"
         ></mat-datepicker-toggle>
         <mat-datepicker #calendario disabled="false"></mat-datepicker>
+        <mat-hint>Edad mínima: 15 años</mat-hint>
         <mat-error *ngIf="formulario.controls.fechaNacimiento.hasError('required')">
           Campo obligatorio.
         </mat-error>

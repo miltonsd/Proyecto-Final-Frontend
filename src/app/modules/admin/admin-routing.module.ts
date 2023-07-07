@@ -12,58 +12,59 @@ import { RolesComponent } from './views/roles/roles.component'
 import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.component'
 import { UsuariosComponent } from './views/usuarios/usuarios.component'
 import { canActivateAuthGuard } from 'src/app/shared/guards/auth/can-activate-auth.guard'
+import { canActivateAdminGuard } from 'src/app/shared/guards/admin/can-activate-admin.guard'
 
 const routes: Routes = [
-  { path: '', component: AdminComponent, canActivate: [canActivateAuthGuard] },
+  { path: '', component: AdminComponent, canActivate: [canActivateAuthGuard, canActivateAdminGuard] },
   {
     path: 'menues',
     component: MenuesComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'mesas',
     component: MesasComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'pedidos',
     component: PedidosComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'productos',
     component: ProductosComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'promociones',
     component: PromocionesComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'reservas',
     component: ReservasComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'roles',
     component: RolesComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'tipos-producto',
     component: TiposProductoComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'usuarios',
     component: UsuariosComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   },
   {
     path: 'categorias',
     component: CategoriasComponent,
-    canActivate: [canActivateAuthGuard]
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   }
 ]
 

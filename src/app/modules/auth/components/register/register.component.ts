@@ -11,6 +11,11 @@ import { DialogComponent } from '@pa/shared/components'
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  maxDate = new Date(
+    new Date().getFullYear() - 15,
+    new Date().getMonth(),
+    new Date().getDate()
+  )
   formulario = new FormGroup({
     nombre: new FormControl('', {
       validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')]
