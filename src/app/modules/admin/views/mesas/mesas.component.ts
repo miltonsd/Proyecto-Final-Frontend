@@ -37,7 +37,8 @@ export class MesasComponent implements OnInit {
           this.datosTabla = Object.keys(res).map((m) => ({
             id_mesa: res[m].id_mesa,
             capacidad: res[m].capacidad,
-            ubicacion: res[m].ubicacion
+            ubicacion: res[m].ubicacion,
+            qr: res[m].qr
           }))
         })
       )
@@ -50,6 +51,7 @@ export class MesasComponent implements OnInit {
       { name: 'ID', dataKey: 'id_mesa' },
       { name: 'Capacidad', dataKey: 'capacidad' },
       { name: 'Ubicacion', dataKey: 'ubicacion' },
+      { name: 'Código QR', dataKey: 'qr', isImage: true },
       {
         name: ' ',
         dataKey: 'actionButtons',
