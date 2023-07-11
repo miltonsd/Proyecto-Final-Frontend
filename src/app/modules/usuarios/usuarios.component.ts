@@ -16,6 +16,7 @@ export class UsuariosComponent {
       next: (res) => {
         console.log(res)
         localStorage.removeItem('token')
+        window.location.href = '/'
       },
       error: (err) => {
         console.error(`Código de error ${err.status}: `, err.error.msg)

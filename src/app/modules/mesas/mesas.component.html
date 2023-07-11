@@ -1,0 +1,59 @@
+<div class="container">
+    <h1>Habilitar/deshabilitar mesa</h1>
+    
+    <ng-container *ngIf="datosMesas.length > 0; else sinMesas">
+      <mat-card class="cardTitle">
+        <div class="header">
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1">Mesa</h2>
+          <h2 
+          class="content"
+          style="margin-inline-end: 1vw; flex: 3; flex-wrap: wrap"
+          >
+            Ubicación
+          </h2>
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">Capacidad</h2>
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">Estado</h2>
+          <h2 class="content" style="justify-self: flex-end; flex: 1">Acción</h2>
+        </div>
+      </mat-card>
+        
+      <ng-container *ngFor="let mesa of datosMesas">
+        <mat-card class="card">
+          <div class="header">
+            <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
+              {{ mesa.id_mesa }}
+            </h2>
+            <h2
+            class="content"
+            style="margin-inline-end: 1vw; flex: 3; flex-wrap: wrap"
+            >
+              {{ mesa.ubicacion }}
+            </h2>
+            <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">
+              {{ mesa.capacidad }}
+            </h2>
+            <h2 class="content" style="justify-self: flex-end; flex: 1">
+                {{ mesa.habilitada? 'Habilitada': 'Deshabilitada'}}
+            </h2>
+          </div>
+          <mat-card-actions align="end">
+            <button class="button" (click)="cambiarEstado(mesa)">
+              {{ mesa.habilitada? 'Deshabilitar': 'Habilitar'}}
+            </button>
+          </mat-card-actions>
+        </mat-card>
+  
+      </ng-container>
+    </ng-container>
+    
+    <ng-template #sinMesas>
+        <mat-card class="card">
+          <div class="header">
+            <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
+              MOMENTÁNEAMENTE NO EXISTEN MESAS.
+            </h2>
+          </div>
+        </mat-card>
+    </ng-template>
+
+  </div>

@@ -12,7 +12,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule)
   },
-
   {
     path: 'reservas',
     loadChildren: () =>
@@ -21,13 +20,17 @@ const routes: Routes = [
       ),
     canMatch: [canMatchAuthGuard, canMatchUsuarioGuard]
   },
-
   {
     path: 'carta',
     loadChildren: () =>
       import('./modules/carta/carta.module').then((m) => m.CartaModule)
   },
-
+  {
+    path: 'mesas',
+    loadChildren: () =>
+      import('./modules/mesas/mesas.module').then((m) => m.MesasModule),
+    canMatch: [canMatchAuthGuard, canMatchMozoGuard]
+  },
   {
     path: 'pedidos',
     loadChildren: () =>

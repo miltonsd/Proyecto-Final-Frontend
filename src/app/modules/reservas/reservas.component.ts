@@ -11,6 +11,7 @@ import { map } from 'rxjs'
 import { DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
+import { AuthService } from '../auth/services/auth.service'
 
 moment.locale('es')
 
@@ -69,6 +70,7 @@ export class ReservasComponent implements OnInit {
   constructor(
     private _reservasService: ReservasService,
     private _mesasService: MesasService,
+    private _authService: AuthService,
     public dialog: MatDialog
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
@@ -184,7 +186,7 @@ export class ReservasComponent implements OnInit {
           this.formulario.value.fechaHoraCantidad?.hora,
         cant_personas: this.formulario.value.fechaHoraCantidad
           ?.cantidad as number,
-        id_usuario: 1, // Usar el ID del usuario logueado
+        id_usuario: this._authService.getCurrentUserId(), //ID del usuario logueado
         id_mesa: this.formulario.value.mesa as number
       }
       this._reservasService.createReserva(reserva).subscribe({

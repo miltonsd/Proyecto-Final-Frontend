@@ -1,16 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 
-import { PedidosRoutingModule } from './pedidos-routing.module';
-import { PedidosComponent } from './pedidos.component';
+import { PedidosRoutingModule } from './pedidos-routing.module'
+import { PedidosComponent } from './pedidos.component'
 
-import { ComponentsModule, MaterialModule  } from '@pa/shared/modules'
-
+import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 
 @NgModule({
-  declarations: [
-    PedidosComponent
-  ],
+  declarations: [PedidosComponent],
   imports: [
     CommonModule,
     PedidosRoutingModule,
@@ -18,4 +15,4 @@ import { ComponentsModule, MaterialModule  } from '@pa/shared/modules'
     MaterialModule
   ]
 })
-export class PedidosModule { }
+export class PedidosModule {}

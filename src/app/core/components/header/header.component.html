@@ -3,6 +3,8 @@
     <a mat-button routerLink="/" class="logo">PedidosÁgiles</a> 
     <span class="example-spacer"></span> 
     
+    <a *ngIf="this._authService.loggedIn() && this._authService.getRol() === 2 " mat-button (click)="scanearQR()"><mat-icon>qr_code_scanner</mat-icon>Escanear QR</a>
+
     <a mat-button routerLink="/carta"><mat-icon>menu_book</mat-icon>Carta</a>
     
     <ng-template #noLogueado>
@@ -15,6 +17,7 @@
       <a *ngIf="this._authService.getRol() === 2" mat-button routerLink="/reservas"><mat-icon>event</mat-icon>Reservar</a>
     
       <!-- Renderiza el boton solo para la vista de Mozo/cocina  -->
+      <a *ngIf="this._authService.getRol() === 3" mat-button routerLink="/mesas"><mat-icon>table_bar</mat-icon>Gestión de mesas</a>
       <a *ngIf="this._authService.getRol() === 3" mat-button routerLink="/pedidos"><mat-icon>pending_actions</mat-icon>Pedidos pendientes</a>
 
       <!-- Renderiza el boton solo para la vista de Administrador  -->
