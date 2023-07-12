@@ -19,9 +19,7 @@ export class HPedidosComponent implements OnInit {
     { name: 'Fecha y hora', dataKey: 'fechaHora' },
     { name: 'Productos', dataKey: 'productos' },
     { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },
-    { name: 'Mesa', dataKey: 'id_mesa' },
-    { name: '¿Está pendiente?', dataKey: 'isPendiente' },
-    { name: '¿Fue cancelado?', dataKey: 'deletedAt' }
+    { name: 'Mesa', dataKey: 'id_mesa' }
   ]
 
   constructor(
@@ -36,17 +34,18 @@ export class HPedidosComponent implements OnInit {
       .getAllPedidosUsuario(id_usuario)
       .pipe(
         map((res: any) => {
-          this.pedidos = Object.keys(res).map((p) => ({
-            fechaHora: moment(res[p].fechaHora).format('DD/MM/yyyy HH:mm'),
-            isPendiente: res[p].isPendiente ? 'Si' : 'No',
-            montoImporte: res[p].montoImporte,
-            id_mesa: res[p].id_mesa,
-            productos: res[p].Productos.map(
-              (pr: any) =>
-                pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'
-            ).join(' - '),
-            deletedAt: res[p].deletedAt === null ? 'No' : 'Si'
-          }))
+          this.pedidos = Object.keys(res)
+            .map((p) => ({
+              fechaHora: moment(res[p].fechaHora).format('DD/MM/yyyy HH:mm'),
+              montoImporte: res[p].montoImporte,
+              isPendiente: res[p].isPendiente,
+              id_mesa: res[p].id_mesa,
+              productos: res[p].Productos.map(
+                (pr: any) =>
+                  pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'
+              ).join(' - ')
+            }))
+            .filter((p) => !p.isPendiente)
         })
       )
       .subscribe({

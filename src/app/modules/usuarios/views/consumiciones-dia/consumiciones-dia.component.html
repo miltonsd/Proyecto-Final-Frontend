@@ -30,7 +30,7 @@
         <!-- Valida si la cantidad de productos pedidos en la consumicion es menor a 3 para mostrarlos en la card -->
         <ng-container *ngIf="consumicion.productos.length < 3; else desplegable">
           <p *ngFor="let producto of consumicion.productos">
-            {{producto.cantidad}}Unds x {{ producto.descripcion }} (Precio unitario: ${{producto.precio}})
+            {{ producto.descripcion }} x {{producto.cant_selecc}}U. (Precio unitario: ${{producto.precio}})
           </p>
         </ng-container>
         
@@ -43,7 +43,7 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <p *ngFor="let producto of consumicion.productos">
-              {{producto.cantidad}}Unds x {{ producto.descripcion }} (Precio unitario: ${{producto.precio}})
+              {{ producto.descripcion }} x {{producto.cant_selecc}}U. (Precio unitario: ${{producto.precio}})
             </p>
           </mat-expansion-panel>
           
@@ -57,7 +57,7 @@
           {{ consumicion.mesa }}
         </h2>
         <h2 class="content" style="justify-self: flex-end; flex: 1">
-          {{ consumicion.estado }}
+          {{ consumicion.estado ? 'Pendiente' : 'Entregado' }}
         </h2>
       </div>
     </mat-card>
@@ -79,13 +79,9 @@
     <mat-card class="card">
       <div class="header">
         <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
-          MOMENTÁNEAMENTE NO HAY PEDIDOS PENDIENTES.
+          MOMENTÁNEAMENTE NO HAY CONSUMICIONES REALIZADAS.
         </h2>
       </div>
     </mat-card>
 </ng-template>
-</div>
-
-<div *ngIf="pedidoFinal">
-  {{ pedidoFinal | json }}
 </div>

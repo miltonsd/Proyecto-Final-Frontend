@@ -135,7 +135,7 @@ export class ProductosComponent implements OnInit {
       const pedido: PedidoPOST = {
         fechaHora: new Date(),
         montoImporte: this.calculaMonto(),
-        id_usuario: 1, // TODO: Se debe asignar el id_usuario correspondiente para el usuario logueado
+        id_usuario: this._authService.getCurrentUserId(), // Se asigna el id_usuario correspondiente para el usuario logueado
         id_mesa: this.mesa?.id_mesa,
         lista_productos: this.carrito
       }

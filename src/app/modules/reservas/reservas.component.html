@@ -64,24 +64,18 @@
         Confirmar reserva
       </button>
 
-      <ng-container *ngIf="!this.mostrarReservas; else ocultarReservas">
-        <button mat-raised-button color="accent" (click)="onVerReservas()">
-          Reservas pendientes
-        </button>
-      </ng-container>
+      
+      <button type="button" mat-raised-button color="accent" (click)="onVerReservas()">
+        {{ this.mostrarReservas ? 'Ocultar reservas' : 'Reservas pendientes' }}
+      </button>
 
-      <ng-template #ocultarReservas>
-        <button mat-raised-button color="accent" (click)="onVerReservas()">
-          Ocultar reservas
-        </button>
-      </ng-template>
     </div>
   </form>
 
   <ng-container *ngIf="this.mostrarReservas">
     <div class="table-container">
       <pa-tabla
-        [tableData]="reservas"
+        [tableData]="reservasUsuario"
         [tableColumns]="columnas"
         [isFilter]="true"
         [isPaginator]="true"

@@ -38,6 +38,7 @@ export class PedidosComponent implements OnInit {
       .getPendientes()
       .pipe(
         map((res: any) => {
+          console.log(res)
           this.datosTabla = Object.keys(res).map((p) => ({
             id_pedido: res[p].id_pedido,
             fechaHora: moment(res[p].fechaHora).format('DD/MM/yyyy HH:mm'),

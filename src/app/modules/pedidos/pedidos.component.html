@@ -19,7 +19,8 @@
     </mat-card>
       
     <ng-container *ngFor="let pedido of datosTabla">
-      <mat-card class="card" @[remove]>
+      <mat-card class="card">
+      <!-- <mat-card class="card" @[remove]> -->
         <div class="header">
           <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
             {{ pedido.id_pedido }}

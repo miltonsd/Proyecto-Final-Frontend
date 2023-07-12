@@ -1,6 +1,8 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
 import jsQR from 'jsqr'
 import { MatDialogRef } from '@angular/material/dialog'
+import { CookieService } from 'ngx-cookie-service'
+import { AuthService } from '@pa/auth/services'
 
 @Component({
   selector: 'pa-qr-scanner',
@@ -13,7 +15,11 @@ export class QrScannerComponent implements AfterViewInit {
   private canvasElement!: HTMLCanvasElement
   private canvasContext!: CanvasRenderingContext2D | null
 
-  constructor(public dialogRef: MatDialogRef<QrScannerComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<QrScannerComponent>,
+    private _cookieService: CookieService,
+    private _authService: AuthService
+  ) {}
 
   ngAfterViewInit() {
     this.video = this.videoElement.nativeElement
@@ -61,8 +67,12 @@ export class QrScannerComponent implements AfterViewInit {
     })
   }
 
+  // El content es el string que contiene como información el código QR -> `ID de Mesa: ${id_mesa}`
   onQRCodeScanned(content: string) {
+    const usuario = this._authService.getCurrentUserId()
+    const mesa = content.slice(12)
     console.log('Código QR escaneado:', content)
+    this._cookieService.set('ClienteMesa', `${usuario}:${mesa}`) // ClienteMesa = nombre de la cookie, clickear en mostrar decoficado por URL en 'Aplicacion' en Google Chrome
     this.dialogRef.close({ data: content })
   }
 

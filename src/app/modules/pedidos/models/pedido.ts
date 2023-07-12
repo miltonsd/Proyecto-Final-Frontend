@@ -2,14 +2,15 @@ export interface Producto {
   id_producto: number
   descripcion: string
   precio: number
-  stock: number
-  id_tipoProducto: number
-  imagen: string
-  cant_selecc: number
+  stock?: number
+  id_tipoProducto?: number
+  imagen?: string
+  cant_selecc?: number
 }
 
 export interface PedidoPOST {
   fechaHora: Date
+  isPendiente?: boolean
   montoImporte: number
   id_usuario: number
   id_mesa: number

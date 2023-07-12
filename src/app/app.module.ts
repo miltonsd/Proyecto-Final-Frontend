@@ -21,6 +21,8 @@ import {
 import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 import { TokenInterceptorService } from './shared/services/token-interceptor.service'
 
+import { CookieService } from 'ngx-cookie-service'
+
 const core = [HeaderComponent, FooterComponent, PageNotFoundComponent]
 const modules = [ComponentsModule, MaterialModule]
 
@@ -52,7 +54,8 @@ const modules = [ComponentsModule, MaterialModule]
       multi: true
     },
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { disableClose: true } }
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { disableClose: true } },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

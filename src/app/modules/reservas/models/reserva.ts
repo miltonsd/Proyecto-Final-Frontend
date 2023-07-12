@@ -16,7 +16,7 @@ export interface ReservaTabla {
   fechaHora: string
   cant_personas: number
   isPendiente: boolean
-  id_usuario: number
+  id_usuario?: number
   id_mesa: number
   usuario?: string
   mesa?: string

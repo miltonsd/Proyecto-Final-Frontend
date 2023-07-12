@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { AuthService } from '@pa/auth/services'
+import { CookieService } from 'ngx-cookie-service'
 import { QrScannerComponent } from 'src/app/shared/components/qr-scanner/qr-scanner.component'
 
 @Component({
@@ -9,12 +10,16 @@ import { QrScannerComponent } from 'src/app/shared/components/qr-scanner/qr-scan
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(public _authService: AuthService, public dialog: MatDialog) {}
+  constructor(
+    public _authService: AuthService,
+    public dialog: MatDialog,
+    private _cookieService: CookieService
+  ) {}
 
   logout() {
     this._authService.logout().subscribe({
-      next: (res) => {
-        console.log(res)
+      next: () => {
+        this._cookieService.delete('ClienteMesa', '/')
         localStorage.removeItem('token')
         window.location.href = '/'
       },

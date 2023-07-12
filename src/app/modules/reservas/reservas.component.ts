@@ -12,6 +12,7 @@ import { DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
 import { AuthService } from '../auth/services/auth.service'
+import { UsuariosService } from '../usuarios/services/usuarios.service'
 
 moment.locale('es')
 
@@ -30,6 +31,7 @@ export class ReservasComponent implements OnInit {
   mostrarReservas = false
   respuesta: any
   reservas: ReservaTabla[] = []
+  reservasUsuario: ReservaTabla[] = []
 
   // Formulario de reservas
   formulario = new FormGroup({
@@ -71,6 +73,7 @@ export class ReservasComponent implements OnInit {
     private _reservasService: ReservasService,
     private _mesasService: MesasService,
     private _authService: AuthService,
+    private _usuarioService: UsuariosService,
     public dialog: MatDialog
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
@@ -85,6 +88,7 @@ export class ReservasComponent implements OnInit {
     // Busca las reservas
     this.getAllReservas() // Busca las reservas pendientes del usuario
     this.getAllMesas() // Busca las mesas para el formulario
+    this.getAllReservasUsuario()
     // Controla si hubo cambios en el input de hora
     this.formulario
       .get('fechaHoraCantidad')
@@ -110,6 +114,35 @@ export class ReservasComponent implements OnInit {
             this.mesas[posMesa].habilitada = false
           })
         }
+      })
+  }
+
+  getAllReservasUsuario() {
+    const id_usuario = this._authService.getCurrentUserId()
+    // Se obtiene el listado de reservas pendientes del usuario
+    this._usuarioService
+      .getAllReservasUsuario(id_usuario)
+      .pipe(
+        map((res: any) => {
+          this.reservasUsuario = Object.keys(res)
+            .map((r) => ({
+              id_reserva: res[r].id_reserva,
+              fechaHora: moment(res[r].fechaHora).format('DD/MM/yyyy HH:mm'),
+              cant_personas: res[r].cant_personas,
+              isPendiente: res[r].isPendiente,
+              id_mesa: res[r].id_mesa
+            }))
+            .sort(
+              (a, b) =>
+                moment(a.fechaHora, 'DD/MM/yyyy HH:mm').unix() -
+                moment(b.fechaHora, 'DD/MM/yyyy HH:mm').unix()
+            )
+            .filter((r) => r.isPendiente)
+        })
+      )
+      .subscribe({
+        error: (err) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
       })
   }
 
