@@ -1,7 +1,9 @@
-<h2 mat-dialog-title>Escanear el código QR de la mesa</h2>
-<div mat-dialog-content>
-    <video #video autoplay></video>
-</div>
-<div mat-dialog-actions>
-    <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+<div class="fondo">
+    <h2 mat-dialog-title>Escanear el código QR de la mesa</h2>
+    <div mat-dialog-content>
+        <video #video autoplay class="camara"></video>
+    </div>
+    <div mat-dialog-actions>
+        <button type="button" class="boton" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+    </div>
 </div>

@@ -11,4 +11,5 @@ export interface TableColumn {
   addButton?: boolean // Tiene un boton de '+1'?
   removeButton?: boolean // Tiene un boton de '-1'?
   isCurrency?: boolean // Si tiene un valor monetario
+  menuButton?: boolean // Tiene un boton de menú?
 }

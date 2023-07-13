@@ -26,8 +26,9 @@ export class QrScannerComponent implements AfterViewInit {
     this.canvasElement = document.createElement('canvas')
     this.canvasContext = this.canvasElement.getContext('2d')
 
+    const camara = { video: { width: 300, height: 300 } }
     navigator.mediaDevices
-      .getUserMedia({ video: true })
+      .getUserMedia(camara)
       .then((stream) => {
         this.video.srcObject = stream
         this.video.play()

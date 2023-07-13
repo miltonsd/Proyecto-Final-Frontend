@@ -50,6 +50,8 @@ export class TablaComponent implements OnInit {
     new EventEmitter<TableButtonAction>()
   @Output() removeAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
+  @Output() menuAction: EventEmitter<TableButtonAction> =
+    new EventEmitter<TableButtonAction>()
 
   constructor(public dialog: MatDialog) {}
 
@@ -95,5 +97,9 @@ export class TablaComponent implements OnInit {
 
   onRemoveCart(element: any) {
     this.removeAction.emit(element)
+  }
+
+  onCargarMenu(element: any) {
+    this.menuAction.emit(element)
   }
 }

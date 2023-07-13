@@ -3,5 +3,6 @@
         [tableColumns]="columnas"
         [isFilter]="true"
         [isPaginator]="true"
-        [pageOptions]="[5, 10, 15]">
+        [pageOptions]="[5, 10, 15]"
+        (menuAction)="onCargarMenu($event)">
 </pa-tabla>

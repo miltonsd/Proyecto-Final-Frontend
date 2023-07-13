@@ -1,6 +1,8 @@
 <div class="header">
   <mat-toolbar class="barra">
-    <a mat-button routerLink="/" class="logo">PedidosÁgiles</a> 
+    <a mat-button routerLink="/" class="logo">
+      <img src="../../../../assets/img/logo/Logo Pedidos Agiles.png" class="foto">
+    </a> 
     <span class="example-spacer"></span> 
     
     <a *ngIf="this._authService.loggedIn() && this._authService.getRol() === 2 " mat-button (click)="scanearQR()"><mat-icon>qr_code_scanner</mat-icon>Escanear QR</a>

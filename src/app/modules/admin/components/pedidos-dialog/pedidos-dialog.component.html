@@ -57,7 +57,7 @@
                   <mat-label>Cantidad</mat-label>
                   <input type="number" min="0" max="10" matInput formControlName="cant_selecc">
                   <mat-error *ngIf="formulario.controls.productos.hasError('required')">
-                    Ingrese un monto del importe válido
+                    Ingrese una cantidad válida (entre 1 y 10)
                   </mat-error>
                 </mat-form-field>
 

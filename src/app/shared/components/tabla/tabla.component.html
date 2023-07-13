@@ -78,6 +78,14 @@
                             </a>
                         </div>
                     </ng-container>
+                    <!-- Si existe botón para cargar el menú al momento de hacer un pedido -->
+                    <ng-container *ngIf="tableColumn.menuButton">
+                        <div class="boton-c">
+                            <a mat-flat-button color="primary" (click)="onCargarMenu(row)" class="boton">
+                                Seleccionar
+                            </a>
+                        </div>
+                    </ng-container>
                     
                 </div>
             </td>  
