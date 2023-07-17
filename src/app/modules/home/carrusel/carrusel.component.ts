@@ -13,6 +13,7 @@ export class CarruselComponent implements OnInit {
   @Input() slideInterval = 3000 // 3 segundos por defecto
 
   selectedIndex = 0
+  intervalo!: any
 
   ngOnInit(): void {
     if (this.autoSlide) {
@@ -21,13 +22,17 @@ export class CarruselComponent implements OnInit {
   }
 
   autoSlideImages() {
-    setInterval(() => {
+    this.intervalo = setInterval(() => {
       this.onNextClick()
     }, this.slideInterval)
   }
 
   selectImage(index: number) {
     this.selectedIndex = index
+    if (this.autoSlide) {
+      clearInterval(this.intervalo) // Detiene el intervalo de tiempo actual
+      this.autoSlideImages()
+    }
   }
 
   onPrevClick() {
@@ -36,6 +41,10 @@ export class CarruselComponent implements OnInit {
     } else {
       this.selectedIndex--
     }
+    if (this.autoSlide) {
+      clearInterval(this.intervalo) // Detiene el intervalo de tiempo actual
+      this.autoSlideImages()
+    }
   }
 
   onNextClick() {
@@ -43,6 +52,10 @@ export class CarruselComponent implements OnInit {
       this.selectedIndex = 0
     } else {
       this.selectedIndex++
+    }
+    if (this.autoSlide) {
+      clearInterval(this.intervalo) // Detiene el intervalo de tiempo actual
+      this.autoSlideImages()
     }
   }
 }

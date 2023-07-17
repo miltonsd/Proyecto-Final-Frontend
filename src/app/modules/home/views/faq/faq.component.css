@@ -1,0 +1,26 @@
+.main {
+  display: grid;
+  grid-template-areas: "titulo" "questions";
+  justify-content: center;
+  justify-items: center;
+  padding: 1% 2%;
+  column-gap: 3rem;
+}
+
+.titulo {
+  grid-area: titulo;
+  text-align: center;
+  color: #f7bd00;
+}
+
+.questions {
+  color: #fff;
+  grid-area: questions;
+  text-align: justify;
+  margin-bottom: 10%;
+}
+
+.question {
+  color: #f7bd00;
+  font-weight: 600;
+}

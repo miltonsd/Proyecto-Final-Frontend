@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core'
-import * as fs from 'fs-extra'
+import { Component } from '@angular/core'
 @Component({
   selector: 'pa-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-  imagenes: string[] = []
-
-  ngOnInit(): void {
-    // fs.readdir('../../../../assets/img/home', (err: any, files: any) => {
-    //   if (!err) {
-    //     this.imagenes = files
-    //   }
-    // })
-  }
+export class HomeComponent {
+  imagenes: string[] = [
+    'HomeQR.jpg',
+    'Home1.jpg',
+    'Home2.jpg',
+    'Home3.jpg',
+    'Home4.jpg',
+    'Home5.jpg'
+  ]
 }

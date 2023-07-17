@@ -17,7 +17,7 @@
     text-align: center;
     width: 325px;
     border-radius: 15px;
-    box-shadow: 0 8px 16px #dce1e1;
+    box-shadow: 0px 0px 20px 10px rgb(41, 41, 41);
   }
   
   .carrousel-container img {
@@ -38,6 +38,7 @@
     bottom: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 0;
     margin-bottom: 1rem;
   }
@@ -57,6 +58,8 @@
   .active,
   .dot:hover {
     opacity: 1;
+    height: 20px;
+    width: 20px;
   }
   
   .fade {
@@ -104,7 +107,7 @@
   }
   
   .icon-carrousel:hover {
-    opacity: 0.9;
+    opacity: 1;
   }
   
   .icon-carrousel:active {
@@ -119,10 +122,11 @@
   
   @media only screen and (min-width: 576px) {
     .carrousel-container {
-      width: 550px;
+      width: 900px;
+      height: 500px;
     }
   
     .carrousel-container img.image-active {
-      height: 400px;
+      height: 500px;
     }
   }
