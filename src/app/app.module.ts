@@ -10,6 +10,9 @@ import { AppComponent } from './app.component'
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog'
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
 
+// Font-Awesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+
 // Core
 import {
   HeaderComponent,
@@ -33,6 +36,7 @@ const modules = [ComponentsModule, MaterialModule]
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FontAwesomeModule,
     ...modules
   ],
   providers: [

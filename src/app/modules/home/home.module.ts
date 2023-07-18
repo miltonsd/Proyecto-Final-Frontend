@@ -8,6 +8,8 @@ import { AboutComponent, FaqComponent } from '@pa/home/views'
 import { CarruselComponent } from './carrusel/carrusel.component'
 import { MaterialModule } from '@pa/shared/modules'
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -15,6 +17,6 @@ import { MaterialModule } from '@pa/shared/modules'
     FaqComponent,
     CarruselComponent
   ],
-  imports: [CommonModule, HomeRoutingModule, MaterialModule]
+  imports: [CommonModule, HomeRoutingModule, MaterialModule, FontAwesomeModule]
 })
 export class HomeModule {}
