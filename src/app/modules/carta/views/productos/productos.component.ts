@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router'
 import { MesasService } from '@pa/mesas/services'
 import { PedidoPOST } from 'src/app/modules/pedidos/models/pedido'
 import { AuthService } from '@pa/auth/services'
+import { PromocionesService } from '@pa/admin/services'
 
 @Component({
   selector: 'pa-productos',
@@ -25,6 +26,7 @@ export class ProductosComponent implements OnInit {
   tragos!: any[]
   carrito: any[] = []
   productos!: any[]
+  promociones: any[] = []
   mesa: IMesa | undefined
   usuarioLogueado = this._authService.loggedIn()
 
@@ -33,8 +35,8 @@ export class ProductosComponent implements OnInit {
     { name: 'Descripción', dataKey: 'descripcion' },
     {
       name: 'Precio unitario',
-      dataKey: 'precio',
-      isCurrency: true
+      dataKey: 'precioTabla'
+      // isCurrency: true
     },
     {
       name: ' ',
@@ -51,19 +53,42 @@ export class ProductosComponent implements OnInit {
   constructor(
     private _productoService: ProductosService,
     private _pedidoService: PedidosService,
+    private _promocionService: PromocionesService,
     private route: ActivatedRoute,
     private _mesaService: MesasService,
     private _authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.getPromociones()
     this.getAllProductos()
     this.route.queryParams.subscribe((params) => {
       params['id_mesa'] !== '0' && this.getMesa(params['id_mesa'])
     })
   }
 
-  //No se si anda esto, mi back esta roto y no me trae la mesa // El back está funcionando porque este método trae la mesa con sus propiedades
+  getPromociones() {
+    this._promocionService
+      .getAllPromociones()
+      .pipe(
+        map((res: any) => {
+          this.promociones = Object.keys(res).map((p) => ({
+            id_promocion: res[p].id_promocion,
+            porcentaje_desc: res[p].porcentaje_desc,
+            fecha_desde: res[p].fecha_desde,
+            fecha_hasta: res[p].fecha_hasta,
+            lista_productos: res[p].Productos.map((prod: any) => {
+              return { id_producto: prod.id_producto }
+            })
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+  }
+
   getMesa(id: string) {
     this._mesaService.getOneMesa(Number(id)).subscribe({
       next: (res: any) => {
@@ -81,15 +106,54 @@ export class ProductosComponent implements OnInit {
       .getAllProductos()
       .pipe(
         map((res: any) => {
-          this.productos = Object.keys(res).map((p) => ({
-            id_producto: res[p].id_producto,
-            descripcion: res[p].descripcion,
-            precio: res[p].precio,
-            stock: res[p].stock,
-            id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
-            imagen: res[p].imagen,
-            cant_selecc: 0
-          }))
+          this.productos = Object.keys(res).map((p) => {
+            // Valida si el producto tiene una promoción vigente
+            const promocion = this.promociones.find(
+              (prom) =>
+                prom.lista_productos.some(
+                  // El some equivale al includes pero se usa cuando tenes un array de objetos
+                  (prod: any) => prod.id_producto === res[p].id_producto
+                ) &&
+                new Date(prom.fecha_desde) <= new Date() &&
+                new Date() <= new Date(prom.fecha_hasta)
+            )
+            if (promocion) {
+              return {
+                id_producto: res[p].id_producto,
+                descripcion:
+                  res[p].descripcion +
+                  ' (' +
+                  (promocion.porcentaje_desc * 100).toString() +
+                  '% OFF)',
+                precio:
+                  res[p].precio - res[p].precio * promocion.porcentaje_desc,
+                precioTabla:
+                  '(Antes: $ ' +
+                  res[p].precio.toString() +
+                  ')' +
+                  ' → $ ' +
+                  (
+                    res[p].precio -
+                    res[p].precio * promocion.porcentaje_desc
+                  ).toString(),
+                stock: res[p].stock,
+                id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
+                imagen: res[p].imagen,
+                cant_selecc: 0
+              }
+            } else {
+              return {
+                id_producto: res[p].id_producto,
+                descripcion: res[p].descripcion,
+                precio: res[p].precio,
+                precioTabla: '$ ' + res[p].precio,
+                stock: res[p].stock,
+                id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
+                imagen: res[p].imagen,
+                cant_selecc: 0
+              }
+            }
+          })
           this.ensaladas = this.productos.filter((p) => p.id_tipoProducto === 1)
           this.paraPicar = this.productos.filter((p) => p.id_tipoProducto === 2)
           this.sandwiches = this.productos.filter(

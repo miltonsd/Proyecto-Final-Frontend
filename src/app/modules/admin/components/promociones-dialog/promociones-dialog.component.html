@@ -13,49 +13,24 @@
               Ingrese un % de descuento válido
             </mat-error>
           </mat-form-field>
-
-          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Fecha de inicio del descuento</mat-label>
-            <input
-              matInput
-              formControlName="fecha_desde"
-              [matDatepicker]="calendario_fecha_desde"
-              [min]="minDate"
-              readonly
-            />
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="calendario_fecha_desde"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #calendario_fecha_desde disabled="false"></mat-datepicker>
-            <mat-error *ngIf="formulario.controls.fecha_desde.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Fecha de fin del descuento</mat-label>
-            <input
-              matInput
-              formControlName="fecha_hasta"
-              [matDatepicker]="calendario_fecha_hasta"
-              [max]="maxDate"
-              readonly
-            />
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="calendario_fecha_hasta"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #calendario_fecha_hasta disabled="false"></mat-datepicker>
-            <mat-error *ngIf="formulario.controls.fecha_hasta.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
           
+          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+            <mat-label>Ingresar rango de fechas</mat-label>
+            <mat-date-range-input formGroupName="fechaRango" [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+              <input matStartDate formControlName="fecha_desde" readonly>
+              <input matEndDate formControlName="fecha_hasta" readonly>
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          
+            <mat-error *ngIf="formulario.controls.fechaRango.controls.fecha_desde.hasError('required')">Campo obligatorio.</mat-error>
+            <mat-error *ngIf="formulario.controls.fechaRango.controls.fecha_hasta.hasError('required')">Campo obligatorio.</mat-error>
+          </mat-form-field>
+
           <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
             <mat-label>Seleccionar producto(s)</mat-label>
             <mat-select formControlName="producto" multiple>
-              <mat-option *ngFor="let producto of productos" [value]="producto.id_producto">{{
+              <mat-option *ngFor="let producto of listaProductos" [value]="producto.id_producto">{{
                 producto.descripcion
               }}</mat-option>
             </mat-select>

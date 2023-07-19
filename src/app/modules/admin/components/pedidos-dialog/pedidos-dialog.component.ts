@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core'
+import * as moment from 'moment'
 import {
   FormArray,
   FormBuilder,
@@ -16,6 +17,7 @@ import {
   PedidoPOST,
   Producto
 } from 'src/app/modules/pedidos/models/pedido'
+import { PromocionesService } from '../../services/promociones.service'
 
 @Component({
   selector: 'pa-pedidos-dialog',
@@ -28,6 +30,7 @@ export class PedidosDialogComponent implements OnInit {
   usuarios!: any[]
   lista_productos!: any[]
   mesas!: any[]
+  promociones: any[] = []
   productosSeleccionados: any[] = []
 
   constructor(
@@ -36,6 +39,7 @@ export class PedidosDialogComponent implements OnInit {
     private _usuarioService: UsuariosService,
     private _productoService: ProductosService,
     private _mesasService: MesasService,
+    private _promocionService: PromocionesService,
     private fb: FormBuilder
   ) {}
 
@@ -54,6 +58,7 @@ export class PedidosDialogComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.getPromociones()
     this._usuarioService
       .getAllUsuarios()
       .pipe(
@@ -72,11 +77,36 @@ export class PedidosDialogComponent implements OnInit {
       .getAllProductos()
       .pipe(
         map((res: any) => {
-          this.lista_productos = Object.keys(res).map((p) => ({
-            id_producto: res[p].id_producto,
-            descripcion: res[p].descripcion,
-            precio: res[p].precio
-          }))
+          this.lista_productos = Object.keys(res).map((p) => {
+            // Valida si el producto tiene una promoción vigente
+            const promocion = this.promociones.find(
+              (prom) =>
+                prom.lista_productos.some(
+                  // El some equivale al includes pero se usa cuando tenes un array de objetos
+                  (prod: any) => prod.id_producto === res[p].id_producto
+                ) &&
+                new Date(prom.fecha_desde) <= new Date() &&
+                new Date() <= new Date(prom.fecha_hasta)
+            )
+            if (promocion) {
+              return {
+                id_producto: res[p].id_producto,
+                descripcion:
+                  res[p].descripcion +
+                  ' (' +
+                  (promocion.porcentaje_desc * 100).toString() +
+                  '% OFF)',
+                precio:
+                  res[p].precio - res[p].precio * promocion.porcentaje_desc
+              }
+            } else {
+              return {
+                id_producto: res[p].id_producto,
+                descripcion: res[p].descripcion,
+                precio: res[p].precio
+              }
+            }
+          })
         })
       )
       .subscribe({
@@ -104,7 +134,30 @@ export class PedidosDialogComponent implements OnInit {
       })
   }
 
+  getPromociones() {
+    this._promocionService
+      .getAllPromociones()
+      .pipe(
+        map((res: any) => {
+          this.promociones = Object.keys(res).map((p) => ({
+            id_promocion: res[p].id_promocion,
+            porcentaje_desc: res[p].porcentaje_desc,
+            fecha_desde: res[p].fecha_desde,
+            fecha_hasta: res[p].fecha_hasta,
+            lista_productos: res[p].Productos.map((prod: any) => {
+              return { id_producto: prod.id_producto }
+            })
+          }))
+        })
+      )
+      .subscribe({
+        error: (err: any) =>
+          console.error(`Código de error ${err.status}: `, err.error.msg)
+      })
+  }
+
   cargarFormulario() {
+    console.log(this.data.elemento)
     const pedido: PedidoForm = {
       productos: this.data.elemento?.lista_productos,
       montoImporte: this.data.elemento?.montoImporte as number,

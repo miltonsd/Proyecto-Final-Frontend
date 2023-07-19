@@ -7,12 +7,10 @@ import {
   Validators
 } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
-import { ProductosService } from '@pa/carta/services'
-import { MesasService } from '@pa/mesas/services'
-import { UsuariosService } from '@pa/usuarios/services'
 import { CookieService } from 'ngx-cookie-service'
 import { map } from 'rxjs'
 import { PedidoPOST, Producto } from 'src/app/modules/pedidos/models'
+import { PromocionesService } from '@pa/admin/services'
 
 @Component({
   selector: 'pa-menuesdialog',
@@ -23,11 +21,12 @@ export class MenuesdialogComponent implements OnInit {
   menu!: any
   lista_productos!: any[]
   productosSeleccionados: any[] = []
+  promociones: any[] = []
 
   constructor(
     public dialogRef: MatDialogRef<MenuesdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _productoService: ProductosService,
+    private _promocionService: PromocionesService,
     private _cookieService: CookieService,
     private fb: FormBuilder
   ) {}
@@ -40,28 +39,65 @@ export class MenuesdialogComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    console.log(this.data)
-    this._productoService
-      .getAllProductos()
+    this.getPromociones()
+  }
+
+  getPromociones() {
+    this._promocionService
+      .getAllPromociones()
       .pipe(
         map((res: any) => {
-          this.lista_productos = Object.keys(res).map((p) => ({
-            id_producto: res[p].id_producto,
-            descripcion: res[p].descripcion,
-            precio: res[p].precio
+          this.promociones = Object.keys(res).map((p) => ({
+            id_promocion: res[p].id_promocion,
+            porcentaje_desc: res[p].porcentaje_desc,
+            fecha_desde: res[p].fecha_desde,
+            fecha_hasta: res[p].fecha_hasta,
+            lista_productos: res[p].Productos.map((prod: any) => {
+              return { id_producto: prod.id_producto }
+            })
           }))
         })
       )
       .subscribe({
         complete: () => this.cargarFormulario(),
-        error: (err: any) =>
+        error: (err: any) => {
           console.error(`Código de error ${err.status}: `, err.error.msg)
+          this.cargarFormulario()
+        }
       })
   }
 
   cargarFormulario() {
     const menu: any = {
-      productos: this.data.menu?.lista_productos
+      productos: this.data.menu?.lista_productos.map((p: any) => {
+        // Valida si el producto tiene una promoción vigente
+        const promocion = this.promociones.find(
+          (prom) =>
+            prom.lista_productos.some(
+              // El some equivale al includes pero se usa cuando tenes un array de objetos
+              (prod: any) => prod.id_producto === p.id_producto
+            ) &&
+            new Date(prom.fecha_desde) <= new Date() &&
+            new Date() <= new Date(prom.fecha_hasta)
+        )
+        if (promocion) {
+          return {
+            id_producto: p.id_producto,
+            descripcion:
+              p.descripcion +
+              ' (' +
+              (promocion.porcentaje_desc * 100).toString() +
+              '% OFF)',
+            precio: p.precio - p.precio * promocion.porcentaje_desc
+          }
+        } else {
+          return {
+            id_producto: p.id_producto,
+            descripcion: p.descripcion,
+            precio: p.precio
+          }
+        }
+      })
     }
     // Crea un nuevo array de FormGroup utilizando la función crearProductoFormGroup
     menu.productos.forEach((p: any) => {

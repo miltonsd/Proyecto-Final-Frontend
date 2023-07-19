@@ -49,7 +49,7 @@ export class PedidosComponent implements OnInit {
             lista_productos: res[p].Productos.map((prod: any) => {
               return {
                 id_producto: prod.id_producto,
-                precio: prod.precio,
+                precio: prod.PedidoProductos.precio_unitario, // Al precio se le asigna el precio del producto al momento de crear el pedido (NO el actual, PUEDE tener descuento)
                 cant_selecc: prod.PedidoProductos.cantidad_prod,
                 subtotal: prod.precio * prod.PedidoProductos.cantidad_prod
               }
