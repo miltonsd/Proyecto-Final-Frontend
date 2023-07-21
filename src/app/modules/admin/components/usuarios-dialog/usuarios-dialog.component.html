@@ -1,115 +1,125 @@
 <div class="cartel">
   <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
-  <h1>{{data.editar ? 'Modificar' : 'Agregar'}} usuario</h1>
+  <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} usuario</h1>
 
     <div mat-dialog-content class="reserva">
       <div class="reserva">
         <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
 
-          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-            <mat-label>Nombre</mat-label>
-            <input type="text" matInput formControlName="nombre">
-            <mat-error *ngIf="formulario.controls.nombre.hasError('required')">
-              Ingrese un nombre válido
-            </mat-error>
-          </mat-form-field>
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
+              <mat-label>Nombre</mat-label>
+              <input type="text" matInput formControlName="nombre">
+              <mat-error *ngIf="formulario.controls.nombre.hasError('required')">
+                Ingrese un nombre válido
+              </mat-error>
+            </mat-form-field>
 
-          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-            <mat-label>Apellido</mat-label>
-            <input type="text" matInput formControlName="apellido">
-            <mat-error *ngIf="formulario.controls.apellido.hasError('required')">
-              Ingrese un apellido válido
-            </mat-error>
-          </mat-form-field>
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
+              <mat-label>Apellido</mat-label>
+              <input type="text" matInput formControlName="apellido">
+              <mat-error *ngIf="formulario.controls.apellido.hasError('required')">
+                Ingrese un apellido válido
+              </mat-error>
+            </mat-form-field>
+          </div>  
 
-          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-            <mat-label>Email</mat-label>
-            <input type="text" matInput formControlName="email">
-            <mat-error *ngIf="formulario.controls.email.hasError('required')">
-              Campo obligatorio
-            </mat-error>
-            <mat-error *ngIf="formulario.controls.email.hasError('email')">
-              Ingrese un email válido
-            </mat-error>
-          </mat-form-field>
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
+              <mat-label>Email</mat-label>
+              <input type="text" matInput formControlName="email">
+              <mat-error *ngIf="formulario.controls.email.hasError('required')">
+                Campo obligatorio
+              </mat-error>
+              <mat-error *ngIf="formulario.controls.email.hasError('email')">
+                Ingrese un email válido
+              </mat-error>
+            </mat-form-field>
 
-          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-            <mat-label>Contraseña</mat-label>
-            <input type="password" matInput formControlName="password">
-            <mat-error *ngIf="formulario.controls.password.hasError('required')">
-              Ingrese una contraseña válido
-            </mat-error>
-          </mat-form-field>
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
+              <mat-label>Contraseña</mat-label>
+              <input type="password" matInput formControlName="password">
+              <mat-error *ngIf="formulario.controls.password.hasError('required')">
+                Ingrese una contraseña válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="filaFormulario">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+              <mat-label>Fecha de Nacimiento</mat-label>
+              <input
+                matInput
+                formControlName="fechaNacimiento"
+                [matDatepicker]="calendario"
+                [max]="maxDate"
+                readonly
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="calendario"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #calendario disabled="false"></mat-datepicker>
+              <mat-hint>Edad mínima: 15 años</mat-hint>
+              <mat-error *ngIf="formulario.controls.fechaNacimiento.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
+              <mat-label>Documento</mat-label>
+              <input type="text" matInput formControlName="documento">
+              <mat-error *ngIf="formulario.controls.documento.hasError('required')">
+                Ingrese un documento válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
+              <mat-label>Dirección</mat-label>
+              <input type="text" matInput formControlName="direccion">
+              <mat-error *ngIf="formulario.controls.direccion.hasError('required')">
+                Ingrese una dirección válido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
+              <mat-label>Teléfono</mat-label>
+              <input type="text" matInput formControlName="telefono">
+              <mat-error *ngIf="formulario.controls.telefono.hasError('required')">
+                Ingrese un teléfono válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="filaFormulario">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+              <mat-label>Seleccionar rol</mat-label>
+              <mat-select formControlName="rol">
+                <mat-option *ngFor="let rol of roles" [value]="rol.id_rol">{{
+                  rol.descripcion
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.rol.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+              <mat-label>Seleccionar categoría</mat-label>
+              <mat-select formControlName="categoria">
+                <mat-option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{
+                  categoria.descripcion
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.categoria.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </div>
 
           <mat-checkbox class="example-full-width" [formControl]="isConfirmado">¿Está confirmado?</mat-checkbox>
-          
-          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-            <mat-label>Documento</mat-label>
-            <input type="text" matInput formControlName="documento">
-            <mat-error *ngIf="formulario.controls.documento.hasError('required')">
-              Ingrese un documento válido
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-            <mat-label>Dirección</mat-label>
-            <input type="text" matInput formControlName="direccion">
-            <mat-error *ngIf="formulario.controls.direccion.hasError('required')">
-              Ingrese una dirección válido
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-            <mat-label>Teléfono</mat-label>
-            <input type="text" matInput formControlName="telefono">
-            <mat-error *ngIf="formulario.controls.telefono.hasError('required')">
-              Ingrese un teléfono válido
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Fecha de Nacimiento</mat-label>
-            <input
-              matInput
-              formControlName="fechaNacimiento"
-              [matDatepicker]="calendario"
-              [max]="maxDate"
-              readonly
-            />
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="calendario"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #calendario disabled="false"></mat-datepicker>
-            <mat-hint>Edad mínima: 15 años</mat-hint>
-            <mat-error *ngIf="formulario.controls.fechaNacimiento.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
-          
-          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Seleccionar rol</mat-label>
-            <mat-select formControlName="rol">
-              <mat-option *ngFor="let rol of roles" [value]="rol.id_rol">{{
-                rol.descripcion
-              }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formulario.controls.rol.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
-          
-          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Seleccionar categoría</mat-label>
-            <mat-select formControlName="categoria">
-              <mat-option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{
-                categoria.descripcion
-              }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formulario.controls.categoria.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
 
         <div class="boton">
           <button type="submit" mat-raised-button color="primary">

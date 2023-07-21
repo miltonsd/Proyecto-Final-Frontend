@@ -1,7 +1,9 @@
-<h2 mat-dialog-title>{{ message.title }}</h2>
-<div mat-dialog-content>
-  {{ message.msg }}
+<div class="dialog">
+  <h3> {{ message.title }} </h3>
+  <div>
+    {{ message.msg }}
+  </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-stroked-button color="primary" mat-dialog-close>Aceptar</button>
+  <button mat-raised-button color="primary" mat-dialog-close>Aceptar</button>
 </div>

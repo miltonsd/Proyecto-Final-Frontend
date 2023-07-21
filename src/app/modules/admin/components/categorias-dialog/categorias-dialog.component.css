@@ -1,0 +1,17 @@
+.cartel {
+    padding: 2%;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.boton {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2%;
+}
+
+.boton button {
+    width: 20%;
+}

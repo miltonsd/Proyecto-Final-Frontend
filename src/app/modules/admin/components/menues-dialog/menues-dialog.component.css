@@ -1,0 +1,61 @@
+.cartel {
+    padding: 2%;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.reserva {
+    display: flex;
+    justify-content: center;
+    min-height: 30vh;
+}
+
+/* .reserva-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 30vw; 
+    max-width: 40vw;
+  } */
+  
+.reserva-content h1 {
+    font-weight: 600;
+    font-size: 45px;
+}
+
+.reserva-input {
+    width: 50%;
+}
+
+.usuario {
+    width: 100%;
+}
+
+.productos {
+    margin: 0;
+    padding: 0;
+}
+
+.filaFormulario {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .boton {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2%;
+  }
+
+  .boton button {
+    width: 35%;
+  }
+
+  mat-form-field {
+    height: 76px;
+    margin-right: 3%;
+    width: 30%;
+  }
+  

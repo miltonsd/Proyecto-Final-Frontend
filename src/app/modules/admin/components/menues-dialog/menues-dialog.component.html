@@ -1,20 +1,34 @@
 <div class="cartel">
     <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
-    <h1>{{data.editar ? 'Modificar' : 'Agregar'}} menu</h1>
+    <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} menu</h1>
   
       <div mat-dialog-content class="reserva">
         <div class="reserva">
           <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
   
-            <mat-form-field [hideRequiredMarker]="data.editar" class="example-full-width">
-              <mat-label>Título del menú</mat-label>
-              <input type="text" matInput formControlName="titulo">
-              <mat-error *ngIf="formulario.controls.titulo.hasError('required')">
-                Ingrese un título válido
-              </mat-error>
-            </mat-form-field>
+            <div class="filaFormulario">
+              <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+                <mat-label>Título del menú</mat-label>
+                <input type="text" matInput formControlName="titulo">
+                <mat-error *ngIf="formulario.controls.titulo.hasError('required')">
+                  Ingrese un título válido
+                </mat-error>
+              </mat-form-field>
 
-            <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input fechaHora">
+              <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input fechaHora">
+                <mat-label>Seleccionar producto(s)</mat-label>
+                <mat-select formControlName="producto" multiple>
+                  <mat-option *ngFor="let producto of productos" [value]="producto.id_producto">{{
+                    producto.descripcion
+                  }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formulario.controls.producto.hasError('required')">
+                  Campo obligatorio.
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input usuario">
               <mat-label>Seleccionar ID de usuario</mat-label>
               <mat-select formControlName="usuario">
                 <mat-option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">{{
@@ -22,18 +36,6 @@
                 }}</mat-option>
               </mat-select>
               <mat-error *ngIf="formulario.controls.usuario.hasError('required')">
-                Campo obligatorio.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input fechaHora">
-              <mat-label>Seleccionar producto(s)</mat-label>
-              <mat-select formControlName="producto" multiple>
-                <mat-option *ngFor="let producto of productos" [value]="producto.id_producto">{{
-                  producto.descripcion
-                }}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="formulario.controls.producto.hasError('required')">
                 Campo obligatorio.
               </mat-error>
             </mat-form-field>

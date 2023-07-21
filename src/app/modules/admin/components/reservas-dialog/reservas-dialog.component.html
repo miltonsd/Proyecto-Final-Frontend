@@ -1,13 +1,13 @@
 <div class="cartel">
   <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
-  <h1>{{data.editar ? 'Modificar' : 'Agregar'}} reserva</h1>
+  <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} reserva</h1>
 
     <div mat-dialog-content class="reserva">
       <div class="reserva">
         <form [formGroup]="formulario" class="reserva-content" (ngSubmit)="onSubmit()">
 
-          <div class="fechaHora" formGroupName="fechaHoraCantidad">
-            <mat-form-field appearance="outline" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+          <div class="filaFormulario" formGroupName="fechaHoraCantidad">
+            <mat-form-field appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
               <mat-label>Seleccionar fecha</mat-label>
               <input
                 matInput
@@ -26,7 +26,7 @@
               </mat-error>
             </mat-form-field>
       
-            <mat-form-field appearance="outline" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+            <mat-form-field appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
               <mat-label>Seleccionar horario</mat-label>
               <mat-select formControlName="hora">
                 <mat-option *ngFor="let hora of horas" [value]="hora">{{
@@ -37,14 +37,11 @@
                 Campo obligatorio.
               </mat-error>
             </mat-form-field>
-          </div>
-      
-          <div formGroupName="fechaHoraCantidad">
-            <mat-form-field  appearance="outline" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input">
+
+            <mat-form-field  appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input">
               <mat-label>Ingresar cantidad de personas</mat-label>
               <!-- <input matInput type="number" formControlName="cantidad"> -->
               <input matInput type="number" [min]="1" [max]="6" formControlName="cantidad">
-              <mat-hint>Para reservas de más de 6 personas, comunicarse con el bar.</mat-hint>
               <mat-error *ngIf="formulario.controls.fechaHoraCantidad.controls.cantidad.hasError('required')">
                 Campo obligatorio.
               </mat-error>
@@ -57,34 +54,36 @@
             </mat-form-field>
           </div>
 
-          <mat-checkbox class="example-full-width" formControlName="isPendiente">
-            ¿Reserva pendiente?
-          </mat-checkbox>
+          <div class="filaFormulario">
+            <mat-form-field appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+              <mat-label>Seleccionar usuario</mat-label>
+              <mat-select formControlName="usuario">
+                <mat-option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">{{
+                  usuario.nombre
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.usuario.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Seleccionar usuario</mat-label>
-            <mat-select formControlName="usuario">
-              <mat-option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">{{
-                usuario.nombre
-              }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formulario.controls.usuario.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+              <mat-label>Seleccionar mesa</mat-label>
+              <mat-select formControlName="mesa">
+                <mat-option *ngFor="let mesa of listaMesas" [value]="mesa.id_mesa">{{
+                  mesa.id_mesa + ' - ' + mesa.ubicacion
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.mesa.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+            
+            <mat-checkbox class="example-full-width" formControlName="isPendiente">
+              ¿Reserva pendiente?
+            </mat-checkbox>
+          </div>
 
-          <mat-form-field appearance="outline" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Seleccionar mesa</mat-label>
-            <mat-select formControlName="mesa">
-              <mat-option *ngFor="let mesa of listaMesas" [value]="mesa.id_mesa">{{
-                mesa.id_mesa + ' - ' + mesa.ubicacion
-              }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formulario.controls.mesa.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
-          
         <div class="boton">
           <button type="submit" mat-raised-button color="primary">
             Confirmar
