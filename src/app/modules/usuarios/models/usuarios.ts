@@ -6,7 +6,7 @@ export interface UsuarioPOST {
   nombre: string
   apellido: string
   email: string
-  contraseña: string
+  contraseña?: string
   isConfirmado: boolean
   documento: string
   direccion: string

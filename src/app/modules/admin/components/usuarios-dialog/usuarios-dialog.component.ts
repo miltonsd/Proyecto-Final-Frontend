@@ -58,9 +58,7 @@ export class UsuariosDialogComponent implements OnInit {
         Validators.maxLength(100)
       ]
     }),
-    password: new FormControl('', {
-      validators: [Validators.required]
-    }),
+    password: new FormControl(''),
     isConfirmado: this.isConfirmado,
     documento: new FormControl('', {
       validators: [
@@ -84,7 +82,8 @@ export class UsuariosDialogComponent implements OnInit {
     }),
     categoria: new FormControl(0, {
       validators: [Validators.required]
-    })
+    }),
+    cambiarPass: new FormControl(false)
   })
 
   ngOnInit(): void {
@@ -116,6 +115,11 @@ export class UsuariosDialogComponent implements OnInit {
         next: () => {
           if (this.data.editar) {
             this.cargarFormulario()
+          } else {
+            // Si se crea un usuario, le agrega el Validator required al password del formulario y actualiza el mismo para que se vean reflejados los cambios
+            const passwordControl = this.formulario.get('password')
+            passwordControl?.setValidators([Validators.required])
+            passwordControl?.updateValueAndValidity()
           }
         },
         error: (err: any) =>
@@ -124,7 +128,6 @@ export class UsuariosDialogComponent implements OnInit {
   }
 
   cargarFormulario() {
-    console.log(this.data.elemento)
     const usuario: UsuarioForm = {
       nombre: this.data.elemento?.nombre as string,
       apellido: this.data.elemento?.apellido as string,
@@ -153,6 +156,21 @@ export class UsuariosDialogComponent implements OnInit {
       rol: usuario.rol,
       categoria: usuario.categoria
     })
+
+    // Suscribirse a los cambios del checkbox "¿Cambiar contraseña?"
+    this.formulario.get('cambiarPass')?.valueChanges.subscribe((value) => {
+      const passwordControl = this.formulario.get('password')
+
+      if (value) {
+        // Si el checkbox está marcado, agregar el validador 'required' del campo de contraseña
+        passwordControl?.setValidators([Validators.required])
+      } else {
+        // Si el checkbox está desmarcado, quita el validador al campo de contraseña
+        passwordControl?.clearValidators()
+      }
+      // Actualiza el estado del formulario para que refleje los cambios realizados
+      passwordControl?.updateValueAndValidity()
+    })
   }
 
   onNoClick(): void {
@@ -165,7 +183,6 @@ export class UsuariosDialogComponent implements OnInit {
         nombre: this.formulario.value.nombre as string,
         apellido: this.formulario.value.apellido as string,
         email: this.formulario.value.email as string,
-        contraseña: this.formulario.value.password as string,
         isConfirmado: this.formulario.value.isConfirmado as boolean,
         documento: this.formulario.value.documento as string,
         direccion: this.formulario.value.direccion as string,
@@ -176,6 +193,10 @@ export class UsuariosDialogComponent implements OnInit {
         ).format(),
         rol: this.formulario.value.rol as number,
         categoria: this.formulario.value.categoria as number
+      }
+      if (this.formulario.get('cambiarPass')?.value || !this.data.editar) {
+        // Si el checkbox está marcado o el formulario es para crear un usuario, incluir la contraseña en el objeto a enviar al backend
+        usuario['contraseña'] = this.formulario.value.password as string
       }
       this.dialogRef.close({ data: usuario })
     } else {

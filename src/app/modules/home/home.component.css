@@ -4,16 +4,30 @@
 
 .foto {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../../assets/img/home/HomeBG.jpg');
-  min-height: 100vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .texto {
-  font-size: 55px;
+  font-size: 45px;
   font-weight: 800;
   color: white;
   text-align: center;
 }
 
+/* Se aplica solo a los dispositos que tengan un ancho de mínimo 992px */
+@media only screen and (min-width: 992px) {
+  .main {
+    /* background-color: rgba(90, 89, 89, 0.637); */
+   }
+   
+   .foto {
+     min-height: 100vh;
+   }
+   
+   .texto {
+     font-size: 55px;
+   }
+}

@@ -1,133 +1,137 @@
-.game-title {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1%;
-  }
+.carrousel-container {
+  position: relative;
+  background: rgba(0, 0, 0, 0.863);
+  margin: auto;
+  text-align: center;
+  width: 380px;
+  height: 275px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px 10px rgb(41, 41, 41);
+  margin-bottom: 3%;
+}
   
-  .game-date {
-    display: flex;
-    justify-content: center;
-    margin-top: 1%;
+.carrousel-container img {
+  display: none;
+}
+
+.carrousel-container img.image-active {
+  display: block;
+  justify-content: center;
+  margin: auto;
+  width: 380px;
+  height: 275px;
+  border-radius: 15px;
+}
+
+.carrousel-dot-container {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.dot {
+  cursor: pointer;
+  height: 13px;
+  width: 13px;
+  margin: 0 5px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  transition: opacity 0.6s ease;
+  opacity: 0.5;
+}
+
+.active,
+.dot:hover {
+  opacity: 1;
+  height: 20px;
+  width: 20px;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
   }
-  
+  to {
+    opacity: 1;
+  }
+}
+
+.btn-carrousel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+  background: 0 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.btn-prev {
+  left: 0;
+}
+
+.btn-next {
+  right: 22px;
+}
+
+.icon-carrousel {
+  color: #fff;
+  opacity: 0.5;
+  transition: all 0.15s ease;
+}
+
+.icon-carrousel:hover {
+  opacity: 1;
+}
+
+.icon-carrousel:active {
+  opacity: 0.5;
+}
+
+.icon-prev,
+.icon-next {
+  font-size: 48px;
+  overflow: visible;
+}
+
+@media only screen and (min-width: 480px) {
   .carrousel-container {
-    position: relative;
-    background: rgba(0, 0, 0, 0.863);
-    margin: auto;
-    text-align: center;
-    width: 325px;
-    border-radius: 15px;
-    box-shadow: 0px 0px 20px 10px rgb(41, 41, 41);
-    margin-bottom: 3%;
+    width: 500px;
+    height: 362px;
   }
-  
-  .carrousel-container img {
-    display: none;
-  }
-  
+
   .carrousel-container img.image-active {
-    display: block;
-    justify-content: center;
-    margin: auto;
-    height: 225px;
+    width: 500px;
+    height: 362px;
   }
-  
-  .carrousel-dot-container {
-    position: absolute;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 992px) {
+  .carrousel-container {
+    width: 900px;
+    height: 500px;
   }
-  
-  .dot {
-    cursor: pointer;
-    height: 13px;
-    width: 13px;
-    margin: 0 5px;
-    background-color: #fff;
-    border-radius: 50%;
-    display: inline-block;
-    transition: opacity 0.6s ease;
-    opacity: 0.5;
+
+  .carrousel-container img.image-active {
+    width: 900px;
+    height: 500px;
   }
-  
-  .active,
-  .dot:hover {
-    opacity: 1;
-    height: 20px;
-    width: 20px;
-  }
-  
-  .fade {
-    animation-name: fade;
-    animation-duration: 1.5s;
-  }
-  
-  @keyframes fade {
-    from {
-      opacity: 0.4;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  .btn-carrousel {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 15%;
-    padding: 0;
-    color: #fff;
-    text-align: center;
-    background: 0 0;
-    border: 0;
-    cursor: pointer;
-  }
-  
-  .btn-prev {
-    left: 0;
-  }
-  
-  .btn-next {
-    right: 0;
-  }
-  
-  .icon-carrousel {
-    color: #fff;
-    opacity: 0.5;
-    transition: all 0.15s ease;
-  }
-  
-  .icon-carrousel:hover {
-    opacity: 1;
-  }
-  
-  .icon-carrousel:active {
-    opacity: 0.5;
-  }
-  
-  .icon-prev,
-  .icon-next {
-    font-size: 48px;
-    overflow: visible;
-  }
-  
-  @media only screen and (min-width: 576px) {
-    .carrousel-container {
-      width: 900px;
-      height: 500px;
-    }
-  
-    .carrousel-container img.image-active {
-      height: 500px;
-    }
-  }
+}
