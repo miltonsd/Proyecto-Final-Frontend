@@ -17,3 +17,25 @@
 .foto {
   height: 60px;
 }
+
+::ng-deep .celular {
+  background-color: rgb(25, 25, 25);
+}
+
+::ng-deep .celular .mat-mdc-button:not(:disabled) {
+  color: #fff !important;
+}
+
+.pc {
+  display: none;
+}
+
+@media only screen and (min-width: 992px) {
+  .celular {
+    display: none;
+  }
+
+  .pc {
+    display: block;
+  }
+} 
