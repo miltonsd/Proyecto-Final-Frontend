@@ -1,8 +1,10 @@
-h1 {
-    color: #f7bd00
+.titulo {
+    color: #f7bd00;
+    font-size: 30px;
   }
   
   .container {
+    min-height: 75vh;
     padding: 1%;
     margin-top: 1vh;
     display: flex;
@@ -24,7 +26,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     width: 90%;
-    min-height: 15vh;
+    min-height: 10vh;
     margin-bottom: 2vh;
     border-radius: 2vw;
     padding-inline: 2vw;
@@ -36,6 +38,7 @@ h1 {
   .content {
     text-align: center;
     color: white;
+    font-size: 15px;
   }
   
   .cardTitle {
@@ -45,7 +48,7 @@ h1 {
     align-items: center;
     width: 90%;
     margin-bottom: 2vh;
-    padding-inline: 2vw;
+    padding-inline: 2vw; /* padding a la izquierda y a la derecha */
     box-shadow: none;
     background-color: rgb(41, 41, 41);
   }
@@ -55,66 +58,38 @@ h1 {
     border: 2px solid #f7bd00;
     background-color: rgb(41, 41, 41);
     color: white;
-    height: 8vh;
+    height: 5vh;
     width: 10vw;
     cursor: pointer;
     font-size: large;
   }
 
-  /* @media only screen and (min-width: 480px) {
-  .carrousel-container {
-    width: 500px;
-    height: 362px;
+  .button-pc {
+    display: none;
   }
-
-  .carrousel-container img.image-active {
-    width: 500px;
-    height: 362px;
-  }
-} */
 
 @media only screen and (min-width: 992px) {
-  .container {
-    padding: 1%;
-    margin-top: 1vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  .titulo {
+    font-size: 35px;
   }
   
-  .header {
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    align-items: center;
+  .content {
+    font-size: 20px;
   }
-  
+
   .card {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
     min-height: 15vh;
-    margin-bottom: 2vh;
-    padding-inline: 2vw;
-  }
-  
-  .cardTitle {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    margin-bottom: 2vh;
-    padding-inline: 2vw;
   }
   
   .button {
     height: 8vh;
-    width: 10vw;
-    cursor: pointer;
-    font-size: large;
+  }
+
+  .button-celular {
+    display: none;
+  }
+
+  .button-pc {
+    display: block;
   }
 } 

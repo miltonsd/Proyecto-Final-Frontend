@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Pedidos pendientes</h1>
+  <h1 class="titulo">Pedidos pendientes</h1>
   
   <ng-container *ngIf="datosTabla.length > 0; else sinPedidos">
     <mat-card class="cardTitle">
@@ -36,8 +36,11 @@
           </h2>
         </div>
         <mat-card-actions align="end">
-          <button class="button" (click)="entregar(pedido.id_pedido)">
+          <button class="button button-pc" (click)="entregar(pedido.id_pedido)">
             Entregar
+          </button>
+          <button class="button button-celular" (click)="entregar(pedido.id_pedido)">
+            <mat-icon>room_service</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>

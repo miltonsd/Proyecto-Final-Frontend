@@ -1,5 +1,5 @@
 <mat-sidenav-container class="usuario-container">
-    <mat-sidenav class="barra" mode="side" opened>
+    <mat-sidenav class="barra" mode=side [opened]="mostrarBarra">
         <mat-nav-list role="navigation" class="opciones">
                <a mat-list-item routerLinkActive="seleccionado" routerLink="/perfil/info"><mat-icon>settings</mat-icon>Información de mi cuenta</a>               
                <a mat-list-item routerLinkActive="seleccionado" routerLink="/perfil/reservas"><mat-icon>calendar_month</mat-icon>Histórico de reservas</a>               
@@ -18,6 +18,10 @@
 
     </mat-sidenav>
     <mat-sidenav-content class="contenido">
+        <button mat-raised-button class="button-celular" (click)="desplegarBarra()">
+            <mat-icon>menu_open</mat-icon>{{mostrarBarra? 'Ocultar' : 'Mostrar'}} menú
+        </button>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
+

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { AuthService } from '../auth/services/auth.service'
 import { CookieService } from 'ngx-cookie-service'
+import { MediaMatcher } from '@angular/cdk/layout'
 
 @Component({
   selector: 'pa-usuarios',
@@ -8,12 +9,22 @@ import { CookieService } from 'ngx-cookie-service'
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent {
+  mostrarBarra!: boolean
+  mobileQuery!: MediaQueryList
   userOption = 1 // Por defecto 1: Info / 2: Histórico Reservas / 3: Histórico Pedidos / 4: Menues / 5: Pedidos del día
 
   constructor(
     public _authService: AuthService,
-    private _cookieService: CookieService
-  ) {}
+    private _cookieService: CookieService,
+    media: MediaMatcher
+  ) {
+    this.mobileQuery = media.matchMedia('(max-width: 991px)')
+    if (this.mobileQuery.matches) {
+      this.mostrarBarra = false
+    } else {
+      this.mostrarBarra = true
+    }
+  }
 
   logout() {
     this._authService.logout().subscribe({
@@ -31,5 +42,9 @@ export class UsuariosComponent {
   changeUserOption(opcion: number) {
     this.userOption = opcion
     console.log(this.userOption)
+  }
+
+  desplegarBarra() {
+    this.mostrarBarra = !this.mostrarBarra
   }
 }

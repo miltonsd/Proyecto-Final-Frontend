@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Habilitar/deshabilitar mesa</h1>
+    <h1 class="titulo">Habilitar/deshabilitar mesa</h1>
     
     <ng-container *ngIf="datosMesas.length > 0; else sinMesas">
       <mat-card class="cardTitle">
@@ -37,9 +37,23 @@
             </h2>
           </div>
           <mat-card-actions align="end">
-            <button class="button" (click)="cambiarEstado(mesa)">
+            <button class="button-pc button" (click)="cambiarEstado(mesa)">
               {{ mesa.habilitada? 'Deshabilitar': 'Habilitar'}}
             </button>
+
+            <div class="button-celular">
+            <ng-container *ngIf="mesa.habilitada; else deshabilitada">
+              <button class="button" (click)="cambiarEstado(mesa)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </ng-container> 
+
+            <ng-template #deshabilitada>
+              <button class="button" (click)="cambiarEstado(mesa)">
+                <mat-icon>check</mat-icon>
+              </button>
+            </ng-template>
+          </div>
           </mat-card-actions>
         </mat-card>
   
