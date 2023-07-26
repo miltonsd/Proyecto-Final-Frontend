@@ -1,8 +1,13 @@
-<pa-tabla
-        [tableData]="menues"
-        [tableColumns]="columnas"
-        [isFilter]="true"
-        [isPaginator]="true"
-        [pageOptions]="[5, 10, 15]"
-        (menuAction)="onCargarMenu($event)">
-</pa-tabla>
+<div class="container">
+    <h1 class="titulo">Mis menúes</h1>
+    <div class="tabla">
+        
+        <pa-tabla
+            [tableData]="menues"
+            [tableColumns]="columnas"
+            [isFilter]="false"
+            [isPaginator]="false"
+            (menuAction)="onCargarMenu($event)">
+        </pa-tabla>
+    </div>
+</div>

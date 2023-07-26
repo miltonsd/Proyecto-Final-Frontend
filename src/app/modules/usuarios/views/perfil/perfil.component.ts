@@ -72,7 +72,7 @@ export class PerfilComponent implements AfterContentInit {
       telefono: this.usuarioInfo.telefono
     }
     const dialogRef = this.dialog.open(DialogEditarPerfilComponent, {
-      width: '900px',
+      width: '600px',
       data: dataUsuario
     })
     dialogRef.afterClosed().subscribe((resultado) => {
@@ -95,7 +95,7 @@ export class PerfilComponent implements AfterContentInit {
 
   onChangePassword() {
     const dialogRef = this.dialog.open(DialogCambiarPasswordComponent, {
-      width: '900px'
+      width: '600px'
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {

@@ -15,16 +15,22 @@
   grid-area: titulo;
   text-align: center;
   color: #f7bd00;
+  font-size: 30px
 }
 
 .questions {
   color: #fff;
   grid-area: questions;
   text-align: justify;
-  margin-bottom: 10%;
 }
 
 .question {
   color: #f7bd00;
   font-weight: 600;
 }
+
+@media only screen and (min-width: 992px) {
+  .titulo {
+      font-size: 35px;
+  }
+} 

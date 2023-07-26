@@ -6,14 +6,15 @@
                <a mat-list-item routerLinkActive="seleccionado" routerLink="/perfil/pedidos"><mat-icon>feed</mat-icon>Histórico de pedidos</a>               
                <a mat-list-item routerLinkActive="seleccionado" routerLink="/perfil/menues"><mat-icon>restaurant_menu</mat-icon>Mis menúes</a>               
                <a mat-list-item routerLinkActive="seleccionado" routerLink="/perfil/consumiciones"><mat-icon>shopping_cart</mat-icon>Mis consumiciones en el día</a>               
-               
-            <div style="height: 400px;"></div>
+            
             <mat-divider></mat-divider>
+        <div class="logout">
+            <a mat-list-item (click)="logout()"> 
+                <mat-icon>logout</mat-icon> 
+                Cerrar sesión
+            </a>               
+        </div>
 
-        <a mat-list-item class="logout" (click)="logout()"> 
-            <mat-icon>logout</mat-icon> 
-        Cerrar sesión
-        </a>               
         </mat-nav-list>
 
     </mat-sidenav>

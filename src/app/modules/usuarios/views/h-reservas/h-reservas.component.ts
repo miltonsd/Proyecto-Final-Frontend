@@ -15,7 +15,13 @@ import { map } from 'rxjs'
 export class HReservasComponent implements OnInit {
   reservas: any[] = []
   // Defino las columnas de la tabla de histórico de reservas
-  columnas: TableColumn[] = [
+  columnasCelu: TableColumn[] = [
+    { name: 'Fecha y hora', dataKey: 'fechaHora' },
+    { name: 'Mesa', dataKey: 'id_mesa' },
+    { name: '¿Está pendiente?', dataKey: 'isPendiente' },
+    { name: '¿Fue cancelada?', dataKey: 'deletedAt' }
+  ]
+  columnasPC: TableColumn[] = [
     { name: 'Fecha y hora', dataKey: 'fechaHora' },
     { name: 'Cantidad de personas', dataKey: 'cant_personas' },
     { name: 'Mesa', dataKey: 'id_mesa' },

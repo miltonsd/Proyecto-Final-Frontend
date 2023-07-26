@@ -1,7 +1,19 @@
-<pa-tabla
-        [tableData]="reservas"
-        [tableColumns]="columnas"
-        [isFilter]="true"
-        [isPaginator]="true"
-        [pageOptions]="[5, 10, 15]">
-</pa-tabla>
+<div class="container">
+    <h1 class="titulo">Histórico de reservas</h1>
+    <div class="tabla">
+        
+        <pa-tabla class="celular"
+            [tableData]="reservas"
+            [tableColumns]="columnasCelu"
+            [isFilter]="false"
+            [isPaginator]="false">
+        </pa-tabla>
+        
+        <pa-tabla class="pc"
+            [tableData]="reservas"
+            [tableColumns]="columnasPC"
+            [isFilter]="false"
+            [isPaginator]="false">
+        </pa-tabla>
+    </div>
+</div>

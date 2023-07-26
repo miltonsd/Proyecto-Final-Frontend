@@ -1,7 +1,12 @@
-<pa-tabla
-        [tableData]="pedidos"
-        [tableColumns]="columnas"
-        [isFilter]="true"
-        [isPaginator]="true"
-        [pageOptions]="[5, 10, 15]">
-</pa-tabla>
+<div class="container">
+    <h1 class="titulo">Histórico de pedidos</h1>
+    <div class="tabla">
+
+        <pa-tabla
+            [tableData]="pedidos"
+            [tableColumns]="columnas"
+            [isFilter]="false"
+            [isPaginator]="false">
+        </pa-tabla>
+    </div>
+</div>

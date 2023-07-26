@@ -1,21 +1,41 @@
 .usuario-container {
-  min-height: 85vh;
+  min-height: 75vh;
 }
 
 .barra {
-  width: 280px;
+  width: 285px;
+  min-height: 100%;
+}
+
+.button-celular {
+  background-color: rgb(61, 61, 61);
+  color: #f7bd00;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
+
+.mat-icon {
+  font-size: 24px
 }
 
 .opciones {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   background-color: rgb(41, 41, 41);
   width: 100%;
+}
+
+.logout {
+  margin-top: auto;
 }
 
 .contenido {
   background-color: rgb(61, 61, 61);
   color: rgb(255, 255, 255) !important;
-  min-height: 100vh;
+  min-height: 75vh;
 }
 
 /* Color de fondo de la opción(item) seleccionada */
@@ -51,9 +71,7 @@ a.seleccionado{
 }
 
 @media only screen and (min-width: 992px) {
-  
   .button-celular {
     display: none;
   }
-
 } 

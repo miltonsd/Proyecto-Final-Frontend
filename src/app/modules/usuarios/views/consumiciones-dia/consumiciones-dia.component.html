@@ -1,87 +1,87 @@
 <div class="container">
-  <h1>Consumiciones del día</h1>
-<ng-container *ngIf="consumiciones.length > 0; else sinPedidos">
-  <mat-card class="cardTitle">
-    <div class="header">
-      <h2 class="content" style="margin-inline-end: 1vw; flex: 1">Hora</h2>
-      <h2 
-      class="content"
-      style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
-      >
-        Productos
-      </h2>
-      <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">Subtotal</h2>
-      <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">Mesa</h2>
-      <h2 class="content" style="justify-self: flex-end; flex: 1">Estado</h2>
-    </div>
-    
-  </mat-card>
-    
-  <ng-container *ngFor="let consumicion of consumiciones">
-    <mat-card class="card">
+  <h1 class="titulo">Consumiciones del día</h1>
+  <ng-container *ngIf="consumiciones.length > 0; else sinPedidos">
+    <mat-card class="cardTitle">
       <div class="header">
-        <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
-          {{ consumicion.hora }}
-        </h2>
-        <h3
+        <h2 class="content" style="margin-inline-end: 1vw; flex: 1">Hora</h2>
+        <h2 
         class="content"
         style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
         >
-        <!-- Valida si la cantidad de productos pedidos en la consumicion es menor a 3 para mostrarlos en la card -->
-        <ng-container *ngIf="consumicion.productos.length < 3; else desplegable">
-          <p *ngFor="let producto of consumicion.productos">
-            {{ producto.descripcion }} x {{producto.cant_selecc}}U. (Precio unitario: ${{producto.precio}})
-          </p>
-        </ng-container>
-        
-        <!-- Si la cantidad de productos pedidos en la consumicion es +3, los muestra en un panel expandible -->
-        <ng-template #desplegable>
-          <mat-expansion-panel class="panel-expandible" (opened)="estadoPanel = true" (closed)="estadoPanel = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{ estadoPanel ? 'Ocultar' : 'Mostrar' }} productos pedidos ({{ consumicion.productos.length }} productos)
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <p *ngFor="let producto of consumicion.productos">
+          Productos
+        </h2>
+        <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">Subtotal</h2>
+        <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">Mesa</h2>
+        <h2 class="content" style="justify-self: flex-end; flex: 1">Estado</h2>
+      </div>
+      
+    </mat-card>
+      
+    <ng-container *ngFor="let consumicion of consumiciones">
+      <mat-card class="card">
+        <div class="header">
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
+            {{ consumicion.hora }}
+          </h2>
+          <h3
+          class="content"
+          style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
+          >
+          <!-- Valida si la cantidad de productos pedidos en la consumicion es menor a 3 para mostrarlos en la card -->
+          <ng-container *ngIf="consumicion.productos.length < 3; else desplegable">
+            <p *ngFor="let producto of consumicion.productos" class="productos">
               {{ producto.descripcion }} x {{producto.cant_selecc}}U. (Precio unitario: ${{producto.precio}})
             </p>
-          </mat-expansion-panel>
+          </ng-container>
           
-        </ng-template>
-        
-        </h3>
-        <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">
-          ${{ consumicion.subtotal }}
-        </h2>
-        <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">
-          {{ consumicion.mesa }}
-        </h2>
-        <h2 class="content" style="justify-self: flex-end; flex: 1">
-          {{ consumicion.estado ? 'Pendiente' : 'Entregado' }}
-        </h2>
-      </div>
-    </mat-card>
+          <!-- Si la cantidad de productos pedidos en la consumicion es +3, los muestra en un panel expandible -->
+          <ng-template #desplegable>
+            <mat-expansion-panel class="panel-expandible" (opened)="estadoPanel = true" (closed)="estadoPanel = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ estadoPanel ? 'Ocultar' : 'Mostrar' }} productos pedidos ({{ consumicion.productos.length }} productos)
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p *ngFor="let producto of consumicion.productos">
+                {{ producto.descripcion }} x {{producto.cant_selecc}}U. (Precio unitario: ${{producto.precio}})
+              </p>
+            </mat-expansion-panel>
+            
+          </ng-template>
+          
+          </h3>
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">
+            ${{ consumicion.subtotal }}
+          </h2>
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1; flex-wrap: wrap">
+            {{ consumicion.mesa }}
+          </h2>
+          <h2 class="content" style="justify-self: flex-end; flex: 1">
+            {{ consumicion.estado ? 'Pendiente' : 'Entregado' }}
+          </h2>
+        </div>
+      </mat-card>
 
-  </ng-container>
-  <mat-card class="card">
-    <div class="header">
-      <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
-        Total: ${{ calculaTotal() }}
-      </h2>
-    </div>
-    <mat-card-actions class="content" style="justify-self: flex-end; flex: 1">
-      <button mat-raised-button type="button" color="primary" (click)="pedirCuenta()">Pedir la cuenta</button>
-    </mat-card-actions>
-  </mat-card>
-</ng-container>
-
-<ng-template #sinPedidos>
+    </ng-container>
     <mat-card class="card">
       <div class="header">
         <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
-          MOMENTÁNEAMENTE NO HAY CONSUMICIONES REALIZADAS.
+          Total: ${{ calculaTotal() }}
         </h2>
       </div>
+      <mat-card-actions class="content" style="justify-self: flex-end; flex: 1">
+        <button mat-raised-button type="button" color="primary" (click)="pedirCuenta()">Pedir la cuenta</button>
+      </mat-card-actions>
     </mat-card>
-</ng-template>
+  </ng-container>
+
+  <ng-template #sinPedidos>
+      <mat-card class="card">
+        <div class="header">
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
+            MOMENTÁNEAMENTE NO HAY CONSUMICIONES REALIZADAS.
+          </h2>
+        </div>
+      </mat-card>
+  </ng-template>
 </div>
