@@ -36,48 +36,48 @@
                             </a>
                         </div>
                     </ng-container>
-                    <!-- Si existe botón de 'Editar' -->        
-                    <ng-container *ngIf="tableColumn.editButton">
-                        <div class="boton-c">
+                
+                    <ng-container *ngIf="tableColumn.editButton && tableColumn.deleteButton">
+                        <div class="boton-c edit-delete-pc">
                             <a mat-flat-button color="primary" (click)="onEdit(row)"class="boton">
-                                <mat-icon>
-                                    <span class="material-symbols-outlined">edit</span>
-                                </mat-icon>
+                                <mat-icon>edit</mat-icon>
                                 Editar
                             </a>
-                        </div>
-                    </ng-container>
-                    <!-- Si existe botón de 'Eliminar' -->
-                    <ng-container *ngIf="tableColumn.deleteButton">
-                        <div class="boton-c">
                             <a mat-flat-button color="warn" (click)="onDelete(row)" class="boton">
-                                <mat-icon>
-                                    <span class="material-symbols-outlined">delete</span>
-                                </mat-icon>
+                                <mat-icon>delete</mat-icon>
                                 Eliminar
                             </a>
+                        </div>                          
+                        <div class="boton-c edit-delete-celular">
+                            <a mat-mini-fab color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>
+                                    edit
+                                </mat-icon>
+                            </a>
+                            <a mat-mini-fab color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
+                            </a>
                         </div>
                     </ng-container>
-                    <!-- Si existe botón de '+1' -->
+
+                    <!-- Si existe botón de '+1' y '-1' -->
                     <ng-container *ngIf="tableColumn.addButton">
-                        <div class="boton-c">
+                        <div class="boton-c botones-carta">
                             <a mat-mini-fab color="primary" (click)="onAddCart(row)" class="boton">
-                                <mat-icon>exposure_plus_1
-                                    <!-- <span class="material-symbols-outlined">exposure_plus_1</span> -->
+                                <mat-icon>
+                                    exposure_plus_1
                                 </mat-icon>
                             </a>
-                        </div>
-                    </ng-container>
-                    <!-- Si existe botón de '-1' -->
-                    <ng-container *ngIf="tableColumn.removeButton">
-                        <div class="boton-c">
                             <a mat-mini-fab color="primary" (click)="onRemoveCart(row)" class="boton">
-                                <mat-icon>exposure_neg_1
-                                    <!-- <span class="material-symbols-outlined">exposure_neg_1</span> -->
+                                <mat-icon>
+                                    exposure_neg_1
                                 </mat-icon>
                             </a>
                         </div>
                     </ng-container>
+
                     <!-- Si existe botón para cargar el menú al momento de hacer un pedido -->
                     <ng-container *ngIf="tableColumn.menuButton">
                         <div class="boton-c">

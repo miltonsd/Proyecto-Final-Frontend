@@ -1,16 +1,25 @@
-.carta {
+.main {
     align-items: center;
     min-height: 30vh;
     display: grid;
     justify-content: center;
-    margin-bottom: 5vh;
     padding-top: 2%;
-    padding-bottom: 2%;
   }
 
 .cards {
+    display: flex;
+    flex-direction: column;
+  }
+
+@media only screen and (min-width: 992px) {
+  .main {
+    margin-bottom: 1%;
+  }
+  
+  .cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     min-height: 72vh;
   }
+} 

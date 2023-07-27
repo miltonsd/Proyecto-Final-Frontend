@@ -5,6 +5,7 @@
   background-color: rgb(61, 61, 61);
   border: 1px solid #f7bd00;
   box-shadow: 0px 0px 10px 1px #f7bd00;
+  font-size: 13px;
 }
 
 .mat-mdc-header-cell, .mat-mdc-cell, .mat-cell, .mat-mdc-sort-header { 
@@ -26,9 +27,51 @@
 .boton-c {
   display: flex;
   justify-content: center;
-  width: 120px;
+}
+
+/* Hace referencia a los botones de +1 y -1  */
+.botones-carta .boton {
+  width: 32px;
+  height: 32px;
+}
+
+.edit-delete-celular .boton {
+  width: 32px;
+  height: 32px;
 }
 
 .boton { 
   margin: 0% 1%; 
 }
+
+.edit-delete-pc {
+  display: none;
+}
+
+@media only screen and (min-width: 992px) {
+.tabla {
+  font-size: 16px
+}
+
+.boton-c {
+  width: 217px;
+}
+
+/* Hace referencia a los botones de +1 y -1  */
+.botones-carta .boton {
+  width: 48px;
+  height: 48px;
+}
+
+.edit-delete-celular {
+  display: none;
+}
+
+.edit-delete-pc {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
+}
+} 

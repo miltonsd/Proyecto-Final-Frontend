@@ -1,4 +1,4 @@
-<div class="reserva">
+<div class="main">
   <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
     <h1 class="titulo">Hace tu reserva</h1>
 
@@ -77,7 +77,7 @@
       <pa-tabla
         [tableData]="reservasUsuario"
         [tableColumns]="columnas"
-        [isFilter]="true"
+        [isFilter]="false"
         [isPaginator]="true"
         [pageOptions]="[5, 10, 15]"
         [confirmDialogMsg]="msgConfirmacion"

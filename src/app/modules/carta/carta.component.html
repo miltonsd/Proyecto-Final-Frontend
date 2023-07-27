@@ -1,7 +1,7 @@
-<div class="carta">
+<div class="main">
   <ng-container *ngIf="this.tiposP.length > 0">
     <div class="cards" [@slide]>
-      <section class="card" *ngFor="let tipo of this.tiposP">
+      <section *ngFor="let tipo of this.tiposP">
         <pa-card-tipo-producto [tipo]="tipo"></pa-card-tipo-producto>
       </section>
     </div>

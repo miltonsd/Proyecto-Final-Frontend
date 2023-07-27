@@ -1,25 +1,29 @@
-.reserva {
+.titulo {
+  font-size: 30px;
+  text-align: center;
+  color: #f7bd00;
+}
+
+.main {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 30vh;
-  margin: 2% 5%; /* Top: 2% Right: 5% Bottom: 2% Left: 5% */
+  min-height: 75vh;
+  margin: 3%;
 }
 
 .reserva-content {
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
-  padding: 2% 5%;
-  min-width: 30vw;
-  max-width: 40vw;
+  padding-inline: 3%;
+  width: 100%;
   color: #f7bd00;
+  margin-bottom: 4%;
 }
 
 .reserva-content h1 {
   font-weight: 600;
-  font-size: 45px;
-  color: #f7bd00;
 }
 
 .reserva-input {
@@ -28,15 +32,15 @@
 }
 
 div.fechaHora {
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
 }
 
 mat-form-field.fechaHora {
   height: 76px;
-  margin-right: 10%;
+  width: 49%;
 }
 
 .boton {
@@ -50,8 +54,7 @@ mat-form-field.fechaHora {
 
 .table-container {
   width: 100%;
-  padding: 4% 6%; /* Top: 7% Right: 6% Bottom: 7% Left: 6% */
-  align-self: flex-start;
+  padding-inline: 3%;
 }
 
 .tabla {
@@ -75,3 +78,24 @@ mat-form-field.fechaHora {
   text-align: center;
   color: rgb(255, 255, 255);
 }
+
+@media only screen and (min-width: 992px) {
+  .titulo {
+    font-size: 35px;
+  }
+
+  .main {
+    flex-direction: row;
+  }
+  
+  .reserva-content {
+    align-self: flex-start;
+    width: 33vw;
+  }
+
+  .table-container {
+    padding-top: 4%;
+    padding-bottom: 4%;
+    align-self: flex-start;
+  }
+} 

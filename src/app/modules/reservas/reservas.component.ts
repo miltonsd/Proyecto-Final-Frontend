@@ -51,9 +51,8 @@ export class ReservasComponent implements OnInit {
   columnas: TableColumn[] = [
     { name: 'Fecha y hora', dataKey: 'fechaHora' },
     {
-      name: 'Cantidad de personas',
-      dataKey: 'cant_personas',
-      isSortable: true
+      name: 'Personas',
+      dataKey: 'cant_personas'
     },
     { name: 'Mesa', dataKey: 'id_mesa' },
     {
@@ -271,7 +270,7 @@ export class ReservasComponent implements OnInit {
       }))
       .filter((r) => r.id_reserva != reserva.id_reserva)
     const dialogRef = this.dialog.open(DialogEditarReservaComponent, {
-      width: '900px',
+      width: '600px',
       data: {
         reserva,
         listaReservas

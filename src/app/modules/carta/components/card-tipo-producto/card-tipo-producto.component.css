@@ -1,10 +1,11 @@
 .card {
     width: 388px;
-    height: 352px;
+    height: 200px;
     background-size: cover;
-    /* background-position: center; */
+    background-position: center;
     justify-content: center;
     align-items: center;
+    margin-bottom: 4%;
   }
 
 .header{
@@ -20,7 +21,12 @@ a {
   text-decoration: none;
 }
 
-.mat-card-image {
-  width: 388px;
-  height: 292px;
-}
+@media only screen and (min-width: 992px) {
+  .card {
+    height: 352px;
+  }
+
+  a {
+    font-size: 30px;
+  }
+} 
