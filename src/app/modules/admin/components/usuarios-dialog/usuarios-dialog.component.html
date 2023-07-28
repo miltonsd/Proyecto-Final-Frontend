@@ -39,7 +39,7 @@
             <mat-checkbox *ngIf="data.editar" class="reserva-input" formControlName="cambiarPass">¿Cambiar contraseña?</mat-checkbox>
             
             <ng-container *ngIf="formulario.get('cambiarPass')?.value || !data.editar">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="reserva-input">
                 <mat-label>Contraseña</mat-label>
                 <input type="password" matInput formControlName="password">
                 <mat-error *ngIf="formulario.controls.password.hasError('required')">
@@ -50,7 +50,7 @@
           </div>
           
           <div class="filaFormulario">
-            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input">
               <mat-label>Fecha de Nacimiento</mat-label>
               <input
                 matInput
@@ -98,7 +98,7 @@
           </div>
 
           <div class="filaFormulario">
-            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input">
               <mat-label>Seleccionar rol</mat-label>
               <mat-select formControlName="rol">
                 <mat-option *ngFor="let rol of roles" [value]="rol.id_rol">{{
@@ -110,7 +110,7 @@
               </mat-error>
             </mat-form-field>
             
-            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input">
               <mat-label>Seleccionar categoría</mat-label>
               <mat-select formControlName="categoria">
                 <mat-option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{
@@ -123,7 +123,7 @@
             </mat-form-field>
           </div>
 
-          <mat-checkbox class="reserva-input" [formControl]="isConfirmado">¿Está confirmado?</mat-checkbox>
+          <mat-checkbox class="reserva-input usuario-confirmado" [formControl]="isConfirmado">¿Está confirmado?</mat-checkbox>
 
         <div class="boton">
           <button type="submit" mat-raised-button color="primary">

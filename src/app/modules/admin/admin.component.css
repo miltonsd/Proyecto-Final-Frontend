@@ -1,16 +1,27 @@
-.carta {
+.main {
   align-items: center;
-  min-height: 30vh;
+  min-height: 75vh;
   display: grid;
   justify-content: center;
-  margin-bottom: 5vh;
   padding-top: 2%;
-  padding-bottom: 2%;
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  min-height: 72vh;
 }
+
+@media only screen and (min-width: 992px) {
+  .main {
+    margin-bottom: 1%;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    min-height: 72vh;
+    align-content: center;
+  }
+} 

@@ -17,7 +17,8 @@ import { UsuarioTabla } from 'src/app/modules/usuarios/models/usuarios'
 })
 export class UsuariosComponent implements OnInit {
   datosTabla: any = []
-  columnas: TableColumn[] = []
+  columnasPC: TableColumn[] = []
+  columnasCelu: TableColumn[] = []
 
   msgConfirmacion = {
     title: 'Confirmar eliminación del usuario',
@@ -63,19 +64,27 @@ export class UsuariosComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla Usuarios
-    this.columnas = [
+    this.columnasPC = [
       { name: 'ID', dataKey: 'id_usuario' },
-      {
-        name: 'Nombre',
-        dataKey: 'nombre'
-      },
+      { name: 'Nombre', dataKey: 'nombre' },
       { name: 'Apellido', dataKey: 'apellido' },
       { name: 'Email', dataKey: 'email' },
       { name: '¿Está confirmado?', dataKey: 'isConfirmado' },
       { name: 'Documento', dataKey: 'documento' },
-      { name: 'Dirección', dataKey: 'direccion' },
+      // { name: 'Dirección', dataKey: 'direccion' },
       { name: 'Teléfono', dataKey: 'telefono' },
-      { name: 'Fecha de Nacimiento', dataKey: 'fechaNacimiento' },
+      // { name: 'Fecha de Nacimiento', dataKey: 'fechaNacimiento' },
+      { name: 'Rol', dataKey: 'rol' },
+      { name: 'Categoría', dataKey: 'categoria' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+    this.columnasCelu = [
+      { name: 'Email', dataKey: 'email' },
       { name: 'Rol', dataKey: 'rol' },
       { name: 'Categoría', dataKey: 'categoria' },
       {
