@@ -20,6 +20,7 @@ export class UsuariosDialogComponent implements OnInit {
   usuario!: any
   roles!: any[]
   categorias!: any[]
+  ocultar = true
   isConfirmado = new FormControl(false)
   maxDate = new Date(
     new Date().getFullYear() - 15,
@@ -78,10 +79,10 @@ export class UsuariosDialogComponent implements OnInit {
       validators: [Validators.required]
     }),
     rol: new FormControl(0, {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.min(1)]
     }),
     categoria: new FormControl(0, {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.min(1)]
     }),
     cambiarPass: new FormControl(false)
   })

@@ -1,8 +1,11 @@
-.cartel {
-  padding: 2%;
+.main {
+  /* padding: 2%; */
 }
 
 .titulo {
+  font-size: 30px;
+  margin: 0%;
+  padding: 2%;
   text-align: center;
 }
 
@@ -13,16 +16,15 @@
   padding: 0%;
 }
 
+.mat-mdc-dialog-content {
+  max-height: 80vh;
+}
+
 .reserva-content {
   display: flex;
   flex-direction: column;
-  width: 377px;
-}
-  
-
-.reserva-content h1 {
-  font-weight: 600;
-  font-size: 45px;
+  padding: 5% 2%;
+  width: 387px;
 }
 
 .reserva-input {
@@ -30,27 +32,30 @@
   margin-bottom: 5%;
 }
 
-.boton {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 2%;
-}
-
-.boton button {
-  width: 37%;
-}
-
 .filaFormulario {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding-inline: 2%;
 }
 
 mat-form-field {
   height: 76px;
 }
 
-.usuario-confirmado {
+.boton {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.boton button {
+  width: 30%;
+}
+
+.dialog-checkbox {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
   
