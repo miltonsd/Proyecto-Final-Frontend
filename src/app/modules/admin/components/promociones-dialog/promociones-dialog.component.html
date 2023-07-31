@@ -1,4 +1,4 @@
-<div class="cartel">
+<div class="main">
   <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
   <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} promoción</h1>
 
@@ -6,48 +6,47 @@
       <div class="reserva">
         <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
 
-          <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
-            <mat-label>% de descuento</mat-label>
-            <input type="number" min="0" max="50" matInput formControlName="porcentaje_desc"/>
-            <mat-error *ngIf="formulario.controls.porcentaje_desc.hasError('required')">
-              Ingrese un % de descuento válido
-            </mat-error>
-          </mat-form-field>
-          
-          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Ingresar rango de fechas</mat-label>
-            <mat-date-range-input formGroupName="fechaRango" [rangePicker]="picker" [min]="minDate" [max]="maxDate">
-              <input matStartDate formControlName="fecha_desde" readonly>
-              <input matEndDate formControlName="fecha_hasta" readonly>
-            </mat-date-range-input>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          
-            <mat-error *ngIf="formulario.controls.fechaRango.controls.fecha_desde.hasError('required')">Campo obligatorio.</mat-error>
-            <mat-error *ngIf="formulario.controls.fechaRango.controls.fecha_hasta.hasError('required')">Campo obligatorio.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-            <mat-label>Seleccionar producto(s)</mat-label>
-            <mat-select formControlName="producto" multiple>
-              <mat-option *ngFor="let producto of listaProductos" [value]="producto.id_producto">{{
-                producto.descripcion
-              }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formulario.controls.producto.hasError('required')">
-              Campo obligatorio.
-            </mat-error>
-          </mat-form-field>
+          <div class="formulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>% de descuento</mat-label>
+              <input type="number" min="0" max="50" matInput formControlName="porcentaje_desc"/>
+              <mat-error *ngIf="formulario.controls.porcentaje_desc.hasError('required')">
+                Ingrese un % de descuento válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="formulario">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>Ingresar rango de fechas</mat-label>
+              <mat-date-range-input formGroupName="fechaRango" [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+                <input matStartDate formControlName="fecha_desde" readonly>
+                <input matEndDate formControlName="fecha_hasta" readonly>
+              </mat-date-range-input>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            
+              <mat-error *ngIf="formulario.controls.fechaRango.controls.fecha_desde.hasError('required')">Campo obligatorio.</mat-error>
+              <mat-error *ngIf="formulario.controls.fechaRango.controls.fecha_hasta.hasError('required')">Campo obligatorio.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="formulario">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>Seleccionar producto(s)</mat-label>
+              <mat-select formControlName="producto" multiple>
+                <mat-option *ngFor="let producto of listaProductos" [value]="producto.id_producto">{{
+                  producto.descripcion
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.producto.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </div>
           
         <div class="boton">
-          <button type="submit" mat-raised-button color="primary">
-            Confirmar promoción
-          </button>
+          <button type="submit" mat-raised-button color="primary">Confirmar</button>
           <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
-        </div>
-        
+        </div> 
       </form>
-      
     </div>
-    
 </div>

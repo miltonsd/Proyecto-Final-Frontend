@@ -1,4 +1,4 @@
-<div class="cartel">
+<div class="main">
     <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
     <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} producto</h1>
   
@@ -46,18 +46,18 @@
                 </mat-form-field>
               </div>
 
-              <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input imagen">
-                <mat-label>Imagen del producto</mat-label>
-                <input type="text" matInput formControlName="imagen">
-                <mat-error *ngIf="formulario.controls.imagen.hasError('required')">
-                  Ingrese una imagen válida
-                </mat-error>
-              </mat-form-field>
-          
+              <div class="filaFormulario">
+                <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input imagen">
+                  <mat-label>Imagen del producto</mat-label>
+                  <input type="text" matInput formControlName="imagen">
+                  <mat-error *ngIf="formulario.controls.imagen.hasError('required')">
+                    Ingrese una imagen válida
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              
           <div class="boton">
-            <button type="submit" mat-raised-button color="primary">
-              Confirmar producto
-            </button>
+            <button type="submit" mat-raised-button color="primary">Confirmar</button>
             <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
           </div>
           

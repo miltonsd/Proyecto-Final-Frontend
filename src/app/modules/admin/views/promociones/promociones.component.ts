@@ -17,7 +17,8 @@ import { PromocionTabla } from './models/promocion'
 })
 export class PromocionesComponent implements OnInit {
   datosTabla: any = []
-  columnas: TableColumn[] = []
+  columnasPC: TableColumn[] = []
+  columnasCelu: TableColumn[] = []
 
   msgConfirmacion = {
     title: 'Confirmar eliminación de la promoción',
@@ -56,10 +57,21 @@ export class PromocionesComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla Promociones
-    this.columnas = [
+    this.columnasPC = [
       { name: 'ID', dataKey: 'id_promocion' },
       { name: 'Descuento', dataKey: 'porcentaje_desc' },
       { name: 'Fecha desde', dataKey: 'fecha_desde' },
+      { name: 'Fecha hasta', dataKey: 'fecha_hasta' },
+      { name: 'Productos', dataKey: 'productos' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+    this.columnasCelu = [
+      { name: 'Descuento', dataKey: 'porcentaje_desc' },
       { name: 'Fecha hasta', dataKey: 'fecha_hasta' },
       { name: 'Productos', dataKey: 'productos' },
       {

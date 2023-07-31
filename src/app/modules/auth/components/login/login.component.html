@@ -1,35 +1,39 @@
 <div class="login">
     <form [formGroup]="formulario" class="login-content mat-elevation-z6" (ngSubmit)="onSubmit()">
       <h1>INICIAR SESIÓN</h1>
+      <div class="filaFormulario">
+        <mat-form-field appearance="outline" class="login-input">
+          <mat-label>Ingresar email</mat-label>
+          <input matInput formControlName="email" placeholder="Email" tabindex="1">
+          <mat-error *ngIf="formulario.controls.email.hasError('required')">Campo obligatorio.</mat-error>
+          <mat-error *ngIf="formulario.controls.email.hasError('email')">El email debe tener un formato válido</mat-error>
+          <mat-error *ngIf="formulario.controls.email.hasError('minlength')">El email debe contener mínimo 5 caracteres</mat-error>
+          <mat-error *ngIf="formulario.controls.email.hasError('maxlength')">El email debe contener máximo 100 caracteres</mat-error>
+      </mat-form-field>
+      </div>
+      <div class="filaFormulario">
+        <mat-form-field appearance="outline" class="login-input">
+          <mat-label>Ingresar contraseña</mat-label>
+          <input matInput [type]="ocultar ? 'password' : 'text'" formControlName="contrasenia" placeholder="Contraseña" tabindex="2">
+          <button type="button" mat-icon-button matSuffix (click)="ocultar = !ocultar" [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="ocultar" tabindex="-1">
+            <mat-icon>{{ocultar ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="formulario.controls.contrasenia.hasError('required')">Campo obligatorio.</mat-error>
+          <mat-error *ngIf="formulario.controls.contrasenia.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</mat-error>
+          <mat-error *ngIf="formulario.controls.contrasenia.hasError('maxlength')">La contraseña debe contener máximo 20 caracteres</mat-error>
+      </mat-form-field>
+      </div>
+
       
-      <mat-form-field appearance="outline" class="login-input">
-        <mat-label>Ingresar email</mat-label>
-        <input matInput formControlName="email" placeholder="Email" tabindex="1">
-        <mat-error *ngIf="formulario.controls.email.hasError('required')">Campo obligatorio.</mat-error>
-        <mat-error *ngIf="formulario.controls.email.hasError('email')">El email debe tener un formato válido</mat-error>
-        <mat-error *ngIf="formulario.controls.email.hasError('minlength')">El email debe contener mínimo 5 caracteres</mat-error>
-        <mat-error *ngIf="formulario.controls.email.hasError('maxlength')">El email debe contener máximo 100 caracteres</mat-error>
-    </mat-form-field>
       
-      <mat-form-field appearance="outline" class="login-input">
-        <mat-label>Ingresar contraseña</mat-label>
-        <input matInput [type]="ocultar ? 'password' : 'text'" formControlName="contrasenia" placeholder="Contraseña" tabindex="2">
-        <button type="button" mat-icon-button matSuffix (click)="ocultar = !ocultar" [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="ocultar" tabindex="-1">
-          <mat-icon>{{ocultar ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        <mat-error *ngIf="formulario.controls.contrasenia.hasError('required')">Campo obligatorio.</mat-error>
-        <mat-error *ngIf="formulario.controls.contrasenia.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</mat-error>
-        <mat-error *ngIf="formulario.controls.contrasenia.hasError('maxlength')">La contraseña debe contener máximo 20 caracteres</mat-error>
-    </mat-form-field>
+      
+    <button type="submit" mat-flat-button color="primary" class="login-submit" tabindex="3">Iniciar sesión</button>
     <p>
-      <a mat-raised-button (click)="onClick(3)" tabindex="4">¿Olvidaste tu contraseña?</a>
+      <a mat-flat-button class="boton" (click)="onClick(3)" tabindex="4">¿Olvidaste tu contraseña?</a>
     </p>
-      <button type="submit" mat-flat-button color="primary" class="login-submit" tabindex="3">
-        Iniciar sesión
-      </button>
       
       <section class="login-redirect">
-        <a mat-raised-button (click)="onClick(2)" tabindex="4">¿No tienes una cuenta? Registrate</a>
+        <a class="boton" mat-flat-button (click)="onClick(2)" tabindex="4">¿No tienes una cuenta? Registrate</a>
       </section>
     </form>
   </div>

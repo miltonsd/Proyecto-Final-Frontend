@@ -1,4 +1,4 @@
-<div class="cartel">
+<div class="main">
     <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
     <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} pedido</h1>
   
@@ -29,21 +29,13 @@
                 <mat-error *ngIf="formulario.controls.mesa.hasError('required')">
                   Campo obligatorio.
                 </mat-error>
-              </mat-form-field>
-
-              <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
-                <mat-label>Monto del importe del pedido</mat-label>
-                <input type="text" matInput formControlName="montoImporte" readonly [value]="calculaMonto()">
-              </mat-form-field>
-              <mat-checkbox class="reserva-input" [formControl]="isPendiente">
-                ¿Pedido pendiente?
-              </mat-checkbox>
+              </mat-form-field>         
             </div>
 
-            <div class="productos" formArrayName="productos">
-              <div class="filaFormulario" *ngFor="let producto of productos.controls; let i = index;" [formGroupName]="i">
+            <div formArrayName="productos">
+              <div class="filaProducto" *ngFor="let producto of productos.controls; let i = index;" [formGroupName]="i">
                
-                <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input fechaHora">
+                <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill">
                   <mat-label>Seleccionar producto(s)</mat-label>
                   <mat-select formControlName="id_producto" (selectionChange)="onSelectChange($event.value, i)">
                     <mat-option *ngFor="let p of lista_productos" [value]="p.id_producto">{{
@@ -55,7 +47,7 @@
                   </mat-error>
                 </mat-form-field>
                 
-                <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+                <mat-form-field [hideRequiredMarker]="data.editar">
                   <mat-label>Cantidad</mat-label>
                   <input type="number" min="0" max="10" matInput formControlName="cant_selecc">
                   <mat-error *ngIf="formulario.controls.productos.hasError('required')">
@@ -63,38 +55,39 @@
                   </mat-error>
                 </mat-form-field>
 
-                <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+                <mat-form-field [hideRequiredMarker]="data.editar">
                   <mat-label>Precio</mat-label>
                   <input type="text" matInput formControlName="subtotal" readonly>
                   <!-- <input type="text" matInput formControlName="subtotal" [value]="getValue('precio', i) * getValue('cant_selecc', i)" readonly> -->
                 </mat-form-field>
                 
-                <button class="reserva-input" mat-raised-button color="warn" (click)="removeProducto(i)">
+                <button class="eliminar-producto" mat-mini-fab color="warn" (click)="removeProducto(i)">
                   <mat-icon>delete</mat-icon>
-                  Eliminar producto
                 </button>
                 <br><br>
           
               </div>
             </div>
-            <button mat-raised-button color="green" type="button" (click)="addProducto()">
-              <mat-icon>add_circle
-                <!-- exposure_plus_1 -->
-                <!-- <span class="material-symbols-outlined">exposure_plus_1</span> -->
-              </mat-icon>
-              Agregar producto
-            </button>
+            <div class="filaFormulario">
+              <button class="agregar-producto" mat-raised-button color="green" type="button" (click)="addProducto()"><mat-icon>add_circle</mat-icon>Agregar producto</button>
+            </div>
+
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>Monto total</mat-label>
+              <input type="text" matInput formControlName="montoImporte" readonly [value]="calculaMonto()">
+            </mat-form-field>
+
+            <mat-checkbox class="reserva-input dialog-checkbox" [formControl]="isPendiente">
+              ¿El pedido está pendiente?
+            </mat-checkbox>
+          </div>
+
 
           <div class="boton">
-            <button type="submit" mat-raised-button color="primary">
-              Confirmar pedido
-            </button>
+            <button type="submit" mat-raised-button color="primary">Confirmar</button>
             <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
-          </div>
-          
-        </form>
-        
-      </div>
-      
+          </div>      
+        </form>      
+      </div>   
   </div>
-  

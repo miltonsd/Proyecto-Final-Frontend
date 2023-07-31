@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import * as moment from 'moment'
 import {
   FormArray,
   FormBuilder,

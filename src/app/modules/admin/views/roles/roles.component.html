@@ -1,18 +1,19 @@
-<h1 style="color:white">Roles</h1>
-<div>
-  <pa-tabla 
-  [tableData]="datosTabla" 
-  [tableColumns]="columnas" 
-  [isPaginator]="true"
-  [pageOptions]="[5, 10, 15]"
-  (editAction)="onEdit($event)"
-  (deleteAction)="onDelete($event)"
-  [confirmDialogMsg]="msgConfirmacion"
-  ></pa-tabla>
-</div>
-
-<div>
-  <button class= "submit" type="submit" mat-raised-button color="primary" (click)="onAdd()">
-    Agregar rol (+)
-  </button>
+<div class="main">
+  <h1 class="titulo">Roles</h1>
+  <div class="tabla">
+    <pa-tabla
+      [tableData]="datosTabla" 
+      [tableColumns]="columnas" 
+      [isPaginator]="false"
+      (editAction)="onEdit($event)"
+      (deleteAction)="onDelete($event)"
+      [confirmDialogMsg]="msgConfirmacion"
+    ></pa-tabla>
+  </div>
+  
+  <div class="boton">
+    <button class="submit" type="submit" mat-raised-button color="primary" (click)="onAdd()">
+      Agregar rol (+)
+    </button>
+  </div>
 </div>

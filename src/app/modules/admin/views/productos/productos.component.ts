@@ -15,7 +15,8 @@ import { ProductoTabla } from './models/producto'
 })
 export class ProductosComponent implements OnInit {
   datosTabla: any = []
-  columnas: TableColumn[] = []
+  columnasPC: TableColumn[] = []
+  columnasCelu: TableColumn[] = []
 
   msgConfirmacion = {
     title: 'Confirmar eliminación del producto',
@@ -53,7 +54,7 @@ export class ProductosComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla Productos
-    this.columnas = [
+    this.columnasPC = [
       { name: 'ID', dataKey: 'id_producto' },
       {
         name: 'Precio unitario',
@@ -63,6 +64,21 @@ export class ProductosComponent implements OnInit {
       { name: 'Stock', dataKey: 'stock' },
       { name: 'Descripción', dataKey: 'descripcion' },
       { name: 'Imágen', dataKey: 'imagen', isImage: true },
+      { name: 'Tipo de producto', dataKey: 'tipoProducto' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+    this.columnasCelu = [
+      {
+        name: 'Precio unitario',
+        dataKey: 'precio',
+        isCurrency: true
+      },
+      { name: 'Descripción', dataKey: 'descripcion' },
       { name: 'Tipo de producto', dataKey: 'tipoProducto' },
       {
         name: ' ',

@@ -15,7 +15,8 @@ import { AdminDataDialog } from '../../models/adminDataDialog'
 })
 export class MesasComponent implements OnInit {
   datosTabla: any = []
-  columnas: TableColumn[] = []
+  columnasPC: TableColumn[] = []
+  columnasCelu: TableColumn[] = []
 
   msgConfirmacion = {
     title: 'Confirmar eliminación de la mesa',
@@ -47,10 +48,21 @@ export class MesasComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla mesas
-    this.columnas = [
+    this.columnasPC = [
       { name: 'ID', dataKey: 'id_mesa' },
       { name: 'Capacidad', dataKey: 'capacidad' },
       { name: 'Ubicacion', dataKey: 'ubicacion' },
+      { name: 'Código QR', dataKey: 'qr', isImage: true },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+    this.columnasCelu = [
+      { name: 'ID', dataKey: 'id_mesa' },
+      { name: 'Capacidad', dataKey: 'capacidad' },
       { name: 'Código QR', dataKey: 'qr', isImage: true },
       {
         name: ' ',

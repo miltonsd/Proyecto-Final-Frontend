@@ -1,17 +1,49 @@
-.cartel {
-    padding: 2%;
-}
-
 .titulo {
+    font-size: 30px;
+    margin: 0%;
+    padding: 2%;
     text-align: center;
-}
-
-.boton {
+  }
+  
+  .reserva {
+    display: flex;
+    justify-content: center;
+    padding: 0%;
+  }
+  
+  .mat-mdc-dialog-content {
+    max-height: 80vh;
+  }
+  
+  .reserva-content {
+    display: flex;
+    flex-direction: column;
+    padding: 5% 2%;
+    width: 387px;
+  }
+  
+  .reserva-input {
+    width: 100%;
+    margin-bottom: 5%;
+  }
+  
+  .filaFormulario {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 2%;
+  }
+  
+  mat-form-field {
+    height: 76px;
+  }
+  
+  .boton {
     display: flex;
     justify-content: space-evenly;
-    margin-top: 2%;
-}
-
-.boton button {
-    width: 20%;
-}
+  }
+  
+  .boton button {
+    width: 30%;
+  }

@@ -1,18 +1,29 @@
-<h1 style="color:white">Pedidos</h1>
-<div>
-  <pa-tabla 
-  [tableData]="datosTabla" 
-  [tableColumns]="columnas" 
-  [isPaginator]="true"
-  [pageOptions]="[5, 10, 15]"
-  (editAction)="onEdit($event)"
-  (deleteAction)="onDelete($event)"
-  [confirmDialogMsg]="msgConfirmacion"
-  ></pa-tabla>
-</div>
-
-<div>
-  <button class= "submit" type="submit" mat-raised-button color="primary" (click)="onAdd()">
-    Agregar pedido (+)
-  </button>
+<div class="main">
+  <h1 class="titulo">Pedidos</h1>
+  <div class="tabla">
+    <pa-tabla
+      class="tabla-pc"
+      [tableData]="datosTabla" 
+      [tableColumns]="columnasPC" 
+      [isPaginator]="false"
+      (editAction)="onEdit($event)"
+      (deleteAction)="onDelete($event)"
+      [confirmDialogMsg]="msgConfirmacion"
+    ></pa-tabla>
+    <pa-tabla
+      class="tabla-celu" 
+      [tableData]="datosTabla" 
+      [tableColumns]="columnasCelu" 
+      [isPaginator]="false"
+      (editAction)="onEdit($event)"
+      (deleteAction)="onDelete($event)"
+      [confirmDialogMsg]="msgConfirmacion"
+    ></pa-tabla>
+  </div>
+  
+  <div class="boton">
+    <button class="submit" type="submit" mat-raised-button color="primary" (click)="onAdd()">
+      Agregar pedido (+)
+    </button>
+  </div>
 </div>

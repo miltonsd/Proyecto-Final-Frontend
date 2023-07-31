@@ -1,4 +1,4 @@
-<div class="cartel">
+<div class="main">
     <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
     <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} tipo producto</h1>
   
@@ -23,26 +23,22 @@
               </mat-form-field>
             </div>
 
-            <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input qr">
-              <mat-label>Código QR de la mesa</mat-label>
-              <input type="text" matInput formControlName="qr" readonly>
-            </mat-form-field>
-
             <div class="filaFormulario">
+              <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input qr">
+                <mat-label>Código QR de la mesa</mat-label>
+                <input type="text" matInput formControlName="qr" readonly>
+              </mat-form-field>
+            </div>
+
+            <div class="filaFormulario botones-qr">
               <button *ngIf="data.editar" type="button" mat-raised-button color="accent" (click)="generarQR()">Generar Código QR</button>
               <button *ngIf="data.editar" type="button" mat-raised-button color="accent" (click)="eliminarQR()">Limpiar Código QR</button>
             </div>
 
           <div class="boton">
-            <button type="submit" mat-raised-button color="primary">
-              Confirmar mesa
-            </button>
+            <button type="submit" mat-raised-button color="primary">Confirmar</button>
             <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
           </div>
-          
         </form>
-        
       </div>
-      
   </div>
-  

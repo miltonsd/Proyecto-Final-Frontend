@@ -17,7 +17,8 @@ import { AdminDataDialog } from '../../models/adminDataDialog'
 })
 export class PedidosComponent implements OnInit {
   datosTabla: PedidoTabla[] = []
-  columnas: TableColumn[] = []
+  columnasPC: TableColumn[] = []
+  columnasCelu: TableColumn[] = []
 
   msgConfirmacion = {
     title: 'Confirmar eliminación del pedido',
@@ -67,13 +68,24 @@ export class PedidosComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla Pedidos
-    this.columnas = [
+    this.columnasPC = [
       { name: 'ID', dataKey: 'id_pedido' },
       { name: 'Fecha y hora', dataKey: 'fechaHora' },
       { name: '¿Está pendiente?', dataKey: 'isPendiente' },
       { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },
       { name: 'Usuario', dataKey: 'usuario' },
       { name: 'Mesa', dataKey: 'mesa' },
+      { name: 'Productos', dataKey: 'productos' },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        editButton: true,
+        deleteButton: true
+      }
+    ]
+    this.columnasCelu = [
+      { name: 'Fecha y hora', dataKey: 'fechaHora' },
+      { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },
       { name: 'Productos', dataKey: 'productos' },
       {
         name: ' ',

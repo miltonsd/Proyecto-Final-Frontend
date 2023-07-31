@@ -1,4 +1,4 @@
-<div [ngSwitch]="authOption">
+<div class="main" [ngSwitch]="authOption">
   <div *ngSwitchCase="2">
     <pa-register (authOptionSwitch)="changeAuthOption($event)"></pa-register>
   </div>

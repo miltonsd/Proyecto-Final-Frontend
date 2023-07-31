@@ -1,4 +1,4 @@
-<div class="cartel">
+<div class="main">
   <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
   <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} tipo producto</h1>
 
@@ -6,31 +6,29 @@
       <div class="reserva">
         <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
 
-          <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
-            <mat-label>Descripcion del tipo producto</mat-label>
-            <input type="text" matInput formControlName="descripcion">
-            <mat-error *ngIf="formulario.controls.descripcion.hasError('required')">
-              Ingrese una descripción válida
-            </mat-error>
-          </mat-form-field>
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>Descripcion del tipo producto</mat-label>
+              <input type="text" matInput formControlName="descripcion">
+              <mat-error *ngIf="formulario.controls.descripcion.hasError('required')">
+                Ingrese una descripción válida
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>Imagen del tipo producto</mat-label>
+              <input type="text" matInput formControlName="imagen">
+              <mat-error *ngIf="formulario.controls.imagen.hasError('required')">
+                Ingrese una imagen válida
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-          <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
-            <mat-label>Imagen del tipo producto</mat-label>
-            <input type="text" matInput formControlName="imagen">
-            <mat-error *ngIf="formulario.controls.imagen.hasError('required')">
-              Ingrese una imagen válida
-            </mat-error>
-          </mat-form-field>
-        
         <div class="boton">
-          <button type="submit" mat-raised-button color="primary">
-            Confirmar tipo producto
-          </button>
+          <button type="submit" mat-raised-button color="primary">Confirmar</button>
           <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
         </div>
-        
       </form>
-      
     </div>
-    
 </div>

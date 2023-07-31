@@ -1,4 +1,4 @@
-<div class="cartel">
+<div class="main">
   <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
   <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} reserva</h1>
 
@@ -27,7 +27,7 @@
             </mat-form-field>
       
             <mat-form-field appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
-              <mat-label>Seleccionar horario</mat-label>
+              <mat-label>Seleccionar hora</mat-label>
               <mat-select formControlName="hora">
                 <mat-option *ngFor="let hora of horas" [value]="hora">{{
                   hora
@@ -37,8 +37,10 @@
                 Campo obligatorio.
               </mat-error>
             </mat-form-field>
+          </div>
 
-            <mat-form-field  appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input">
+          <div class="filaFormulario" formGroupName="fechaHoraCantidad">
+            <mat-form-field  appearance="fill" floatLabel="auto" [hideRequiredMarker]="data.editar" class="reserva-input cantidad-input">
               <mat-label>Ingresar cantidad de personas</mat-label>
               <!-- <input matInput type="number" formControlName="cantidad"> -->
               <input matInput type="number" [min]="1" [max]="6" formControlName="cantidad">
@@ -78,8 +80,10 @@
                 Campo obligatorio.
               </mat-error>
             </mat-form-field>
-            
-            <mat-checkbox class="example-full-width" formControlName="isPendiente">
+          </div>
+
+          <div class="fechaFormulario">
+            <mat-checkbox class="reserva-input dialog-checkbox" formControlName="isPendiente">
               ¿Reserva pendiente?
             </mat-checkbox>
           </div>
