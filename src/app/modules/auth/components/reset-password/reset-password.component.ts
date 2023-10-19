@@ -53,15 +53,18 @@ export class ResetPasswordComponent {
         this._authService.resetPassword(usuario).subscribe({
           next: (res: any) => {
             console.log(res.msg)
-            alert('Contraseña cambiada correctamente')
+            // Reemplazar por dialog
+            alert('Contraseña cambiada correctamente.')
             window.location.href = '/'
           },
           error: (err) => {
-            alert('Error - No se pudo cambiar la contraseña')
+            // Reemplazar por dialog
+            alert('Error - El email ingresado no se encuentra registrado.')
             console.error(err)
           }
         })
       } else {
+        // Mostrar error de contraseñas no coinciden debajo en el formularo.
         alert('Las contraseñas no coinciden')
         this.formulario.controls.contrasenia.reset()
         this.formulario.controls.confirmarContrasenia.reset()

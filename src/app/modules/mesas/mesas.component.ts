@@ -41,24 +41,22 @@ export class MesasComponent implements OnInit {
   cambiarEstado(mesa: any) {
     if (mesa.habilitada) {
       this._mesaService.deshabilitarMesa(mesa.id_mesa).subscribe({
-        next: (respuesta: any) => {
+        next: () => {
           this.cargarMesas()
-          alert(respuesta.msg)
         },
         error: (err) => {
           console.error(`Código de error ${err.status}: `, err.error.msg)
-          alert(err.msg)
+          alert(err.msg) // Cambiar por un dialog
         }
       })
     } else {
       this._mesaService.habilitarMesa(mesa.id_mesa).subscribe({
-        next: (respuesta: any) => {
+        next: () => {
           this.cargarMesas()
-          alert(respuesta.msg)
         },
         error: (err) => {
           console.error(`Código de error ${err.status}: `, err.error.msg)
-          alert(err.msg)
+          alert(err.msg) // Cambiar por un dialog
         }
       })
     }

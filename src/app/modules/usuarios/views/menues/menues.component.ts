@@ -69,11 +69,11 @@ export class MenuesComponent implements OnInit {
         this._pedidoService.createPedido(pedido.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            alert(respuesta.msg)
+            alert(respuesta.msg) // Cambiar por dialog
             window.location.href = '/perfil/consumiciones'
           },
           error: (err) => {
-            alert(err.msg)
+            alert(err.msg) // Cambiar por dialog
           }
         })
       }

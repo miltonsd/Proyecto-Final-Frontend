@@ -127,7 +127,7 @@ export class MenuesdialogComponent implements OnInit {
       this.dialogRef.close({ data: pedido })
     } else {
       this.formulario.markAllAsTouched()
-      alert('No se escaneó una mesa')
+      alert('No se escaneó una mesa') // Cambiar por dialog
     }
   }
 

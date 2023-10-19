@@ -102,7 +102,6 @@ export class RegisterComponent {
               }
             })
             dialogRef.afterClosed().subscribe(() => {
-              alert('Usuario registrado')
               window.location.href = '/'
             })
           },
@@ -121,6 +120,7 @@ export class RegisterComponent {
           }
         })
       } else {
+        // Mostrar error de contraseñas no coinciden debajo en el formularo.
         alert('Las contraseñas no coinciden')
         this.formulario.controls.contrasenia.reset()
         this.formulario.controls.confirmarContrasenia.reset()

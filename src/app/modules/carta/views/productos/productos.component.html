@@ -95,7 +95,7 @@
 <button *ngIf="usuarioLogueado"
   class="submit"
   type="submit"
-  [disabled]="this.mesa === undefined || !this.mesa.habilitada"
+  [disabled]="this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder()"
   mat-raised-button
   color="primary"
   (click)="onSubmit()"

@@ -82,11 +82,11 @@ export class PerfilComponent implements AfterContentInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-              alert(respuesta.msg)
+              alert(respuesta.msg) // Cambiar por dialog
               window.location.href = '/perfil/info'
             },
             error: (err) => {
-              alert(err.error.msg)
+              alert(err.error.msg) // Cambiar por dialog
             }
           })
       }
@@ -94,6 +94,7 @@ export class PerfilComponent implements AfterContentInit {
   }
 
   onChangePassword() {
+    // Falta validar que las contraseñas coincidan (con su respectivo mensaje de error)
     const dialogRef = this.dialog.open(DialogCambiarPasswordComponent, {
       width: '600px'
     })
@@ -104,11 +105,11 @@ export class PerfilComponent implements AfterContentInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-              alert(respuesta.msg)
+              alert(respuesta.msg) // Cambiar por dialog
               window.location.href = '/perfil/info'
             },
             error: (err) => {
-              alert(err.error.msg)
+              alert(err.error.msg) // Cambiar por dialog
             }
           })
       }

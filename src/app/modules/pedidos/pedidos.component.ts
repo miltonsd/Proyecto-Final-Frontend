@@ -1,4 +1,3 @@
-// import { animate, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core'
 import * as moment from 'moment'
 import 'moment/locale/es'
@@ -11,17 +10,7 @@ import { DialogComponent } from '@pa/shared/components'
 @Component({
   selector: 'pa-pedidos',
   templateUrl: './pedidos.component.html',
-  styleUrls: ['./pedidos.component.css'],
-  // animations: [
-  //   trigger('remove', [
-  //     transition(':leave', [
-  //       animate(
-  //         '0.5s 500ms ease-in-out',
-  //         style({ transform: 'translateX(200%)', opacity: '0%' })
-  //       )
-  //     ])
-  //   ])
-  // ]
+  styleUrls: ['./pedidos.component.css']
 })
 export class PedidosComponent implements OnInit {
   datosTabla: any[] = []
@@ -61,14 +50,13 @@ export class PedidosComponent implements OnInit {
 
   entregar(id: number) {
     this._pedidoService.setEntregado(id).subscribe({
-      next: (respuesta: any) => {
+      next: () => {
         this.cargarPendientes()
-        alert(respuesta.msg)
         window.location.href = '/pedidos'
       },
       error: (err) => {
         console.error(`Código de error ${err.status}: `, err.error.msg)
-        alert(err.msg)
+        alert(err.msg) // Cambiar por dialog
       }
     })
   }

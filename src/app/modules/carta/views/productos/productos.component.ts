@@ -175,6 +175,11 @@ export class ProductosComponent implements OnInit {
       })
   }
 
+  canPlaceOrder(): boolean {
+    // Comprueba si hay productos seleccionados (cant_selecc > 0), para que el botón "Realizar pedido" se habilite o deshabilite
+    return this.productos.some((producto) => producto.cant_selecc > 0)
+  }
+
   addToCart(producto: any) {
     // Como regla de negocio, solo dejamos seleccionar hasta 10 items de un mismo producto y valida que no supere el stock actual
     if (producto.cant_selecc < 10 && producto.cant_selecc < producto.stock) {
@@ -213,6 +218,8 @@ export class ProductosComponent implements OnInit {
           //   console.log('Nueva lista: ', this.carrito)
           // }
           // localStorage.setItem('carrito', JSON.stringify(this.carrito)) //Para ver el localStorage ir al inspeccionar del buscador - Aplicación - Almacenamiento local
+
+          // Reemplazar con dialog
           alert('Pedido realizado') //Mostar detalles del pedido (productos seleccionados con sus cants y al cerrar esa vista que se cargue el home)
           window.location.href = '/'
         },
@@ -220,8 +227,6 @@ export class ProductosComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
         }
       })
-    } else {
-      alert('No hay productos seleccionados en el pedido')
     }
   }
 

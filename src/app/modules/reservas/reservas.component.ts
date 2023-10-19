@@ -223,11 +223,11 @@ export class ReservasComponent implements OnInit {
       }
       this._reservasService.createReserva(reserva).subscribe({
         next: (respuesta: any) => {
-          alert(respuesta.msg)
+          alert(respuesta.msg) // Cambiar por dialog
           window.location.href = '/'
         },
         error: (err) => {
-          alert(err.msg)
+          alert(err.msg) // Cambiar por dialog
         }
       })
     } else {
@@ -283,11 +283,11 @@ export class ReservasComponent implements OnInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-              alert(respuesta.msg)
+              alert(respuesta.msg) // Cambiar por dialog
               window.location.href = '/reservas'
             },
             error: (err) => {
-              alert(err.msg)
+              alert(err.msg) // Cambiar por dialog
             }
           })
       }

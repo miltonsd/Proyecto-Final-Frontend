@@ -61,7 +61,6 @@ export class LoginComponent {
         },
         complete: () => {
           // this._router.navigate(['/store'])
-          alert('Usuario logueado')
           window.location.href = '/'
         }
       })
