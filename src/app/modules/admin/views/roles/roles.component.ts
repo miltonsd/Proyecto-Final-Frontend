@@ -98,11 +98,25 @@ export class RolesComponent implements OnInit {
         this._rolService.updateRol(rol.id_rol, resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            alert(respuesta.msg)
-            window.location.href = '/admin/roles'
+            // alert(respuesta.msg)
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Error', msg: respuesta.next.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/admin/roles'
+            })
           },
           error: (err) => {
-            alert(err.msg)
+            // alert(err.msg)
+            this.dialog.open(DialogComponent, {
+              width: '300 px',
+              data: {
+                title: 'Error',
+                msg: err.error.msg
+              }
+            })
           }
         })
       }
@@ -122,11 +136,25 @@ export class RolesComponent implements OnInit {
         this._rolService.createRol(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            alert(respuesta.msg)
-            window.location.href = '/admin/roles'
+            // alert(respuesta.msg)
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Error', msg: respuesta.next.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/admin/roles'
+            })
           },
           error: (err) => {
-            alert(err.msg)
+            // alert(err.msg)
+            this.dialog.open(DialogComponent, {
+              width: '300 px',
+              data: {
+                title: 'Error',
+                msg: err.error.msg
+              }
+            })
           }
         })
       }

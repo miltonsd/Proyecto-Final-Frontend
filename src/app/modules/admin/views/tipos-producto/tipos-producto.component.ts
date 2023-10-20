@@ -114,11 +114,25 @@ export class TiposProductoComponent implements OnInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-              alert(respuesta.msg)
-              window.location.href = '/admin/tipos-producto'
+              // alert(respuesta.msg)
+              const dialogRef = this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: { title: 'Error', msg: respuesta.next.msg }
+              })
+              dialogRef.afterClosed().subscribe(() => {
+                window.location.href = '/admin/tipos-producto'
+              })
             },
             error: (err) => {
-              alert(err.msg)
+              // alert(err.msg)
+              this.dialog.open(DialogComponent, {
+                width: '300 px',
+                data: {
+                  title: 'Error',
+                  msg: err.error.msg
+                }
+              })
             }
           })
       }
@@ -138,11 +152,25 @@ export class TiposProductoComponent implements OnInit {
         this._cartaService.createTipoProducto(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            alert(respuesta.msg)
-            window.location.href = '/admin/tipos-producto'
+            // alert(respuesta.msg)
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Error', msg: respuesta.next.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/admin/tipos-producto'
+            })
           },
           error: (err) => {
-            alert(err.msg)
+            // alert(err.msg)
+            this.dialog.open(DialogComponent, {
+              width: '300 px',
+              data: {
+                title: 'Error',
+                msg: err.error.msg
+              }
+            })
           }
         })
       }

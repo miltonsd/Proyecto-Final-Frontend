@@ -117,11 +117,25 @@ export class MenuesComponent implements OnInit {
         this._menuService.updateMenu(menu.id_menu, resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            alert(respuesta.msg)
-            window.location.href = '/admin/menues'
+            // alert(respuesta.msg)
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Error', msg: respuesta.next.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/admin/menues'
+            })
           },
           error: (err) => {
-            alert(err.msg)
+            // alert(err.msg)
+            this.dialog.open(DialogComponent, {
+              width: '300 px',
+              data: {
+                title: 'Error',
+                msg: err.error.msg
+              }
+            })
           }
         })
       }
@@ -141,11 +155,25 @@ export class MenuesComponent implements OnInit {
         this._menuService.createMenu(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            alert(respuesta.msg)
-            window.location.href = '/admin/menues'
+            // alert(respuesta.msg)
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Error', msg: respuesta.next.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/admin/menues'
+            })
           },
           error: (err) => {
-            alert(err.msg)
+            // alert(err.msg)
+            this.dialog.open(DialogComponent, {
+              width: '300 px',
+              data: {
+                title: 'Error',
+                msg: err.error.msg
+              }
+            })
           }
         })
       }
