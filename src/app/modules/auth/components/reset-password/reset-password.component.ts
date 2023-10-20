@@ -59,8 +59,16 @@ export class ResetPasswordComponent {
           },
           error: (err) => {
             // Reemplazar por dialog
-            alert('Error - El email ingresado no se encuentra registrado.')
-            console.error(err)
+            // alert('Error - El email ingresado no se encuentra registrado.')
+            // console.error(err)
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Error', msg: err.error.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              this.formulario.reset()
+            })
           }
         })
       } else {
