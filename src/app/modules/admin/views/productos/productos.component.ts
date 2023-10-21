@@ -131,18 +131,19 @@ export class ProductosComponent implements OnInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-               // alert(respuesta.msg)
-               const dialogRef = this.dialog.open(DialogComponent, {
+              const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
-                data: { title: 'Error', msg: respuesta.next.msg }
+                data: {
+                  title: 'Editar producto',
+                  msg: 'Producto ' + respuesta.msg.toLowerCase()
+                }
               })
               dialogRef.afterClosed().subscribe(() => {
                 window.location.href = '/admin/productos'
               })
             },
             error: (err) => {
-              // alert(err.msg)
               this.dialog.open(DialogComponent, {
                 width: '300 px',
                 data: {
@@ -169,18 +170,19 @@ export class ProductosComponent implements OnInit {
         this._productoService.createProducto(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Agregar producto',
+                msg: 'Producto ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/productos'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {

@@ -113,18 +113,19 @@ export class MesasComponent implements OnInit {
         this._mesaService.updateMesa(mesa.id_mesa, resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Editar mesa',
+                msg: 'Mesa ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/mesas'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {
@@ -151,18 +152,19 @@ export class MesasComponent implements OnInit {
         this._mesaService.createMesa(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Agregar mesa',
+                msg: 'Mesa ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/mesas'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {

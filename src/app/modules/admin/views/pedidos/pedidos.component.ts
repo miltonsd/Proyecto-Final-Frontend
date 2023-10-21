@@ -138,18 +138,19 @@ export class PedidosComponent implements OnInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-              // alert(respuesta.msg)
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
-                data: { title: 'Error', msg: respuesta.next.msg }
+                data: {
+                  title: 'Editar pedido',
+                  msg: 'Pedido ' + respuesta.msg.toLowerCase()
+                }
               })
               dialogRef.afterClosed().subscribe(() => {
                 window.location.href = '/admin/pedidos'
               })
             },
             error: (err) => {
-              // alert(err.msg)
               this.dialog.open(DialogComponent, {
                 width: '300 px',
                 data: {
@@ -176,18 +177,19 @@ export class PedidosComponent implements OnInit {
         this._pedidoService.createPedido(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Agregar pedido',
+                msg: 'Pedido ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/pedidos'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {

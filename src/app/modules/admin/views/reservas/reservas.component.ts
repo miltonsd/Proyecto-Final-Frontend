@@ -131,18 +131,19 @@ export class ReservasComponent implements OnInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-              // alert(respuesta.msg)
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
-                data: { title: 'Error', msg: respuesta.next.msg }
+                data: {
+                  title: 'Editar reserva',
+                  msg: 'Reserva ' + respuesta.msg.toLowerCase()
+                }
               })
               dialogRef.afterClosed().subscribe(() => {
                 window.location.href = '/admin/reservas'
               })
             },
             error: (err) => {
-              // alert(err.msg)
               this.dialog.open(DialogComponent, {
                 width: '300 px',
                 data: {
@@ -170,18 +171,19 @@ export class ReservasComponent implements OnInit {
         this._reservaService.createReserva(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Agregar reserva',
+                msg: 'Reserva ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/reservas'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {

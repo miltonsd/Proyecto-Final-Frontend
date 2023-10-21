@@ -102,18 +102,19 @@ export class CategoriasComponent implements OnInit {
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
-              // alert(respuesta.msg)
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
-                data: { title: 'Error', msg: respuesta.next.msg }
+                data: {
+                  title: 'Editar categoría',
+                  msg: 'Categoría ' + respuesta.msg.toLowerCase()
+                }
               })
               dialogRef.afterClosed().subscribe(() => {
                 window.location.href = '/admin/categorias'
               })
             },
             error: (err) => {
-              // alert(err.msg)
               this.dialog.open(DialogComponent, {
                 width: '300 px',
                 data: {
@@ -140,18 +141,19 @@ export class CategoriasComponent implements OnInit {
         this._categoriaService.createCategoria(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Agregar categoría',
+                msg: 'Categoría ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/categorias'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {

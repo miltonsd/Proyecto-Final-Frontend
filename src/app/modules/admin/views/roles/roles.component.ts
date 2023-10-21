@@ -69,7 +69,7 @@ export class RolesComponent implements OnInit {
           }
         })
         dialogRef.afterClosed().subscribe(() => {
-          window.location.href = '/admin/rol'
+          window.location.href = '/admin/roles'
         })
       },
       error: (err) => {
@@ -98,18 +98,19 @@ export class RolesComponent implements OnInit {
         this._rolService.updateRol(rol.id_rol, resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Editar rol',
+                msg: 'Rol ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/roles'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {
@@ -136,18 +137,19 @@ export class RolesComponent implements OnInit {
         this._rolService.createRol(resultado.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            // alert(respuesta.msg)
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Error', msg: respuesta.next.msg }
+              data: {
+                title: 'Agregar rol',
+                msg: 'Rol ' + respuesta.msg.toLowerCase()
+              }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/roles'
             })
           },
           error: (err) => {
-            // alert(err.msg)
             this.dialog.open(DialogComponent, {
               width: '300 px',
               data: {
