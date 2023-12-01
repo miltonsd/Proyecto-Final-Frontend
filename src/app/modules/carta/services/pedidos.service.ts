@@ -34,7 +34,7 @@ export class PedidosService {
     return this._http.get(`${this.url}/pendientes`)
   }
 
-  setEntregado(id_pedido: number) {
-    return this._http.post(`${this.url}/entregado/${id_pedido}`, undefined)
+  cambiarEstado(id_pedido: number) {
+    return this._http.post(`${this.url}/cambiarEstado/${id_pedido}`, undefined)
   }
 }

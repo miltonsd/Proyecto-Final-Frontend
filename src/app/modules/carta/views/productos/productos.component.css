@@ -4,8 +4,19 @@
   color: #f7bd00;
 }
 
-.submit{
+.pedido {
   margin-left: 88em;
+}
+
+.submit {
+  /* margin-left: 88em; */
+  /* float: right; */
+}
+
+.observaciones {
+  width: 400px;
+  height: 300px;
+  /* margin-left: 88em; */
   /* float: right; */
 }
 

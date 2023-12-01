@@ -31,7 +31,7 @@ export class PedidosComponent implements OnInit {
           this.datosTabla = Object.keys(res).map((p) => ({
             id_pedido: res[p].id_pedido,
             fechaHora: moment(res[p].fechaHora).format('DD/MM/yyyy HH:mm'),
-            isPendiente: res[p].isPendiente,
+            estado: res[p].estado,
             montoImporte: res[p].montoImporte,
             usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido,
             mesa: res[p].id_mesa,
@@ -48,8 +48,8 @@ export class PedidosComponent implements OnInit {
       })
   }
 
-  entregar(id: number) {
-    this._pedidoService.setEntregado(id).subscribe({
+  cambiarEstado(id: number) {
+    this._pedidoService.cambiarEstado(id).subscribe({
       next: () => {
         this.cargarPendientes()
         window.location.href = '/pedidos'

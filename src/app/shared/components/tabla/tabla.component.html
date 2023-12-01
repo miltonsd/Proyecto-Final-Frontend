@@ -23,6 +23,12 @@
                 {{tableColumn.name}}
             </th>
         </ng-template>
+
+        <!-- Si el contenido de la columna permite ver detalles -->
+        <ng-container *ngIf="tableColumn.showDetails">
+            <td></td>
+        </ng-container>
+        
       
         <!-- Si el contenido de la columna tiene botones -->
         <ng-container *ngIf="tableColumn.dataKey === 'actionButtons'">
@@ -62,21 +68,26 @@
                         </div>
                     </ng-container>
 
-                    <!-- Si existe botón de '+1' y '-1' -->
-                    <ng-container *ngIf="tableColumn.addButton">
-                        <div class="boton-c botones-carta">
-                            <a mat-mini-fab color="primary" (click)="onAddCart(row)" class="boton">
-                                <mat-icon>
-                                    exposure_plus_1
-                                </mat-icon>
-                            </a>
-                            <a mat-mini-fab color="primary" (click)="onRemoveCart(row)" class="boton">
-                                <mat-icon>
-                                    exposure_neg_1
-                                </mat-icon>
-                            </a>
-                        </div>
+                    <!-- Si el usuario está logueado -->
+                    <ng-container *ngIf="usuarioLogueado">
+                        <!-- Si existe botón de '+1' y '-1' -->
+                        <ng-container *ngIf="tableColumn.addButton">
+                            <div class="boton-c botones-carta">
+                                <a mat-mini-fab color="primary" (click)="onAddCart(row)" class="boton">
+                                    <mat-icon>
+                                        exposure_plus_1
+                                    </mat-icon>
+                                </a>
+                                <a mat-mini-fab color="primary" (click)="onRemoveCart(row)" class="boton">
+                                    <mat-icon>
+                                        exposure_neg_1
+                                    </mat-icon>
+                                </a>
+                            </div>
+                        </ng-container>
                     </ng-container>
+                    
+                    
 
                     <!-- Si existe botón para cargar el menú al momento de hacer un pedido -->
                     <ng-container *ngIf="tableColumn.menuButton">
@@ -93,14 +104,29 @@
         
         <!-- Si el contenido de la columna no es una imagen -->
         <ng-container *ngIf="!tableColumn.isImage; else isImage">
-            <td mat-cell *matCellDef="let row">
-                <ng-container *ngIf="tableColumn.isCurrency; else isText">
-                    {{row[tableColumn.dataKey]|currency:'$':'symbol':'1.2-2':'es'}}
-                </ng-container>
-                <ng-template #isText >
-                    {{row[tableColumn.dataKey]}}
-                </ng-template>
-            </td>
+            <!-- Si existe botón para mostrar detalles del producto -->
+            <ng-container *ngIf="tableColumn.showDetails; else sinDetalles">
+                <td mat-cell *matCellDef="let row" (click)="onVerDetalles(row)">
+                    <ng-container *ngIf="tableColumn.isCurrency; else isText">
+                        {{row[tableColumn.dataKey]|currency:'$':'symbol':'1.2-2':'es'}}
+                    </ng-container>
+                    <ng-template #isText >
+                        {{row[tableColumn.dataKey]}}
+                    </ng-template>
+                </td>
+            </ng-container>
+
+            <ng-template #sinDetalles>
+                <td mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="tableColumn.isCurrency; else isText">
+                        {{row[tableColumn.dataKey]|currency:'$':'symbol':'1.2-2':'es'}}
+                    </ng-container>
+                    <ng-template #isText >
+                        {{row[tableColumn.dataKey]}}
+                    </ng-template>
+                </td>
+            </ng-template>
+                  
         </ng-container>
                 
         <!-- Si el contenido de la columna es una imagen -->

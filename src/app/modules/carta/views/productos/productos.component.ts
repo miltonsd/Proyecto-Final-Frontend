@@ -8,6 +8,9 @@ import { MesasService } from '@pa/mesas/services'
 import { PedidoPOST } from 'src/app/modules/pedidos/models/pedido'
 import { AuthService } from '@pa/auth/services'
 import { PromocionesService } from '@pa/admin/services'
+import { MatDialog } from '@angular/material/dialog'
+import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-producto/dialog-detalle-producto.component'
+import { FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'pa-productos',
@@ -15,6 +18,7 @@ import { PromocionesService } from '@pa/admin/services'
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
+  genericos!: any[]
   ensaladas!: any[]
   paraPicar!: any[]
   sandwiches!: any[]
@@ -32,7 +36,7 @@ export class ProductosComponent implements OnInit {
 
   // Defino las columnas de los productos
   columnas: TableColumn[] = [
-    { name: 'Descripción', dataKey: 'descripcion' },
+    { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
     {
       name: 'Precio unitario',
       dataKey: 'precioTabla'
@@ -44,11 +48,14 @@ export class ProductosComponent implements OnInit {
       addButton: true,
       removeButton: true
     },
+    // Buscar la forma que solo se muestre cuando el usuario este logueado
     {
       name: 'Cantidad seleccionada',
       dataKey: 'cant_selecc'
     }
   ]
+
+  observacionForm = new FormControl('', { validators: [Validators.max(500)] })
 
   constructor(
     private _productoService: ProductosService,
@@ -56,7 +63,8 @@ export class ProductosComponent implements OnInit {
     private _promocionService: PromocionesService,
     private route: ActivatedRoute,
     private _mesaService: MesasService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -139,6 +147,7 @@ export class ProductosComponent implements OnInit {
                 stock: res[p].stock,
                 id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
                 imagen: res[p].imagen,
+                detalle: res[p].detalle,
                 cant_selecc: 0
               }
             } else {
@@ -150,10 +159,12 @@ export class ProductosComponent implements OnInit {
                 stock: res[p].stock,
                 id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
                 imagen: res[p].imagen,
+                detalle: res[p].detalle,
                 cant_selecc: 0
               }
             }
           })
+          this.genericos = this.productos.filter((p) => p.id_tipoProducto === 0)
           this.ensaladas = this.productos.filter((p) => p.id_tipoProducto === 1)
           this.paraPicar = this.productos.filter((p) => p.id_tipoProducto === 2)
           this.sandwiches = this.productos.filter(
@@ -193,6 +204,13 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  verDetalles(producto: any) {
+    this.dialog.open(DialogDetalleProductoComponent, {
+      width: '600px',
+      data: { producto }
+    })
+  }
+
   // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
   onSubmit() {
     this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
@@ -201,13 +219,16 @@ export class ProductosComponent implements OnInit {
         p.stock -= p.cant_selecc
         this._productoService.updateProducto(p.id_producto, p.stock)
       })
-      const pedido: PedidoPOST = {
+      // const pedido: PedidoPOST = {
+      const pedido: any = {
         fechaHora: new Date(),
         montoImporte: this.calculaMonto(),
         id_usuario: this._authService.getCurrentUserId(), // Se asigna el id_usuario correspondiente para el usuario logueado
         id_mesa: this.mesa?.id_mesa,
-        lista_productos: this.carrito
+        lista_productos: this.carrito,
+        observacion: this.observacionForm.value
       }
+      console.log(this.observacionForm.value)
       this._pedidoService.createPedido(pedido).subscribe({
         complete: () => {
           // if (localStorage.getItem('carrito') !== null) {

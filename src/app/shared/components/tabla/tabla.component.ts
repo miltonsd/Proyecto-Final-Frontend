@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog'
 // Shared
 import { TableButtonAction, TableColumn } from '@pa/shared/models'
 import { ConfirmDialogComponent } from '@pa/shared/components'
+import { AuthService } from '@pa/auth/services'
 
 @Component({
   selector: 'pa-tabla',
@@ -25,6 +26,7 @@ import { ConfirmDialogComponent } from '@pa/shared/components'
 export class TablaComponent implements OnInit {
   displayedColumns: string[] = []
   dataSource!: MatTableDataSource<any>
+  usuarioLogueado = this._authService.loggedIn()
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
@@ -52,8 +54,10 @@ export class TablaComponent implements OnInit {
     new EventEmitter<TableButtonAction>()
   @Output() menuAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
+  @Output() detailsAction: EventEmitter<TableButtonAction> =
+    new EventEmitter<TableButtonAction>()
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private _authService: AuthService) {}
 
   ngOnInit(): void {
     const columnNames = this.tableColumns.map(
@@ -101,5 +105,9 @@ export class TablaComponent implements OnInit {
 
   onCargarMenu(element: any) {
     this.menuAction.emit(element)
+  }
+
+  onVerDetalles(element: any) {
+    this.detailsAction.emit(element)
   }
 }

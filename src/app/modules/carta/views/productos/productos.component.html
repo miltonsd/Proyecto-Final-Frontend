@@ -1,104 +1,152 @@
 <div>
   <div class="lista-prod">
-    <h1 class="titulo" id="Ensaladasyentradas">Ensaladas y entradas</h1>
-    <pa-tabla
-      [tableData]="ensaladas"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="genericos && genericos.length > 0">
+      <h1 class="titulo" id="Genérico">Genérico</h1>
+      <pa-tabla
+        [tableData]="genericos"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
+    
+    <ng-container *ngIf="ensaladas && ensaladas.length > 0">
+      <h1 class="titulo" id="Ensaladasyentradas">Ensaladas y entradas</h1>
+      <pa-tabla
+        [tableData]="ensaladas"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Parapicar">Para picar</h1>
-    <pa-tabla
-      [tableData]="paraPicar"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="paraPicar && paraPicar.length > 0">
+      <h1 class="titulo" id="Parapicar">Para picar</h1>
+      <pa-tabla
+        [tableData]="paraPicar"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Sandwichesypizzas">Sandwiches y pizzas</h1>
-    <pa-tabla
-      [tableData]="sandwiches"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="sandwiches && sandwiches.length > 0">
+      <h1 class="titulo" id="Sandwichesypizzas">Sandwiches y pizzas</h1>
+      <pa-tabla
+        [tableData]="sandwiches"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Platosprincipales">Platos principales</h1>
-    <pa-tabla
-      [tableData]="principales"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="principales && principales.length > 0">
+      <h1 class="titulo" id="Platosprincipales">Platos principales</h1>
+      <pa-tabla
+        [tableData]="principales"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Postresycafetería">Postres y cafetería</h1>
-    <pa-tabla
-      [tableData]="postres"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="postres && postres.length > 0">
+      <h1 class="titulo" id="Postresycafetería">Postres y cafetería</h1>
+      <pa-tabla
+        [tableData]="postres"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Bebidassinalcohol">Bebidas sin alcohol</h1>
-    <pa-tabla
-      [tableData]="bebidasSA"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="bebidasSA && bebidasSA.length > 0">
+      <h1 class="titulo" id="Bebidassinalcohol">Bebidas sin alcohol</h1>
+      <pa-tabla
+        [tableData]="bebidasSA"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Cervezas">Cervezas</h1>
-    <pa-tabla
-      [tableData]="cervezas"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="cervezas && cervezas.length > 0">
+      <h1 class="titulo" id="Cervezas">Cervezas</h1>
+      <pa-tabla
+        [tableData]="cervezas"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Vinosyespumantes">Vinos y espumantes</h1>
-    <pa-tabla
-      [tableData]="vinos"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="vinos && vinos.length > 0">
+      <h1 class="titulo" id="Vinosyespumantes">Vinos y espumantes</h1>
+      <pa-tabla
+        [tableData]="vinos"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
 
-    <h1 class="titulo" id="Tragos">Tragos</h1>
-    <pa-tabla
-      [tableData]="tragos"
-      [tableColumns]="columnas"
-      [isFilter]="false"
-      [isPaginator]="false"
-      (addAction)="addToCart($event)"
-      (removeAction)="removeToCart($event)"
-    ></pa-tabla>
+    <ng-container *ngIf="tragos && tragos.length > 0">
+      <h1 class="titulo" id="Tragos">Tragos</h1>
+      <pa-tabla
+        [tableData]="tragos"
+        [tableColumns]="columnas"
+        [isFilter]="false"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
+
   </div>
 </div>
 
-<button *ngIf="usuarioLogueado"
-  class="submit"
-  type="submit"
-  [disabled]="this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder()"
-  mat-raised-button
-  color="primary"
-  (click)="onSubmit()"
->
-  Realizar pedido (🛒)
-</button>
+<div class="pedido">
+  <mat-form-field class="observaciones" *ngIf="usuarioLogueado">
+    <mat-label>Observaciones del pedido</mat-label>
+    <textarea matInput formControlName="observacion"></textarea>
+  </mat-form-field>
+  
+  <button *ngIf="usuarioLogueado"
+    class="submit"
+    type="submit"
+    [disabled]="this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder()"
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+  >
+    Realizar pedido (🛒)
+  </button>
+</div>

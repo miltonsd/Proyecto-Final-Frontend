@@ -12,6 +12,7 @@
           Productos
         </h2>
         <h2 class="content" style="justify-self: flex-end; flex: 1">Mesa</h2>
+        <h2 class="content" style="justify-self: flex-end; flex: 1">Estado</h2>
       </div>
       <mat-card-actions align="end">
         <button style="visibility: hidden" class="button">Entregar</button>
@@ -34,13 +35,16 @@
           <h2 class="content" style="justify-self: flex-end; flex: 1">
             {{ pedido.mesa }}
           </h2>
+          <h2 class="content" style="justify-self: flex-end; flex: 1">
+            {{ pedido.estado }}
+          </h2>
         </div>
         <mat-card-actions align="end">
-          <button class="button button-pc" (click)="entregar(pedido.id_pedido)">
-            Entregar
+          <button class="button button-pc" (click)="cambiarEstado(pedido.id_pedido)">
+            {{ pedido.estado === 'Pendiente'? 'Listo' : 'Entregar' }}
           </button>
-          <button class="button button-celular" (click)="entregar(pedido.id_pedido)">
-            <mat-icon>room_service</mat-icon>
+          <button class="button button-celular" (click)="cambiarEstado(pedido.id_pedido)">
+            <mat-icon>{{ pedido.estado === 'Pendiente'? 'done_outline' : 'room_service' }}</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>
