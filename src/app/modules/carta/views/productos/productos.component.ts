@@ -35,25 +35,7 @@ export class ProductosComponent implements OnInit {
   usuarioLogueado = this._authService.loggedIn()
 
   // Defino las columnas de los productos
-  columnas: TableColumn[] = [
-    { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
-    {
-      name: 'Precio unitario',
-      dataKey: 'precioTabla'
-      // isCurrency: true
-    },
-    {
-      name: ' ',
-      dataKey: 'actionButtons',
-      addButton: true,
-      removeButton: true
-    },
-    // Buscar la forma que solo se muestre cuando el usuario este logueado
-    {
-      name: 'Cantidad seleccionada',
-      dataKey: 'cant_selecc'
-    }
-  ]
+  columnas: TableColumn[] = []
 
   observacionForm = new FormControl('', { validators: [Validators.max(500)] })
 
@@ -73,6 +55,39 @@ export class ProductosComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       params['id_mesa'] !== '0' && this.getMesa(params['id_mesa'])
     })
+    if (this.usuarioLogueado) {
+      this.columnas = [{ name: 'Descripción', dataKey: 'descripcion', showDetails: true },
+      {
+        name: 'Precio unitario',
+        dataKey: 'precioTabla'
+        // isCurrency: true
+      },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        addButton: true,
+        removeButton: true
+      },
+      // Buscar la forma que solo se muestre cuando el usuario este logueado
+      {
+        name: 'Cantidad seleccionada',
+        dataKey: 'cant_selecc'
+      }]
+    }
+    else {this.columnas = [
+      { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
+      {
+        name: 'Precio unitario',
+        dataKey: 'precioTabla'
+        // isCurrency: true
+      },
+      {
+        name: ' ',
+        dataKey: 'actionButtons',
+        addButton: true,
+        removeButton: true
+      }]
+    }
   }
 
   getPromociones() {

@@ -46,6 +46,7 @@ export class UsuariosComponent implements OnInit {
             apellido: res[u].apellido,
             email: res[u].email,
             isConfirmado: res[u].isConfirmado,
+            confirmado: res[u].isConfirmado? "Si":"No",
             documento: res[u].documento,
             direccion: res[u].direccion,
             telefono: res[u].telefono,
@@ -65,12 +66,11 @@ export class UsuariosComponent implements OnInit {
       })
     // Defino las columnas de la tabla Usuarios
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_usuario' },
+      { name: 'Documento', dataKey: 'documento' },
       { name: 'Nombre', dataKey: 'nombre' },
       { name: 'Apellido', dataKey: 'apellido' },
       { name: 'Email', dataKey: 'email' },
-      { name: '¿Está confirmado?', dataKey: 'isConfirmado' },
-      { name: 'Documento', dataKey: 'documento' },
+      { name: '¿Está confirmado?', dataKey: 'confirmado' },
       // { name: 'Dirección', dataKey: 'direccion' },
       { name: 'Teléfono', dataKey: 'telefono' },
       // { name: 'Fecha de Nacimiento', dataKey: 'fechaNacimiento' },

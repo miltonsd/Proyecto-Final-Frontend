@@ -48,7 +48,6 @@ export class TiposProductoComponent implements OnInit {
       })
     // Defino las columnas de la tabla tipos_productos
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_tipoProducto' },
       { name: 'Descripcion', dataKey: 'descripcion' },
       { name: 'Imagen', dataKey: 'imagen', isImage: true },
       {

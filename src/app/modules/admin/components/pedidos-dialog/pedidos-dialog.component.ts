@@ -25,12 +25,12 @@ import { PromocionesService } from '../../services/promociones.service'
 })
 export class PedidosDialogComponent implements OnInit {
   pedido!: any
-  isPendiente = new FormControl(true)
   usuarios!: any[]
   lista_productos!: any[]
   mesas!: any[]
   promociones: any[] = []
   productosSeleccionados: any[] = []
+  estados = ['Pendiente', 'Listo', 'Entregado']
 
   constructor(
     public dialogRef: MatDialogRef<PedidosDialogComponent>,
@@ -46,7 +46,8 @@ export class PedidosDialogComponent implements OnInit {
     montoImporte: new FormControl(0, {
       validators: [Validators.required]
     }),
-    isPendiente: this.isPendiente,
+    estado: new FormControl("", {
+      validators: [Validators.required, Validators.min(1)]}),
     usuario: new FormControl(0, {
       validators: [Validators.required]
     }),
@@ -160,7 +161,7 @@ export class PedidosDialogComponent implements OnInit {
     const pedido: PedidoForm = {
       productos: this.data.elemento?.lista_productos,
       montoImporte: this.data.elemento?.montoImporte as number,
-      isPendiente: this.data.elemento?.isPendiente as boolean,
+      estado: this.data.elemento?.estado as string,
       id_usuario: this.data.elemento?.id_usuario as number,
       id_mesa: this.data.elemento?.mesa as number
     }
@@ -172,7 +173,7 @@ export class PedidosDialogComponent implements OnInit {
     this.formulario.patchValue({
       productos: pedido.productos,
       montoImporte: pedido.montoImporte,
-      isPendiente: pedido.isPendiente,
+      estado: pedido.estado,
       usuario: pedido.id_usuario,
       mesa: pedido.id_mesa
     })
@@ -189,7 +190,8 @@ export class PedidosDialogComponent implements OnInit {
         montoImporte: this.formulario.value.montoImporte as number,
         id_usuario: this.formulario.value.usuario as number,
         id_mesa: this.formulario.value.mesa as number,
-        lista_productos: this.formulario.value.productos as Producto[]
+        lista_productos: this.formulario.value.productos as Producto[],
+        estado: this.formulario.value.estado as string,
       }
       this.dialogRef.close({ data: pedido })
     } else {

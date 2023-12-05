@@ -150,7 +150,7 @@ export class ConsumicionesDiaComponent {
     // Arma el pedido para enviar al backend para guardar en la DB
     this.pedido = {
       fechaHora: new Date(),
-      isPendiente: false, // El pedido ya fue entregado
+      estado: 'Entregado', // El pedido ya fue entregado
       montoImporte: this.calculaTotal(), // Suma todos los subtotales de las consumiciones
       id_mesa: parseInt(id_mesa), // id_mesa tiene que ser la mesa habilitada para el usuario
       id_usuario: parseInt(id_usuario),

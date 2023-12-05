@@ -116,7 +116,7 @@
         </div>
 
         <div class="filaFormulario">
-          <mat-checkbox class="reserva-input dialog-checkbox" [formControl]="isConfirmado">¿El usuario está confirmado?</mat-checkbox>
+          <mat-checkbox class="reserva-input dialog-checkbox" formControlName="isConfirmado">¿El usuario está confirmado?</mat-checkbox>
         </div>
         <div class="filaFormulario" *ngIf="data.editar">
           <mat-checkbox class="reserva-input dialog-checkbox"

@@ -58,7 +58,6 @@ export class PromocionesComponent implements OnInit {
       })
     // Defino las columnas de la tabla Promociones
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_promocion' },
       { name: 'Descuento', dataKey: 'porcentaje_desc' },
       { name: 'Fecha desde', dataKey: 'fecha_desde' },
       { name: 'Fecha hasta', dataKey: 'fecha_hasta' },

@@ -78,9 +78,17 @@
               <input type="text" matInput formControlName="montoImporte" readonly [value]="calculaMonto()">
             </mat-form-field>
 
-            <mat-checkbox class="reserva-input dialog-checkbox" [formControl]="isPendiente">
-              ¿El pedido está pendiente?
-            </mat-checkbox>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>Estado del pedido</mat-label>
+              <mat-select formControlName="estado">
+                <mat-option *ngFor="let estado of estados"
+                  [value]="estado"
+                >{{ estado }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="formulario.controls.estado.hasError('required')"
+              >Campo obligatorio.</mat-error>
+            </mat-form-field>
           </div>
 
 

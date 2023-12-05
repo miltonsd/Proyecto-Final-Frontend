@@ -6,7 +6,6 @@ export interface TableColumn {
   editButton?: boolean // La columna tiene un boton para editar?
   deleteButton?: boolean // La columna tiene un boton para eliminar?
   detailsUrl?: string
-  editUrl?: string
   isSortable?: boolean // Se puede ordenar la columna?
   addButton?: boolean // Tiene un boton de '+1'?
   removeButton?: boolean // Tiene un boton de '-1'?

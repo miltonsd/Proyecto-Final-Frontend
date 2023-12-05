@@ -12,8 +12,8 @@ export interface UsuarioPOST {
   direccion: string
   telefono: string
   fechaNacimiento: string
-  rol: number
-  categoria: number
+  id_rol: number
+  id_categoria: number
 }
 
 export interface UsuarioTabla {

@@ -53,7 +53,6 @@ export class MenuesComponent implements OnInit {
       })
     // Defino las columnas de la tabla Menues
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_menu' },
       { name: 'Título del menú', dataKey: 'titulo' },
       { name: 'Usuario', dataKey: 'usuario' },
       { name: 'Lista de productos', dataKey: 'productos' },

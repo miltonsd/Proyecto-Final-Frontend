@@ -55,14 +55,13 @@ export class ProductosComponent implements OnInit {
       })
     // Defino las columnas de la tabla Productos
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_producto' },
+      { name: 'Descripción', dataKey: 'descripcion' },
       {
         name: 'Precio unitario',
         dataKey: 'precio',
         isCurrency: true
       },
       { name: 'Stock', dataKey: 'stock' },
-      { name: 'Descripción', dataKey: 'descripcion' },
       { name: 'Imágen', dataKey: 'imagen', isImage: true },
       { name: 'Tipo de producto', dataKey: 'tipoProducto' },
       {

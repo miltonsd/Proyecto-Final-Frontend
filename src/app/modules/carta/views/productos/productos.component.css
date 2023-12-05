@@ -5,7 +5,7 @@
 }
 
 .pedido {
-  margin-left: 88em;
+  /* margin-left: 38em; */
 }
 
 .submit {
@@ -39,5 +39,25 @@ div .lista-prod{
   
   div .lista-prod{
     padding-inline: 10%;
+  }
+
+  .pedido {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 20%;
+    align-items: center;
+    margin-bottom: 1%;
+    /* margin-left: 38em; */
+  }
+
+  .submit {
+    width: 160px;
+  }
+
+  .observaciones {
+    width: 60%;
+    height: 100px;
+    /* margin-left: 88em; */
+    /* float: right; */
   }
 } 

@@ -10,7 +10,7 @@ export interface Producto {
 
 export interface PedidoPOST {
   fechaHora: Date
-  isPendiente?: boolean
+  estado?: string
   montoImporte: number
   id_usuario: number
   id_mesa: number
@@ -21,7 +21,7 @@ export interface PedidoTabla {
   id_pedido: number
   fechaHora: string
   montoImporte: number
-  isPendiente: boolean
+  estado: string
   usuario?: string
   mesa?: string
   productos: Producto[]
@@ -31,7 +31,7 @@ export interface PedidoTabla {
 export interface PedidoForm {
   productos: Producto[]
   montoImporte: number
-  isPendiente: boolean
+  estado: string
   id_usuario: number
   id_mesa: number
 }

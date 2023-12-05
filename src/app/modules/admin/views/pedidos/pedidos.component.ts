@@ -43,7 +43,7 @@ export class PedidosComponent implements OnInit {
           this.datosTabla = Object.keys(res).map((p) => ({
             id_pedido: res[p].id_pedido,
             fechaHora: moment(res[p].fechaHora).format('DD/MM/yyyy HH:mm'),
-            isPendiente: res[p].isPendiente,
+            estado: res[p].estado,
             montoImporte: res[p].montoImporte,
             usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido,
             mesa: res[p].id_mesa,
@@ -71,7 +71,7 @@ export class PedidosComponent implements OnInit {
     this.columnasPC = [
       { name: 'ID', dataKey: 'id_pedido' },
       { name: 'Fecha y hora', dataKey: 'fechaHora' },
-      { name: '¿Está pendiente?', dataKey: 'isPendiente' },
+      { name: 'Estado', dataKey: 'estado' },
       { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },
       { name: 'Usuario', dataKey: 'usuario' },
       { name: 'Mesa', dataKey: 'mesa' },

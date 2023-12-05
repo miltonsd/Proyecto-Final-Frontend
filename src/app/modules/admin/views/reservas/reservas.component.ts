@@ -47,6 +47,7 @@ export class ReservasComponent implements OnInit {
             fechaHora: moment(res[r].fechaHora).format('DD/MM/yyyy HH:mm'),
             cant_personas: res[r].cant_personas,
             isPendiente: res[r].isPendiente,
+            pendiente: res[r].isPendiente?"Si":"No",
             id_usuario: res[r].Usuario.id_usuario,
             id_mesa: res[r].Mesa.id_mesa,
             usuario: res[r].Usuario.nombre + ' ' + res[r].Usuario.apellido,
@@ -63,7 +64,7 @@ export class ReservasComponent implements OnInit {
       { name: 'ID', dataKey: 'id_reserva' },
       { name: 'Fecha y hora', dataKey: 'fechaHora' },
       { name: 'Cantidad de personas', dataKey: 'cant_personas' },
-      { name: '¿Está pendiente?', dataKey: 'isPendiente' },
+      { name: '¿Está pendiente?', dataKey: 'pendiente' },
       { name: 'Usuario', dataKey: 'usuario' },
       { name: 'Mesa', dataKey: 'mesa' },
       {

@@ -49,7 +49,6 @@ export class CategoriasComponent implements OnInit {
       })
     // Defino las columnas de la tabla Categorías
     this.columnas = [
-      { name: 'ID', dataKey: 'id_categoria' },
       { name: 'Descripción de la categoría', dataKey: 'descripcion' },
       {
         name: ' ',

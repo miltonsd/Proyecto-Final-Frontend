@@ -21,7 +21,6 @@ export class UsuariosDialogComponent implements OnInit {
   roles!: any[]
   categorias!: any[]
   ocultar = true
-  isConfirmado = new FormControl(false)
   maxDate = new Date(
     new Date().getFullYear() - 15,
     new Date().getMonth(),
@@ -60,7 +59,7 @@ export class UsuariosDialogComponent implements OnInit {
       ]
     }),
     password: new FormControl(''),
-    isConfirmado: this.isConfirmado,
+    isConfirmado: new FormControl(false),
     documento: new FormControl('', {
       validators: [
         Validators.required,
@@ -192,8 +191,8 @@ export class UsuariosDialogComponent implements OnInit {
           this.formulario.value.fechaNacimiento,
           'yyyy-MM-DD'
         ).format(),
-        rol: this.formulario.value.rol as number,
-        categoria: this.formulario.value.categoria as number
+        id_rol: this.formulario.value.rol as number,
+        id_categoria: this.formulario.value.categoria as number
       }
       if (this.formulario.get('cambiarPass')?.value || !this.data.editar) {
         // Si el checkbox está marcado o el formulario es para crear un usuario, incluir la contraseña en el objeto a enviar al backend
