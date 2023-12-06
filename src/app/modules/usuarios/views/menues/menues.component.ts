@@ -7,6 +7,11 @@ import { MenuDataDialog } from '../../models/menuDataDialog'
 import { MatDialog } from '@angular/material/dialog'
 import { PedidosService } from '@pa/carta/services'
 import { MenuesdialogComponent } from '../../components/menuesdialog/menuesdialog.component'
+import { MenuesService } from '@pa/admin/services'
+import { DialogComponent } from '@pa/shared/components'
+import { CrearMenuDialogComponent } from '../../components/crear-menu-dialog/crear-menu-dialog.component'
+import { MenuTabla } from 'src/app/modules/admin/views/menues/models'
+import { AdminDataDialog } from '@pa/admin/models'
 
 @Component({
   selector: 'pa-menues',
@@ -19,11 +24,23 @@ export class MenuesComponent implements OnInit {
   columnas: TableColumn[] = [
     { name: 'Título', dataKey: 'titulo' },
     { name: 'Productos', dataKey: 'productos' },
-    { name: ' ', dataKey: 'actionButtons', menuButton: true }
+    {
+      name: ' ',
+      dataKey: 'actionButtons',
+      menuButton: true,
+      editButton: true,
+      deleteButton: true
+    }
   ]
+
+  msgConfirmacion = {
+    title: 'Confirmar eliminación del menú',
+    msg: '¿Estás seguro de eliminar el menú? Esta acción no se puede deshacer.'
+  }
 
   constructor(
     private _usuariosService: UsuariosService,
+    private _menuService: MenuesService,
     private _authService: AuthService,
     private _pedidoService: PedidosService,
     public dialog: MatDialog
@@ -37,6 +54,7 @@ export class MenuesComponent implements OnInit {
       .pipe(
         map((res: any) => {
           this.menues = Object.keys(res).map((m) => ({
+            id_menu: res[m].id_menu,
             titulo: res[m].titulo,
             lista_productos: res[m].Productos.map((prod: any) => {
               return {
@@ -69,11 +87,130 @@ export class MenuesComponent implements OnInit {
         this._pedidoService.createPedido(pedido.data).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
-            alert(respuesta.msg) // Cambiar por dialog
-            window.location.href = '/perfil/consumiciones'
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: {
+                title: 'Realizar pedido',
+                msg: 'Pedido ' + respuesta.msg.toLowerCase()
+              }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/perfil/consumiciones'
+            })
           },
           error: (err) => {
-            alert(err.msg) // Cambiar por dialog
+            this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Error', msg: err.error.msg }
+            })
+          }
+        })
+      }
+    })
+  }
+
+  onDelete(menu: any) {
+    // Espera recibir la confirmación para eliminar por parte del componente Tabla del modulo Shared
+    this._menuService.deleteMenu(menu.id_menu).subscribe({
+      next: () => {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '300 px',
+          data: {
+            title: 'Eliminar menú',
+            msg: 'Se ha eliminado el menú con éxito.'
+          }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          window.location.href = '/perfil/menues'
+        })
+      },
+      error: (err) => {
+        this.dialog.open(DialogComponent, {
+          width: '300 px',
+          data: {
+            title: 'Error',
+            msg: err.error.msg
+          }
+        })
+      }
+    })
+  }
+
+  onEdit(menu: any) {
+    const dataDialog: AdminDataDialog<MenuTabla> = {
+      editar: true,
+      elemento: menu
+    }
+    const dialogRef = this.dialog.open(CrearMenuDialogComponent, {
+      width: '900px',
+      data: dataDialog
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._menuService.updateMenu(menu.id_menu, resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: {
+                title: 'Editar menú',
+                msg: 'Menú ' + respuesta.msg.toLowerCase()
+              }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/perfil/menues'
+            })
+          },
+          error: (err) => {
+            this.dialog.open(DialogComponent, {
+              width: '300 px',
+              data: {
+                title: 'Error',
+                msg: err.error.msg
+              }
+            })
+          }
+        })
+      }
+    })
+  }
+
+  onAddMenu() {
+    const dataDialog: AdminDataDialog<MenuTabla> = {
+      editar: false
+    }
+    const dialogRef = this.dialog.open(CrearMenuDialogComponent, {
+      width: '900px',
+      data: dataDialog
+    })
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this._menuService.createMenu(resultado.data).subscribe({
+          // next - error - complete
+          next: (respuesta: any) => {
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: {
+                title: 'Agregar menú',
+                msg: 'Menú ' + respuesta.msg.toLowerCase()
+              }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/perfil/menues'
+            })
+          },
+          error: (err) => {
+            this.dialog.open(DialogComponent, {
+              width: '300 px',
+              data: {
+                title: 'Error',
+                msg: err.error.msg
+              }
+            })
           }
         })
       }

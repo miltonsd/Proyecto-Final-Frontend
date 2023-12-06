@@ -43,7 +43,7 @@
                         </div>
                     </ng-container>
                 
-                    <ng-container *ngIf="tableColumn.editButton && tableColumn.deleteButton">
+                    <ng-container *ngIf="tableColumn.editButton && tableColumn.deleteButton && !tableColumn.menuButton">
                         <div class="boton-c edit-delete-pc">
                             <a mat-flat-button color="primary" (click)="onEdit(row)"class="boton">
                                 <mat-icon>edit</mat-icon>
@@ -91,9 +91,35 @@
 
                     <!-- Si existe botón para cargar el menú al momento de hacer un pedido -->
                     <ng-container *ngIf="tableColumn.menuButton">
-                        <div class="boton-c">
-                            <a mat-flat-button color="primary" (click)="onCargarMenu(row)" class="boton">
-                                Seleccionar
+                        <div class="boton-c edit-delete-pc">
+                            <a mat-flat-button color="accent" (click)="onCargarMenu(row)" class="boton">
+                                <fa-icon [icon]="faArrowPointer"></fa-icon>
+                                Elegir
+                            </a>
+                            <a mat-mini-fab color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>
+                                    edit
+                                </mat-icon>
+                            </a>
+                            <a mat-mini-fab color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
+                            </a>
+                        </div>                          
+                        <div class="boton-c edit-delete-celular">
+                            <a mat-mini-fab color="accent" (click)="onCargarMenu(row)" class="boton">
+                                <fa-icon [icon]="faArrowPointer"></fa-icon>
+                            </a>
+                            <a mat-mini-fab color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>
+                                    edit
+                                </mat-icon>
+                            </a>
+                            <a mat-mini-fab color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
                             </a>
                         </div>
                     </ng-container>

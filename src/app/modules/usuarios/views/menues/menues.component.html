@@ -7,9 +7,16 @@
             [tableColumns]="columnas"
             [isFilter]="false"
             [isPaginator]="false"
-            (menuAction)="onCargarMenu($event)">
+            (menuAction)="onCargarMenu($event)"
+            (editAction)="onEdit($event)"
+            (deleteAction)="onDelete($event)"
+            [confirmDialogMsg]="msgConfirmacion">
         </pa-tabla>
     </div>
 
-    <!-- AGREGAR UN BOTON PARA CREAR MENU (NOS FALTARA UN DIALOG) -->
+    <div class="boton">
+        <button class="submit" type="submit" mat-raised-button color="primary" (click)="onAddMenu()">
+          Agregar menú (+)
+        </button>
+    </div>
 </div>

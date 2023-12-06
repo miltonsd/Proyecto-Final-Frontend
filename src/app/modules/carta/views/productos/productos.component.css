@@ -5,19 +5,16 @@
 }
 
 .pedido {
-  /* margin-left: 38em; */
-}
-
-.submit {
-  /* margin-left: 88em; */
-  /* float: right; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4%;
 }
 
 .observaciones {
-  width: 400px;
-  height: 300px;
-  /* margin-left: 88em; */
-  /* float: right; */
+  width: 96%;
+  height: 100px;
+  padding-inline: 2%;
 }
 
 div .lista-prod{
@@ -42,12 +39,8 @@ div .lista-prod{
   }
 
   .pedido {
-    display: flex;
-    flex-direction: column;
     padding-inline: 20%;
-    align-items: center;
     margin-bottom: 1%;
-    /* margin-left: 38em; */
   }
 
   .submit {
@@ -56,8 +49,5 @@ div .lista-prod{
 
   .observaciones {
     width: 60%;
-    height: 100px;
-    /* margin-left: 88em; */
-    /* float: right; */
   }
 } 

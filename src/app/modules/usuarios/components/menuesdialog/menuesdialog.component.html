@@ -20,7 +20,7 @@
                 
                 <mat-form-field class="example-full-width">
                   <mat-label>Cantidad</mat-label>
-                  <input type="number" min="0" max="10" matInput formControlName="cant_selecc">
+                  <input type="number" min="1" max="10" matInput formControlName="cant_selecc">
                   <mat-error *ngIf="formulario.controls.productos.hasError('required')">
                     Ingrese una cantidad válida (entre 1 y 10)
                   </mat-error>
@@ -31,6 +31,9 @@
                   <input type="text" matInput formControlName="subtotal" readonly>
                 </mat-form-field>
             
+                <button class="eliminar-producto" mat-mini-fab color="warn" (click)="removeProducto(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
                 <br><br>
           
               </div>

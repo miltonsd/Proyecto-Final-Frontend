@@ -77,6 +77,7 @@ export class MenuesComponent implements OnInit {
   }
 
   onDelete(menu: any) {
+    // Espera recibir la confirmación para eliminar por parte del componente Tabla del modulo Shared
     this._menuService.deleteMenu(menu.id_menu).subscribe({
       next: () => {
         const dialogRef = this.dialog.open(DialogComponent, {

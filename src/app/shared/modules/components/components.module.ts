@@ -11,6 +11,7 @@ import {
 import { MaterialModule } from '@pa/shared/modules'
 import { MesaGridComponent } from '../../components/mesa-grid/mesa-grid.component'
 import { QrScannerComponent } from '../../components/qr-scanner/qr-scanner.component'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 const components = [
   TablaComponent,
@@ -22,7 +23,7 @@ const components = [
 
 @NgModule({
   declarations: [...components],
-  imports: [CommonModule, RouterModule, MaterialModule],
+  imports: [CommonModule, RouterModule, MaterialModule, FontAwesomeModule],
   exports: [...components]
 })
 export class ComponentsModule {}

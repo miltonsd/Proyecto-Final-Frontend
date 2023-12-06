@@ -6,11 +6,16 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef
+} from '@angular/material/dialog'
 import { CookieService } from 'ngx-cookie-service'
 import { map } from 'rxjs'
 import { PedidoPOST, Producto } from 'src/app/modules/pedidos/models'
 import { PromocionesService } from '@pa/admin/services'
+import { DialogComponent } from '@pa/shared/components'
 
 @Component({
   selector: 'pa-menuesdialog',
@@ -28,7 +33,8 @@ export class MenuesdialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _promocionService: PromocionesService,
     private _cookieService: CookieService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public dialog: MatDialog
   ) {}
 
   formulario = new FormGroup({
@@ -126,8 +132,25 @@ export class MenuesdialogComponent implements OnInit {
       }
       this.dialogRef.close({ data: pedido })
     } else {
-      this.formulario.markAllAsTouched()
-      alert('No se escaneó una mesa') // Cambiar por dialog
+      if (!this.formulario.valid) {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: { title: 'Error', msg: 'Las cantidades no pueden ser cero.' }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          this.formulario.markAllAsTouched()
+        })
+      } else {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: { title: 'Error', msg: 'No se escaneó una mesa.' }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          this.formulario.markAllAsTouched()
+        })
+      }
     }
   }
 
@@ -147,6 +170,10 @@ export class MenuesdialogComponent implements OnInit {
 
   get productos() {
     return <FormArray>this.formulario.get('productos')
+  }
+
+  removeProducto(p: any) {
+    ;(<FormArray>this.formulario.get('productos')).removeAt(p)
   }
 
   calculaMonto() {

@@ -11,9 +11,10 @@ import { HReservasComponent } from './views/h-reservas/h-reservas.component'
 import { HPedidosComponent } from './views/h-pedidos/h-pedidos.component'
 import { MenuesComponent } from './views/menues/menues.component'
 import { ConsumicionesDiaComponent } from './views/consumiciones-dia/consumiciones-dia.component'
-import { DialogEditarPerfilComponent } from './components/dialog-editar-perfil/dialog-editar-perfil.component';
-import { DialogCambiarPasswordComponent } from './components/dialog-cambiar-password/dialog-cambiar-password.component';
+import { DialogEditarPerfilComponent } from './components/dialog-editar-perfil/dialog-editar-perfil.component'
+import { DialogCambiarPasswordComponent } from './components/dialog-cambiar-password/dialog-cambiar-password.component'
 import { MenuesdialogComponent } from './components/menuesdialog/menuesdialog.component'
+import { CrearMenuDialogComponent } from './components/crear-menu-dialog/crear-menu-dialog.component'
 
 const modules = [ComponentsModule, MaterialModule]
 
@@ -27,7 +28,8 @@ const modules = [ComponentsModule, MaterialModule]
     ConsumicionesDiaComponent,
     DialogEditarPerfilComponent,
     DialogCambiarPasswordComponent,
-    MenuesdialogComponent
+    MenuesdialogComponent,
+    CrearMenuDialogComponent
   ],
   imports: [
     CommonModule,

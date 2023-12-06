@@ -11,6 +11,7 @@ import { PromocionesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-producto/dialog-detalle-producto.component'
 import { FormControl, Validators } from '@angular/forms'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'pa-productos',
@@ -33,6 +34,7 @@ export class ProductosComponent implements OnInit {
   promociones: any[] = []
   mesa: IMesa | undefined
   usuarioLogueado = this._authService.loggedIn()
+  faCartShopping = faCartShopping
 
   // Defino las columnas de los productos
   columnas: TableColumn[] = []
@@ -56,37 +58,40 @@ export class ProductosComponent implements OnInit {
       params['id_mesa'] !== '0' && this.getMesa(params['id_mesa'])
     })
     if (this.usuarioLogueado) {
-      this.columnas = [{ name: 'Descripción', dataKey: 'descripcion', showDetails: true },
-      {
-        name: 'Precio unitario',
-        dataKey: 'precioTabla'
-        // isCurrency: true
-      },
-      {
-        name: ' ',
-        dataKey: 'actionButtons',
-        addButton: true,
-        removeButton: true
-      },
-      // Buscar la forma que solo se muestre cuando el usuario este logueado
-      {
-        name: 'Cantidad seleccionada',
-        dataKey: 'cant_selecc'
-      }]
-    }
-    else {this.columnas = [
-      { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
-      {
-        name: 'Precio unitario',
-        dataKey: 'precioTabla'
-        // isCurrency: true
-      },
-      {
-        name: ' ',
-        dataKey: 'actionButtons',
-        addButton: true,
-        removeButton: true
-      }]
+      this.columnas = [
+        { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
+        {
+          name: 'Precio unitario',
+          dataKey: 'precioTabla'
+          // isCurrency: true
+        },
+        {
+          name: ' ',
+          dataKey: 'actionButtons',
+          addButton: true,
+          removeButton: true
+        },
+        // Buscar la forma que solo se muestre cuando el usuario este logueado
+        {
+          name: 'Cantidad seleccionada',
+          dataKey: 'cant_selecc'
+        }
+      ]
+    } else {
+      this.columnas = [
+        { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
+        {
+          name: 'Precio unitario',
+          dataKey: 'precioTabla'
+          // isCurrency: true
+        },
+        {
+          name: ' ',
+          dataKey: 'actionButtons',
+          addButton: true,
+          removeButton: true
+        }
+      ]
     }
   }
 

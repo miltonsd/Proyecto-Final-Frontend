@@ -1,0 +1,39 @@
+<div class="main">
+  <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
+  <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} menú</h1>
+
+    <div mat-dialog-content class="reserva">
+      <div class="reserva">
+        <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
+
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+              <mat-label>Título del menú</mat-label>
+              <input type="text" matInput formControlName="titulo">
+              <mat-error *ngIf="formulario.controls.titulo.hasError('required')">
+                Ingrese un título válido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="filaFormulario">
+            <mat-form-field [hideRequiredMarker]="data.editar" appearance="fill" class="reserva-input">
+              <mat-label>Seleccionar producto(s)</mat-label>
+              <mat-select formControlName="producto" multiple>
+                <mat-option *ngFor="let producto of productos" [value]="producto.id_producto">{{
+                  producto.descripcion
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.controls.producto.hasError('required')">
+                Campo obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+        <div class="boton">
+          <button type="submit" mat-raised-button color="primary">Confirmar</button>
+          <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+        </div>      
+      </form>    
+    </div> 
+</div>

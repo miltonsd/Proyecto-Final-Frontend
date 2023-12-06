@@ -10,10 +10,16 @@ import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 
 import { ProductosComponent } from './views/productos/productos.component'
 import { DialogDetalleProductoComponent } from './components/dialog-detalle-producto/dialog-detalle-producto.component'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
-const modules = [ComponentsModule, MaterialModule]
+const modules = [ComponentsModule, MaterialModule, FontAwesomeModule]
 @NgModule({
-  declarations: [CartaComponent, CardTipoProductoComponent, ProductosComponent, DialogDetalleProductoComponent],
+  declarations: [
+    CartaComponent,
+    CardTipoProductoComponent,
+    ProductosComponent,
+    DialogDetalleProductoComponent
+  ],
   imports: [CommonModule, CartaRoutingModule, ...modules]
 })
 export class CartaModule {}

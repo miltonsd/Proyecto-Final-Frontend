@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { TableButtonAction, TableColumn } from '@pa/shared/models'
 import { ConfirmDialogComponent } from '@pa/shared/components'
 import { AuthService } from '@pa/auth/services'
+import { faArrowPointer } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'pa-tabla',
@@ -27,6 +28,7 @@ export class TablaComponent implements OnInit {
   displayedColumns: string[] = []
   dataSource!: MatTableDataSource<any>
   usuarioLogueado = this._authService.loggedIn()
+  faArrowPointer = faArrowPointer
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
