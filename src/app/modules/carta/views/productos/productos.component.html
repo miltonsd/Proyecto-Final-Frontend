@@ -136,7 +136,7 @@
 <div class="pedido" *ngIf="usuarioLogueado">
   <mat-form-field class="observaciones">
     <mat-label>Observaciones del pedido</mat-label>
-    <textarea matInput formControlName="observacion"></textarea>
+    <textarea matInput #observacion></textarea>
   </mat-form-field>
   
   <button
@@ -145,7 +145,7 @@
     [disabled]="this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder()"
     mat-raised-button
     color="primary"
-    (click)="onSubmit()"
+    (click)="onSubmit(observacion.value)"
   >
     <fa-icon [icon]="faCartShopping"></fa-icon> Realizar pedido
   </button>

@@ -43,7 +43,7 @@ export class CartaComponent implements OnInit {
           this.tiposP = Object.keys(res).map((tp) => ({
             id_tipoProducto: res[tp].id_tipoProducto,
             descripcion: res[tp].descripcion,
-            imagen: res[tp].imagen
+            imagen: 'http://localhost:3000/' + res[tp].imagen
           }))
         })
       )

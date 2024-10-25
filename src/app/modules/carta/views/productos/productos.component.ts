@@ -10,7 +10,6 @@ import { AuthService } from '@pa/auth/services'
 import { PromocionesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-producto/dialog-detalle-producto.component'
-import { FormControl, Validators } from '@angular/forms'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
@@ -39,8 +38,6 @@ export class ProductosComponent implements OnInit {
   // Defino las columnas de los productos
   columnas: TableColumn[] = []
 
-  observacionForm = new FormControl('', { validators: [Validators.max(500)] })
-
   constructor(
     private _productoService: ProductosService,
     private _pedidoService: PedidosService,
@@ -62,8 +59,8 @@ export class ProductosComponent implements OnInit {
         { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
         {
           name: 'Precio unitario',
-          dataKey: 'precioTabla'
-          // isCurrency: true
+          dataKey: 'precioTabla',
+          isCurrency: true
         },
         {
           name: ' ',
@@ -175,10 +172,11 @@ export class ProductosComponent implements OnInit {
                 id_producto: res[p].id_producto,
                 descripcion: res[p].descripcion,
                 precio: res[p].precio,
-                precioTabla: '$ ' + res[p].precio,
+                precioTabla: res[p].precio,
+                // precioTabla: '$ ' + res[p].precio,
                 stock: res[p].stock,
                 id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
-                imagen: res[p].imagen,
+                imagen: 'http://localhost:3000/' + res[p].imagen,
                 detalle: res[p].detalle,
                 cant_selecc: 0
               }
@@ -232,7 +230,7 @@ export class ProductosComponent implements OnInit {
   }
 
   // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
-  onSubmit() {
+  onSubmit(observacion: string) {
     this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
     if (this.carrito.length > 0 && this.mesa?.habilitada) {
       this.carrito.forEach((p) => {
@@ -246,9 +244,8 @@ export class ProductosComponent implements OnInit {
         id_usuario: this._authService.getCurrentUserId(), // Se asigna el id_usuario correspondiente para el usuario logueado
         id_mesa: this.mesa?.id_mesa,
         lista_productos: this.carrito,
-        observacion: this.observacionForm.value
+        observacion: observacion
       }
-      console.log(this.observacionForm.value)
       this._pedidoService.createPedido(pedido).subscribe({
         complete: () => {
           // if (localStorage.getItem('carrito') !== null) {
