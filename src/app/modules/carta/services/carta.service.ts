@@ -18,6 +18,10 @@ export class CartaService {
     return this._http.get(`${this.url}/${id_tipoProducto}`)
   }
 
+  getTipoProductoImagen(urlImagen: string) {
+    return `${environment.apiUrl}/${urlImagen}`
+  }
+
   createTipoProducto(tipoProducto: any) {
     return this._http.post(`${this.url}/create`, tipoProducto)
   }
