@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { MesasService } from './services'
 import { TableColumn } from '@pa/shared/models'
 import { map } from 'rxjs'
+import { DialogComponent } from '@pa/shared/components'
+import { MatDialog } from '@angular/material/dialog'
 
 @Component({
   selector: 'pa-mesas',
@@ -12,7 +14,7 @@ export class MesasComponent implements OnInit {
   datosMesas: any[] = []
   columnas: TableColumn[] = []
 
-  constructor(private _mesaService: MesasService) {}
+  constructor(private _mesaService: MesasService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.cargarMesas()
@@ -45,8 +47,13 @@ export class MesasComponent implements OnInit {
           this.cargarMesas()
         },
         error: (err) => {
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-          alert(err.msg) // Cambiar por un dialog
+          // Error 500 cuando no encuentra la tabla 'mesas' o la db, Error 404 cuando no encuentra la mesa por su id
+          //  Se pone estas comillas ` ` para mostrar el valor de la variable ${err.status} como string
+          this.dialog.open(DialogComponent, {
+            width: '375px',
+            autoFocus: true,
+            data: { title: `Error ${err.status}`, msg: err.error.msg }
+          })
         }
       })
     } else {
@@ -55,8 +62,12 @@ export class MesasComponent implements OnInit {
           this.cargarMesas()
         },
         error: (err) => {
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-          alert(err.msg) // Cambiar por un dialog
+          // Error 500 cuando no encuentra la tabla 'mesas' o la db, Error 404 cuando no encuentra la mesa por su id
+          this.dialog.open(DialogComponent, {
+            width: '375px',
+            autoFocus: true,
+            data: { title: `Error ${err.status}`, msg: err.error.msg }
+          })
         }
       })
     }

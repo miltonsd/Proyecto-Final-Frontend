@@ -222,12 +222,26 @@ export class ReservasComponent implements OnInit {
         id_mesa: this.formulario.value.mesa as number
       }
       this._reservasService.createReserva(reserva).subscribe({
-        next: (respuesta: any) => {
-          alert(respuesta.msg) // Cambiar por dialog
-          window.location.href = '/'
+        next: (res: any) => {
+          const dialogRef = this.dialog.open(DialogComponent, {
+            width: '375px',
+            autoFocus: true,
+            data: {
+              title: 'Realizar reserva',
+              msg: 'Reserva registrada correctamente.'
+            }
+          })
+          dialogRef.afterClosed().subscribe(() => {
+            window.location.href = '/'
+          })
         },
         error: (err) => {
-          alert(err.msg) // Cambiar por dialog
+          // Error 500 cuando no encuentra la tabla 'reservas' o la db, Error 404 cuando no encuentra la reserva por su id
+          this.dialog.open(DialogComponent, {
+            width: '375px',
+            autoFocus: true,
+            data: { title: `Error ${err.status}`, msg: err.error.msg }
+          })
         }
       })
     } else {
@@ -252,10 +266,7 @@ export class ReservasComponent implements OnInit {
       error: (err) => {
         this.dialog.open(DialogComponent, {
           width: '300 px',
-          data: {
-            title: 'Error',
-            msg: err.error.msg
-          }
+          data: { title: `Error ${err.status}`, msg: err.error.msg }
         })
       }
     })
@@ -282,12 +293,26 @@ export class ReservasComponent implements OnInit {
           .updateReserva(reserva.id_reserva, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
-              alert(respuesta.msg) // Cambiar por dialog
-              window.location.href = '/reservas'
+            next: (res: any) => {
+              const dialogRefEdit = this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: {
+                  title: 'Editar reserva',
+                  msg: 'Reserva editada correctamente.'
+                }
+              })
+              dialogRefEdit.afterClosed().subscribe(() => {
+                window.location.href = '/reservas'
+              })
             },
             error: (err) => {
-              alert(err.msg) // Cambiar por dialog
+              // Error 500 cuando no encuentra la tabla 'reservas' o la db, Error 404 cuando no encuentra la reserva por su id
+              this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: { title: `Error ${err.status}`, msg: err.error.msg }
+              })
             }
           })
       }

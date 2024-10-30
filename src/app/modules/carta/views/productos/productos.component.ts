@@ -11,6 +11,7 @@ import { PromocionesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-producto/dialog-detalle-producto.component'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { DialogComponent } from '@pa/shared/components'
 
 @Component({
   selector: 'pa-productos',
@@ -223,6 +224,7 @@ export class ProductosComponent implements OnInit {
   }
 
   verDetalles(producto: any) {
+    console.log(producto)
     this.dialog.open(DialogDetalleProductoComponent, {
       width: '600px',
       data: { producto }
@@ -247,7 +249,7 @@ export class ProductosComponent implements OnInit {
         observacion: observacion
       }
       this._pedidoService.createPedido(pedido).subscribe({
-        complete: () => {
+        next: (res: any) => {
           // if (localStorage.getItem('carrito') !== null) {
           //   const pedidoViejo = localStorage.getItem('carrito') as string
           //   const nuevoPedido = this.carrito
@@ -257,9 +259,16 @@ export class ProductosComponent implements OnInit {
           // }
           // localStorage.setItem('carrito', JSON.stringify(this.carrito)) //Para ver el localStorage ir al inspeccionar del buscador - Aplicación - Almacenamiento local
 
-          // Reemplazar con dialog
-          alert('Pedido realizado') //Mostar detalles del pedido (productos seleccionados con sus cants y al cerrar esa vista que se cargue el home)
-          window.location.href = '/'
+          console.log(res)
+          //Mostar detalles del pedido (productos seleccionados con sus cants)
+          const dialogRef = this.dialog.open(DialogComponent, {
+            width: '375px',
+            autoFocus: true,
+            data: { title: 'Realizar pedido', msg: res.msg }
+          })
+          dialogRef.afterClosed().subscribe(() => {
+            window.location.href = '/'
+          })
         },
         error: (err: any) => {
           console.error(`Código de error ${err.status}: `, err.error.msg)

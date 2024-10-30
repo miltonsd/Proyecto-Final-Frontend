@@ -52,15 +52,18 @@ export class ResetPasswordComponent {
         }
         this._authService.resetPassword(usuario).subscribe({
           next: (res: any) => {
-            console.log(res.msg)
-            // Reemplazar por dialog
-            alert('Contraseña cambiada correctamente.')
-            window.location.href = '/'
+            // Contraseña cambiada con éxito
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Editar contraseña', msg: res.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/'
+            })
           },
           error: (err) => {
-            // Reemplazar por dialog
-            // alert('Error - El email ingresado no se encuentra registrado.')
-            // console.error(err)
+            // El email ingresado no está registrado
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
@@ -73,9 +76,18 @@ export class ResetPasswordComponent {
         })
       } else {
         // Mostrar error de contraseñas no coinciden debajo en el formularo.
-        alert('Las contraseñas no coinciden')
-        this.formulario.controls.contrasenia.reset()
-        this.formulario.controls.confirmarContrasenia.reset()
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: {
+            title: 'Error al editar la contraseña',
+            msg: 'Las contraseñas no coinciden'
+          }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          this.formulario.controls.contrasenia.reset()
+          this.formulario.controls.confirmarContrasenia.reset()
+        })
       }
     } else {
       this.formulario.markAllAsTouched()

@@ -16,7 +16,10 @@ export class PedidosComponent implements OnInit {
   datosTabla: any[] = []
   columnas: TableColumn[] = []
 
-  constructor(private _pedidoService: PedidosService) {}
+  constructor(
+    private _pedidoService: PedidosService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.cargarPendientes()
@@ -55,8 +58,12 @@ export class PedidosComponent implements OnInit {
         window.location.href = '/pedidos'
       },
       error: (err) => {
-        console.error(`Código de error ${err.status}: `, err.error.msg)
-        alert(err.msg) // Cambiar por dialog
+        // Error 500 cuando no encuentra la tabla 'pedidos' o la db, Error 404 cuando no encuentra el pedido por su id
+        this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: { title: `Error ${err.status}`, msg: err.error.msg }
+        })
       }
     })
   }

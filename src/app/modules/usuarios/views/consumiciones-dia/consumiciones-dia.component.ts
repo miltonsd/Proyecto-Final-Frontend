@@ -8,6 +8,8 @@ import { map } from 'rxjs'
 import { CookieService } from 'ngx-cookie-service'
 import { PedidosService } from '@pa/carta/services'
 import { PedidoPOST } from 'src/app/modules/pedidos/models'
+import { DialogComponent } from '@pa/shared/components'
+import { MatDialog } from '@angular/material/dialog'
 
 interface Productos {
   id_producto: number
@@ -30,7 +32,8 @@ export class ConsumicionesDiaComponent {
     private _usuariosService: UsuariosService,
     private _authService: AuthService,
     private _cookieService: CookieService,
-    private _pedidoService: PedidosService
+    private _pedidoService: PedidosService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +104,8 @@ export class ConsumicionesDiaComponent {
             }))
             .filter(
               (p) =>
-                p.fecha === moment(new Date()).format('DD/MM/yyyy') && p.estado
+                p.fecha === moment(new Date()).format('DD/MM/yyyy') &&
+                p.estado === 'Entregado'
             )
         })
       )
@@ -163,16 +167,25 @@ export class ConsumicionesDiaComponent {
       //   console.log('alog')
 
       // },
-      complete: () => {
-        alert('Pedido realizado') // Cambiar por dialog
-        this.consumiciones.forEach((c) => {
-          this._pedidoService.deletePedido(c.id_pedido).subscribe()
+      next: (res: any) => {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: { title: 'Pedir la cuenta', msg: res.msg }
         })
-        this._cookieService.delete('ClienteMesa', '/')
-        window.location.href = '/'
+        dialogRef.afterClosed().subscribe(() => {
+          this.consumiciones.forEach((c) => {
+            this._pedidoService.deletePedido(c.id_pedido).subscribe()
+          })
+          this._cookieService.delete('ClienteMesa', '/')
+          window.location.href = '/'
+        })
       },
       error: (err: any) => {
-        console.error(`Código de error ${err.status}: `, err.error.msg)
+        this.dialog.open(DialogComponent, {
+          width: '300 px',
+          data: { title: `Error ${err.status}`, msg: err.error.msg }
+        })
       }
     })
   }

@@ -121,9 +121,18 @@ export class RegisterComponent {
         })
       } else {
         // Mostrar error de contraseñas no coinciden debajo en el formularo.
-        alert('Las contraseñas no coinciden')
-        this.formulario.controls.contrasenia.reset()
-        this.formulario.controls.confirmarContrasenia.reset()
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: {
+            title: 'Error al registrarse',
+            msg: 'Las contraseñas no coinciden'
+          }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          this.formulario.controls.contrasenia.reset()
+          this.formulario.controls.confirmarContrasenia.reset()
+        })
       }
     } else {
       this.formulario.markAllAsTouched()

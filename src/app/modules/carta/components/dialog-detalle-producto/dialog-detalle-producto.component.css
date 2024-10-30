@@ -13,13 +13,18 @@
 
 .foto-container {
   display: flex;
+  width: 550px;
+  height: 550px;
   justify-content: center; /* Centrado horizontal */
   align-items: center; /* Centrado vertical */
 }
 
 .foto {
-  width: 382px;
-  /* height: 200px; */
+  /* width: 382px;
+  max-height: 450px; */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ajusta la imagen sin deformarla */
 }
 
 .detalle-container {

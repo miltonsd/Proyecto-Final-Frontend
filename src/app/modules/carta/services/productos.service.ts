@@ -18,6 +18,10 @@ export class ProductosService {
     return this._http.get(`${this.url}/${id_producto}`)
   }
 
+  getProductoImagen(urlImagen: string) {
+    return `${environment.apiUrl}/${urlImagen}`
+  }
+
   createProducto(producto: any) {
     return this._http.post(`${this.url}/create`, producto)
   }
