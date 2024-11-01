@@ -38,7 +38,8 @@ export class TiposProductoComponent implements OnInit {
           this.datosTabla = Object.keys(res).map((tp) => ({
             id_tipoProducto: res[tp].id_tipoProducto,
             descripcion: res[tp].descripcion,
-            imagen: res[tp].imagen
+            imagen: this._cartaService.getTipoProductoImagen(res[tp].imagen)
+            // El metodo getTipoProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
           }))
         })
       )

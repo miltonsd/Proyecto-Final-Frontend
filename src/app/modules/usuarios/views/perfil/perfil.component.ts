@@ -9,6 +9,7 @@ import { map } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogEditarPerfilComponent } from '../../components/dialog-editar-perfil/dialog-editar-perfil.component'
 import { DialogCambiarPasswordComponent } from '../../components/dialog-cambiar-password/dialog-cambiar-password.component'
+import { DialogComponent } from '@pa/shared/components'
 
 @Component({
   selector: 'pa-perfil',
@@ -71,6 +72,7 @@ export class PerfilComponent implements AfterContentInit {
       direccion: this.usuarioInfo.direccion,
       telefono: this.usuarioInfo.telefono
     }
+    console.log(dataUsuario)
     const dialogRef = this.dialog.open(DialogEditarPerfilComponent, {
       width: '600px',
       data: dataUsuario
@@ -81,12 +83,22 @@ export class PerfilComponent implements AfterContentInit {
           .modificarPerfil(this.usuarioInfo.id_usuario, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
-              alert(respuesta.msg) // Cambiar por dialog
-              window.location.href = '/perfil/info'
+            next: (res: any) => {
+              const dialogRef = this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: { title: 'Modificar perfil', msg: res.msg }
+              })
+              dialogRef.afterClosed().subscribe(() => {
+                window.location.href = '/perfil/info'
+              })
             },
             error: (err) => {
-              alert(err.error.msg) // Cambiar por dialog
+              this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: { title: 'Error', msg: err.error.msg }
+              })
             }
           })
       }
@@ -104,12 +116,22 @@ export class PerfilComponent implements AfterContentInit {
           .modificarPerfil(this.usuarioInfo.id_usuario, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
-              alert(respuesta.msg) // Cambiar por dialog
-              window.location.href = '/perfil/info'
+            next: (res: any) => {
+              const dialogRef = this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: { title: 'Modificar contraseña', msg: res.msg }
+              })
+              dialogRef.afterClosed().subscribe(() => {
+                window.location.href = '/perfil/info'
+              })
             },
             error: (err) => {
-              alert(err.error.msg) // Cambiar por dialog
+              this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: { title: 'Error', msg: err.error.msg }
+              })
             }
           })
       }

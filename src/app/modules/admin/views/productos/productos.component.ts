@@ -43,7 +43,8 @@ export class ProductosComponent implements OnInit {
             precio: res[p].precio,
             stock: res[p].stock,
             descripcion: res[p].descripcion,
-            imagen: res[p].imagen,
+            imagen: this._productoService.getProductoImagen(res[p].imagen),
+            // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
             tipoProducto: res[p].TipoProducto.descripcion,
             id_tipoProducto: res[p].TipoProducto.id_tipoProducto
           }))

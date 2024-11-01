@@ -44,6 +44,7 @@ export class CartaComponent implements OnInit {
             id_tipoProducto: res[tp].id_tipoProducto,
             descripcion: res[tp].descripcion,
             imagen: this._cartaService.getTipoProductoImagen(res[tp].imagen)
+            // El metodo getTipoProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
           }))
         })
       )

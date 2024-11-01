@@ -76,12 +76,13 @@ export class ProductosComponent implements OnInit {
         }
       ]
     } else {
+      // En caso de que el usuario no esté logueado
       this.columnas = [
         { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
         {
           name: 'Precio unitario',
-          dataKey: 'precioTabla'
-          // isCurrency: true
+          dataKey: 'precioTabla',
+          isCurrency: true
         },
         {
           name: ' ',
@@ -164,7 +165,8 @@ export class ProductosComponent implements OnInit {
                   ).toString(),
                 stock: res[p].stock,
                 id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
-                imagen: res[p].imagen,
+                imagen: this._productoService.getProductoImagen(res[p].imagen),
+                // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
                 detalle: res[p].detalle,
                 cant_selecc: 0
               }
@@ -177,7 +179,8 @@ export class ProductosComponent implements OnInit {
                 // precioTabla: '$ ' + res[p].precio,
                 stock: res[p].stock,
                 id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
-                imagen: 'http://localhost:3000/' + res[p].imagen,
+                imagen: this._productoService.getProductoImagen(res[p].imagen),
+                // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
                 detalle: res[p].detalle,
                 cant_selecc: 0
               }
