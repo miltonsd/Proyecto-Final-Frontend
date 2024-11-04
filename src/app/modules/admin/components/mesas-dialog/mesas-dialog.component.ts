@@ -25,7 +25,7 @@ export class MesasDialogComponent implements OnInit {
     ubicacion: new FormControl('', {
       validators: [Validators.required]
     }),
-    qr: new FormControl('', { validators: [Validators.required] })
+    qr: new FormControl('')
   })
 
   onNoClick(): void {

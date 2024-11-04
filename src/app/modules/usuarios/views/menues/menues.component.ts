@@ -90,10 +90,7 @@ export class MenuesComponent implements OnInit {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: {
-                title: 'Realizar pedido',
-                msg: 'Pedido ' + respuesta.msg.toLowerCase()
-              }
+              data: { title: 'Realizar pedido', msg: respuesta.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/perfil/consumiciones'
@@ -155,10 +152,7 @@ export class MenuesComponent implements OnInit {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: {
-                title: 'Editar menú',
-                msg: 'Menú ' + respuesta.msg.toLowerCase()
-              }
+              data: { title: 'Editar menú', msg: respuesta.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/perfil/menues'

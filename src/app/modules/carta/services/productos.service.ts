@@ -22,6 +22,17 @@ export class ProductosService {
     return `${environment.apiUrl}/${urlImagen}`
   }
 
+  getProductoImagenPath(strImagen: string) {
+    // Si el string del path de la imagen contiene la url de la pagina web, nos quedamos con la parte del path (sin el http:/....)
+    if (strImagen.includes(environment.apiUrl + '/')) {
+      const pathImagen = strImagen.split(environment.apiUrl + '/')
+      return pathImagen[1]
+    } else {
+      // En el caso de que el string parametro no contenga la url del host, la devolvemos sin modificar
+      return strImagen
+    }
+  }
+
   createProducto(producto: any) {
     return this._http.post(`${this.url}/create`, producto)
   }

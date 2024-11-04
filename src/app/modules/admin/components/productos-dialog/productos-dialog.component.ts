@@ -31,12 +31,15 @@ export class ProductosDialogComponent implements OnInit {
       validators: [Validators.required]
     }),
     precio: new FormControl(0, {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.min(0)]
     }),
     stock: new FormControl(0, {
       validators: [Validators.required, Validators.min(0)]
     }),
     tipoProducto: new FormControl(0, {
+      validators: [Validators.required]
+    }),
+    detalle: new FormControl('', {
       validators: [Validators.required]
     })
   })
@@ -69,14 +72,17 @@ export class ProductosDialogComponent implements OnInit {
       imagen: this.data.elemento?.imagen as string,
       precio: this.data.elemento?.precio as number,
       stock: this.data.elemento?.stock as number,
-      tipoProducto: this.data.elemento?.id_tipoProducto as number
+      tipoProducto: this.data.elemento?.id_tipoProducto as number,
+      detalle: this.data.elemento?.detalle as string
     }
+    console.log(producto)
     this.formulario.patchValue({
       descripcion: producto.descripcion,
       imagen: producto.imagen,
       precio: producto.precio,
       stock: producto.stock,
-      tipoProducto: producto.tipoProducto
+      tipoProducto: producto.tipoProducto,
+      detalle: producto.detalle
     })
   }
 
@@ -91,7 +97,8 @@ export class ProductosDialogComponent implements OnInit {
         imagen: this.formulario.value.imagen as string,
         precio: this.formulario.value.precio as number,
         stock: this.formulario.value.stock as number,
-        tipoProducto: this.formulario.value.tipoProducto as number
+        id_tipoProducto: this.formulario.value.tipoProducto as number,
+        detalle: this.formulario.value.detalle as string
       }
       this.dialogRef.close({ data: producto })
     } else {

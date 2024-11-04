@@ -78,10 +78,7 @@ export class MesasComponent implements OnInit {
       next: () => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
-          data: {
-            title: 'Eliminar mesa',
-            msg: 'Se ha eliminado la mesa con éxito.'
-          }
+          data: { title: 'Eliminar mesa', msg: 'Mesa eliminada correctamente.' }
         })
         dialogRef.afterClosed().subscribe(() => {
           window.location.href = '/admin/mesas'
@@ -112,14 +109,11 @@ export class MesasComponent implements OnInit {
       if (resultado) {
         this._mesaService.updateMesa(mesa.id_mesa, resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: () => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: {
-                title: 'Editar mesa',
-                msg: 'Mesa ' + respuesta.msg.toLowerCase()
-              }
+              data: { title: 'Editar mesa', msg: 'Mesa editada correctamente.' }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/mesas'
@@ -149,16 +143,14 @@ export class MesasComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
+        // El qr hay que generarlo después en el Editar mesa
         this._mesaService.createMesa(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: () => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: {
-                title: 'Agregar mesa',
-                msg: 'Mesa ' + respuesta.msg.toLowerCase()
-              }
+              data: { title: 'Agregar mesa', msg: 'Mesa creada correctamente.' }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/mesas'

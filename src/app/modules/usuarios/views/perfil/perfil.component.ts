@@ -72,13 +72,13 @@ export class PerfilComponent implements AfterContentInit {
       direccion: this.usuarioInfo.direccion,
       telefono: this.usuarioInfo.telefono
     }
-    console.log(dataUsuario)
     const dialogRef = this.dialog.open(DialogEditarPerfilComponent, {
       width: '600px',
       data: dataUsuario
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
+        console.log(resultado)
         this._usuariosService
           .modificarPerfil(this.usuarioInfo.id_usuario, resultado.data)
           .subscribe({
@@ -87,7 +87,7 @@ export class PerfilComponent implements AfterContentInit {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
-                data: { title: 'Modificar perfil', msg: res.msg }
+                data: { title: 'Editar perfil', msg: res.msg }
               })
               dialogRef.afterClosed().subscribe(() => {
                 window.location.href = '/perfil/info'
@@ -120,7 +120,11 @@ export class PerfilComponent implements AfterContentInit {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
-                data: { title: 'Modificar contraseña', msg: res.msg }
+                data: {
+                  title: 'Editar contraseña',
+                  // Mensaje harcodeado porque usa el metodo modificarPerfil del backend y el mensaje no es específico.
+                  msg: 'Contraseña editada correctamente.'
+                }
               })
               dialogRef.afterClosed().subscribe(() => {
                 window.location.href = '/perfil/info'

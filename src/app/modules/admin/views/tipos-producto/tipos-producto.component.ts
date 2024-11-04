@@ -5,7 +5,7 @@ import { CartaService } from '@pa/carta/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { TiposProductoDialogComponent } from '../../components/tipos-producto-dialog/tipos-producto-dialog.component'
-import { TipoProductoTabla } from './models/tipo-producto'
+import { TipoProductoPOST, TipoProductoTabla } from './models/tipo-producto'
 import { AdminDataDialog } from '../../models/adminDataDialog'
 
 @Component({
@@ -74,16 +74,13 @@ export class TiposProductoComponent implements OnInit {
     this._cartaService
       .deleteTipoProducto(tipoProducto.id_tipoProducto)
       .subscribe({
-        next: () => {
+        next: (res: any) => {
           const dialogRef = this.dialog.open(DialogComponent, {
             width: '300 px',
-            data: {
-              title: 'Eliminar tipo producto',
-              msg: 'Se ha eliminado el tipo producto con éxito.'
-            }
+            data: { title: 'Eliminar tipo producto', msg: res.msg }
           })
           dialogRef.afterClosed().subscribe(() => {
-            window.location.href = '/admin/tipo-producto'
+            window.location.href = '/admin/tipos-producto'
           })
         },
         error: (err) => {
@@ -109,8 +106,17 @@ export class TiposProductoComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
+        const tipoProductoResultado: TipoProductoPOST = {
+          descripcion: resultado.data.descripcion,
+          imagen: this._cartaService.getTipoProductoImagenPath(
+            resultado.data.imagen
+          )
+        }
         this._cartaService
-          .updateTipoProducto(tipoProducto.id_tipoProducto, resultado.data)
+          .updateTipoProducto(
+            tipoProducto.id_tipoProducto,
+            tipoProductoResultado
+          )
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
@@ -150,7 +156,11 @@ export class TiposProductoComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
-        this._cartaService.createTipoProducto(resultado.data).subscribe({
+        const tipoProductoResultado: TipoProductoPOST = {
+          descripcion: resultado.data.descripcion,
+          imagen: resultado.data.imagen // Las imagenes tienen que estar guardadas dentro del repositorio del proyecto
+        }
+        this._cartaService.createTipoProducto(tipoProductoResultado).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {

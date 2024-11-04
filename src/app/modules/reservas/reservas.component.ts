@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, Output } from '@angular/core'
 import * as moment from 'moment'
 import 'moment/locale/es'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
@@ -73,7 +73,8 @@ export class ReservasComponent implements OnInit {
     private _mesasService: MesasService,
     private _authService: AuthService,
     private _usuarioService: UsuariosService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    // private _valor: ChangeDetectorRef
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
     const currentYear = new Date().getFullYear()
@@ -81,6 +82,7 @@ export class ReservasComponent implements OnInit {
     const currentDate = new Date().getDate()
     this.minDate = new Date(currentYear, currentMonth, currentDate)
     this.maxDate = new Date(currentYear, currentMonth + 2, 0)
+    // this._valor.detectChanges Detecta cambios en los valores del componente
   }
 
   ngOnInit(): void {

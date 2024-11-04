@@ -31,7 +31,7 @@
             <div class="filaFormulario">
               <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
                   <mat-label>Precio del producto</mat-label>
-                  <input type="text" matInput formControlName="precio">
+                  <input type="number" min="0" matInput formControlName="precio">
                   <mat-error *ngIf="formulario.controls.precio.hasError('required')">
                     Ingrese un precio válido
                   </mat-error>
@@ -42,6 +42,16 @@
                   <input type="number" min="0" matInput formControlName="stock">
                   <mat-error *ngIf="formulario.controls.stock.hasError('required')">
                     Ingrese un stock válido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="filaFormulario">
+                <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input imagen detalle">
+                  <mat-label>Detalle del producto</mat-label>
+                  <textarea matInput formControlName="detalle"></textarea>
+                  <mat-error *ngIf="formulario.controls.detalle.hasError('required')">
+                    Ingrese un detalle válido
                   </mat-error>
                 </mat-form-field>
               </div>

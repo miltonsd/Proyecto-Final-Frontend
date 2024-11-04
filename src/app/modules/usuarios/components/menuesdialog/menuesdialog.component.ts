@@ -132,6 +132,7 @@ export class MenuesdialogComponent implements OnInit {
       }
       this.dialogRef.close({ data: pedido })
     } else {
+      // Se hace un if dentro del else para mostrar 2 tipos distintos de error: Cuando no se seleccionan cant de productos o Cuando no se escaneo un qr
       if (!this.formulario.valid) {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '375px',

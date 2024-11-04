@@ -3,7 +3,8 @@ export interface ProductoPOST {
   stock: number
   descripcion: string
   imagen: string
-  tipoProducto: number
+  id_tipoProducto: number
+  detalle: string
 }
 
 export interface ProductoTabla {
@@ -21,4 +22,5 @@ export interface ProductoForm {
   descripcion: string
   imagen: string
   tipoProducto: number
+  detalle: string
 }

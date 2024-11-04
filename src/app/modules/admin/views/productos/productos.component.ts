@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { ProductosDialogComponent } from '../../components/productos-dialog/productos-dialog.component'
 import { AdminDataDialog } from '../../models/adminDataDialog'
-import { ProductoTabla } from './models/producto'
+import { ProductoPOST, ProductoTabla } from './models/producto'
 
 @Component({
   selector: 'pa-productos',
@@ -43,6 +43,7 @@ export class ProductosComponent implements OnInit {
             precio: res[p].precio,
             stock: res[p].stock,
             descripcion: res[p].descripcion,
+            detalle: res[p].detalle,
             imagen: this._productoService.getProductoImagen(res[p].imagen),
             // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
             tipoProducto: res[p].TipoProducto.descripcion,
@@ -91,13 +92,10 @@ export class ProductosComponent implements OnInit {
 
   onDelete(producto: any) {
     this._productoService.deleteProducto(producto.id_producto).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
-          data: {
-            title: 'Eliminar producto',
-            msg: 'Se ha eliminado el producto con éxito.'
-          }
+          data: { title: 'Eliminar producto', msg: res.msg }
         })
         dialogRef.afterClosed().subscribe(() => {
           window.location.href = '/admin/productos'
@@ -126,8 +124,18 @@ export class ProductosComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
+        const productoResultado: ProductoPOST = {
+          descripcion: resultado.data.descripcion,
+          imagen: this._productoService.getProductoImagenPath(
+            resultado.data.imagen
+          ),
+          precio: resultado.data.precio,
+          stock: resultado.data.stock,
+          id_tipoProducto: resultado.data.id_tipoProducto,
+          detalle: resultado.data.detalle
+        }
         this._productoService
-          .updateProducto(producto.id_producto, resultado.data)
+          .updateProducto(producto.id_producto, productoResultado)
           .subscribe({
             // next - error - complete
             next: (respuesta: any) => {
@@ -167,7 +175,15 @@ export class ProductosComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
-        this._productoService.createProducto(resultado.data).subscribe({
+        const productoResultado: ProductoPOST = {
+          descripcion: resultado.data.descripcion,
+          imagen: resultado.data.imagen, // Las imagenes tienen que estar guardadas dentro del repositorio del proyecto
+          precio: resultado.data.precio,
+          stock: resultado.data.stock,
+          id_tipoProducto: resultado.data.id_tipoProducto,
+          detalle: resultado.data.detalle
+        }
+        this._productoService.createProducto(productoResultado).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {

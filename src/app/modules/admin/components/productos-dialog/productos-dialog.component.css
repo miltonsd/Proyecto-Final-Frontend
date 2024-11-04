@@ -36,6 +36,10 @@
     width: 100%;
 }
 
+.detalle {
+  height: 100px;
+}
+
 mat-form-field {
     height: 76px;
 }
