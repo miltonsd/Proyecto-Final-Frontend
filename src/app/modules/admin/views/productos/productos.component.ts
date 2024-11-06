@@ -64,7 +64,7 @@ export class ProductosComponent implements OnInit {
         isCurrency: true
       },
       { name: 'Stock', dataKey: 'stock' },
-      { name: 'Imágen', dataKey: 'imagen', isImage: true },
+      { name: 'Imagen', dataKey: 'imagen', isImage: true },
       { name: 'Tipo de producto', dataKey: 'tipoProducto' },
       {
         name: ' ',
