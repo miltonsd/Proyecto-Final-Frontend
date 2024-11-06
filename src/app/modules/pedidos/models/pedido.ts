@@ -15,6 +15,7 @@ export interface PedidoPOST {
   id_usuario: number
   id_mesa: number
   lista_productos: Producto[]
+  observacion?: string
 }
 
 export interface PedidoTabla {

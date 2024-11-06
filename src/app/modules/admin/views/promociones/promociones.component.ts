@@ -84,13 +84,10 @@ export class PromocionesComponent implements OnInit {
 
   onDelete(promocion: any) {
     this._promocionService.deletePromocion(promocion.id_promocion).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
-          data: {
-            title: 'Eliminar promoción',
-            msg: 'Se ha eliminado la promoción con éxito.'
-          }
+          data: { title: 'Eliminar promoción', msg: res.msg }
         })
         dialogRef.afterClosed().subscribe(() => {
           window.location.href = '/admin/promociones'
@@ -123,14 +120,11 @@ export class PromocionesComponent implements OnInit {
           .updatePromocion(promocion.id_promocion, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
+            next: (res: any) => {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
-                data: {
-                  title: 'Editar promoción',
-                  msg: 'Promoción ' + respuesta.msg.toLowerCase()
-                }
+                data: { title: 'Editar promoción', msg: res.msg }
               })
               dialogRef.afterClosed().subscribe(() => {
                 window.location.href = '/admin/promociones'
@@ -163,14 +157,11 @@ export class PromocionesComponent implements OnInit {
       if (resultado) {
         this._promocionService.createPromocion(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: {
-                title: 'Agregar promoción',
-                msg: 'Promoción ' + respuesta.msg.toLowerCase()
-              }
+              data: { title: 'Agregar promoción', msg: res.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/promociones'

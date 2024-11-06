@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { IMesa, TableColumn } from '@pa/shared/models'
 import { ProductosService } from '../../services/productos.service'
 import { map } from 'rxjs/operators'
@@ -12,25 +12,18 @@ import { MatDialog } from '@angular/material/dialog'
 import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-producto/dialog-detalle-producto.component'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { DialogComponent } from '@pa/shared/components'
+import { CurrencyPipe } from '@angular/common'
 
 @Component({
   selector: 'pa-productos',
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css']
+  styleUrls: ['./productos.component.css'],
+  providers: [CurrencyPipe]
 })
-export class ProductosComponent implements OnInit {
-  genericos!: any[]
-  ensaladas!: any[]
-  paraPicar!: any[]
-  sandwiches!: any[]
-  principales!: any[]
-  postres!: any[]
-  bebidasSA!: any[]
-  cervezas!: any[]
-  vinos!: any[]
-  tragos!: any[]
+export class ProductosComponent implements OnInit, AfterViewInit {
   carrito: any[] = []
   productos!: any[]
+  productosPorTipo: { [tipo: string]: any[] } = {}
   promociones: any[] = []
   mesa: IMesa | undefined
   usuarioLogueado = this._authService.loggedIn()
@@ -39,6 +32,9 @@ export class ProductosComponent implements OnInit {
   // Defino las columnas de los productos
   columnas: TableColumn[] = []
 
+  // Defino el fragmento de la URL
+  private fragment: string | null = null
+
   constructor(
     private _productoService: ProductosService,
     private _pedidoService: PedidosService,
@@ -46,12 +42,18 @@ export class ProductosComponent implements OnInit {
     private route: ActivatedRoute,
     private _mesaService: MesasService,
     private _authService: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private currencyPipe: CurrencyPipe
   ) {}
 
   ngOnInit(): void {
     this.getPromociones()
     this.getAllProductos()
+    // Guardar el fragmento sin intentar desplazarse aún
+    this.route.fragment.subscribe((fragment) => {
+      this.fragment = fragment
+    })
+    // Suscribirse al parámetro de la URL para saber si el usuario escaneó una mesa
     this.route.queryParams.subscribe((params) => {
       params['id_mesa'] !== '0' && this.getMesa(params['id_mesa'])
     })
@@ -60,7 +62,7 @@ export class ProductosComponent implements OnInit {
         { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
         {
           name: 'Precio unitario',
-          dataKey: 'precioTabla',
+          dataKey: 'precio',
           isCurrency: true
         },
         {
@@ -81,7 +83,7 @@ export class ProductosComponent implements OnInit {
         { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
         {
           name: 'Precio unitario',
-          dataKey: 'precioTabla',
+          dataKey: 'precio',
           isCurrency: true
         },
         {
@@ -91,6 +93,23 @@ export class ProductosComponent implements OnInit {
           removeButton: true
         }
       ]
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Intentar desplazarse al fragmento solo después de que el DOM esté cargado
+    if (this.fragment) {
+      setTimeout(() => {
+        this.scrollToAnchor(this.fragment!)
+      }, 50) // Puedes ajustar el tiempo si es necesario
+    }
+  }
+
+  // Método para desplazarse al ancla
+  scrollToAnchor(fragment: string) {
+    const element = document.getElementById(fragment)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
@@ -134,78 +153,82 @@ export class ProductosComponent implements OnInit {
       .pipe(
         map((res: any) => {
           this.productos = Object.keys(res).map((p) => {
-            // Valida si el producto tiene una promoción vigente
-            const promocion = this.promociones.find(
-              (prom) =>
-                prom.lista_productos.some(
-                  // El some equivale al includes pero se usa cuando tenes un array de objetos
-                  (prod: any) => prod.id_producto === res[p].id_producto
-                ) &&
-                new Date(prom.fecha_desde) <= new Date() &&
-                new Date() <= new Date(prom.fecha_hasta)
+            const { precioF, descripcionF } = this.calcularPrecioYDescripcion(
+              res[p]
             )
-            if (promocion) {
-              return {
-                id_producto: res[p].id_producto,
-                descripcion:
-                  res[p].descripcion +
-                  ' (' +
-                  (promocion.porcentaje_desc * 100).toString() +
-                  '% OFF)',
-                precio:
-                  res[p].precio - res[p].precio * promocion.porcentaje_desc,
-                precioTabla:
-                  '(Antes: $ ' +
-                  res[p].precio.toString() +
-                  ')' +
-                  ' → $ ' +
-                  (
-                    res[p].precio -
-                    res[p].precio * promocion.porcentaje_desc
-                  ).toString(),
-                stock: res[p].stock,
-                id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
-                imagen: this._productoService.getProductoImagen(res[p].imagen),
-                // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
-                detalle: res[p].detalle,
-                cant_selecc: 0
-              }
-            } else {
-              return {
-                id_producto: res[p].id_producto,
-                descripcion: res[p].descripcion,
-                precio: res[p].precio,
-                precioTabla: res[p].precio,
-                // precioTabla: '$ ' + res[p].precio,
-                stock: res[p].stock,
-                id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
-                imagen: this._productoService.getProductoImagen(res[p].imagen),
-                // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
-                detalle: res[p].detalle,
-                cant_selecc: 0
-              }
+            return {
+              id_producto: res[p].id_producto,
+              descripcion: descripcionF,
+              precio: precioF,
+              stock: res[p].stock,
+              id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
+              tipoProducto: res[p].TipoProducto.descripcion,
+              imagen: this._productoService.getProductoImagen(res[p].imagen),
+              // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
+              detalle: res[p].detalle,
+              cant_selecc: 0
             }
           })
-          this.genericos = this.productos.filter((p) => p.id_tipoProducto === 0)
-          this.ensaladas = this.productos.filter((p) => p.id_tipoProducto === 1)
-          this.paraPicar = this.productos.filter((p) => p.id_tipoProducto === 2)
-          this.sandwiches = this.productos.filter(
-            (p) => p.id_tipoProducto === 3
-          )
-          this.principales = this.productos.filter(
-            (p) => p.id_tipoProducto === 4
-          )
-          this.postres = this.productos.filter((p) => p.id_tipoProducto === 5)
-          this.bebidasSA = this.productos.filter((p) => p.id_tipoProducto === 6)
-          this.cervezas = this.productos.filter((p) => p.id_tipoProducto === 7)
-          this.vinos = this.productos.filter((p) => p.id_tipoProducto === 8)
-          this.tragos = this.productos.filter((p) => p.id_tipoProducto === 9)
+          this.getProductosTipos()
         })
       )
       .subscribe({
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
+  }
+
+  // Método para calcular el precio final y la descripción
+  calcularPrecioYDescripcion(producto: any): {
+    precioF: number
+    descripcionF: string
+  } {
+    // Valida si el producto tiene una promoción vigente
+    const promocion = this.promociones.find(
+      (prom) =>
+        prom.lista_productos.some(
+          // El some equivale al includes pero se usa cuando tenes un array de objetos
+          (prod: any) => prod.id_producto === producto.id_producto
+        ) &&
+        new Date(prom.fecha_desde) <= new Date() &&
+        new Date() <= new Date(prom.fecha_hasta)
+    )
+    if (promocion) {
+      return {
+        descripcionF: `${producto.descripcion} (${
+          promocion.porcentaje_desc * 100
+        }% OFF- Antes: ${this.currencyPipe.transform(
+          producto.precio,
+          'ARS',
+          'symbol',
+          '1.2-2',
+          'es'
+        )})`,
+        precioF: producto.precio - producto.precio * promocion.porcentaje_desc
+      }
+    } else {
+      return {
+        descripcionF: producto.descripcion,
+        precioF: producto.precio
+      }
+    }
+  }
+
+  // Este metodo nos permite agrupar (filtrar) los productos de forma dinamica según su tipo.
+  getProductosTipos() {
+    this.productosPorTipo = this.productos.reduce((acumulador, p) => {
+      const tipo = p.tipoProducto
+      if (!acumulador[tipo]) {
+        acumulador[tipo] = []
+      }
+      acumulador[tipo].push(p)
+      return acumulador
+    }, {}) // ({}) es el valor inicial del acumulador. Sin esto, fallaría
+  }
+
+  // Método para obtener las claves del objeto productosPorTipo en el HTML
+  getTipos() {
+    return Object.keys(this.productosPorTipo)
   }
 
   canPlaceOrder(): boolean {
@@ -243,7 +266,7 @@ export class ProductosComponent implements OnInit {
         this._productoService.updateProducto(p.id_producto, p.stock)
       })
       // const pedido: PedidoPOST = {
-      const pedido: any = {
+      const pedido: PedidoPOST = {
         fechaHora: new Date(),
         montoImporte: this.calculaMonto(),
         id_usuario: this._authService.getCurrentUserId(), // Se asigna el id_usuario correspondiente para el usuario logueado
