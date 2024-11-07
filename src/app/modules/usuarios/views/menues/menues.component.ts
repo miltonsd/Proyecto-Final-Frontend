@@ -111,12 +111,12 @@ export class MenuesComponent implements OnInit {
   onDelete(menu: any) {
     // Espera recibir la confirmación para eliminar por parte del componente Tabla del modulo Shared
     this._menuService.deleteMenu(menu.id_menu).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
           data: {
             title: 'Eliminar menú',
-            msg: 'Se ha eliminado el menú con éxito.'
+            msg: res.msg
           }
         })
         dialogRef.afterClosed().subscribe(() => {
@@ -148,11 +148,11 @@ export class MenuesComponent implements OnInit {
       if (resultado) {
         this._menuService.updateMenu(menu.id_menu, resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Editar menú', msg: respuesta.msg }
+              data: { title: 'Editar menú', msg: res.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/perfil/menues'
@@ -184,13 +184,13 @@ export class MenuesComponent implements OnInit {
       if (resultado) {
         this._menuService.createMenu(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar menú',
-                msg: 'Menú ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

@@ -41,7 +41,8 @@ export class MenuesdialogComponent implements OnInit {
     montoImporte: new FormControl(0, {
       validators: [Validators.required]
     }),
-    productos: this.fb.array([])
+    productos: this.fb.array([]),
+    observacion: new FormControl('', {})
   })
 
   ngOnInit(): void {
@@ -128,7 +129,8 @@ export class MenuesdialogComponent implements OnInit {
         montoImporte: this.calculaMonto(),
         id_usuario: parseInt(id_usuario),
         id_mesa: parseInt(id_mesa),
-        lista_productos: this.formulario.value.productos as Producto[]
+        lista_productos: this.formulario.value.productos as Producto[],
+        observacion: this.formulario.value.observacion as string | undefined
       }
       this.dialogRef.close({ data: pedido })
     } else {

@@ -35,4 +35,5 @@ export interface PedidoForm {
   estado: string
   id_usuario: number
   id_mesa: number
+  observacion: string
 }

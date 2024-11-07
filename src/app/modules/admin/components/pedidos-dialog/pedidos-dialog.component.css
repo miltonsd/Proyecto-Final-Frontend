@@ -69,6 +69,11 @@ mat-form-field {
   justify-content: center;
 }
 
+.observacion {
+  height: 100px;
+  width: 100%;
+}
+
 @media only screen and (min-width: 992px) {
   .reserva-content {
     width: 100%;

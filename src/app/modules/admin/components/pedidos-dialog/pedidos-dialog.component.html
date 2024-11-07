@@ -72,6 +72,13 @@
               <button class="agregar-producto" mat-raised-button color="green" type="button" (click)="addProducto()"><mat-icon>add_circle</mat-icon>Agregar producto</button>
             </div>
 
+            <div class="filaFormulario">
+              <mat-form-field class="observacion">
+                <mat-label>Observaciones del pedido</mat-label>
+                <textarea matInput formControlName="observacion"></textarea>
+              </mat-form-field>
+            </div>
+
           <div class="filaFormulario">
             <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
               <mat-label>Monto total</mat-label>

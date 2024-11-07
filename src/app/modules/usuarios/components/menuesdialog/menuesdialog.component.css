@@ -54,4 +54,8 @@
     margin-right: 3%;
     width: 30%;
   }
-  
+
+  .observacion {
+    height: 100px;
+    width: 100%;
+  }

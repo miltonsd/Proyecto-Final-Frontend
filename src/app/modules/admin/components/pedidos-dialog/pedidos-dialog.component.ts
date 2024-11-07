@@ -54,7 +54,8 @@ export class PedidosDialogComponent implements OnInit {
     mesa: new FormControl(0, {
       validators: [Validators.required]
     }),
-    productos: this.fb.array([])
+    productos: this.fb.array([]),
+    observacion: new FormControl('', {})
   })
 
   ngOnInit(): void {
@@ -163,7 +164,8 @@ export class PedidosDialogComponent implements OnInit {
       montoImporte: this.data.elemento?.montoImporte as number,
       estado: this.data.elemento?.estado as string,
       id_usuario: this.data.elemento?.id_usuario as number,
-      id_mesa: this.data.elemento?.mesa as number
+      id_mesa: this.data.elemento?.mesa as number,
+      observacion: this.data.elemento?.observacion as string
     }
     // Crea un nuevo array de FormGroup utilizando la función crearProductoFormGroup
     pedido.productos.forEach((producto) => {
@@ -175,7 +177,8 @@ export class PedidosDialogComponent implements OnInit {
       montoImporte: pedido.montoImporte,
       estado: pedido.estado,
       usuario: pedido.id_usuario,
-      mesa: pedido.id_mesa
+      mesa: pedido.id_mesa,
+      observacion: pedido.observacion
     })
   }
 
@@ -192,6 +195,7 @@ export class PedidosDialogComponent implements OnInit {
         id_mesa: this.formulario.value.mesa as number,
         lista_productos: this.formulario.value.productos as Producto[],
         estado: this.formulario.value.estado as string,
+        observacion: this.formulario.value.observacion as string | undefined
       }
       this.dialogRef.close({ data: pedido })
     } else {

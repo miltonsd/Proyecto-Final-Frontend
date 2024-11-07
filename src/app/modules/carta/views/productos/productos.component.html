@@ -22,13 +22,23 @@
   </mat-form-field>
   
   <button
-    class="submit"
+    class="boton-flotante"
+    [ngClass]="{ 'fijo': posicionFija, 'absoluto': !posicionFija }"
+    [ngStyle]="{ 'bottom': posicionBoton }"
     type="submit"
     [disabled]="this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder()"
     mat-raised-button
     color="primary"
     (click)="onSubmit(observacion.value)"
   >
+  <!-- <button
+    class="submit"
+    type="submit"
+    [disabled]="this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder()"
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit(observacion.value)"
+  > -->
     <fa-icon [icon]="faCartShopping"></fa-icon> Realizar pedido
   </button>
 </div>

@@ -59,7 +59,8 @@ export class PedidosComponent implements OnInit {
               (pr: any) =>
                 pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'
             ).join(' - '),
-            id_usuario: res[p].Usuario.id_usuario
+            id_usuario: res[p].Usuario.id_usuario,
+            observacion: res[p].observacion
           }))
         })
       )
