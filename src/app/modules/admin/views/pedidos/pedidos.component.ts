@@ -98,12 +98,12 @@ export class PedidosComponent implements OnInit {
 
   onDelete(pedido: any) {
     this._pedidoService.deletePedido(pedido.id_pedido).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
           data: {
             title: 'Eliminar pedido',
-            msg: 'Se ha eliminado el pedido con éxito.'
+            msg: res.msg
           }
         })
         dialogRef.afterClosed().subscribe(() => {
@@ -137,13 +137,13 @@ export class PedidosComponent implements OnInit {
           .updatePedido(pedido.id_pedido, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
+            next: (res: any) => {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
                 data: {
                   title: 'Editar pedido',
-                  msg: 'Pedido ' + respuesta.msg.toLowerCase()
+                  msg: res.msg
                 }
               })
               dialogRef.afterClosed().subscribe(() => {
@@ -176,13 +176,13 @@ export class PedidosComponent implements OnInit {
       if (resultado) {
         this._pedidoService.createPedido(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar pedido',
-                msg: 'Pedido ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

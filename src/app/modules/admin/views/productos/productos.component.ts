@@ -138,13 +138,13 @@ export class ProductosComponent implements OnInit {
           .updateProducto(producto.id_producto, productoResultado)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
+            next: (res: any) => {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
                 data: {
                   title: 'Editar producto',
-                  msg: 'Producto ' + respuesta.msg.toLowerCase()
+                  msg: res.msg
                 }
               })
               dialogRef.afterClosed().subscribe(() => {
@@ -185,13 +185,13 @@ export class ProductosComponent implements OnInit {
         }
         this._productoService.createProducto(productoResultado).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar producto',
-                msg: 'Producto ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

@@ -89,12 +89,12 @@ export class ReservasComponent implements OnInit {
 
   onDelete(reserva: any) {
     this._reservaService.deleteReserva(reserva.id_reserva).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
           data: {
             title: 'Eliminar reserva',
-            msg: 'Se ha eliminado la reserva con éxito.'
+            msg: res.msg
           }
         })
         dialogRef.afterClosed().subscribe(() => {
@@ -131,13 +131,13 @@ export class ReservasComponent implements OnInit {
           .updateReserva(reserva.id_reserva, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
+            next: (res: any) => {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
                 data: {
                   title: 'Editar reserva',
-                  msg: 'Reserva ' + respuesta.msg.toLowerCase()
+                  msg: res.msg
                 }
               })
               dialogRef.afterClosed().subscribe(() => {
@@ -171,13 +171,13 @@ export class ReservasComponent implements OnInit {
       if (resultado) {
         this._reservaService.createReserva(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar reserva',
-                msg: 'Reserva ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

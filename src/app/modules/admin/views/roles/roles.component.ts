@@ -59,12 +59,12 @@ export class RolesComponent implements OnInit {
 
   onDelete(rol: any) {
     this._rolService.deleteRol(rol.id_rol).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
           data: {
             title: 'Eliminar rol',
-            msg: 'Se ha eliminado el rol con éxito.'
+            msg: res.msg
           }
         })
         dialogRef.afterClosed().subscribe(() => {
@@ -96,13 +96,13 @@ export class RolesComponent implements OnInit {
       if (resultado) {
         this._rolService.updateRol(rol.id_rol, resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Editar rol',
-                msg: 'Rol ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {
@@ -135,13 +135,13 @@ export class RolesComponent implements OnInit {
       if (resultado) {
         this._rolService.createRol(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar rol',
-                msg: 'Rol ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

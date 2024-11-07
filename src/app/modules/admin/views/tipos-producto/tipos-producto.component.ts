@@ -119,13 +119,13 @@ export class TiposProductoComponent implements OnInit {
           )
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
+            next: (res: any) => {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
                 data: {
                   title: 'Editar tipo producto',
-                  msg: 'Tipo producto ' + respuesta.msg.toLowerCase()
+                  msg: res.msg
                 }
               })
               dialogRef.afterClosed().subscribe(() => {
@@ -162,13 +162,13 @@ export class TiposProductoComponent implements OnInit {
         }
         this._cartaService.createTipoProducto(tipoProductoResultado).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar tipo producto',
-                msg: 'Tipo producto ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

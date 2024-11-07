@@ -61,12 +61,12 @@ export class CategoriasComponent implements OnInit {
 
   onDelete(categoria: any) {
     this._categoriaService.deleteCategoria(categoria.id_categoria).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
           data: {
             title: 'Eliminar categoría',
-            msg: 'Se ha eliminado la categoría con éxito.'
+            msg: res.msg
           }
         })
         dialogRef.afterClosed().subscribe(() => {
@@ -100,13 +100,13 @@ export class CategoriasComponent implements OnInit {
           .updateCategoria(categoria.id_categoria, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
+            next: (res: any) => {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
                 data: {
                   title: 'Editar categoría',
-                  msg: 'Categoría ' + respuesta.msg.toLowerCase()
+                  msg: res.msg
                 }
               })
               dialogRef.afterClosed().subscribe(() => {
@@ -139,13 +139,13 @@ export class CategoriasComponent implements OnInit {
       if (resultado) {
         this._categoriaService.createCategoria(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar categoría',
-                msg: 'Categoría ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

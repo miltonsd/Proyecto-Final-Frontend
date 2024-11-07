@@ -98,12 +98,12 @@ export class UsuariosComponent implements OnInit {
 
   onDelete(usuario: any) {
     this._usuarioService.deleteUsuario(usuario.id_usuario).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
           data: {
             title: 'Eliminar usuario',
-            msg: 'Se ha eliminado el usuario con éxito.'
+            msg: res.msg
           }
         })
         dialogRef.afterClosed().subscribe(() => {
@@ -137,13 +137,13 @@ export class UsuariosComponent implements OnInit {
           .updateUsuario(usuario.id_usuario, resultado.data)
           .subscribe({
             // next - error - complete
-            next: (respuesta: any) => {
+            next: (res: any) => {
               const dialogRef = this.dialog.open(DialogComponent, {
                 width: '375px',
                 autoFocus: true,
                 data: {
                   title: 'Editar usuario',
-                  msg: 'Usuario ' + respuesta.msg.toLowerCase()
+                  msg: res.msg
                 }
               })
               dialogRef.afterClosed().subscribe(() => {
@@ -176,13 +176,13 @@ export class UsuariosComponent implements OnInit {
       if (resultado) {
         this._usuarioService.createUsuario(resultado.data).subscribe({
           // next - error - complete
-          next: (respuesta: any) => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
               data: {
                 title: 'Agregar usuario',
-                msg: 'Usuario ' + respuesta.msg.toLowerCase()
+                msg: res.msg
               }
             })
             dialogRef.afterClosed().subscribe(() => {

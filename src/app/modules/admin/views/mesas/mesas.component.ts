@@ -75,10 +75,10 @@ export class MesasComponent implements OnInit {
 
   onDelete(mesa: any) {
     this._mesaService.deleteMesa(mesa.id_mesa).subscribe({
-      next: () => {
+      next: (res: any) => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
-          data: { title: 'Eliminar mesa', msg: 'Mesa eliminada correctamente.' }
+          data: { title: 'Eliminar mesa', msg: res.msg }
         })
         dialogRef.afterClosed().subscribe(() => {
           window.location.href = '/admin/mesas'
@@ -109,11 +109,11 @@ export class MesasComponent implements OnInit {
       if (resultado) {
         this._mesaService.updateMesa(mesa.id_mesa, resultado.data).subscribe({
           // next - error - complete
-          next: () => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Editar mesa', msg: 'Mesa editada correctamente.' }
+              data: { title: 'Editar mesa', msg: res.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/mesas'
@@ -146,11 +146,11 @@ export class MesasComponent implements OnInit {
         // El qr hay que generarlo después en el Editar mesa
         this._mesaService.createMesa(resultado.data).subscribe({
           // next - error - complete
-          next: () => {
+          next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
               width: '375px',
               autoFocus: true,
-              data: { title: 'Agregar mesa', msg: 'Mesa creada correctamente.' }
+              data: { title: 'Agregar mesa', msg: res.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
               window.location.href = '/admin/mesas'
