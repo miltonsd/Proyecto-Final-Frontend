@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit } from '@angular/core'
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  Inject,
+  OnInit
+} from '@angular/core'
 import { IMesa, TableColumn } from '@pa/shared/models'
 import { ProductosService } from '../../services/productos.service'
 import { map } from 'rxjs/operators'
@@ -12,7 +18,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-producto/dialog-detalle-producto.component'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { DialogComponent } from '@pa/shared/components'
-import { CurrencyPipe } from '@angular/common'
+import { CurrencyPipe, DOCUMENT } from '@angular/common'
 
 @Component({
   selector: 'pa-productos',
@@ -38,6 +44,8 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   // Defino propiedades para el boton flotante
   posicionFija = true // El botón se muestra fijo desde el inicio
   posicionBoton = '20px' // Espacio inferior cuando el botón es fijo
+  distanciaFooterVH = 15 // Distancia en porcentaje de la altura de la ventana
+  distanciaFinal!: number // Distancia en píxeles antes de llegar al final de la página
 
   constructor(
     private _productoService: ProductosService,
@@ -48,41 +56,33 @@ export class ProductosComponent implements OnInit, AfterViewInit {
     private _authService: AuthService,
     public dialog: MatDialog,
     private currencyPipe: CurrencyPipe,
-    private el: ElementRef // Para el boton flotante
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop // scrollTop representa la cantidad de desplazamiento vertical de la página en píxeles desde el inicio.
-    // const navElement = document.querySelector('nav')
-    const footerElement = this.el.nativeElement.querySelector('footer')
+    // Altura total del documento (página completa)
+    const documentHeight = this.document.documentElement.scrollHeight
+    // Altura de la ventana (viewport)
+    const windowHeight = window.innerHeight
+    // Distancia actual scrolleada desde la parte superior
+    const scrollY = window.scrollY || document.documentElement.scrollTop
 
-    if (footerElement) {
-      // Obtiene la distancia entre el footer y la parte inferior de la ventana
-      const footerTop = footerElement.getBoundingClientRect().top
+    // Calcula la distancia desde el fondo de la página hasta el final del viewport
+    const distanceToBottom = documentHeight - (scrollY + windowHeight)
 
-      // Verifica si el footer está dentro del viewport
-      if (footerTop < window.innerHeight + 20) {
-        // Cambia a posición absoluta si el footer está cerca del viewport
-        this.posicionFija = false
-        const offsetFromFooter = window.innerHeight - footerTop + 20
-        this.posicionBoton = `${offsetFromFooter}px` // Ajusta para quedar antes del footer
-      } else {
-        // Mantiene el botón en posición fija
-        this.posicionFija = true
-        this.posicionBoton = '20px' // Altura normal desde abajo
-      }
+    // Calcula 15vh en píxeles
+    this.distanciaFinal = windowHeight * (this.distanciaFooterVH / 100)
+
+    // Si la distancia al fondo es menor que la distanciaFinal, cambia la posición a absoluta
+    if (distanceToBottom <= this.distanciaFinal) {
+      this.posicionFija = false
+      this.posicionBoton = `5px`
+    } else {
+      // Si estamos lejos del fondo, mantiene el botón en posición fija
+      this.posicionFija = true
+      this.posicionBoton = '20px' // Posición normal desde abajo
     }
-
-    // Comprueba si el elemento <nav> existe
-    // if (navElement) {
-    //   const navHeight = navElement.clientHeight // Obtiene la altura de <nav> Altura de la barra de navegación
-    //   // Muestra el botón solo cuando el scroll supera la altura de la barra de navegación
-    //   this.mostrarBotonFlotante = scrollTop > navHeight
-    // } else {
-    //   // Si no existe, muestra el botón cuando el scroll es mayor a 100px
-    //   this.mostrarBotonFlotante = scrollTop > 100
-    // }
   }
 
   ngOnInit(): void {
