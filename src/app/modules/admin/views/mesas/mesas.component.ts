@@ -7,6 +7,7 @@ import { DialogComponent } from '@pa/shared/components'
 import { MesasDialogComponent } from '../../components/mesas-dialog/mesas-dialog.component'
 import { MesaTabla } from '@pa/mesas/models'
 import { AdminDataDialog } from '../../models/adminDataDialog'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'pa-mesas',
@@ -22,6 +23,8 @@ export class MesasComponent implements OnInit {
     title: 'Confirmar eliminación de la mesa',
     msg: '¿Estás seguro de eliminar la mesa? Esta acción no se puede deshacer.'
   }
+
+  faArrowLeft = faArrowLeft
 
   constructor(private _mesaService: MesasService, public dialog: MatDialog) {}
 
@@ -143,18 +146,44 @@ export class MesasComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
-        // El qr hay que generarlo después en el Editar mesa
         this._mesaService.createMesa(resultado.data).subscribe({
-          // next - error - complete
           next: (res: any) => {
-            const dialogRef = this.dialog.open(DialogComponent, {
-              width: '375px',
-              autoFocus: true,
-              data: { title: 'Agregar mesa', msg: res.msg }
-            })
-            dialogRef.afterClosed().subscribe(() => {
-              window.location.href = '/admin/mesas'
-            })
+            const id_mesa = res.elemento.id_mesa
+            // Generar el código QR
+            this._mesaService
+              .generarQR(id_mesa)
+              .then((qrCode) => {
+                if (id_mesa !== null) {
+                  // Actualizar la mesa con el QR generado
+                  this._mesaService
+                    .updateMesa(id_mesa, { qr: qrCode })
+                    .subscribe({
+                      next: () => {
+                        const dialogRef = this.dialog.open(DialogComponent, {
+                          width: '375px',
+                          autoFocus: true,
+                          data: { title: 'Agregar mesa', msg: res.msg }
+                        })
+                        dialogRef.afterClosed().subscribe(() => {
+                          window.location.href = '/admin/mesas'
+                        })
+                      },
+                      error: () => {
+                        this.dialog.open(DialogComponent, {
+                          width: '300 px',
+                          data: {
+                            title: 'Error',
+                            msg: 'Mesa creada correctamente, error al generar el código QR.'
+                          }
+                        })
+                        dialogRef.afterClosed().subscribe(() => {
+                          window.location.href = '/admin/mesas'
+                        })
+                      }
+                    })
+                }
+              })
+              .catch((error) => console.error('Error generando el QR:', error))
           },
           error: (err) => {
             this.dialog.open(DialogComponent, {

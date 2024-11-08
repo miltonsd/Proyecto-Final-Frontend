@@ -29,7 +29,9 @@ import { TiposProductoDialogComponent } from './components/tipos-producto-dialog
 import { UsuariosDialogComponent } from './components/usuarios-dialog/usuarios-dialog.component'
 import { ReactiveFormsModule } from '@angular/forms'
 
-const modules = [ComponentsModule, MaterialModule]
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+
+const modules = [ComponentsModule, MaterialModule, FontAwesomeModule]
 const views = [
   UsuariosComponent,
   ProductosComponent,
