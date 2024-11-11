@@ -128,6 +128,19 @@ export class ConsumicionesDiaComponent {
     const listaAuxiliar: Productos[] = []
     const listaResultado: Productos[] = []
 
+    /**
+     * Busco todas las consumiciones/pedidos y los guardo en una lista
+     * Calculo el monto total de esa lista
+     * Envio al backend los datos del total + los id_pedido de la lista de pedidos
+     * En la vista de consumiciones (Pedidos del dia) no se tendrian que ver devuelta las consumiciones ya calculadas (Filtrar por id_resumenDiarioUsuario = null)
+     * En la vista de historico de pedidos (Mis Resumenes) tiene que aparecer el id del resumen, la fecha y hora, el monto total y los productos consumidos
+     * 
+     * En la vista de Admin hay que agregar una tarjeta mas para "Resumenes", un componente dialog para Resumen y una vista con la tabla Resumenes
+     */
+
+
+    /*
+
     // Guarda los productos de cada consumicion en un solo array
     this.consumiciones.forEach((c) => {
       listaAuxiliar.push(...c.productos)
@@ -189,5 +202,6 @@ export class ConsumicionesDiaComponent {
         })
       }
     })
+      */
   }
 }

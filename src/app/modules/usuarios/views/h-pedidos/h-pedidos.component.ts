@@ -31,7 +31,7 @@ export class HPedidosComponent implements OnInit {
     const id_usuario = this._authService.getCurrentUserId()
     // Busca todos los pedidos del usuario
     this._usuariosService
-      .getAllPedidosUsuario(id_usuario)
+      .getAllResumenesUsuario(id_usuario)
       .pipe(
         map((res: any) => {
           this.pedidos = Object.keys(res)
