@@ -7,7 +7,6 @@ import { DialogComponent } from '@pa/shared/components'
 import { MesasDialogComponent } from '../../components/mesas-dialog/mesas-dialog.component'
 import { MesaTabla } from '@pa/mesas/models'
 import { AdminDataDialog } from '../../models/adminDataDialog'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'pa-mesas',
@@ -23,8 +22,6 @@ export class MesasComponent implements OnInit {
     title: 'Confirmar eliminación de la mesa',
     msg: '¿Estás seguro de eliminar la mesa? Esta acción no se puede deshacer.'
   }
-
-  faArrowLeft = faArrowLeft
 
   constructor(private _mesaService: MesasService, public dialog: MatDialog) {}
 

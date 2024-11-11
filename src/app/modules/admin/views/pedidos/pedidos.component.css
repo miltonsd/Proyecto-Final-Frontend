@@ -3,12 +3,6 @@
   margin-bottom: 3%;
 }
 
-.titulo {
-  color: white;
-  font-size: 30px;
-  text-align: center;
-}
-
 .tabla {
   padding: 1%;
   padding-bottom: 8%;
@@ -28,10 +22,6 @@
 }
 
 @media only screen and (min-width: 992px) {
-  .titulo {
-    font-size: 35px
-  }
-
   .tabla-celu {
     display: none;
   }

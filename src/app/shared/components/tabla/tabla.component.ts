@@ -50,12 +50,16 @@ export class TablaComponent implements OnInit {
     new EventEmitter<TableButtonAction>()
   @Output() editAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
+  // Add Action es cuando presionas el boton '+1' en la tabla de la Carta
   @Output() addAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
+  // Remove Action es cuando presionas el boton '-1' en la tabla de la Carta
   @Output() removeAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
+  // Menu Action es cuando presionas el boton 'Elegir' en la tabla de menúes del Perfil para hacer un pedido
   @Output() menuAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
+  // Details Action es cuando presionas en el nombre de un producto en la tabla de la Carta para ver sus detalles, su foto abriendo el dialog del producto
   @Output() detailsAction: EventEmitter<TableButtonAction> =
     new EventEmitter<TableButtonAction>()
 

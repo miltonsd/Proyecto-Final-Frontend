@@ -91,7 +91,8 @@ export class ConsumicionesDiaComponent {
                 .format('DD/MM/yyyy HH:mm')
                 .slice(11),
               subtotal: res[p].montoImporte,
-              estado: res[p].isPendiente,
+              estado: res[p].estado,
+              // estado: res[p].isPendiente,
               mesa: res[p].id_mesa,
               productos: res[p].Productos.map((pr: any) => {
                 return {
@@ -102,11 +103,11 @@ export class ConsumicionesDiaComponent {
                 }
               })
             }))
-            .filter(
-              (p) =>
-                p.fecha === moment(new Date()).format('DD/MM/yyyy') &&
-                p.estado === 'Entregado'
-            )
+            // .filter(
+            //   (p) =>
+            //     p.fecha === moment(new Date()).format('DD/MM/yyyy') &&
+            //     p.estado === 'Entregado'
+            // )
         })
       )
       .subscribe({

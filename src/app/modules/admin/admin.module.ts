@@ -4,9 +4,12 @@ import { CommonModule } from '@angular/common'
 import { AdminRoutingModule } from './admin-routing.module'
 import { AdminComponent } from './admin.component'
 import { CardAdminComponent } from './components/card-admin/card-admin.component'
+import { BotonVolverComponent } from './components/boton-volver/boton-volver.component'
 
 // Shared
 import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
+
+// Views
 import { UsuariosComponent } from './views/usuarios/usuarios.component'
 import { ProductosComponent } from './views/productos/productos.component'
 import { PedidosComponent } from './views/pedidos/pedidos.component'
@@ -17,6 +20,8 @@ import { MesasComponent } from './views/mesas/mesas.component'
 import { RolesComponent } from './views/roles/roles.component'
 import { PromocionesComponent } from './views/promociones/promociones.component'
 import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.component'
+
+// Dialogs components
 import { CategoriasDialogComponent } from './components/categorias-dialog/categorias-dialog.component'
 import { MenuesDialogComponent } from './components/menues-dialog/menues-dialog.component'
 import { MesasDialogComponent } from './components/mesas-dialog/mesas-dialog.component'
@@ -27,8 +32,8 @@ import { ReservasDialogComponent } from './components/reservas-dialog/reservas-d
 import { RolesDialogComponent } from './components/roles-dialog/roles-dialog.component'
 import { TiposProductoDialogComponent } from './components/tipos-producto-dialog/tipos-producto-dialog.component'
 import { UsuariosDialogComponent } from './components/usuarios-dialog/usuarios-dialog.component'
-import { ReactiveFormsModule } from '@angular/forms'
 
+import { ReactiveFormsModule } from '@angular/forms'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 const modules = [ComponentsModule, MaterialModule, FontAwesomeModule]
@@ -45,21 +50,26 @@ const views = [
   TiposProductoComponent
 ]
 
+const dialogs = [
+  CategoriasDialogComponent,
+  MenuesDialogComponent,
+  MesasDialogComponent,
+  PedidosDialogComponent,
+  ProductosDialogComponent,
+  PromocionesDialogComponent,
+  ReservasDialogComponent,
+  RolesDialogComponent,
+  TiposProductoDialogComponent,
+  UsuariosDialogComponent
+]
+
 @NgModule({
   declarations: [
     AdminComponent,
     CardAdminComponent,
-    ...views,
-    CategoriasDialogComponent,
-    MenuesDialogComponent,
-    MesasDialogComponent,
-    PedidosDialogComponent,
-    ProductosDialogComponent,
-    PromocionesDialogComponent,
-    ReservasDialogComponent,
-    RolesDialogComponent,
-    TiposProductoDialogComponent,
-    UsuariosDialogComponent
+    BotonVolverComponent,
+    ...views, // De esta manera se declara al array de vistas del modulo admin
+    ...dialogs
   ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, ...modules]
 })
