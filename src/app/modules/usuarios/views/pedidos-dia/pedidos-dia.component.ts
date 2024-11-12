@@ -7,9 +7,11 @@ import { AuthService } from '@pa/auth/services'
 import { map } from 'rxjs'
 import { CookieService } from 'ngx-cookie-service'
 import { PedidosService } from '@pa/carta/services'
-import { PedidoPOST } from 'src/app/modules/pedidos/models'
 import { DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'
+import { ResumenPOST } from '../../models/resumenes'
+import { PedidoDia } from 'src/app/modules/pedidos/models'
+import { ResumenesService } from 'src/app/modules/carta/services/resumenes.service'
 
 interface Productos {
   id_producto: number
@@ -24,13 +26,15 @@ interface Productos {
   styleUrls: ['./pedidos-dia.component.css'],
 })
 export class PedidosDiaComponent implements OnInit {
-  pedidos: any[] = []
-  pedido!: PedidoPOST // REVISAR
+  pedidos: PedidoDia[] = []
+  resumen!: ResumenPOST // 
   estadoPanel = false
+  id_usuario = this._authService.getCurrentUserId()
 
   constructor(
     private _usuariosService: UsuariosService,
     private _authService: AuthService,
+    private _resumenService: ResumenesService,
     private _cookieService: CookieService,
     private _pedidoService: PedidosService,
     public dialog: MatDialog
@@ -64,7 +68,6 @@ export class PedidosDiaComponent implements OnInit {
   }
 
   getPedidosDia() {
-    const id_usuario = this._authService.getCurrentUserId()
     // {
     //   hora: '18:00',
     //   productos: [
@@ -80,7 +83,7 @@ export class PedidosDiaComponent implements OnInit {
     //   estado: 'Entregado'
     // },
     this._usuariosService
-      .getAllPedidosUsuario(id_usuario)
+      .getAllPedidosUsuario(this.id_usuario)
       .pipe(
         map((res: any) => {
           this.pedidos = Object.keys(res)
@@ -94,6 +97,9 @@ export class PedidosDiaComponent implements OnInit {
               estado: res[p].estado,
               // estado: res[p].isPendiente,
               mesa: res[p].id_mesa,
+              id_usuario: this.id_usuario,
+              fechaHora: res[p].fechaHora,
+              id_resumenDiario: res[p].id_resumenDiario,              
               productos: res[p].Productos.map((pr: any) => {
                 return {
                   id_producto: pr.id_producto,
@@ -103,14 +109,15 @@ export class PedidosDiaComponent implements OnInit {
                 }
               })
             }))
-            // .filter(
-            //   (p) =>
-            //     p.fecha === moment(new Date()).format('DD/MM/yyyy') &&
-            //     p.estado === 'Entregado'
-            // )
+            .filter(
+              (p) =>
+                p.fecha === moment(new Date()).format('DD/MM/yyyy') &&
+                p.id_resumenDiario === null 
+            )
         })
       )
       .subscribe({
+        next: () => console.log(this.pedidos),
         error: (err) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
@@ -118,64 +125,56 @@ export class PedidosDiaComponent implements OnInit {
 
   calculaTotal() {
     let monto = 0
-    this.pedidos.forEach((c) => {
-      monto += c.subtotal
+    this.pedidos.forEach((p) => {
+      monto += p.subtotal
     })
     return monto
   }
 
-  pedirCuenta() {
-    const listaAuxiliar: Productos[] = []
-    const listaResultado: Productos[] = []
+  pedirCuenta() { 
+  // Agrupamos los productos de todos los pedidos del dia del usuario
+    // const listaProductos = this.agruparProductos()
+    // console.log(listaProductos)
+
+    // Arma el pedido para enviar al backend para guardar en la DB
+    this.resumen = {
+      fechaHora: new Date(),
+      montoTotal: this.calculaTotal(), // Suma todos los subtotales de los pedidos
+      id_usuario: this.id_usuario,
+      lista_pedidos: this.pedidos
+    }
+
+    this._resumenService.createResumen(this.resumen).subscribe({ 
+      next: (res: any) => {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: { title: 'Pedir la cuenta', msg: res.msg }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          // this._cookieService.delete('ClienteMesa', '/')
+          window.location.href = '/'
+        })
+      },
+      error: (err: any) => {
+        this.dialog.open(DialogComponent, {
+          width: '300 px',
+          data: { title: `Error ${err.status}`, msg: err.error.msg }
+        })
+      }
+    })
+
 
     /**
-     * Busco todas los pedidos y los guardo en una lista
-     * Calculo el monto total de esa lista
-     * Envio al backend los datos del total + los id_pedido de la lista de pedidos
-     * En la vista de  (Pedidos del dia) no se tendrian que ver devuelta los pedidos ya calculadas (Filtrar por id_resumenDiarioUsuario = null)
      * En la vista de historico de pedidos (Mis Resumenes) tiene que aparecer el id del resumen, la fecha y hora, el monto total y los productos consumidos
      * 
      * En la vista de Admin hay que agregar una tarjeta mas para "Resumenes", un componente dialog para Resumen y una vista con la tabla Resumenes
      */
 
-
     /*
+    
 
-    // Guarda los productos de cada pedido en un solo array
-    this.pedidos.forEach((c) => {
-      listaAuxiliar.push(...c.productos)
-    })
-
-    // Agrupa los productos guardados anteriormente según su id_producto
-    listaAuxiliar.forEach((producto) => {
-      // Busca en otro array si el producto de la lista ya existe
-      const prod = listaResultado.find(
-        (p) => p.id_producto === producto.id_producto
-      )
-
-      if (prod) {
-        // Si existe, suma las cantidades de los pedidos
-        prod.cant_selecc += producto.cant_selecc
-      } else {
-        // Si no existe, guarda el producto en la otra lista
-        listaResultado.push({ ...producto })
-      }
-    })
-
-    const [id_usuario, id_mesa] = this._cookieService
-      .get('ClienteMesa')
-      .split(':')
-    // Arma el pedido para enviar al backend para guardar en la DB
-    this.pedido = {
-      fechaHora: new Date(),
-      estado: 'Entregado', // El pedido ya fue entregado
-      montoImporte: this.calculaTotal(), // Suma todos los subtotales de los pedidos
-      id_mesa: parseInt(id_mesa), // id_mesa tiene que ser la mesa habilitada para el usuario
-      id_usuario: parseInt(id_usuario),
-      lista_productos: listaResultado // Los productos que se van a guardar en la tabla intermedia (Pedidos-Productos)
-    }
-
-    console.log(this.pedido)
+    console.log(this.resumen)
     this._pedidoService.createPedido(this.pedido).subscribe({
       // next(): () => {
       //   console.log('alog')
