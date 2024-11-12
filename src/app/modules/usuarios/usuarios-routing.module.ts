@@ -21,9 +21,9 @@ const routes: Routes = [
         children: [
           { path: 'info', component: PerfilComponent },
           { path: 'reservas', component: HReservasComponent },
-          { path: 'pedidos', component: HPedidosComponent },
+          { path: 'resumenes', component: HPedidosComponent },
           { path: 'menues', component: MenuesComponent },
-          { path: 'consumiciones', component: ConsumicionesDiaComponent }
+          { path: 'pedidos', component: ConsumicionesDiaComponent }
         ]
       }
     ]
