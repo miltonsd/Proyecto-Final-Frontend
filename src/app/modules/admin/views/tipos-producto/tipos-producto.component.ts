@@ -15,8 +15,7 @@ import { AdminDataDialog } from '../../models/adminDataDialog'
 })
 export class TiposProductoComponent implements OnInit {
   datosTabla: any = []
-  columnasPC: TableColumn[] = []
-  columnasCelu: TableColumn[] = []
+  columnas: TableColumn[] = []
 
   msgConfirmacion = {
     title: 'Confirmar eliminación del tipo producto',
@@ -48,18 +47,8 @@ export class TiposProductoComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla tipos_productos
-    this.columnasPC = [
-      { name: 'Descripcion', dataKey: 'descripcion' },
-      { name: 'Imagen', dataKey: 'imagen', isImage: true },
-      {
-        name: ' ',
-        dataKey: 'actionButtons',
-        editButton: true,
-        deleteButton: true
-      }
-    ]
-    this.columnasCelu = [
-      { name: 'Descripcion', dataKey: 'descripcion' },
+    this.columnas = [
+      { name: 'Descripción', dataKey: 'descripcion' },
       { name: 'Imagen', dataKey: 'imagen', isImage: true },
       {
         name: ' ',

@@ -32,6 +32,7 @@ import { ReservasDialogComponent } from './components/reservas-dialog/reservas-d
 import { RolesDialogComponent } from './components/roles-dialog/roles-dialog.component'
 import { TiposProductoDialogComponent } from './components/tipos-producto-dialog/tipos-producto-dialog.component'
 import { UsuariosDialogComponent } from './components/usuarios-dialog/usuarios-dialog.component'
+import { ResumenesComponent } from './views/resumenes/resumenes.component'
 
 import { ReactiveFormsModule } from '@angular/forms'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
@@ -47,7 +48,8 @@ const views = [
   MesasComponent,
   RolesComponent,
   PromocionesComponent,
-  TiposProductoComponent
+  TiposProductoComponent,
+  ResumenesComponent
 ]
 
 const dialogs = [

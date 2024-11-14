@@ -13,9 +13,14 @@ import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.co
 import { UsuariosComponent } from './views/usuarios/usuarios.component'
 import { canActivateAuthGuard } from 'src/app/shared/guards/auth/can-activate-auth.guard'
 import { canActivateAdminGuard } from 'src/app/shared/guards/admin/can-activate-admin.guard'
+import { ResumenesComponent } from './views/resumenes/resumenes.component'
 
 const routes: Routes = [
-  { path: '', component: AdminComponent, canActivate: [canActivateAuthGuard, canActivateAdminGuard] },
+  {
+    path: '',
+    component: AdminComponent,
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
+  },
   {
     path: 'menues',
     component: MenuesComponent,
@@ -64,6 +69,11 @@ const routes: Routes = [
   {
     path: 'categorias',
     component: CategoriasComponent,
+    canActivate: [canActivateAuthGuard, canActivateAdminGuard]
+  },
+  {
+    path: 'resumenes',
+    component: ResumenesComponent,
     canActivate: [canActivateAuthGuard, canActivateAdminGuard]
   }
 ]

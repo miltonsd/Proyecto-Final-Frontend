@@ -49,9 +49,9 @@ export class MesasComponent implements OnInit {
       })
     // Defino las columnas de la tabla mesas
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_mesa' },
+      { name: 'Nro.', dataKey: 'id_mesa' },
       { name: 'Capacidad', dataKey: 'capacidad' },
-      { name: 'Ubicacion', dataKey: 'ubicacion' },
+      { name: 'Ubicación', dataKey: 'ubicacion' },
       { name: 'Código QR', dataKey: 'qr', isImage: true },
       {
         name: ' ',
@@ -61,7 +61,7 @@ export class MesasComponent implements OnInit {
       }
     ]
     this.columnasCelu = [
-      { name: 'ID', dataKey: 'id_mesa' },
+      { name: 'Nro.', dataKey: 'id_mesa' },
       { name: 'Capacidad', dataKey: 'capacidad' },
       { name: 'Código QR', dataKey: 'qr', isImage: true },
       {

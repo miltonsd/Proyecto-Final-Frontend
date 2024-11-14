@@ -19,6 +19,7 @@ import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { DialogComponent } from '@pa/shared/components'
 import { CurrencyPipe, DOCUMENT } from '@angular/common'
+import { DialogConfirmPedidoComponent } from '../../components/dialog-confirm-pedido/dialog-confirm-pedido.component'
 
 @Component({
   selector: 'pa-productos',
@@ -46,6 +47,11 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   posicionBoton = '20px' // Espacio inferior cuando el botón es fijo
   distanciaFooterVH = 15 // Distancia en porcentaje de la altura de la ventana
   distanciaFinal!: number // Distancia en píxeles antes de llegar al final de la página
+
+  msgConfirmacion = {
+    title: 'Confirmar eliminación del usuario',
+    msg: '¿Estás seguro de eliminar el usuario? Esta acción no se puede deshacer.'
+  }
 
   constructor(
     private _productoService: ProductosService,
@@ -289,7 +295,6 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   }
 
   verDetalles(producto: any) {
-    console.log(producto)
     this.dialog.open(DialogDetalleProductoComponent, {
       width: '600px',
       data: { producto }
@@ -299,47 +304,73 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
   onSubmit(observacion: string) {
     this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
-    if (this.carrito.length > 0 && this.mesa?.habilitada) {
-      this.carrito.forEach((p) => {
-        p.stock -= p.cant_selecc
-        this._productoService.updateProducto(p.id_producto, p.stock)
-      })
-      // const pedido: PedidoPOST = {
-      const pedido: PedidoPOST = {
-        fechaHora: new Date(),
-        montoImporte: this.calculaMonto(),
-        id_usuario: this._authService.getCurrentUserId(), // Se asigna el id_usuario correspondiente para el usuario logueado
-        id_mesa: this.mesa?.id_mesa,
-        lista_productos: this.carrito,
-        observacion: observacion
-      }
-      this._pedidoService.createPedido(pedido).subscribe({
-        next: (res: any) => {
-          // if (localStorage.getItem('carrito') !== null) {
-          //   const pedidoViejo = localStorage.getItem('carrito') as string
-          //   const nuevoPedido = this.carrito
-          //   this.carrito = JSON.parse(pedidoViejo)
-          //   this.carrito.push(...nuevoPedido)
-          //   console.log('Nueva lista: ', this.carrito)
-          // }
-          // localStorage.setItem('carrito', JSON.stringify(this.carrito)) //Para ver el localStorage ir al inspeccionar del buscador - Aplicación - Almacenamiento local
+    console.log(this.carrito)
+    const carrito = this.carrito
+    // Muestra un dialog para confirmar el Pedido, mostrando los productos seleccionados con sus cantidades y la observación ingresada
+    const dialogRef = this.dialog.open(DialogConfirmPedidoComponent, {
+      width: '600px',
+      data: { carrito, observacion }
+      // data: this.confirmDialogMsg
+      // data: { msg: element.productos }
+    })
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        // this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
+        if (this.carrito.length > 0 && this.mesa?.habilitada) {
+          this.carrito.forEach((p) => {
+            p.stock -= p.cant_selecc
+            this._productoService.updateProducto(p.id_producto, p.stock)
+          })
+          // const pedido: PedidoPOST = {
+          const pedido: PedidoPOST = {
+            fechaHora: new Date(),
+            montoImporte: this.calculaMonto(),
+            id_usuario: this._authService.getCurrentUserId(), // Se asigna el id_usuario correspondiente para el usuario logueado
+            id_mesa: this.mesa?.id_mesa,
+            lista_productos: this.carrito,
+            observacion: observacion
+          }
+          this._pedidoService.createPedido(pedido).subscribe({
+            next: (res: any) => {
+              // if (localStorage.getItem('carrito') !== null) {
+              //   const pedidoViejo = localStorage.getItem('carrito') as string
+              //   const nuevoPedido = this.carrito
+              //   this.carrito = JSON.parse(pedidoViejo)
+              //   this.carrito.push(...nuevoPedido)
+              //   console.log('Nueva lista: ', this.carrito)
+              // }
+              // localStorage.setItem('carrito', JSON.stringify(this.carrito)) //Para ver el localStorage ir al inspeccionar del buscador - Aplicación - Almacenamiento local
 
-          console.log(res)
-          //Mostar detalles del pedido (productos seleccionados con sus cants)
-          const dialogRef = this.dialog.open(DialogComponent, {
-            width: '375px',
-            autoFocus: true,
-            data: { title: 'Realizar pedido', msg: res.msg }
+              console.log(res)
+              //Mostar detalles del pedido (productos seleccionados con sus cants)
+              const dialogRef = this.dialog.open(DialogComponent, {
+                width: '375px',
+                autoFocus: true,
+                data: { title: 'Realizar pedido', msg: res.msg }
+              })
+              dialogRef.afterClosed().subscribe(() => {
+                window.location.href = '/'
+              })
+            },
+            error: (err: any) => {
+              console.error(`Código de error ${err.status}: `, err.error.msg)
+            }
           })
-          dialogRef.afterClosed().subscribe(() => {
-            window.location.href = '/'
-          })
-        },
-        error: (err: any) => {
-          console.error(`Código de error ${err.status}: `, err.error.msg)
         }
-      })
-    }
+        // this.deleteAction.emit(element)
+      }
+    })
+
+    // const dialogRef = this.dialog.open(DialogComponent, {
+    //   width: '300 px',
+    //   data: {
+    //     title: 'Eliminar usuario',
+    //     msg: res.msg
+    //   }
+    // })
+    // dialogRef.afterClosed().subscribe(() => {
+    //   window.location.href = '/admin/usuarios'
+    // })
   }
 
   calculaMonto(): number {

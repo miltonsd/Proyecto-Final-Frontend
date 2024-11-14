@@ -1,0 +1,68 @@
+.main {
+  border: 10px solid rgb(41, 41, 41);
+  background-color: #f7bd00;
+}
+
+.titulo {
+  font-size: 30px;
+  margin: 0%;
+  padding: 2%;
+  text-align: center;
+  color:rgb(41, 41, 41)
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 5%;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid rgb(41, 41, 41);
+  text-align: center;
+  font-weight: 600;
+}
+
+th {
+  background-color: rgb(41, 41, 41);
+  color: #f7bd00;
+}
+
+p {
+  font-weight: 600;
+}
+
+.detalle-container {
+  padding-inline: 7%
+}
+
+.boton {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.boton button {
+  width: 37%;
+}
+
+ /* Límite hasta donde se puede desplazar la barra  */
+::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+}
+
+ /* Barra renderizada  */
+::-webkit-scrollbar-thumb {
+  background: rgb(61, 61, 61);
+}
+
+/* Cuando se posiciona arriba de la barra  */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(119, 119, 119);
+}
+
+@media only screen and (min-width: 992px) {
+  .reserva {
+    align-items: center;
+  }
+} 

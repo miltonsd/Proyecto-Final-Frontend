@@ -74,12 +74,12 @@ export class ProductosComponent implements OnInit {
       }
     ]
     this.columnasCelu = [
+      { name: 'Descripción', dataKey: 'descripcion' },
       {
         name: 'Precio unitario',
         dataKey: 'precio',
         isCurrency: true
       },
-      { name: 'Descripción', dataKey: 'descripcion' },
       { name: 'Tipo de producto', dataKey: 'tipoProducto' },
       {
         name: ' ',

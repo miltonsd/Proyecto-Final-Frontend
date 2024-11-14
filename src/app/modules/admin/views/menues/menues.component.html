@@ -2,18 +2,8 @@
   <pa-boton-volver [titulo]="'Menúes'"></pa-boton-volver>
   <div class="tabla">
     <pa-tabla
-      class="tabla-pc"
       [tableData]="datosTabla" 
-      [tableColumns]="columnasPC" 
-      [isPaginator]="false"
-      (editAction)="onEdit($event)"
-      (deleteAction)="onDelete($event)"
-      [confirmDialogMsg]="msgConfirmacion"
-    ></pa-tabla>
-    <pa-tabla
-      class="tabla-celu" 
-      [tableData]="datosTabla" 
-      [tableColumns]="columnasCelu" 
+      [tableColumns]="columnas" 
       [isPaginator]="false"
       (editAction)="onEdit($event)"
       (deleteAction)="onDelete($event)"

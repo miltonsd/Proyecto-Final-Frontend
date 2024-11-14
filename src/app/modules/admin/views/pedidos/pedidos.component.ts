@@ -70,7 +70,7 @@ export class PedidosComponent implements OnInit {
       })
     // Defino las columnas de la tabla Pedidos
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_pedido' },
+      { name: 'Nro.', dataKey: 'id_pedido' },
       { name: 'Fecha y hora', dataKey: 'fechaHora' },
       { name: 'Estado', dataKey: 'estado' },
       { name: 'Monto importe', dataKey: 'montoImporte', isCurrency: true },

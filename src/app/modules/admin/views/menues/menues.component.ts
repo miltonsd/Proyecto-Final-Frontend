@@ -15,8 +15,7 @@ import { MenuTabla } from './models'
 })
 export class MenuesComponent implements OnInit {
   datosTabla: any = []
-  columnasPC: TableColumn[] = []
-  columnasCelu: TableColumn[] = []
+  columnas: TableColumn[] = []
 
   msgConfirmacion = {
     title: 'Confirmar eliminación del menú',
@@ -52,18 +51,7 @@ export class MenuesComponent implements OnInit {
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
     // Defino las columnas de la tabla Menues
-    this.columnasPC = [
-      { name: 'Título del menú', dataKey: 'titulo' },
-      { name: 'Usuario', dataKey: 'usuario' },
-      { name: 'Lista de productos', dataKey: 'productos' },
-      {
-        name: ' ',
-        dataKey: 'actionButtons',
-        editButton: true,
-        deleteButton: true
-      }
-    ]
-    this.columnasCelu = [
+    this.columnas = [
       { name: 'Título del menú', dataKey: 'titulo' },
       { name: 'Usuario', dataKey: 'usuario' },
       { name: 'Lista de productos', dataKey: 'productos' },

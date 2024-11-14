@@ -8,9 +8,9 @@ export const canActivateAdminGuard: CanActivateFn = () => {
   const _router = inject(Router)
   // Valida que el rol del usuario sea el correspondiente al de 'Administrador' (id_rol = 1)
   if (_authService.getRol() === 1) {
-    return true;
+    return true
   } else {
-    _router.navigate(['/']);
-    return false;
+    _router.navigate(['/'])
+    return false
   }
 }

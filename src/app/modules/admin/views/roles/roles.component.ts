@@ -47,7 +47,7 @@ export class RolesComponent implements OnInit {
       })
     // Defino las columnas de la tabla roles
     this.columnas = [
-      { name: 'Descripcion', dataKey: 'descripcion' },
+      { name: 'Descripción', dataKey: 'descripcion' },
       {
         name: ' ',
         dataKey: 'actionButtons',

@@ -7,9 +7,9 @@ export const canActivateUsuarioGuard: CanActivateFn = () => {
   const _router = inject(Router)
   // Valida que el rol del usuario sea el correspondiente al de 'Cliente' (id_rol = 2)
   if (_authService.getRol() === 2) {
-    return true;
+    return true
   } else {
-    _router.navigate(['/']);
-    return false;
+    _router.navigate(['/'])
+    return false
   }
 }

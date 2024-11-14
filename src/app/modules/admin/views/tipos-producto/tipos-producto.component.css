@@ -12,21 +12,7 @@
   flex-direction: column;
 }
 
-.tabla-pc {
-  display: none;
-}
-
 .boton {
   display: flex;
   justify-content: center;
 }
-
-@media only screen and (min-width: 992px) {
-  .tabla-celu {
-    display: none;
-  }
-
-  .tabla-pc {
-    display: block;
-  }
-} 

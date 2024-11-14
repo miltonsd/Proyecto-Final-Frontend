@@ -61,7 +61,7 @@ export class ReservasComponent implements OnInit {
       })
     // Defino las columnas de la tabla Reservas
     this.columnasPC = [
-      { name: 'ID', dataKey: 'id_reserva' },
+      { name: 'Nro.', dataKey: 'id_reserva' },
       { name: 'Fecha y hora', dataKey: 'fechaHora' },
       { name: 'Cantidad de personas', dataKey: 'cant_personas' },
       { name: '¿Está pendiente?', dataKey: 'pendiente' },

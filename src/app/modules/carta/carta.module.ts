@@ -10,6 +10,7 @@ import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 
 import { ProductosComponent } from './views/productos/productos.component'
 import { DialogDetalleProductoComponent } from './components/dialog-detalle-producto/dialog-detalle-producto.component'
+import { DialogConfirmPedidoComponent } from './components/dialog-confirm-pedido/dialog-confirm-pedido.component'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 const modules = [ComponentsModule, MaterialModule, FontAwesomeModule]
@@ -18,7 +19,8 @@ const modules = [ComponentsModule, MaterialModule, FontAwesomeModule]
     CartaComponent,
     CardTipoProductoComponent,
     ProductosComponent,
-    DialogDetalleProductoComponent
+    DialogDetalleProductoComponent,
+    DialogConfirmPedidoComponent
   ],
   imports: [CommonModule, CartaRoutingModule, ...modules]
 })

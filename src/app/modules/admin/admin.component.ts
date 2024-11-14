@@ -16,6 +16,7 @@ export class AdminComponent {
     { nombre: 'Mesas', url: 'mesas' },
     { nombre: 'Roles', url: 'roles' },
     { nombre: 'Tipos producto', url: 'tipos-producto' },
-    { nombre: 'Promociones', url: 'promociones' }
+    { nombre: 'Promociones', url: 'promociones' },
+    { nombre: 'Resúmenes', url: 'resumenes' }
   ]
 }
