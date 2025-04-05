@@ -93,7 +93,7 @@ export class MenuesComponent implements OnInit {
               data: { title: 'Realizar pedido', msg: respuesta.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
-              window.location.href = '/perfil/consumiciones'
+              window.location.href = '/perfil/pedidos'
             })
           },
           error: (err) => {
