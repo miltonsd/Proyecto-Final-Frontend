@@ -66,18 +66,12 @@ export class MesasDialogComponent implements OnInit {
   }
 
   generarQR() {
-    if (this.data.elemento.qr !== '') {
-      console.log('NO HAGO NADA')
-    } else {
+    // Evalua si el campo qr NO CONTIENE una imagen ya generada
+    if (!this.data.elemento.qr.startsWith('data:image/png;base64')) {
+      // Genera el QR
       this._mesaService
         .generarQR(this.data.elemento.id_mesa)
         .then((qrCodeUrl: string) => {
-          // Realizar acciones adicionales si es necesario
-          console.log('Código QR generado:', qrCodeUrl)
-          // const base64Image = qrCodeUrl.replace(
-          //   /^data:image\/(png|jpeg|jpg);base64,/,
-          //   ''
-          // )
           this.formulario.patchValue({
             qr: qrCodeUrl
           })
@@ -86,6 +80,9 @@ export class MesasDialogComponent implements OnInit {
           console.error(error)
           // Manejar el error en caso de que ocurra
         })
+    } else {
+      // Si ya se generó el QR entonces no debe hacer nada
+      console.log('NO HAGO NADA')
     }
   }
 
