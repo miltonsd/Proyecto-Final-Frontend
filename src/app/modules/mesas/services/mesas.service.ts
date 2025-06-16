@@ -60,10 +60,10 @@ export class MesasService {
   }
 
   habilitarMesa(id_mesa: number) {
-    return this._http.post(`${this.url}/habilitar/${id_mesa}`, undefined)
+    return this._http.patch(`${this.url}/habilitar/${id_mesa}`, undefined)
   }
 
   deshabilitarMesa(id_mesa: number) {
-    return this._http.post(`${this.url}/deshabilitar/${id_mesa}`, undefined)
+    return this._http.patch(`${this.url}/deshabilitar/${id_mesa}`, undefined)
   }
 }
