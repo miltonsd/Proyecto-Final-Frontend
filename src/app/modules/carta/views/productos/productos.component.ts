@@ -29,7 +29,7 @@ import { DialogConfirmPedidoComponent } from '../../components/dialog-confirm-pe
 })
 export class ProductosComponent implements OnInit, AfterViewInit {
   carrito: any[] = []
-  productos!: any[]
+  productos: any[] = []
   productosPorTipo: { [tipo: string]: any[] } = {}
   promociones: any[] = []
   mesa: IMesa | undefined
@@ -242,13 +242,7 @@ export class ProductosComponent implements OnInit, AfterViewInit {
       return {
         descripcionF: `${producto.descripcion} (${
           promocion.porcentaje_desc * 100
-        }% OFF- Antes: ${this.currencyPipe.transform(
-          producto.precio,
-          'ARS',
-          'symbol',
-          '1.2-2',
-          'es'
-        )})`,
+        }% OFF- Antes: ${this.currencyPipe.transform(producto.precio, 'ARS')})`,
         precioF: producto.precio - producto.precio * promocion.porcentaje_desc
       }
     } else {

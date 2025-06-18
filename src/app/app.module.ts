@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core'
+import { NgModule, LOCALE_ID } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import { registerLocaleData } from '@angular/common'
+import localeEsAr from '@angular/common/locales/es-AR' // Importa los datos de localización para Argentina
 
 import { AppRoutingModule } from './app-routing.module' // Importando el app-routing, ya conoce los modulos creados
 import { AppComponent } from './app.component'
@@ -25,6 +27,9 @@ import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 import { TokenInterceptorService } from './shared/services/token-interceptor.service'
 
 import { CookieService } from 'ngx-cookie-service'
+
+// Registra los datos de localización
+registerLocaleData(localeEsAr)
 
 const core = [HeaderComponent, FooterComponent, PageNotFoundComponent]
 const modules = [ComponentsModule, MaterialModule]
@@ -59,6 +64,9 @@ const modules = [ComponentsModule, MaterialModule]
     },
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { disableClose: true } },
+
+    // Provee el LOCALE_ID para que Angular sepa qué locale usar por defecto
+    { provide: LOCALE_ID, useValue: 'es-AR' },
     CookieService
   ],
   bootstrap: [AppComponent]

@@ -16,7 +16,7 @@
         <!-- Generar filas dinámicamente usando *ngFor -->
         <tr *ngFor="let producto of data.carrito">
           <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.precio | currency:'ARS':'symbol':'1.2-2':'es' }}</td>
+          <td>{{ producto.precio | currency:'ARS' }}</td>
           <td>{{ producto.cant_selecc }}</td>
         </tr>
       </tbody>
@@ -25,7 +25,7 @@
       Observación: {{ data.observacion || "No hay." }}
     </p>
     <p>
-      Total: {{ calcularTotal() | currency:'ARS':'symbol':'1.2-2':'es'}}
+      Total: {{ calcularTotal() | currency:'ARS' }}
     </p>
   </div>
   
