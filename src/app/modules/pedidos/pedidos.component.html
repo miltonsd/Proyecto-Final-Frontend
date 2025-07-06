@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="titulo">Pedidos pendientes</h1>
+  <h1 class="titulo">Pedidos {{ rolUsuario === 3 ? "listos" : "pendientes" }}</h1>
   
   <ng-container *ngIf="datosTabla.length > 0; else sinPedidos">
     <mat-card class="cardTitle">

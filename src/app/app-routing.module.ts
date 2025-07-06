@@ -5,6 +5,7 @@ import { canMatchAuthGuard } from './shared/guards/auth/can-match-auth.guard'
 import { canMatchMozoGuard } from './shared/guards/mozo/can-match-mozo.guard'
 import { canMatchUsuarioGuard } from './shared/guards/usuario/can-match-usuario.guard'
 import { canMatchAdminGuard } from './shared/guards/admin/can-match-admin.guard'
+import { canMatchCocinaOMozoGuard } from './shared/guards/cocina-o-mozo/can-match-cocina-o-mozo.guard'
 
 const routes: Routes = [
   {
@@ -35,7 +36,7 @@ const routes: Routes = [
     path: 'pedidos',
     loadChildren: () =>
       import('./modules/pedidos/pedidos.module').then((m) => m.PedidosModule),
-    canMatch: [canMatchAuthGuard, canMatchMozoGuard]
+    canMatch: [canMatchAuthGuard, canMatchCocinaOMozoGuard]
   },
   {
     path: 'admin',

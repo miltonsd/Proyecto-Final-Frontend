@@ -34,7 +34,11 @@ export class PedidosService {
     return this._http.get(`${this.url}/pendientes`)
   }
 
-  cambiarEstado(id_pedido: number) {
-    return this._http.post(`${this.url}/cambiarEstado/${id_pedido}`, undefined)
+  getListos() {
+    return this._http.get(`${this.url}/listos`)
+  }
+
+  cambiarEstado(id_pedido: number, estado: string) {
+    return this._http.patch(`${this.url}/cambiarEstado/${id_pedido}`, estado)
   }
 }

@@ -55,6 +55,12 @@
     width: 30%;
   }
 
+.monto-importe-campo {
+  font-size: 1.2em; /* O 18px, 20px, etc. */
+  font-weight: bold;
+  color: #333; /* Asegúrate de que el color del texto sea contrastante */
+}
+
   .observacion {
     height: 100px;
     width: 100%;
