@@ -43,10 +43,6 @@ export class PedidosDiaComponent implements OnInit {
           this.pedidos = Object.keys(res)
             .map((p) => ({
               id_pedido: res[p].id_pedido,
-              // fecha: moment(res[p].fechaHora).format('DD/MM/yyyy').slice(0, 10),
-              // hora: moment(res[p].fechaHora)
-              //   .format('DD/MM/yyyy HH:mm')
-              //   .slice(11),
               fechaHora: res[p].fechaHora,
               subtotal: res[p].montoImporte,
               estado: res[p].estado,

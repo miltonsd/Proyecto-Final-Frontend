@@ -22,7 +22,7 @@
       <mat-card class="card">
         <div class="header">
           <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
-            {{ pedido.hora }}
+            {{ pedido.fechaHora | date: 'dd/MM/yyyy' }} {{ pedido.fechaHora | date: 'HH:mm' }}
           </h2>
           <h3
           class="content"
