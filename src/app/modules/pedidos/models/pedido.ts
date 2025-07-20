@@ -40,9 +40,10 @@ export interface PedidoForm {
 
 export interface PedidoDia {
   id_pedido: number
-  fecha: string
-  hora: string
+  fecha?: string
+  hora?: string
   subtotal: number
+  observacion?: string
   estado: string
   mesa: number
   productos: Producto[]

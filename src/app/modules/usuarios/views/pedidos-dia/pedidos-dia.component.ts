@@ -6,7 +6,7 @@ import { UsuariosService } from '../../services/usuarios.service'
 import { AuthService } from '@pa/auth/services'
 import { map } from 'rxjs'
 import { CookieService } from 'ngx-cookie-service'
-import { DialogComponent } from '@pa/shared/components'
+import { ConfirmDialogComponent, DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'
 import { ResumenPOST } from '../../models/resumenes'
 import { PedidoDia } from 'src/app/modules/pedidos/models'
@@ -43,15 +43,16 @@ export class PedidosDiaComponent implements OnInit {
           this.pedidos = Object.keys(res)
             .map((p) => ({
               id_pedido: res[p].id_pedido,
-              fecha: moment(res[p].fechaHora).format('DD/MM/yyyy').slice(0, 10),
-              hora: moment(res[p].fechaHora)
-                .format('DD/MM/yyyy HH:mm')
-                .slice(11),
+              // fecha: moment(res[p].fechaHora).format('DD/MM/yyyy').slice(0, 10),
+              // hora: moment(res[p].fechaHora)
+              //   .format('DD/MM/yyyy HH:mm')
+              //   .slice(11),
+              fechaHora: res[p].fechaHora,
               subtotal: res[p].montoImporte,
               estado: res[p].estado,
               mesa: res[p].id_mesa,
               id_usuario: this.id_usuario,
-              fechaHora: res[p].fechaHora,
+              observacion: res[p].observacion,
               id_resumenDiario: res[p].id_resumenDiario,
               productos: res[p].Productos.map((pr: any) => {
                 return {
@@ -64,7 +65,7 @@ export class PedidosDiaComponent implements OnInit {
             }))
             .filter(
               (p) =>
-                p.fecha === moment(new Date()).format('DD/MM/yyyy') &&
+                moment(p.fechaHora).isAfter(moment().subtract(12, 'hours')) &&
                 p.id_resumenDiario === null
             )
         })
@@ -85,7 +86,39 @@ export class PedidosDiaComponent implements OnInit {
   }
 
   pedirCuenta() {
-    // Arma el pedido para enviar al backend para guardar en la DB
+    // Comprueba que todos los pedidos esten entregados
+    const todosEntregados = this.pedidos.every((p) => p.estado === 'Entregado')
+
+    // Si hay un pedido pendiente, no se puede pedir la cuenta
+    if (!todosEntregados) {
+      // Muestra un mensaje de error si hay pedidos pendientes
+      this.dialog.open(DialogComponent, {
+        width: '375px',
+        autoFocus: true,
+        data: {
+          title: 'Error al pedir la cuenta',
+          msg: 'No se puede pedir la cuenta si hay pedidos pendientes de entrega.'
+        }
+      })
+    } else {
+      // Si todos los pedidos estan entregados, se le pregunta al usuario si está seguro de pedir la cuenta
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '350px',
+        data: {
+          title: 'Confirmar pedido de cuenta',
+          msg: '¿Estás seguro de pedir la cuenta?'
+        }
+      })
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.crearResumen()
+        }
+      })
+    }
+  }
+
+  crearResumen() {
+    // Arma el resumen para enviar al backend para guardar en la DB
     this.resumen = {
       fechaHora: new Date(),
       montoTotal: this.calculaTotal(), // Suma todos los subtotales de los pedidos

@@ -40,6 +40,10 @@
   font-size: 15px;
 }
 
+.observacion {
+  display: none;
+}
+
 .productos {
   font-size: 13px
 }
@@ -94,6 +98,10 @@ mat-expansion-panel mat-expansion-panel-header mat-panel-title {
   
   .content {
     font-size: 20px;
+  }
+
+  .observacion {
+    display: block;
   }
   
   .button {

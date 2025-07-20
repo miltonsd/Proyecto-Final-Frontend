@@ -11,6 +11,7 @@
         >
           Productos
         </h2>
+        <h2 class="content observacion" style="justify-self: flex-end; flex: 1">Observación</h2>
         <h2 class="content" style="justify-self: flex-end; flex: 1">Mesa</h2>
         <h2 class="content" style="justify-self: flex-end; flex: 1">Estado</h2>
       </div>
@@ -31,6 +32,9 @@
           style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
           >
             {{ pedido.productos }}
+          </h2>
+          <h2 class="content observacion" style="justify-self: flex-end; flex: 1">
+            {{ pedido.observacion }}
           </h2>
           <h2 class="content" style="justify-self: flex-end; flex: 1">
             {{ pedido.mesa }}

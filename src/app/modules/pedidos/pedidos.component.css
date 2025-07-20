@@ -40,6 +40,10 @@
   font-size: 15px;
 }
 
+.observacion {
+  display: none;
+}
+
 .cardTitle {
   display: flex;
   flex-direction: row;
@@ -78,6 +82,10 @@
   
   .content {
     font-size: 20px;
+  }
+
+  .observacion {
+    display: block;
   }
   
   .button {
