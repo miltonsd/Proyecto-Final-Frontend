@@ -1,7 +1,12 @@
 import { Component, Inject } from '@angular/core'
 
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef
+} from '@angular/material/dialog'
+import { DialogComponent } from '@pa/shared/components'
 
 @Component({
   selector: 'pa-dialog-cambiar-password',
@@ -15,7 +20,8 @@ export class DialogCambiarPasswordComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogCambiarPasswordComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: any
+    public data: any,
+    public dialog: MatDialog
   ) {}
 
   formulario = new FormGroup({
@@ -57,6 +63,20 @@ export class DialogCambiarPasswordComponent {
           nuevaContrasenia: this.formulario.value.nuevaContrasenia as string
         }
         this.dialogRef.close({ data: perfilActualizado })
+      } else {
+        // Mostrar error de contraseñas no coinciden debajo en el formularo.
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: {
+            title: 'Error al editar la contraseña',
+            msg: 'Las contraseñas no coinciden'
+          }
+        })
+        dialogRef.afterClosed().subscribe(() => {
+          this.formulario.controls.nuevaContrasenia.reset()
+          this.formulario.controls.confirmarContrasenia.reset()
+        })
       }
     } else {
       this.formulario.markAllAsTouched()
