@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { ResumenPOST } from '../../models/resumenes'
 import { PedidoDia } from 'src/app/modules/pedidos/models'
 import { ResumenesService } from 'src/app/modules/carta/services/resumenes.service'
+import { MesasService } from '@pa/mesas/services'
 
 @Component({
   selector: 'pa-pedidos-dia',
@@ -28,6 +29,7 @@ export class PedidosDiaComponent implements OnInit {
     private _authService: AuthService,
     private _resumenService: ResumenesService,
     private _cookieService: CookieService,
+    private _mesaService: MesasService,
     public dialog: MatDialog
   ) {}
 
@@ -130,7 +132,13 @@ export class PedidosDiaComponent implements OnInit {
           data: { title: 'Pedir la cuenta', msg: res.msg }
         })
         dialogRef.afterClosed().subscribe(() => {
-          this._cookieService.delete('ClienteMesa', '/')
+          const cookieValue = this._cookieService.get('ClienteMesa')
+          const idMesa = Number(cookieValue.split(':')[1])
+          this._mesaService.habilitarMesa(idMesa).subscribe({
+            next: () => {
+              this._cookieService.delete('ClienteMesa', '/')
+            }
+          })
           window.location.href = '/'
         })
       },

@@ -25,6 +25,9 @@
       Observación: {{ data.observacion || "No hay." }}
     </p>
     <p>
+      Mesa: {{ data.idMesa || "No hay." }}
+    </p>
+    <p>
       Total: {{ calcularTotal() | currency:'ARS' }}
     </p>
   </div>

@@ -20,6 +20,7 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { DialogComponent } from '@pa/shared/components'
 import { CurrencyPipe, DOCUMENT } from '@angular/common'
 import { DialogConfirmPedidoComponent } from '../../components/dialog-confirm-pedido/dialog-confirm-pedido.component'
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'pa-productos',
@@ -32,6 +33,7 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   productos: any[] = []
   productosPorTipo: { [tipo: string]: any[] } = {}
   promociones: any[] = []
+  cookieValue!: string 
   mesa: IMesa | undefined
   usuarioLogueado = this._authService.loggedIn()
   faCartShopping = faCartShopping
@@ -60,6 +62,7 @@ export class ProductosComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private _mesaService: MesasService,
     private _authService: AuthService,
+    private _cookieService: CookieService,
     public dialog: MatDialog,
     private currencyPipe: CurrencyPipe,
     @Inject(DOCUMENT) private document: Document
@@ -98,10 +101,7 @@ export class ProductosComponent implements OnInit, AfterViewInit {
     this.route.fragment.subscribe((fragment) => {
       this.fragment = fragment
     })
-    // Suscribirse al parámetro de la URL para saber si el usuario escaneó una mesa
-    this.route.queryParams.subscribe((params) => {
-      params['id_mesa'] !== '0' && this.getMesa(params['id_mesa'])
-    })
+
     if (this.usuarioLogueado) {
       this.columnas = [
         { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
@@ -271,8 +271,11 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   }
 
   canPlaceOrder(): boolean {
-    // Comprueba si hay productos seleccionados (cant_selecc > 0), para que el botón "Realizar pedido" se habilite o deshabilite
-    return this.productos.some((producto) => producto.cant_selecc > 0)
+    // Comprueba si tiene una mesa asignada y hay productos seleccionados (cant_selecc > 0), para que el botón "Realizar pedido" se habilite o deshabilite
+    return (
+      this._cookieService.check('ClienteMesa') &&
+      this.productos.some((p) => p.cant_selecc > 0)
+    )
   }
 
   addToCart(producto: any) {
@@ -298,12 +301,13 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
   onSubmit(observacion: string) {
     this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
-    console.log(this.carrito)
     const carrito = this.carrito
+    this.cookieValue = this._cookieService.get('ClienteMesa')
+    const idMesa = Number(this.cookieValue.split(':')[1])
     // Muestra un dialog para confirmar el Pedido, mostrando los productos seleccionados con sus cantidades y la observación ingresada
     const dialogRef = this.dialog.open(DialogConfirmPedidoComponent, {
       width: '600px',
-      data: { carrito, observacion }
+      data: { carrito, observacion, idMesa }
       // data: this.confirmDialogMsg
       // data: { msg: element.productos }
     })

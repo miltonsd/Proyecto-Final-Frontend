@@ -23,10 +23,10 @@
   
   <button
     class="boton-flotante"
-    [ngClass]="{ 'fijo': posicionFija, 'absoluto': !posicionFija, 'deshabilitado': this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder() }"
+    [ngClass]="{ 'fijo': posicionFija, 'absoluto': !posicionFija, 'deshabilitado': !canPlaceOrder() }"
     [ngStyle]="{ 'bottom': posicionBoton }"
     type="submit"
-    [disabled]="this.mesa === undefined || !this.mesa.habilitada || !canPlaceOrder()"
+    [disabled]="!canPlaceOrder()"
     mat-raised-button
     color="primary"
     (click)="onSubmit(observacion.value)"

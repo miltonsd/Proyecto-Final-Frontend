@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { AuthService } from '../auth/services/auth.service'
 import { CookieService } from 'ngx-cookie-service'
 import { MediaMatcher } from '@angular/cdk/layout'
+import { MesasService } from '@pa/mesas/services'
 
 @Component({
   selector: 'pa-usuarios',
@@ -16,6 +17,7 @@ export class UsuariosComponent {
   constructor(
     public _authService: AuthService,
     private _cookieService: CookieService,
+    private _mesaService: MesasService,
     media: MediaMatcher
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 991px)')
@@ -29,8 +31,16 @@ export class UsuariosComponent {
   logout() {
     this._authService.logout().subscribe({
       next: () => {
-        this._cookieService.delete('ClienteMesa', '/')
-        localStorage.removeItem('token')
+        if (this._cookieService.check('ClienteMesa')) {
+          const cookieValue = this._cookieService.get('ClienteMesa')
+          const idMesa = Number(cookieValue.split(':')[1])
+          this._mesaService.habilitarMesa(idMesa).subscribe({
+            next: () => {
+              this._cookieService.delete('ClienteMesa', '/')
+            }
+          })
+        }
+        this._authService.borrarToken()
         window.location.href = '/'
       },
       error: (err) => {

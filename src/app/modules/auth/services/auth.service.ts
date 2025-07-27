@@ -32,8 +32,11 @@ export class AuthService {
 
   // Cerrar sesion de usuario
   logout() {
-    // localStorage.removeItem('token')
     return this._http.post(`${environment.apiUrl}/usuarios/logout`, null)
+  }
+
+  borrarToken() {
+    localStorage.removeItem('token')
   }
 
   // Comprueba el rol del usuario al hacer login

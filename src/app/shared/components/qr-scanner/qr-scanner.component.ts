@@ -1,8 +1,10 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
 import jsQR from 'jsqr'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { CookieService } from 'ngx-cookie-service'
 import { AuthService } from '@pa/auth/services'
+import { MesasService } from '@pa/mesas/services'
+import { DialogComponent } from '../dialog/dialog.component'
 
 @Component({
   selector: 'pa-qr-scanner',
@@ -17,8 +19,10 @@ export class QrScannerComponent implements AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<QrScannerComponent>,
+    public dialog: MatDialog,
     private _cookieService: CookieService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _mesaService: MesasService
   ) {}
 
   ngAfterViewInit() {
@@ -70,11 +74,36 @@ export class QrScannerComponent implements AfterViewInit {
 
   // El content es el string que contiene como información el código QR -> `ID de Mesa: ${id_mesa}`
   onQRCodeScanned(content: string) {
-    const usuario = this._authService.getCurrentUserId()
-    const mesa = content.slice(12)
-    console.log('Código QR escaneado:', content)
-    this._cookieService.set('ClienteMesa', `${usuario}:${mesa}`) // ClienteMesa = nombre de la cookie, clickear en mostrar decoficado por URL en 'Aplicacion' en Google Chrome
-    this.dialogRef.close({ data: content })
+    const idMesa = Number(content.slice(12))
+    this._mesaService.getOneMesa(idMesa).subscribe((m: any) => {
+      if (m.habilitada) {
+        const idUsuario = this._authService.getCurrentUserId()
+        this._cookieService.set('ClienteMesa', `${idUsuario}:${idMesa}`) // ClienteMesa = nombre de la cookie, clickear en mostrar decoficado por URL en 'Aplicacion' en Google Chrome
+        this._mesaService.deshabilitarMesa(idMesa).subscribe({
+          next: () => {
+            this.dialogRef.close({ data: true })
+          },
+          error: (err) => {
+            this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: `Error ${err.status}`, msg: err.error.msg }
+            })
+          }
+        })
+      } else {
+        this.dialog.open(DialogComponent, {
+          width: '375px',
+          autoFocus: true,
+          data: {
+            title: 'Error al escanear el código QR',
+            msg: 'La mesa no está habilitada para el escaneo porque ya se encuentra ocupada.'
+          }
+        })
+        this.onNoClick() // Cierra el dialogo
+        return
+      }
+    })
   }
 
   onNoClick(): void {
