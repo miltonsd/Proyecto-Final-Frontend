@@ -12,7 +12,7 @@ import { MesasService } from '@pa/mesas/services'
 export class UsuariosComponent {
   mostrarBarra!: boolean
   mobileQuery!: MediaQueryList
-  userOption = 1 // Por defecto 1: Info / 2: Histórico Reservas / 3: Histórico Pedidos / 4: Menues / 5: Pedidos del día
+  userOption = 1 // Por defecto 1: Info / 2: Histórico Reservas / 3: Histórico Pedidos / 4: Menús / 5: Pedidos del día
 
   constructor(
     public _authService: AuthService,

@@ -15,7 +15,7 @@ import { ProductosComponent } from './views/productos/productos.component'
 import { PedidosComponent } from './views/pedidos/pedidos.component'
 import { ReservasComponent } from './views/reservas/reservas.component'
 import { CategoriasComponent } from './views/categorias/categorias.component'
-import { MenuesComponent } from './views/menues/menues.component'
+import { MenusComponent } from './views/menus/menus.component'
 import { MesasComponent } from './views/mesas/mesas.component'
 import { RolesComponent } from './views/roles/roles.component'
 import { PromocionesComponent } from './views/promociones/promociones.component'
@@ -23,7 +23,7 @@ import { TiposProductoComponent } from './views/tipos-producto/tipos-producto.co
 
 // Dialogs components
 import { CategoriasDialogComponent } from './components/categorias-dialog/categorias-dialog.component'
-import { MenuesDialogComponent } from './components/menues-dialog/menues-dialog.component'
+import { MenusDialogComponent } from './components/menus-dialog/menus-dialog.component'
 import { MesasDialogComponent } from './components/mesas-dialog/mesas-dialog.component'
 import { PedidosDialogComponent } from './components/pedidos-dialog/pedidos-dialog.component'
 import { ProductosDialogComponent } from './components/productos-dialog/productos-dialog.component'
@@ -44,7 +44,7 @@ const views = [
   PedidosComponent,
   ReservasComponent,
   CategoriasComponent,
-  MenuesComponent,
+  MenusComponent,
   MesasComponent,
   RolesComponent,
   PromocionesComponent,
@@ -54,7 +54,7 @@ const views = [
 
 const dialogs = [
   CategoriasDialogComponent,
-  MenuesDialogComponent,
+  MenusDialogComponent,
   MesasDialogComponent,
   PedidosDialogComponent,
   ProductosDialogComponent,

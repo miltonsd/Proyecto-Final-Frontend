@@ -4,21 +4,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { ProductosService } from '@pa/carta/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
-import { MenuForm, MenuPOST } from '../../views/menues/models'
-import { Producto } from 'src/app/modules/admin/views/menues/models/menu'
+import { MenuForm, MenuPOST } from '../../views/menus/models'
+import { Producto } from 'src/app/modules/admin/views/menus/models/menu'
 
 @Component({
-  selector: 'pa-menues-dialog',
-  templateUrl: './menues-dialog.component.html',
-  styleUrls: ['./menues-dialog.component.css']
+  selector: 'pa-menus-dialog',
+  templateUrl: './menus-dialog.component.html',
+  styleUrls: ['./menus-dialog.component.css']
 })
-export class MenuesDialogComponent implements OnInit {
+export class MenusDialogComponent implements OnInit {
   menu!: any
   usuarios!: any[]
   productos!: any[]
 
   constructor(
-    public dialogRef: MatDialogRef<MenuesDialogComponent>,
+    public dialogRef: MatDialogRef<MenusDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _usuarioService: UsuariosService,
     private _productoService: ProductosService
@@ -79,9 +79,9 @@ export class MenuesDialogComponent implements OnInit {
         (p: any) => p.id_producto
       )
       // lista_productos: this.data.elemento?.lista_productos.map((p: any) => ({
-        // id_producto: p.id_producto,
-        // id_producto: p.id_producto,
-        // descripcion: p.descripcion
+      //  id_producto: p.id_producto,
+      //  id_producto: p.id_producto,
+      //  descripcion: p.descripcion
       // })) // 1° opción
       // lista_productos: this.data.elemento?.lista_productos.map((p: any) =>
       //    p.id_producto

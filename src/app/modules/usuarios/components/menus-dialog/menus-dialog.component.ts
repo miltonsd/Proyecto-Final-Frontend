@@ -18,18 +18,18 @@ import { PromocionesService } from '@pa/admin/services'
 import { DialogComponent } from '@pa/shared/components'
 
 @Component({
-  selector: 'pa-menuesdialog',
-  templateUrl: './menuesdialog.component.html',
-  styleUrls: ['./menuesdialog.component.css']
+  selector: 'pa-menus-dialog',
+  templateUrl: './menus-dialog.component.html',
+  styleUrls: ['./menus-dialog.component.css']
 })
-export class MenuesdialogComponent implements OnInit {
+export class MenusdialogComponent implements OnInit {
   menu!: any
   lista_productos!: any[]
   productosSeleccionados: any[] = []
   promociones: any[] = []
 
   constructor(
-    public dialogRef: MatDialogRef<MenuesdialogComponent>,
+    public dialogRef: MatDialogRef<MenusdialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _promocionService: PromocionesService,
     private _cookieService: CookieService,

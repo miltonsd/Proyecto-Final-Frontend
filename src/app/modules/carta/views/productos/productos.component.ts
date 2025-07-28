@@ -33,7 +33,7 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   productos: any[] = []
   productosPorTipo: { [tipo: string]: any[] } = {}
   promociones: any[] = []
-  cookieValue!: string 
+  cookieValue!: string
   mesa: IMesa | undefined
   usuarioLogueado = this._authService.loggedIn()
   faCartShopping = faCartShopping

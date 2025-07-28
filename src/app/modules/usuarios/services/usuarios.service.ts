@@ -46,7 +46,7 @@ export class UsuariosService {
     return this._http.get(`${this.url}/${id_usuario}/resumenes`)
   }
 
-  getAllMenuesUsuario(id_usuario: number) {
-    return this._http.get(`${this.url}/${id_usuario}/menues`)
+  getAllMenusUsuario(id_usuario: number) {
+    return this._http.get(`${this.url}/${id_usuario}/menus`)
   }
 }

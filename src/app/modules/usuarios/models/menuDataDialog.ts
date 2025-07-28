@@ -1,4 +1,4 @@
-import { MenuForm } from '../../admin/views/menues/models'
+import { MenuForm } from '../../admin/views/menus/models'
 
 export interface MenuDataDialog {
   menu?: MenuForm

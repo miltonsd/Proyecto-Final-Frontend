@@ -6,21 +6,21 @@ import { TableColumn } from '@pa/shared/models'
 import { MenuDataDialog } from '../../models/menuDataDialog'
 import { MatDialog } from '@angular/material/dialog'
 import { PedidosService } from '@pa/carta/services'
-import { MenuesdialogComponent } from '../../components/menuesdialog/menuesdialog.component'
-import { MenuesService } from '@pa/admin/services'
+import { MenusdialogComponent } from '../../components/menus-dialog/menus-dialog.component'
+import { MenusService } from '@pa/admin/services'
 import { DialogComponent } from '@pa/shared/components'
 import { CrearMenuDialogComponent } from '../../components/crear-menu-dialog/crear-menu-dialog.component'
-import { MenuTabla } from 'src/app/modules/admin/views/menues/models'
+import { MenuTabla } from 'src/app/modules/admin/views/menus/models'
 import { AdminDataDialog } from '@pa/admin/models'
 
 @Component({
-  selector: 'pa-menues',
-  templateUrl: './menues.component.html',
-  styleUrls: ['./menues.component.css']
+  selector: 'pa-menus',
+  templateUrl: './menus.component.html',
+  styleUrls: ['./menus.component.css']
 })
-export class MenuesComponent implements OnInit {
-  menues: any[] = []
-  // Defino las columnas de la tabla de histórico de menúes
+export class MenusComponent implements OnInit {
+  menus: any[] = []
+  // Defino las columnas de la tabla de histórico de menús
   columnas: TableColumn[] = [
     { name: 'Título', dataKey: 'titulo' },
     { name: 'Productos', dataKey: 'productos' },
@@ -40,7 +40,7 @@ export class MenuesComponent implements OnInit {
 
   constructor(
     private _usuariosService: UsuariosService,
-    private _menuService: MenuesService,
+    private _menuService: MenusService,
     private _authService: AuthService,
     private _pedidoService: PedidosService,
     public dialog: MatDialog
@@ -48,12 +48,12 @@ export class MenuesComponent implements OnInit {
 
   ngOnInit(): void {
     const id_usuario = this._authService.getCurrentUserId()
-    // Busca todos los menúes del usuario
+    // Busca todos los menús del usuario
     this._usuariosService
-      .getAllMenuesUsuario(id_usuario)
+      .getAllMenusUsuario(id_usuario)
       .pipe(
         map((res: any) => {
-          this.menues = Object.keys(res).map((m) => ({
+          this.menus = Object.keys(res).map((m) => ({
             id_menu: res[m].id_menu,
             titulo: res[m].titulo,
             lista_productos: res[m].Productos.map((prod: any) => {
@@ -78,7 +78,7 @@ export class MenuesComponent implements OnInit {
     const dataDialog: MenuDataDialog = {
       menu: menu
     }
-    const dialogRef = this.dialog.open(MenuesdialogComponent, {
+    const dialogRef = this.dialog.open(MenusdialogComponent, {
       width: '900px',
       data: dataDialog
     })
@@ -120,7 +120,7 @@ export class MenuesComponent implements OnInit {
           }
         })
         dialogRef.afterClosed().subscribe(() => {
-          window.location.href = '/perfil/menues'
+          window.location.href = '/perfil/menus'
         })
       },
       error: (err) => {
@@ -155,7 +155,7 @@ export class MenuesComponent implements OnInit {
               data: { title: 'Editar menú', msg: res.msg }
             })
             dialogRef.afterClosed().subscribe(() => {
-              window.location.href = '/perfil/menues'
+              window.location.href = '/perfil/menus'
             })
           },
           error: (err) => {
@@ -194,7 +194,7 @@ export class MenuesComponent implements OnInit {
               }
             })
             dialogRef.afterClosed().subscribe(() => {
-              window.location.href = '/perfil/menues'
+              window.location.href = '/perfil/menus'
             })
           },
           error: (err) => {

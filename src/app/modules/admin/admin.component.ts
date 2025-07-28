@@ -12,7 +12,7 @@ export class AdminComponent {
     { nombre: 'Productos', url: 'productos' },
     { nombre: 'Reservas', url: 'reservas' },
     { nombre: 'Categorías', url: 'categorias' },
-    { nombre: 'Menúes', url: 'menues' },
+    { nombre: 'Menús', url: 'menus' },
     { nombre: 'Mesas', url: 'mesas' },
     { nombre: 'Roles', url: 'roles' },
     { nombre: 'Tipos producto', url: 'tipos-producto' },

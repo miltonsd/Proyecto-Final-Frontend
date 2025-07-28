@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { UsuariosComponent } from './usuarios.component'
 import { PerfilComponent } from './views/perfil/perfil.component'
 import { HReservasComponent } from './views/h-reservas/h-reservas.component'
-import { MenuesComponent } from './views/menues/menues.component'
+import { MenusComponent } from './views/menus/menus.component'
 import { canActivateAuthGuard } from 'src/app/shared/guards/auth/can-activate-auth.guard'
 import { canActivateChildAuthGuard } from 'src/app/shared/guards/auth/can-activate-child-auth.guard'
 import { PedidosDiaComponent } from './views/pedidos-dia/pedidos-dia.component'
@@ -22,7 +22,7 @@ const routes: Routes = [
           { path: 'info', component: PerfilComponent },
           { path: 'reservas', component: HReservasComponent },
           { path: 'resumenes', component: HResumenesComponent },
-          { path: 'menues', component: MenuesComponent },
+          { path: 'menus', component: MenusComponent },
           { path: 'pedidos', component: PedidosDiaComponent }
         ]
       }

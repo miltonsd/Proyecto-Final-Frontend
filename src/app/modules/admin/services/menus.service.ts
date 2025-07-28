@@ -5,12 +5,12 @@ import { environment } from 'src/environments/environment'
 @Injectable({
   providedIn: 'root'
 })
-export class MenuesService {
-  url = environment.apiUrl + '/menues'
+export class MenusService {
+  url = environment.apiUrl + '/menus'
 
   constructor(private _http: HttpClient) {}
 
-  getAllMenues() {
+  getAllMenus() {
     return this._http.get(`${this.url}/`)
   }
 

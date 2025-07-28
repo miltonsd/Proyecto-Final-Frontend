@@ -1,6 +1,6 @@
 export * from './card-admin/card-admin.component'
 export * from './categorias-dialog/categorias-dialog.component'
-export * from './menues-dialog/menues-dialog.component'
+export * from './menus-dialog/menus-dialog.component'
 export * from './mesas-dialog/mesas-dialog.component'
 export * from './pedidos-dialog/pedidos-dialog.component'
 export * from './productos-dialog/productos-dialog.component'

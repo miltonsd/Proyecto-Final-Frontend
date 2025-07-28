@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core'
 import { TableColumn } from '@pa/shared/models'
 import { map } from 'rxjs'
-import { MenuesService } from '../../services/menues.service'
+import { MenusService } from '../../services/menus.service'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
-import { MenuesDialogComponent } from '../../components/menues-dialog/menues-dialog.component'
+import { MenusDialogComponent } from '../../components/menus-dialog/menus-dialog.component'
 import { AdminDataDialog } from '../../models/adminDataDialog'
 import { MenuTabla } from './models'
 
 @Component({
-  selector: 'pa-menues',
-  templateUrl: './menues.component.html',
-  styleUrls: ['./menues.component.css']
+  selector: 'pa-menus',
+  templateUrl: './menus.component.html',
+  styleUrls: ['./menus.component.css']
 })
-export class MenuesComponent implements OnInit {
+export class MenusComponent implements OnInit {
   datosTabla: any = []
   columnas: TableColumn[] = []
 
@@ -22,16 +22,16 @@ export class MenuesComponent implements OnInit {
     msg: '¿Estás seguro de eliminar el menú? Esta acción no se puede deshacer.'
   }
 
-  constructor(private _menuService: MenuesService, public dialog: MatDialog) {}
+  constructor(private _menuService: MenusService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.cargarMenues()
+    this.cargarMenus()
   }
 
-  cargarMenues() {
-    // Obtengo los datos de la tabla Menues
+  cargarMenus() {
+    // Obtengo los datos de la tabla Menús
     this._menuService
-      .getAllMenues()
+      .getAllMenus()
       .pipe(
         map((res: any) => {
           this.datosTabla = Object.keys(res).map((m) => ({
@@ -50,7 +50,7 @@ export class MenuesComponent implements OnInit {
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
-    // Defino las columnas de la tabla Menues
+    // Defino las columnas de la tabla Menús
     this.columnas = [
       { name: 'Título del menú', dataKey: 'titulo' },
       { name: 'Usuario', dataKey: 'usuario' },
@@ -76,7 +76,7 @@ export class MenuesComponent implements OnInit {
           }
         })
         dialogRef.afterClosed().subscribe(() => {
-          window.location.href = '/admin/menues'
+          window.location.href = '/admin/menus'
         })
       },
       error: (err) => {
@@ -96,7 +96,7 @@ export class MenuesComponent implements OnInit {
       editar: true,
       elemento: menu
     }
-    const dialogRef = this.dialog.open(MenuesDialogComponent, {
+    const dialogRef = this.dialog.open(MenusDialogComponent, {
       width: '900px',
       data: dataDialog
     })
@@ -114,7 +114,7 @@ export class MenuesComponent implements OnInit {
               }
             })
             dialogRef.afterClosed().subscribe(() => {
-              window.location.href = '/admin/menues'
+              window.location.href = '/admin/menus'
             })
           },
           error: (err) => {
@@ -135,7 +135,7 @@ export class MenuesComponent implements OnInit {
     const dataDialog: AdminDataDialog<MenuTabla> = {
       editar: false
     }
-    const dialogRef = this.dialog.open(MenuesDialogComponent, {
+    const dialogRef = this.dialog.open(MenusDialogComponent, {
       width: '900px',
       data: dataDialog
     })
@@ -153,7 +153,7 @@ export class MenuesComponent implements OnInit {
               }
             })
             dialogRef.afterClosed().subscribe(() => {
-              window.location.href = '/admin/menues'
+              window.location.href = '/admin/menus'
             })
           },
           error: (err) => {

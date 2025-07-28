@@ -8,7 +8,7 @@ import { map } from 'rxjs'
 import {
   MenuForm,
   MenuPOST
-} from 'src/app/modules/admin/views/menues/models/menu'
+} from 'src/app/modules/admin/views/menus/models/menu'
 
 @Component({
   selector: 'pa-crear-menu-dialog',
