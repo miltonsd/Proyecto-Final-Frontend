@@ -86,10 +86,9 @@ export class ReservasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Busca las reservas
-    this.getAllReservas() // Busca las reservas pendientes del usuario
+    this.getAllReservas() // Busca las reservas generales
     this.getAllMesas() // Busca las mesas para el formulario
-    this.getAllReservasUsuario()
+    this.getAllReservasUsuario() // Busca las reservas pendientes del usuario
     // Controla si hubo cambios en el input de hora
     this.formulario
       .get('fechaHoraCantidad')

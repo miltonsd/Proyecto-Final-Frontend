@@ -15,7 +15,7 @@ export class TokenInterceptorService {
     if (token) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}` // Agrega el token al encabezado Authorization
+          Authorization: token // Agrega el token al encabezado Authorization
         }
       })
     }
