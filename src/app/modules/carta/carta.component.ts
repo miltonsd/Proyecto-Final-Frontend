@@ -3,6 +3,7 @@ import { CartaService } from './services/carta.service'
 import { trigger, transition, animate, style } from '@angular/animations'
 
 import { map } from 'rxjs/operators'
+import { TipoProducto } from 'src/app/shared/models/tipoProducto'
 
 @Component({
   selector: 'pa-carta',
@@ -27,7 +28,7 @@ import { map } from 'rxjs/operators'
   ]
 })
 export class CartaComponent implements OnInit {
-  tiposP: any[] = []
+  tiposP: TipoProducto[] = []
 
   constructor(private _cartaService: CartaService) {}
 
@@ -49,7 +50,7 @@ export class CartaComponent implements OnInit {
         })
       )
       .subscribe({
-        error: (err: any) =>
+        error: (err) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
   }
