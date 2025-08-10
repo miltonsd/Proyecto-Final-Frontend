@@ -14,6 +14,10 @@ export class ProductosService {
     return this._http.get(`${this.url}/`)
   }
 
+  getProductosCarta() {
+    return this._http.get(`${this.url}/carta`)
+  }
+
   getOneProducto(id_producto: number) {
     return this._http.get(`${this.url}/${id_producto}`)
   }

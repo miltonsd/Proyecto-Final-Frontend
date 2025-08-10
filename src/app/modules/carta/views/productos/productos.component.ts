@@ -5,15 +5,13 @@ import {
   Inject,
   OnInit
 } from '@angular/core'
-import { IMesa, TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/models'
 import { ProductosService } from '../../services/productos.service'
 import { map } from 'rxjs/operators'
 import { PedidosService } from '../../services/pedidos.service'
 import { ActivatedRoute } from '@angular/router'
-import { MesasService } from '@pa/mesas/services'
 import { PedidoPOST } from 'src/app/modules/pedidos/models/pedido'
 import { AuthService } from '@pa/auth/services'
-import { PromocionesService } from '@pa/admin/services'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogDetalleProductoComponent } from '../../components/dialog-detalle-producto/dialog-detalle-producto.component'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
@@ -32,9 +30,7 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   carrito: any[] = []
   productos: any[] = []
   productosPorTipo: { [tipo: string]: any[] } = {}
-  promociones: any[] = []
   cookieValue!: string
-  mesa: IMesa | undefined
   usuarioLogueado = this._authService.loggedIn()
   faCartShopping = faCartShopping
 
@@ -50,17 +46,10 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   distanciaFooterVH = 15 // Distancia en porcentaje de la altura de la ventana
   distanciaFinal!: number // Distancia en píxeles antes de llegar al final de la página
 
-  msgConfirmacion = {
-    title: 'Confirmar eliminación del usuario',
-    msg: '¿Estás seguro de eliminar el usuario? Esta acción no se puede deshacer.'
-  }
-
   constructor(
     private _productoService: ProductosService,
     private _pedidoService: PedidosService,
-    private _promocionService: PromocionesService,
     private route: ActivatedRoute,
-    private _mesaService: MesasService,
     private _authService: AuthService,
     private _cookieService: CookieService,
     public dialog: MatDialog,
@@ -95,50 +84,16 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.getPromociones()
-    this.getAllProductos()
+    // Cargar los productos de la carta al iniciar el componente
+    this.cargarProductosCarta()
+
     // Guardar el fragmento sin intentar desplazarse aún
     this.route.fragment.subscribe((fragment) => {
       this.fragment = fragment
     })
 
-    if (this.usuarioLogueado) {
-      this.columnas = [
-        { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
-        {
-          name: 'Precio unitario',
-          dataKey: 'precio',
-          isCurrency: true
-        },
-        {
-          name: ' ',
-          dataKey: 'actionButtons',
-          addButton: true,
-          removeButton: true
-        },
-        // Buscar la forma que solo se muestre cuando el usuario este logueado
-        {
-          name: 'Cantidad seleccionada',
-          dataKey: 'cant_selecc'
-        }
-      ]
-    } else {
-      // En caso de que el usuario no esté logueado
-      this.columnas = [
-        { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
-        {
-          name: 'Precio unitario',
-          dataKey: 'precio',
-          isCurrency: true
-        },
-        {
-          name: ' ',
-          dataKey: 'actionButtons',
-          addButton: true,
-          removeButton: true
-        }
-      ]
-    }
+    // Se definen las columnas de la tabla según si el usuario está logueado o no
+    this.columnas = this.getColumnas(this.usuarioLogueado)
   }
 
   ngAfterViewInit(): void {
@@ -158,56 +113,28 @@ export class ProductosComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getPromociones() {
-    this._promocionService
-      .getAllPromociones()
-      .pipe(
-        map((res: any) => {
-          this.promociones = Object.keys(res).map((p) => ({
-            id_promocion: res[p].id_promocion,
-            porcentaje_desc: res[p].porcentaje_desc,
-            fecha_desde: res[p].fecha_desde,
-            fecha_hasta: res[p].fecha_hasta,
-            lista_productos: res[p].Productos.map((prod: any) => {
-              return { id_producto: prod.id_producto }
-            })
-          }))
-        })
-      )
-      .subscribe({
-        error: (err: any) =>
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-      })
-  }
-
-  getMesa(id: string) {
-    this._mesaService.getOneMesa(Number(id)).subscribe({
-      next: (res: any) => {
-        this.mesa = res
-        console.log(res) // Este console.log muestra la mesa traída desde el back (Ver en consola del navegodor)
-      },
-      error: (err: any) => {
-        console.error(`Código de error ${err.status}: `, err.error.msg)
-      }
-    })
-  }
-
-  getAllProductos() {
+  cargarProductosCarta() {
     this._productoService
-      .getAllProductos()
+      .getProductosCarta()
       .pipe(
         map((res: any) => {
           this.productos = Object.keys(res).map((p) => {
-            const { precioF, descripcionF } = this.calcularPrecioYDescripcion(
-              res[p]
-            )
             return {
               id_producto: res[p].id_producto,
-              descripcion: descripcionF,
-              precio: precioF,
+              descripcion: res[p].promocion
+                ? `${res[p].descripcion} (${
+                    res[p].promocion.porcentaje_descuento * 100
+                  }% OFF- Antes: ${this.currencyPipe.transform(
+                    res[p].precio_original,
+                    'ARS'
+                  )})`
+                : res[p].descripcion,
+              precio: res[p].promocion
+                ? res[p].promocion.precio_con_descuento
+                : res[p].precio_original,
               stock: res[p].stock,
-              id_tipoProducto: res[p].TipoProducto.id_tipoProducto,
-              tipoProducto: res[p].TipoProducto.descripcion,
+              id_tipoProducto: res[p].id_tipoProducto,
+              tipoProducto: res[p].tipoProducto,
               imagen: this._productoService.getProductoImagen(res[p].imagen),
               // El metodo getProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
               detalle: res[p].detalle,
@@ -221,36 +148,6 @@ export class ProductosComponent implements OnInit, AfterViewInit {
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
-  }
-
-  // Método para calcular el precio final y la descripción
-  calcularPrecioYDescripcion(producto: any): {
-    precioF: number
-    descripcionF: string
-  } {
-    // Valida si el producto tiene una promoción vigente
-    const promocion = this.promociones.find(
-      (prom) =>
-        prom.lista_productos.some(
-          // El some equivale al includes pero se usa cuando tenes un array de objetos
-          (prod: any) => prod.id_producto === producto.id_producto
-        ) &&
-        new Date(prom.fecha_desde) <= new Date() &&
-        new Date() <= new Date(prom.fecha_hasta)
-    )
-    if (promocion) {
-      return {
-        descripcionF: `${producto.descripcion} (${
-          promocion.porcentaje_desc * 100
-        }% OFF- Antes: ${this.currencyPipe.transform(producto.precio, 'ARS')})`,
-        precioF: producto.precio - producto.precio * promocion.porcentaje_desc
-      }
-    } else {
-      return {
-        descripcionF: producto.descripcion,
-        precioF: producto.precio
-      }
-    }
   }
 
   // Este metodo nos permite agrupar (filtrar) los productos de forma dinamica según su tipo.
@@ -268,6 +165,25 @@ export class ProductosComponent implements OnInit, AfterViewInit {
   // Método para obtener las claves del objeto productosPorTipo en el HTML
   getTipos() {
     return Object.keys(this.productosPorTipo)
+  }
+
+  getColumnas(usuarioLogueado: boolean) {
+    const columnasBase: TableColumn[] = [
+      { name: 'Descripción', dataKey: 'descripcion', showDetails: true },
+      { name: 'Precio unitario', dataKey: 'precio', isCurrency: true }
+    ]
+    if (usuarioLogueado) {
+      columnasBase.push(
+        { name: 'Cantidad seleccionada', dataKey: 'cant_selecc' },
+        {
+          name: ' ',
+          dataKey: 'actionButtons',
+          addButton: true,
+          removeButton: true
+        }
+      )
+    }
+    return columnasBase
   }
 
   canPlaceOrder(): boolean {
@@ -298,84 +214,72 @@ export class ProductosComponent implements OnInit, AfterViewInit {
     })
   }
 
-  // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
-  onSubmit(observacion: string) {
+  onSubmit() {
+    // Almacenar en el carrito[] todos los productos de cada lista que tengan cant > 0 para pasar al modulo de carrito
     this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
-    const carrito = this.carrito
+
+    // En caso de que el carrito esté vacío, muestra un mensaje de error y no permite realizar el pedido
+    if (this.carrito.length === 0) {
+      this.dialog.open(DialogComponent, {
+        width: '375px',
+        autoFocus: true,
+        data: { title: 'Carrito vacío', msg: 'No hay productos seleccionados.' }
+      })
+      return
+    }
+
+    // Obtiene el id_usuario y el id_mesa desde la cookie
     this.cookieValue = this._cookieService.get('ClienteMesa')
-    const idMesa = Number(this.cookieValue.split(':')[1])
-    // Muestra un dialog para confirmar el Pedido, mostrando los productos seleccionados con sus cantidades y la observación ingresada
+    const [idUsuario, idMesa] = this.cookieValue.split(':').map(Number)
+    const idUsuarioLogueado = this._authService.getCurrentUserId()
+
+    // Si no coinciden ambos id_usuario, muestra un mensaje de error y no permite realizar el pedido
+    if (idUsuario !== idUsuarioLogueado) {
+      this.dialog.open(DialogComponent, {
+        width: '375px',
+        autoFocus: true,
+        data: {
+          title: 'Error de usuario',
+          msg: 'El usuario de la mesa no coincide con el usuario logueado. Por favor, inicie sesión nuevamente.'
+        }
+      })
+      return
+    }
+
+    // Dialog para confirmar el Pedido, mostrando los productos seleccionados con sus cantidades y la observación ingresada
     const dialogRef = this.dialog.open(DialogConfirmPedidoComponent, {
       width: '600px',
-      data: { carrito, observacion, idMesa }
-      // data: this.confirmDialogMsg
-      // data: { msg: element.productos }
+      data: { carrito: this.carrito, idMesa }
     })
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        // this.carrito = this.productos.filter((p) => p.cant_selecc > 0)
-        if (this.carrito.length > 0 && this.mesa?.habilitada) {
-          this.carrito.forEach((p) => {
-            p.stock -= p.cant_selecc
-            this._productoService.updateProducto(p.id_producto, p.stock)
-          })
-          // const pedido: PedidoPOST = {
-          const pedido: PedidoPOST = {
-            fechaHora: new Date(),
-            montoImporte: this.calculaMonto(),
-            id_usuario: this._authService.getCurrentUserId(), // Se asigna el id_usuario correspondiente para el usuario logueado
-            id_mesa: this.mesa?.id_mesa,
-            lista_productos: this.carrito,
-            observacion: observacion
-          }
-          this._pedidoService.createPedido(pedido).subscribe({
-            next: (res: any) => {
-              // if (localStorage.getItem('carrito') !== null) {
-              //   const pedidoViejo = localStorage.getItem('carrito') as string
-              //   const nuevoPedido = this.carrito
-              //   this.carrito = JSON.parse(pedidoViejo)
-              //   this.carrito.push(...nuevoPedido)
-              //   console.log('Nueva lista: ', this.carrito)
-              // }
-              // localStorage.setItem('carrito', JSON.stringify(this.carrito)) //Para ver el localStorage ir al inspeccionar del buscador - Aplicación - Almacenamiento local
-
-              console.log(res)
-              //Mostar detalles del pedido (productos seleccionados con sus cants)
-              const dialogRef = this.dialog.open(DialogComponent, {
-                width: '375px',
-                autoFocus: true,
-                data: { title: 'Realizar pedido', msg: res.msg }
-              })
-              dialogRef.afterClosed().subscribe(() => {
-                window.location.href = '/'
-              })
-            },
-            error: (err: any) => {
-              console.error(`Código de error ${err.status}: `, err.error.msg)
-            }
-          })
+    // Al cerrar el dialog, si se confirma la acción, se crea el pedido
+    dialogRef.afterClosed().subscribe((respuesta) => {
+      if (respuesta.confirmado) {
+        // Crea el pedido con los datos necesarios
+        const pedido: PedidoPOST = {
+          fechaHora: new Date(),
+          montoImporte: respuesta.montoImporte,
+          id_usuario: idUsuario, // Se asigna el id_usuario de la Cookie
+          id_mesa: idMesa, // Se asigna el id_mesa de la Cookie
+          lista_productos: this.carrito,
+          observacion: respuesta.observacion || 'No hay.'
         }
-        // this.deleteAction.emit(element)
+
+        this._pedidoService.createPedido(pedido).subscribe({
+          next: (res: any) => {
+            const dialogRef = this.dialog.open(DialogComponent, {
+              width: '375px',
+              autoFocus: true,
+              data: { title: 'Realizar pedido', msg: res.msg }
+            })
+            dialogRef.afterClosed().subscribe(() => {
+              window.location.href = '/'
+            })
+          },
+          error: (err: any) => {
+            console.error(`Código de error ${err.status}: `, err.error.msg)
+          }
+        })
       }
     })
-
-    // const dialogRef = this.dialog.open(DialogComponent, {
-    //   width: '300 px',
-    //   data: {
-    //     title: 'Eliminar usuario',
-    //     msg: res.msg
-    //   }
-    // })
-    // dialogRef.afterClosed().subscribe(() => {
-    //   window.location.href = '/admin/usuarios'
-    // })
-  }
-
-  calculaMonto(): number {
-    let monto = 0
-    this.carrito.forEach((p) => {
-      monto += p.precio * p.cant_selecc
-    })
-    return monto
   }
 }

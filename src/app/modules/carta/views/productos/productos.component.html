@@ -16,10 +16,6 @@
 </div>
 
 <div class="pedido" *ngIf="usuarioLogueado">
-  <mat-form-field class="observaciones">
-    <mat-label>Observaciones del pedido</mat-label>
-    <textarea matInput #observacion></textarea>
-  </mat-form-field>
   
   <button
     class="boton-flotante"
@@ -29,7 +25,7 @@
     [disabled]="!canPlaceOrder()"
     mat-raised-button
     color="primary"
-    (click)="onSubmit(observacion.value)"
+    (click)="onSubmit()"
     >
     
     <fa-icon [icon]="faCartShopping"></fa-icon> Realizar pedido

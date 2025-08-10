@@ -37,6 +37,12 @@ p {
   padding-inline: 7%
 }
 
+.observaciones {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
 .boton {
   display: flex;
   justify-content: space-evenly;

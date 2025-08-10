@@ -21,19 +21,29 @@
         </tr>
       </tbody>
     </table>
-    <p>
-      Observación: {{ data.observacion || "No hay." }}
-    </p>
+    <mat-form-field class="observaciones">
+      <mat-label>Observaciones del pedido</mat-label>
+      <textarea matInput 
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="5" 
+        maxlength="500" 
+        #observacion
+        id="observacion"
+      ></textarea>
+      <mat-hint align="end">{{observacion.value.length}}/500</mat-hint>
+    </mat-form-field>
     <p>
       Mesa: {{ data.idMesa || "No hay." }}
     </p>
     <p>
-      Total: {{ calcularTotal() | currency:'ARS' }}
+      Total: {{ montoImporte | currency:'ARS' }}
     </p>
   </div>
   
   <div class="boton">
-    <button mat-raised-button type="button" color="primary" [mat-dialog-close]="true">Realizar pedido</button>
+    <button mat-raised-button type="button" color="primary" (click)="onSubmit()">Realizar pedido</button>
     <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Cancelar</button>
   </div>
   <br>
