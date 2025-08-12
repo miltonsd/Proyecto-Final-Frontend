@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import * as QRCode from 'qrcode'
+import { Mesa } from '@pa/shared/interfaces/mesa/mesa.interface'
 
 @Injectable({
   providedIn: 'root'
 })
-export class MesasService {
+export class MesaService {
   url = environment.apiUrl + '/mesas'
 
   constructor(private _http: HttpClient) {}
@@ -16,7 +17,7 @@ export class MesasService {
   }
 
   getOneMesa(id_mesa: number) {
-    return this._http.get(`${this.url}/${id_mesa}`)
+    return this._http.get<Mesa>(`${this.url}/${id_mesa}`)
   }
 
   createMesa(mesa: any) {

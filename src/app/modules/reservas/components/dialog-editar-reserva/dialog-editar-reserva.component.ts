@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { Observable, map } from 'rxjs'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import { ReservaPOST, ReservaTabla } from '@pa/reservas/models'
 import { IMesa } from '@pa/shared/models'
 
@@ -26,7 +26,7 @@ export class DialogEditarReservaComponent implements OnInit {
   mesaSeleccionada!: IMesa | undefined
   constructor(
     public dialogRef: MatDialogRef<DialogEditarReservaComponent>,
-    private _mesasService: MesasService,
+    private _mesaService: MesaService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
@@ -72,7 +72,7 @@ export class DialogEditarReservaComponent implements OnInit {
 
   getAllMesas(): Observable<void> {
     //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
-    return this._mesasService.getAllMesas().pipe(
+    return this._mesaService.getAllMesas().pipe(
       map((res: any) => {
         this.mesas = Object.keys(res).map((m) => ({
           id_mesa: res[m].id_mesa,

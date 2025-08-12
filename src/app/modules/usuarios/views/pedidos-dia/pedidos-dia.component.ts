@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { ResumenPOST } from '../../models/resumenes'
 import { PedidoDia } from 'src/app/modules/pedidos/models'
 import { ResumenesService } from 'src/app/modules/carta/services/resumenes.service'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 
 @Component({
   selector: 'pa-pedidos-dia',
@@ -29,7 +29,7 @@ export class PedidosDiaComponent implements OnInit {
     private _authService: AuthService,
     private _resumenService: ResumenesService,
     private _cookieService: CookieService,
-    private _mesaService: MesasService,
+    private _mesaService: MesaService,
     public dialog: MatDialog
   ) {}
 

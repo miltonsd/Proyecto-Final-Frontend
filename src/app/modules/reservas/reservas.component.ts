@@ -4,7 +4,7 @@ import 'moment/locale/es'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { ReservasService } from '@pa/reservas/services'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import { IMesa, TableColumn } from '@pa/shared/models'
 import { ReservaData, ReservaPOST, ReservaTabla } from '@pa/reservas/models'
 import { map } from 'rxjs'
@@ -70,7 +70,7 @@ export class ReservasComponent implements OnInit {
 
   constructor(
     private _reservasService: ReservasService,
-    private _mesasService: MesasService,
+    private _mesaService: MesaService,
     private _authService: AuthService,
     private _usuarioService: UsuariosService,
     public dialog: MatDialog,
@@ -177,7 +177,7 @@ export class ReservasComponent implements OnInit {
 
   getAllMesas() {
     //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
-    this._mesasService
+    this._mesaService
       .getAllMesas()
       .pipe(
         map((res: any) => {

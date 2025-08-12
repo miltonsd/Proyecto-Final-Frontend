@@ -8,7 +8,7 @@ import {
 } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { ProductosService } from '@pa/carta/services'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'
 import {
@@ -37,7 +37,7 @@ export class PedidosDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _usuarioService: UsuariosService,
     private _productoService: ProductosService,
-    private _mesasService: MesasService,
+    private _mesaService: MesaService,
     private _promocionService: PromocionesService,
     private fb: FormBuilder
   ) {}
@@ -114,7 +114,7 @@ export class PedidosDialogComponent implements OnInit {
         error: (err: any) =>
           console.error(`Código de error ${err.status}: `, err.error.msg)
       })
-    this._mesasService
+    this._mesaService
       .getAllMesas()
       .pipe(
         map((res: any) => {

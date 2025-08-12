@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { MesaForm, MesaPOST } from '@pa/mesas/models'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 
 @Component({
   selector: 'pa-mesas-dialog',
@@ -15,7 +15,7 @@ export class MesasDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<MesasDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _mesaService: MesasService
+    private _mesaService: MesaService
   ) {}
 
   formulario = new FormGroup({

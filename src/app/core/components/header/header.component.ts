@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { AuthService } from '@pa/auth/services'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import { CookieService } from 'ngx-cookie-service'
 import { QrScannerComponent } from 'src/app/shared/components/qr-scanner/qr-scanner.component'
 
@@ -15,7 +15,7 @@ export class HeaderComponent {
     public _authService: AuthService,
     public dialog: MatDialog,
     private _cookieService: CookieService,
-    private _mesaService: MesasService
+    private _mesaService: MesaService
   ) {}
 
   logout() {

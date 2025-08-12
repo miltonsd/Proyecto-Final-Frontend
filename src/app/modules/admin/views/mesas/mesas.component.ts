@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { TableColumn } from '@pa/shared/models'
 import { map } from 'rxjs'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '@pa/shared/components'
 import { MesasDialogComponent } from '../../components/mesas-dialog/mesas-dialog.component'
@@ -23,7 +23,7 @@ export class MesasComponent implements OnInit {
     msg: '¿Estás seguro de eliminar la mesa? Esta acción no se puede deshacer.'
   }
 
-  constructor(private _mesaService: MesasService, public dialog: MatDialog) {}
+  constructor(private _mesaService: MesaService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.cargarMesas()

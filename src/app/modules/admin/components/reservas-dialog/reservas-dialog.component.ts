@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { Observable, map } from 'rxjs'
 import { UsuariosService } from '@pa/usuarios/services'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import {
   ReservaData,
   ReservaForm,
@@ -32,7 +32,7 @@ export class ReservasDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ReservasDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: ReservaDataDialog<ReservaTabla, ReservaData>,
-    private _mesaService: MesasService,
+    private _mesaService: MesaService,
     private _usuarioService: UsuariosService
   ) {}
 

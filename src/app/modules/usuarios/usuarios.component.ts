@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { AuthService } from '../auth/services/auth.service'
 import { CookieService } from 'ngx-cookie-service'
 import { MediaMatcher } from '@angular/cdk/layout'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 
 @Component({
   selector: 'pa-usuarios',
@@ -17,7 +17,7 @@ export class UsuariosComponent {
   constructor(
     public _authService: AuthService,
     private _cookieService: CookieService,
-    private _mesaService: MesasService,
+    private _mesaService: MesaService,
     media: MediaMatcher
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 991px)')

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { MesasService } from './services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import { TableColumn } from '@pa/shared/models'
 import { map } from 'rxjs'
 import { DialogComponent } from '@pa/shared/components'
@@ -14,7 +14,7 @@ export class MesasComponent implements OnInit {
   datosMesas: any[] = []
   columnas: TableColumn[] = []
 
-  constructor(private _mesaService: MesasService, public dialog: MatDialog) {}
+  constructor(private _mesaService: MesaService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.cargarMesas()

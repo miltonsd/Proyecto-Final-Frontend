@@ -1,14 +1,14 @@
 import { inject } from '@angular/core'
 import { CanActivateFn, Router } from '@angular/router'
 import { AuthService } from '@pa/auth/services'
-import { MesasService } from '@pa/mesas/services'
+import { MesaService } from '@pa/shared/services/mesa.service'
 import { CookieService } from 'ngx-cookie-service'
 
 // canActivate (Se usa dentro de cada modulo específico) -> Valida la continuidad de la navegación a una determinada página que implemente este guard (TRUE => seguir navegando)
 export const canActivateAuthGuard: CanActivateFn = () => {
   const _authService = inject(AuthService)
   const _cookieService = inject(CookieService)
-  const _mesaService = inject(MesasService)
+  const _mesaService = inject(MesaService)
   const _router = inject(Router)
   // Comprueba en el service de Auth si el usuario está logueado
   if (_authService.loggedIn()) {
