@@ -3,7 +3,7 @@ import * as moment from 'moment'
 import 'moment/locale/es'
 
 import { UsuariosService } from '../../services/usuarios.service'
-import { AuthService } from '@pa/auth/services'
+import { AuthService } from '@pa/shared/services/auth.service'
 import { map } from 'rxjs'
 import { CookieService } from 'ngx-cookie-service'
 import { ConfirmDialogComponent, DialogComponent } from '@pa/shared/components'

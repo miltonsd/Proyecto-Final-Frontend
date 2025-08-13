@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { map } from 'rxjs'
 import { UsuariosService } from '../../services/usuarios.service'
-import { AuthService } from '@pa/auth/services'
+import { AuthService } from '@pa/shared/services/auth.service'
 import { TableColumn } from '@pa/shared/models'
 import { MenuDataDialog } from '../../models/menuDataDialog'
 import { MatDialog } from '@angular/material/dialog'

@@ -1,6 +1,6 @@
 import { inject } from '@angular/core'
 import { CanActivateFn, Router } from '@angular/router'
-import { AuthService } from '@pa/auth/services'
+import { AuthService } from '@pa/shared/services/auth.service'
 import { MesaService } from '@pa/shared/services/mesa.service'
 import { CookieService } from 'ngx-cookie-service'
 

@@ -11,7 +11,7 @@ import { map } from 'rxjs'
 import { DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
-import { AuthService } from '../auth/services/auth.service'
+import { AuthService } from '@pa/shared/services/auth.service'
 import { UsuariosService } from '../usuarios/services/usuarios.service'
 
 moment.locale('es')

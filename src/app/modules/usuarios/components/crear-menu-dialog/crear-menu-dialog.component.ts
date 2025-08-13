@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
-import { AuthService } from '@pa/auth/services'
+import { AuthService } from '@pa/shared/services/auth.service'
 import { ProductosService } from '@pa/carta/services'
 import { UsuariosService } from '@pa/usuarios/services'
 import { map } from 'rxjs'

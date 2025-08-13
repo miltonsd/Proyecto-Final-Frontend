@@ -16,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog'
 // Shared
 import { TableButtonAction, TableColumn } from '@pa/shared/models'
 import { ConfirmDialogComponent } from '@pa/shared/components'
-import { AuthService } from '@pa/auth/services'
+import { AuthService } from '@pa/shared/services/auth.service'
 import { faArrowPointer } from '@fortawesome/free-solid-svg-icons'
 
 @Component({

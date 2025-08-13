@@ -1,6 +1,6 @@
 import { inject } from '@angular/core'
 import { CanActivateFn, Router } from '@angular/router'
-import { AuthService } from '@pa/auth/services'
+import { AuthService } from '@pa/shared/services/auth.service'
 
 export const canActivateCocinaOMozoGuard: CanActivateFn = () => {
   const _authService = inject(AuthService)

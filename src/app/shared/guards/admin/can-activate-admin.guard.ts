@@ -1,6 +1,6 @@
 import { inject } from '@angular/core'
 import { CanActivateFn, Router } from '@angular/router'
-import { AuthService } from '@pa/auth/services'
+import { AuthService } from '@pa/shared/services/auth.service'
 
 // canActivate (Se usa dentro de cada modulo específico) -> Valida la continuidad de la navegación a una determinada página que implemente este guard (TRUE => seguir navegando)
 export const canActivateAdminGuard: CanActivateFn = () => {

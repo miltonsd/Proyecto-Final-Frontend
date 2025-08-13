@@ -2,8 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import { AuthService } from '@pa/auth/services'
-import { DialogComponent } from '@pa/shared/components'
+import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
+import { AuthService } from '@pa/shared/services/auth.service'
 
 @Component({
   selector: 'pa-login',

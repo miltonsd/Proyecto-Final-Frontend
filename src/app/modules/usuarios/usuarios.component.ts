@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { AuthService } from '../auth/services/auth.service'
+import { AuthService } from '@pa/shared/services/auth.service'
 import { CookieService } from 'ngx-cookie-service'
 import { MediaMatcher } from '@angular/cdk/layout'
 import { MesaService } from '@pa/shared/services/mesa.service'
