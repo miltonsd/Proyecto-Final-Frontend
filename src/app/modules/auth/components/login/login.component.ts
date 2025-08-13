@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
+import { UsuarioLogin } from '@pa/shared/interfaces/auth/usuario-login.interface'
 import { AuthService } from '@pa/shared/services/auth.service'
 
 @Component({
@@ -34,20 +35,22 @@ export class LoginComponent {
   @Output() authOptionSwitch: EventEmitter<number> = new EventEmitter<number>()
 
   constructor(
-    private _router: Router,
+    public dialog: MatDialog,
     private _authService: AuthService,
-    public dialog: MatDialog
+    private _router: Router
   ) {}
 
   onSubmit() {
     if (this.formulario.valid) {
-      const usuario = {
-        email: this.formulario.value.email,
-        contraseña: this.formulario.value.contrasenia
+      const usuario: UsuarioLogin = {
+        email: this.formulario.value.email as string,
+        contraseña: this.formulario.value.contrasenia as string
       }
+
       this._authService.login(usuario).subscribe({
-        next: (res: any) => {
-          localStorage.setItem('token', res.token)
+        next: () => {
+          // Luego del login exitoso, navega a la página de inicio
+          this._router.navigate(['/'])
         },
         error: (err) => {
           const dialogRef = this.dialog.open(DialogComponent, {
@@ -58,10 +61,6 @@ export class LoginComponent {
           dialogRef.afterClosed().subscribe(() => {
             this.formulario.reset()
           })
-        },
-        complete: () => {
-          // this._router.navigate(['/store'])
-          window.location.href = '/'
         }
       })
     } else {

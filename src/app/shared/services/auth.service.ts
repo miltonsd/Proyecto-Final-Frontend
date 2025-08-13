@@ -2,20 +2,33 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 import { environment } from 'src/environments/environment'
+import { LoginResponse } from '@pa/shared/interfaces/auth/login-response.interface'
+import { UsuarioLogin } from '@pa/shared/interfaces/auth/usuario-login.interface'
 import jwtDecode from 'jwt-decode'
+import { BehaviorSubject, finalize, tap } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  // Emite el estado actual del login
+  loggedInStatus = new BehaviorSubject<boolean>(this.loggedIn())
+
   constructor(private _http: HttpClient) {}
 
   register(usuario: any) {
     return this._http.post(`${environment.apiUrl}/usuarios/register`, usuario)
   }
 
-  login(usuario: any) {
-    return this._http.post(`${environment.apiUrl}/usuarios/login`, usuario)
+  login(usuario: UsuarioLogin) {
+    return this._http
+      .post<LoginResponse>(`${environment.apiUrl}/usuarios/login`, usuario)
+      .pipe(
+        tap((res: LoginResponse) => {
+          localStorage.setItem('token', res.token)
+          this.loggedInStatus.next(true) // Notifica que el login fue exitoso
+        })
+      )
   }
 
   resetPassword(usuario: any) {
@@ -32,11 +45,16 @@ export class AuthService {
 
   // Cerrar sesion de usuario
   logout() {
-    return this._http.post(`${environment.apiUrl}/usuarios/logout`, null)
+    return this._http.post(`${environment.apiUrl}/usuarios/logout`, null).pipe(
+      finalize(() => {
+        this.borrarToken()
+      })
+    )
   }
 
   borrarToken() {
     localStorage.removeItem('token')
+    this.loggedInStatus.next(false)
   }
 
   // Comprueba el rol del usuario al hacer login
