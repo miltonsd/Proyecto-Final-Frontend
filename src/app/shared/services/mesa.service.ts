@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import * as QRCode from 'qrcode'
+import { map } from 'rxjs'
 import { Mesa } from '@pa/shared/interfaces/mesa/mesa.interface'
+import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,23 @@ export class MesaService {
   constructor(private _http: HttpClient) {}
 
   getAllMesas() {
-    return this._http.get(`${this.url}/`)
+    return this._http.get<Mesa[]>(`${this.url}/`)
+  }
+
+  getAllMesasReserva() {
+    return this._http.get<Mesa[]>(`${this.url}/`).pipe(
+      map((mesas) => {
+        return mesas.map(
+          (mesa) =>
+            ({
+              id_mesa: mesa.id_mesa,
+              capacidad: mesa.capacidad,
+              ubicacion: mesa.ubicacion,
+              disponible: true
+            } as MesaReserva)
+        )
+      })
+    )
   }
 
   getOneMesa(id_mesa: number) {

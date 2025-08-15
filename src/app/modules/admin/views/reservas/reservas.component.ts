@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core'
+import { MatDialog } from '@angular/material/dialog'
 import * as moment from 'moment'
 import 'moment/locale/es'
 
 import { map } from 'rxjs'
-import { MatDialog } from '@angular/material/dialog'
 
 import { ReservaDataDialog } from '@pa/admin/models'
 import { ReservasDialogComponent } from '@pa/admin/components'
-import { ReservasService } from '@pa/reservas/services'
 import { ReservaData, ReservaTabla } from '@pa/reservas/models'
 import { DialogComponent } from '@pa/shared/components'
+import { ReservaService } from '@pa/shared/services/reserva.service'
 import { TableColumn } from '@pa/shared/models'
 
 @Component({
@@ -28,7 +28,7 @@ export class ReservasComponent implements OnInit {
   }
 
   constructor(
-    private _reservaService: ReservasService,
+    private _reservaService: ReservaService,
     public dialog: MatDialog
   ) {}
 

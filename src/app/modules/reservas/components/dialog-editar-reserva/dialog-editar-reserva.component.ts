@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { Observable, map } from 'rxjs'
 import { MesaService } from '@pa/shared/services/mesa.service'
 import { ReservaPOST, ReservaTabla } from '@pa/reservas/models'
-import { IMesa } from '@pa/shared/models'
+import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
 
 @Component({
   selector: 'pa-dialog-editar-reserva',
@@ -18,12 +18,12 @@ export class DialogEditarReservaComponent implements OnInit {
   @Output() fechaHora = ''
   @Output() cantidad = 1
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
-  mesas: IMesa[] = []
+  mesas: MesaReserva[] = []
   reservaEditada!: ReservaPOST
   reservas: ReservaTabla[] = []
   minDate: Date
   maxDate: Date
-  mesaSeleccionada!: IMesa | undefined
+  mesaSeleccionada!: MesaReserva | undefined
   constructor(
     public dialogRef: MatDialogRef<DialogEditarReservaComponent>,
     private _mesaService: MesaService,
@@ -78,7 +78,7 @@ export class DialogEditarReservaComponent implements OnInit {
           id_mesa: res[m].id_mesa,
           capacidad: res[m].capacidad,
           ubicacion: res[m].ubicacion,
-          habilitada: this.cantidad > res[m].capacidad ? false : true
+          disponible: this.cantidad > res[m].capacidad ? false : true
         }))
       })
     )
@@ -103,15 +103,15 @@ export class DialogEditarReservaComponent implements OnInit {
           // Vuelve a poner las mesas como disponibles
           this.mesas.forEach((mesa) => {
             if (mesa.capacidad < this.cantidad) {
-              mesa.habilitada = false
+              mesa.disponible = false
             } else {
-              mesa.habilitada = true
+              mesa.disponible = true
             }
           })
           reservasFiltradas.forEach((reserva) => {
             // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
             const posMesa = reserva.id_mesa - 1
-            this.mesas[posMesa].habilitada = false
+            this.mesas[posMesa].disponible = false
           })
         }
       }

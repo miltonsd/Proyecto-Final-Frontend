@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
+import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReservasService {
+export class ReservaService {
   url = environment.apiUrl + '/reservas'
 
   constructor(private _http: HttpClient) {}
 
   getAllReservas() {
     return this._http.get(`${this.url}/`)
+  }
+
+  getAllReservasPendientes() {
+    return this._http.get<ReservaPendiente[]>(`${this.url}/pendientes`)
   }
 
   getOneReserva(id_reserva: number) {

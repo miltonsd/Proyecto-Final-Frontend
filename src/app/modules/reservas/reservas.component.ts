@@ -1,18 +1,20 @@
 import { ChangeDetectorRef, Component, OnInit, Output } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { MatDialog } from '@angular/material/dialog'
 import * as moment from 'moment'
 import 'moment/locale/es'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
 
-import { ReservasService } from '@pa/reservas/services'
-import { MesaService } from '@pa/shared/services/mesa.service'
-import { IMesa, TableColumn } from '@pa/shared/models'
-import { ReservaData, ReservaPOST, ReservaTabla } from '@pa/reservas/models'
-import { map } from 'rxjs'
-import { DialogComponent } from '@pa/shared/components'
-import { MatDialog } from '@angular/material/dialog'
-import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
+import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
 import { AuthService } from '@pa/shared/services/auth.service'
+import { MesaService } from '@pa/shared/services/mesa.service'
+import { ReservaService } from '@pa/shared/services/reserva.service'
+import { TableColumn } from '@pa/shared/models'
+import { ReservaData, ReservaPOST, ReservaTabla } from '@pa/reservas/models'
+import { forkJoin, map } from 'rxjs'
+import { DialogComponent } from '@pa/shared/components'
+import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
 import { UsuariosService } from '../usuarios/services/usuarios.service'
+import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'
 
 moment.locale('es')
 
@@ -25,12 +27,12 @@ export class ReservasComponent implements OnInit {
   @Output() fechaHora = ''
   @Output() cantidad = 1
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
-  mesas: IMesa[] = []
+  mesas: MesaReserva[] = []
   minDate: Date
   maxDate: Date
   mostrarReservas = false
   respuesta: any
-  reservas: ReservaTabla[] = []
+  reservas: ReservaPendiente[] = []
   reservasUsuario: ReservaTabla[] = []
 
   // Formulario de reservas
@@ -69,7 +71,7 @@ export class ReservasComponent implements OnInit {
   }
 
   constructor(
-    private _reservasService: ReservasService,
+    private _reservaService: ReservaService,
     private _mesaService: MesaService,
     private _authService: AuthService,
     private _usuarioService: UsuariosService,
@@ -86,35 +88,70 @@ export class ReservasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllReservas() // Busca las reservas generales
-    this.getAllMesas() // Busca las mesas para el formulario
+    this.cargarReservasYMesas()
+
     this.getAllReservasUsuario() // Busca las reservas pendientes del usuario
     // Controla si hubo cambios en el input de hora
     this.formulario
       .get('fechaHoraCantidad')
       ?.valueChanges.subscribe((valor) => {
-        if (valor.cantidad != 0) {
-          this.cantidad = valor.cantidad || 1
-          const fecha = moment(valor.fecha).format('DD/MM/yyyy')
-          this.fechaHora = fecha + ' ' + valor.hora
-          // Filtra las reservas pendientes por la fecha y hora ingresadas
-          const reservasFiltradas = this.reservas.filter(
-            (r) => r.fechaHora === this.fechaHora
-          )
+        // Comprueba que valor y valor.cantidad existen
+        if (valor && valor.cantidad && valor.cantidad > 0) {
+          this.cantidad = valor.cantidad
+          const fechaHoraIngresada =
+            moment(valor.fecha).format('DD/MM/yyyy') + ' ' + valor.hora
+          //x const fecha = moment(valor.fecha).format('DD/MM/yyyy')
+          //x this.fechaHora = fecha + ' ' + valor.hora
+
+          // Restablece la disponibilidad de todas las mesas al inicio
+          this.mesas.forEach((mesa) => (mesa.disponible = true))
+
+          // Lógica
           this.mesas.forEach((mesa) => {
-            if (mesa.capacidad < this.cantidad) {
-              mesa.habilitada = false
-            } else {
-              mesa.habilitada = true
+            // Deshabilita la mesa si no tiene la capacidad suficiente
+            if (mesa.capacidad < cantidad) {
+              
             }
           })
-          reservasFiltradas.forEach((reserva) => {
-            // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
-            const posMesa = reserva.id_mesa - 1
-            this.mesas[posMesa].habilitada = false
-          })
+
+          //x Filtra las reservas pendientes por la fecha y hora ingresadas
+          // const reservasFiltradas = this.reservas.filter(
+          //   (r) => r.fechaHora === this.fechaHora
+          // )
+          // this.mesas.forEach((mesa) => {
+          //   if (mesa.capacidad < this.cantidad) {
+          //     mesa.disponible = false
+          //   } else {
+          //     mesa.disponible = true
+          //   }
+          // })
+          // reservasFiltradas.forEach((reserva) => {
+          //   // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
+          //   const posMesa = reserva.id_mesa - 1
+          //   this.mesas[posMesa].disponible = false
+          // })
         }
       })
+  }
+
+  cargarReservasYMesas() {
+    // Se crean los observables para las reservas y mesas
+    const reservas$ = this._reservaService.getAllReservasPendientes()
+    const mesas$ = this._mesaService.getAllMesasReserva()
+
+    // Carga todas las reservas programadas y las mesas en paralelo
+    forkJoin([reservas$, mesas$]).subscribe({
+      next: ([reservas, mesas]) => {
+        this.reservas = reservas
+        this.mesas = mesas
+        console.log('CARGA COMPLETA')
+        console.log(this.reservas)
+        console.log(this.mesas)
+      },
+      error: (err) => {
+        console.error(`Código de error ${err.status}: `, err.error.msg)
+      }
+    })
   }
 
   getAllReservasUsuario() {
@@ -146,54 +183,25 @@ export class ReservasComponent implements OnInit {
       })
   }
 
-  getAllReservas() {
-    // Se obtiene el listado de reservas pendientes del usuario
-    this._reservasService
-      .getAllReservas()
-      .pipe(
-        map((res: any) => {
-          this.reservas = Object.keys(res)
-            .map((r) => ({
-              id_reserva: res[r].id_reserva,
-              fechaHora: moment(res[r].fechaHora).format('DD/MM/yyyy HH:mm'),
-              cant_personas: res[r].cant_personas,
-              isPendiente: res[r].isPendiente,
-              id_usuario: res[r].Usuario.id_usuario,
-              id_mesa: res[r].Mesa.id_mesa
-            }))
-            .sort(
-              (a, b) =>
-                moment(a.fechaHora, 'DD/MM/yyyy HH:mm').unix() -
-                moment(b.fechaHora, 'DD/MM/yyyy HH:mm').unix()
-            )
-            .filter((r) => r.isPendiente)
-        })
-      )
-      .subscribe({
-        error: (err) =>
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-      })
-  }
-
-  getAllMesas() {
-    //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
-    this._mesaService
-      .getAllMesas()
-      .pipe(
-        map((res: any) => {
-          this.mesas = Object.keys(res).map((m) => ({
-            id_mesa: res[m].id_mesa,
-            capacidad: res[m].capacidad,
-            ubicacion: res[m].ubicacion,
-            habilitada: true
-          }))
-        })
-      )
-      .subscribe({
-        error: (err) =>
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-      })
-  }
+  // getAllMesas() {
+  //   //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
+  //   this._mesaService
+  //     .getAllMesas()
+  //     .pipe(
+  //       map((res: any) => {
+  //         this.mesas = Object.keys(res).map((m) => ({
+  //           id_mesa: res[m].id_mesa,
+  //           capacidad: res[m].capacidad,
+  //           ubicacion: res[m].ubicacion,
+  //           habilitada: true
+  //         }))
+  //       })
+  //     )
+  //     .subscribe({
+  //       error: (err) =>
+  //         console.error(`Código de error ${err.status}: `, err.error.msg)
+  //     })
+  // }
 
   onSelectMesa(eventData: { id: number }) {
     // Asigna el id de la mesa al control del formulario
@@ -222,7 +230,7 @@ export class ReservasComponent implements OnInit {
         id_usuario: this._authService.getCurrentUserId(), //ID del usuario logueado
         id_mesa: this.formulario.value.mesa as number
       }
-      this._reservasService.createReserva(reserva).subscribe({
+      this._reservaService.createReserva(reserva).subscribe({
         next: (res: any) => {
           const dialogRef = this.dialog.open(DialogComponent, {
             width: '375px',
@@ -251,7 +259,7 @@ export class ReservasComponent implements OnInit {
   }
 
   onDelete(reserva: any) {
-    this._reservasService.deleteReserva(reserva.id_reserva).subscribe({
+    this._reservaService.deleteReserva(reserva.id_reserva).subscribe({
       next: () => {
         const dialogRef = this.dialog.open(DialogComponent, {
           width: '300 px',
@@ -290,7 +298,7 @@ export class ReservasComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
-        this._reservasService
+        this._reservaService
           .updateReserva(reserva.id_reserva, resultado.data)
           .subscribe({
             // next - error - complete

@@ -6,7 +6,7 @@ import {
   SimpleChanges,
   Output
 } from '@angular/core'
-import { IMesa } from '../../models/IMesa'
+import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
 
 @Component({
   selector: 'pa-mesa-grid',
@@ -14,11 +14,11 @@ import { IMesa } from '../../models/IMesa'
   styleUrls: ['./mesa-grid.component.css']
 })
 export class MesaGridComponent implements OnChanges {
-  @Input() mesas!: IMesa[] // Lista de mesas de la DB
+  @Input() mesas!: MesaReserva[] // Lista de mesas de la DB
   @Input() fechaHora!: string // Fecha y hora ingresadas desde el formulario
   @Input() cantidad!: number // Cantidad de personas ingresada desde el formulario
   @Output() mesaSeleccionadaId = new EventEmitter<{ id: number }>()
-  @Input() mesaSeleccionada: IMesa | undefined
+  @Input() mesaSeleccionada: MesaReserva | undefined
 
   ngOnChanges(changes: SimpleChanges): void {
     // Detecta si hubo cambios en los @Input() de fechaHora o cantidad
@@ -27,9 +27,9 @@ export class MesaGridComponent implements OnChanges {
     }
   }
 
-  reservaMesa(mesa: IMesa) {
+  reservaMesa(mesa: MesaReserva) {
     // Si la mesa está disponible y no es la que está seleccionada
-    if (mesa.habilitada && this.mesaSeleccionada != mesa) {
+    if (mesa.disponible && this.mesaSeleccionada != mesa) {
       this.mesaSeleccionada = mesa
       // Pasa el id de la mesa al componente Padre (reservas.component.ts)
       this.mesaSeleccionadaId.emit({ id: mesa.id_mesa })
