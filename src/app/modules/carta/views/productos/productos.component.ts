@@ -5,7 +5,7 @@ import {
   Inject,
   OnInit
 } from '@angular/core'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { ProductosService } from '../../services/productos.service'
 import { map } from 'rxjs/operators'
 import { PedidosService } from '../../services/pedidos.service'

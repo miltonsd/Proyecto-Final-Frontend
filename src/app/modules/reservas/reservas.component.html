@@ -47,6 +47,7 @@
       <!-- [] = Input y () = Output  -->
       <pa-mesa-grid
         [mesas]="this.mesas"
+        [reservas]="this.reservas"
         [fechaHora]="this.fechaHora"
         [cantidad]="this.cantidad"
         (mesaSeleccionadaId)="onSelectMesa($event)"
@@ -66,7 +67,6 @@
       <pa-tabla
         [tableData]="reservasUsuario"
         [tableColumns]="columnas"
-        [isFilter]="false"
         [isPaginator]="true"
         [pageOptions]="[5, 10, 15]"
         [confirmDialogMsg]="msgConfirmacion"

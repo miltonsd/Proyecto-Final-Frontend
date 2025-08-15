@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import * as moment from 'moment'
 import { map } from 'rxjs'
 import { ResumenesService } from 'src/app/modules/carta/services/resumenes.service'

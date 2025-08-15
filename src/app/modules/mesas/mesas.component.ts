@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { MesaService } from '@pa/shared/services/mesa.service'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { map } from 'rxjs'
 import { DialogComponent } from '@pa/shared/components'
 import { MatDialog } from '@angular/material/dialog'

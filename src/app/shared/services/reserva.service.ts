@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
+import { CreatedResponse } from '@pa/shared/interfaces/created-response.interface'
+import { Reserva } from '@pa/shared/interfaces/reserva/reserva.interface'
+import { ReservaCreate } from '@pa/shared/interfaces/reserva/reserva-create.interface'
 import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'
 
 @Injectable({
@@ -23,8 +26,11 @@ export class ReservaService {
     return this._http.get(`${this.url}/${id_reserva}`)
   }
 
-  createReserva(reserva: any) {
-    return this._http.post(`${this.url}/create`, reserva)
+  createReserva(reserva: ReservaCreate) {
+    return this._http.post<CreatedResponse<Reserva>>(
+      `${this.url}/create`,
+      reserva
+    )
   }
 
   updateReserva(id_reserva: number, reserva: any) {

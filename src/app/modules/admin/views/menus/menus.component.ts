@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { map } from 'rxjs'
 import { MenusService } from '../../services/menus.service'
 import { MatDialog } from '@angular/material/dialog'

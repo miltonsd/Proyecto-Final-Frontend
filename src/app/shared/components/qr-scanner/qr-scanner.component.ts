@@ -6,12 +6,13 @@ import {
   OnDestroy
 } from '@angular/core'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import jsQR from 'jsqr'
+import { CookieService } from 'ngx-cookie-service'
+
 import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
 import { Mesa } from '@pa/shared/interfaces/mesa/mesa.interface'
 import { AuthService } from '@pa/shared/services/auth.service'
 import { MesaService } from '@pa/shared/services/mesa.service'
-import { CookieService } from 'ngx-cookie-service'
-import jsQR from 'jsqr'
 
 @Component({
   selector: 'pa-qr-scanner',

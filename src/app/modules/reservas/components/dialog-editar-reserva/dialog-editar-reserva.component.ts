@@ -1,13 +1,13 @@
-import { Component, Inject, OnInit, Output } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import * as moment from 'moment'
 import 'moment/locale/es'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
-
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { Observable, map } from 'rxjs'
-import { MesaService } from '@pa/shared/services/mesa.service'
-import { ReservaPOST, ReservaTabla } from '@pa/reservas/models'
+
 import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
+import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'
+import { ReservaUpdate } from '@pa/shared/interfaces/reserva/reserva-update.interface'
 
 @Component({
   selector: 'pa-dialog-editar-reserva',
@@ -15,19 +15,23 @@ import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
   styleUrls: ['./dialog-editar-reserva.component.css']
 })
 export class DialogEditarReservaComponent implements OnInit {
-  @Output() fechaHora = ''
-  @Output() cantidad = 1
+  fechaHora = ''
+  cantidad = 1
   horas = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   mesas: MesaReserva[] = []
-  reservaEditada!: ReservaPOST
-  reservas: ReservaTabla[] = []
+  reservas: ReservaPendiente[] = []
   minDate: Date
   maxDate: Date
   mesaSeleccionada!: MesaReserva | undefined
+
   constructor(
-    public dialogRef: MatDialogRef<DialogEditarReservaComponent>,
-    private _mesaService: MesaService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      listaReservas: ReservaPendiente[]
+      mesas: MesaReserva[]
+      reserva: ReservaPendiente
+    },
+    public dialogRef: MatDialogRef<DialogEditarReservaComponent>
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
     const currentYear = new Date().getFullYear()
@@ -48,89 +52,41 @@ export class DialogEditarReservaComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    // Busca las reservas
+    // Asigna los datos que vienen del componente padre por medio de 'data'
+    this.mesas = this.data.mesas
     this.reservas = this.data.listaReservas // Busca las reservas pendientes del usuario
     this.cantidad = this.data.reserva.cant_personas
     this.fechaHora = this.data.reserva.fechaHora
     // Busca las mesas para el formulario
-    this.getAllMesas().subscribe({
-      next: () => {
-        // // Busca las reservas
-        // this.reservas = this.data.listaReservas // Busca las reservas pendientes del usuario
-        // this.cantidad = this.data.reserva.cant_personas
-        // this.fechaHora = this.data.reserva.fechaHora
-        this.detectarCambios()
-        this.cargarFormulario()
-        this.mesaSeleccionada = this.mesas.find(
-          (m) => m.id_mesa === this.data.reserva.id_mesa
-        )
-      },
-      error: (err) =>
-        console.error(`Código de error ${err.status}: `, err.error.msg)
-    })
+    this._establecerFechaHora()
+    this.cargarFormulario()
   }
 
-  getAllMesas(): Observable<void> {
-    //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
-    return this._mesaService.getAllMesas().pipe(
-      map((res: any) => {
-        this.mesas = Object.keys(res).map((m) => ({
-          id_mesa: res[m].id_mesa,
-          capacidad: res[m].capacidad,
-          ubicacion: res[m].ubicacion,
-          disponible: this.cantidad > res[m].capacidad ? false : true
-        }))
-      })
-    )
-  }
+  private _establecerFechaHora() {
+    // Inicializa fechaHora para que el componente hijo tenga los datos correctos
+    this.fechaHora = this.data.reserva.fechaHora
 
-  detectarCambios() {
-    // console.log(this.mesas)
-    // this.mesaSeleccionada = this.mesas.find(
-    //   (m) => m.id_mesa === this.data.reserva.id_reserva
-    // )
-    // Controla si hubo cambios en el input de hora
+    // Se suscribe a los cambios para actualizar fechaHora
     this.formulario.get('fechaHora')?.valueChanges.subscribe({
       next: (valor) => {
-        // if (valor.hora != '') {
-        if (valor.fecha != '' && valor.hora != '') {
+        if (valor.fecha && valor.hora) {
           const fecha = moment(valor.fecha).format('DD/MM/yyyy')
-          this.fechaHora = fecha + ' ' + valor.hora
-          // Filtra las reservas pendientes por la fecha y hora ingresadas
-          const reservasFiltradas = this.reservas.filter(
-            (r) => r.fechaHora === this.fechaHora
-          )
-          // Vuelve a poner las mesas como disponibles
-          this.mesas.forEach((mesa) => {
-            if (mesa.capacidad < this.cantidad) {
-              mesa.disponible = false
-            } else {
-              mesa.disponible = true
-            }
-          })
-          reservasFiltradas.forEach((reserva) => {
-            // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
-            const posMesa = reserva.id_mesa - 1
-            this.mesas[posMesa].disponible = false
-          })
+          this.fechaHora = `${fecha} ${valor.hora}`
         }
       }
     })
   }
 
   cargarFormulario() {
-    const reserva = {
-      fecha: this.data.reserva.fechaHora.slice(0, 10) as string,
-      hora: this.data.reserva.fechaHora.slice(11) as string,
-      id_mesa: this.data.reserva.id_mesa as number
-    }
+    const reservaFecha = this.fechaHora.slice(0, 10) as string
+    const reservaHora = this.fechaHora.slice(11) as string
+
     this.formulario.patchValue({
       fechaHora: {
-        fecha: moment(reserva.fecha, 'DD/MM/yyyy', false).format(), // Forgiving mode (los formatos de fechas son distintos)
-        hora: reserva.hora
+        fecha: moment(reservaFecha, 'DD/MM/yyyy', false).format(), // Forgiving mode (los formatos de fechas son distintos)
+        hora: reservaHora
       },
-      // mesa: reserva.id_mesa
-      mesa: reserva.id_mesa
+      mesa: this.data.reserva.id_mesa
     })
   }
 
@@ -152,11 +108,15 @@ export class DialogEditarReservaComponent implements OnInit {
         'yyyy-MM-DD'
       )
       const fechaHora = fecha + ' ' + this.formulario.value.fechaHora?.hora
-      this.reservaEditada = {
+      const reservaEditada: ReservaUpdate = {
+        id_reserva: this.data.reserva.id_reserva,
         fechaHora: fechaHora,
+        cant_personas: this.cantidad,
+        isPendiente: true,
+        id_usuario: this.data.reserva.id_usuario,
         id_mesa: this.formulario.value.mesa as number
       }
-      this.dialogRef.close({ data: this.reservaEditada })
+      this.dialogRef.close({ reservaEditada: reservaEditada })
     } else {
       this.formulario.markAllAsTouched()
     }

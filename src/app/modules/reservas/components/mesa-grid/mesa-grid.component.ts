@@ -6,7 +6,9 @@ import {
   SimpleChanges,
   Output
 } from '@angular/core'
+import * as moment from 'moment'
 import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
+import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'
 
 @Component({
   selector: 'pa-mesa-grid',
@@ -14,17 +16,67 @@ import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
   styleUrls: ['./mesa-grid.component.css']
 })
 export class MesaGridComponent implements OnChanges {
-  @Input() mesas!: MesaReserva[] // Lista de mesas de la DB
-  @Input() fechaHora!: string // Fecha y hora ingresadas desde el formulario
-  @Input() cantidad!: number // Cantidad de personas ingresada desde el formulario
+  @Input() mesas: MesaReserva[] = []
+  @Input() fechaHora!: string
+  @Input() cantidad!: number
+  @Input() reservas: ReservaPendiente[] = []
   @Output() mesaSeleccionadaId = new EventEmitter<{ id: number }>()
-  @Input() mesaSeleccionada: MesaReserva | undefined
+
+  // Array para almacenar el estado de la grilla
+  mesasDisponibles: MesaReserva[] = []
+  mesaSeleccionada: MesaReserva | undefined
 
   ngOnChanges(changes: SimpleChanges): void {
     // Detecta si hubo cambios en los @Input() de fechaHora o cantidad
     if (changes['fechaHora'] || changes['cantidad']) {
       this.deseleccionarMesa()
     }
+    this._actualizarDisponibilidad()
+  }
+
+  private _actualizarDisponibilidad() {
+    if (
+      !this.mesas ||
+      this.mesas.length === 0 ||
+      !this.fechaHora ||
+      !this.cantidad
+    ) {
+      this.mesasDisponibles = [...this.mesas] // Mantiene las mesas como están si faltan datos
+      return
+    }
+
+    // Crea una copia para no modificar el @Input() directamente
+    this.mesasDisponibles = this.mesas.map((mesa) => ({
+      ...mesa,
+      disponible: true
+    }))
+
+    // Deshabilita las mesas por capacidad
+    this.mesasDisponibles.forEach((mesa) => {
+      if (mesa.capacidad < this.cantidad) {
+        mesa.disponible = false
+      }
+    })
+
+    // Estandariza los formatos de fecha para la comparación
+    const fechaHoraInput = moment(this.fechaHora, 'DD/MM/yyyy HH:mm')
+
+    // Filtra las reservas pendientes que coincidan con la fecha y hora
+    const reservasFiltradas = this.reservas.filter((r) => {
+      // Convierte el string del backend a un objeto moment y luego a un formato de string estándar
+      const fechaReserva = moment(r.fechaHora)
+      return fechaReserva.isSame(fechaHoraInput, 'minute')
+    })
+
+    // Deshabilita aquellas mesas que ya estén reservadas
+    reservasFiltradas.forEach((reserva) => {
+      const mesaOcupada = this.mesasDisponibles.find(
+        (m) => m.id_mesa === reserva.id_mesa
+      )
+      if (mesaOcupada) {
+        mesaOcupada.disponible = false
+      }
+    })
   }
 
   reservaMesa(mesa: MesaReserva) {

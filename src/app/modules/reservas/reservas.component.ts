@@ -1,20 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit, Output } from '@angular/core'
+import { Component, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { forkJoin } from 'rxjs'
 import * as moment from 'moment'
 import 'moment/locale/es'
 
+import { DialogEditarReservaComponent } from '@pa/reservas/components/dialog-editar-reserva/dialog-editar-reserva.component'
+import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
 import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
+import { ReservaCreate } from '@pa/shared/interfaces/reserva/reserva-create.interface'
+import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { AuthService } from '@pa/shared/services/auth.service'
 import { MesaService } from '@pa/shared/services/mesa.service'
 import { ReservaService } from '@pa/shared/services/reserva.service'
-import { TableColumn } from '@pa/shared/models'
-import { ReservaData, ReservaPOST, ReservaTabla } from '@pa/reservas/models'
-import { forkJoin, map } from 'rxjs'
-import { DialogComponent } from '@pa/shared/components'
-import { DialogEditarReservaComponent } from './components/dialog-editar-reserva/dialog-editar-reserva.component'
-import { UsuariosService } from '../usuarios/services/usuarios.service'
-import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'
 
 moment.locale('es')
 
@@ -31,9 +30,8 @@ export class ReservasComponent implements OnInit {
   minDate: Date
   maxDate: Date
   mostrarReservas = false
-  respuesta: any
   reservas: ReservaPendiente[] = []
-  reservasUsuario: ReservaTabla[] = []
+  reservasUsuario: ReservaPendiente[] = []
 
   // Formulario de reservas
   formulario = new FormGroup({
@@ -71,12 +69,10 @@ export class ReservasComponent implements OnInit {
   }
 
   constructor(
-    private _reservaService: ReservaService,
-    private _mesaService: MesaService,
-    private _authService: AuthService,
-    private _usuarioService: UsuariosService,
     public dialog: MatDialog,
-    // private _valor: ChangeDetectorRef
+    private _authService: AuthService,
+    private _mesaService: MesaService,
+    private _reservaService: ReservaService
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
     const currentYear = new Date().getFullYear()
@@ -84,13 +80,10 @@ export class ReservasComponent implements OnInit {
     const currentDate = new Date().getDate()
     this.minDate = new Date(currentYear, currentMonth, currentDate)
     this.maxDate = new Date(currentYear, currentMonth + 2, 0)
-    // this._valor.detectChanges Detecta cambios en los valores del componente
   }
 
   ngOnInit(): void {
-    this.cargarReservasYMesas()
-
-    this.getAllReservasUsuario() // Busca las reservas pendientes del usuario
+    this.inicializar()
     // Controla si hubo cambios en el input de hora
     this.formulario
       .get('fechaHoraCantidad')
@@ -98,43 +91,13 @@ export class ReservasComponent implements OnInit {
         // Comprueba que valor y valor.cantidad existen
         if (valor && valor.cantidad && valor.cantidad > 0) {
           this.cantidad = valor.cantidad
-          const fechaHoraIngresada =
-            moment(valor.fecha).format('DD/MM/yyyy') + ' ' + valor.hora
-          //x const fecha = moment(valor.fecha).format('DD/MM/yyyy')
-          //x this.fechaHora = fecha + ' ' + valor.hora
-
-          // Restablece la disponibilidad de todas las mesas al inicio
-          this.mesas.forEach((mesa) => (mesa.disponible = true))
-
-          // Lógica
-          this.mesas.forEach((mesa) => {
-            // Deshabilita la mesa si no tiene la capacidad suficiente
-            if (mesa.capacidad < cantidad) {
-              
-            }
-          })
-
-          //x Filtra las reservas pendientes por la fecha y hora ingresadas
-          // const reservasFiltradas = this.reservas.filter(
-          //   (r) => r.fechaHora === this.fechaHora
-          // )
-          // this.mesas.forEach((mesa) => {
-          //   if (mesa.capacidad < this.cantidad) {
-          //     mesa.disponible = false
-          //   } else {
-          //     mesa.disponible = true
-          //   }
-          // })
-          // reservasFiltradas.forEach((reserva) => {
-          //   // Si existen reservas para esa fecha y hora, asigna las mesas correpondientes como ocupadas
-          //   const posMesa = reserva.id_mesa - 1
-          //   this.mesas[posMesa].disponible = false
-          // })
+          const fecha = moment(valor.fecha).format('DD/MM/yyyy')
+          this.fechaHora = fecha + ' ' + valor.hora
         }
       })
   }
 
-  cargarReservasYMesas() {
+  inicializar() {
     // Se crean los observables para las reservas y mesas
     const reservas$ = this._reservaService.getAllReservasPendientes()
     const mesas$ = this._mesaService.getAllMesasReserva()
@@ -144,64 +107,29 @@ export class ReservasComponent implements OnInit {
       next: ([reservas, mesas]) => {
         this.reservas = reservas
         this.mesas = mesas
-        console.log('CARGA COMPLETA')
-        console.log(this.reservas)
-        console.log(this.mesas)
+        // Se filtran las reservas pendientes del usuario
+        this.getAllReservasUsuario()
       },
       error: (err) => {
-        console.error(`Código de error ${err.status}: `, err.error.msg)
+        this._showDialog(`Error ${err.status}`, err.error.msg)
       }
     })
   }
 
   getAllReservasUsuario() {
-    const id_usuario = this._authService.getCurrentUserId()
     // Se obtiene el listado de reservas pendientes del usuario
-    this._usuarioService
-      .getAllReservasUsuario(id_usuario)
-      .pipe(
-        map((res: any) => {
-          this.reservasUsuario = Object.keys(res)
-            .map((r) => ({
-              id_reserva: res[r].id_reserva,
-              fechaHora: moment(res[r].fechaHora).format('DD/MM/yyyy HH:mm'),
-              cant_personas: res[r].cant_personas,
-              isPendiente: res[r].isPendiente,
-              id_mesa: res[r].id_mesa
-            }))
-            .sort(
-              (a, b) =>
-                moment(a.fechaHora, 'DD/MM/yyyy HH:mm').unix() -
-                moment(b.fechaHora, 'DD/MM/yyyy HH:mm').unix()
-            )
-            .filter((r) => r.isPendiente)
-        })
-      )
-      .subscribe({
-        error: (err) =>
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-      })
+    this.reservasUsuario = this.reservas
+      .map((r) => ({
+        id_reserva: r.id_reserva,
+        fechaHora: moment(r.fechaHora).format('DD/MM/yyyy HH:mm'),
+        cant_personas: r.cant_personas,
+        id_usuario: r.id_usuario,
+        id_mesa: r.id_mesa,
+        createdAt: r.createdAt,
+        updatedAt: r.updatedAt
+      }))
+      .filter((r) => r.id_usuario === this._authService.getCurrentUserId())
   }
-
-  // getAllMesas() {
-  //   //TODO: Aca nos tendriamos que traer las mesas para el horario seleccionado asi se ven las disponibles y no disp.
-  //   this._mesaService
-  //     .getAllMesas()
-  //     .pipe(
-  //       map((res: any) => {
-  //         this.mesas = Object.keys(res).map((m) => ({
-  //           id_mesa: res[m].id_mesa,
-  //           capacidad: res[m].capacidad,
-  //           ubicacion: res[m].ubicacion,
-  //           habilitada: true
-  //         }))
-  //       })
-  //     )
-  //     .subscribe({
-  //       error: (err) =>
-  //         console.error(`Código de error ${err.status}: `, err.error.msg)
-  //     })
-  // }
 
   onSelectMesa(eventData: { id: number }) {
     // Asigna el id de la mesa al control del formulario
@@ -216,9 +144,8 @@ export class ReservasComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formulario.controls)
     if (this.formulario.valid) {
-      const reserva: ReservaPOST = {
+      const nuevaReserva: ReservaCreate = {
         fechaHora:
           moment(this.formulario.value.fechaHoraCantidad?.fecha).format(
             'yyyy-MM-DD'
@@ -227,30 +154,43 @@ export class ReservasComponent implements OnInit {
           this.formulario.value.fechaHoraCantidad?.hora,
         cant_personas: this.formulario.value.fechaHoraCantidad
           ?.cantidad as number,
+        isPendiente: true,
         id_usuario: this._authService.getCurrentUserId(), //ID del usuario logueado
         id_mesa: this.formulario.value.mesa as number
       }
-      this._reservaService.createReserva(reserva).subscribe({
-        next: (res: any) => {
-          const dialogRef = this.dialog.open(DialogComponent, {
-            width: '375px',
-            autoFocus: true,
-            data: {
-              title: 'Realizar reserva',
-              msg: 'Reserva registrada correctamente.'
-            }
-          })
+      this._reservaService.createReserva(nuevaReserva).subscribe({
+        next: (res) => {
+          const dialogRef = this._showDialog(
+            'Realizar reserva',
+            'Reserva registrada correctamente.'
+          )
           dialogRef.afterClosed().subscribe(() => {
-            window.location.href = '/'
+            // Agrega la nueva reserva al array de reservas del usuario
+            const reservaCreada = res.elemento
+            reservaCreada.fechaHora = moment(reservaCreada.fechaHora).format(
+              'DD/MM/yyyy HH:mm'
+            )
+            const reservasUpdated = [...this.reservasUsuario, reservaCreada]
+            this.reservasUsuario = reservasUpdated.sort((a, b) => {
+              const dateA = moment(a.fechaHora, 'DD/MM/yyyy HH:mm').unix()
+              const dateB = moment(b.fechaHora, 'DD/MM/yyyy HH:mm').unix()
+              return dateA - dateB
+            })
+            // Muestra la tabla de reservas
+            this.mostrarReservas = true
+            this.formulario.get('fechaHoraCantidad')?.reset({
+              fecha: moment(this.minDate).format('YYYY-MM-DD'),
+              hora: '18:00',
+              cantidad: 1
+            })
+            this.formulario.get('mesa')?.setValue(null)
+            this.formulario.markAsPristine()
+            this.formulario.markAsUntouched()
           })
         },
         error: (err) => {
           // Error 500 cuando no encuentra la tabla 'reservas' o la db, Error 404 cuando no encuentra la reserva por su id
-          this.dialog.open(DialogComponent, {
-            width: '375px',
-            autoFocus: true,
-            data: { title: `Error ${err.status}`, msg: err.error.msg }
-          })
+          this._showDialog(`Error ${err.status}`, err.error.msg)
         }
       })
     } else {
@@ -258,73 +198,88 @@ export class ReservasComponent implements OnInit {
     }
   }
 
-  onDelete(reserva: any) {
+  onDelete(reserva: ReservaPendiente) {
     this._reservaService.deleteReserva(reserva.id_reserva).subscribe({
       next: () => {
-        const dialogRef = this.dialog.open(DialogComponent, {
-          width: '300 px',
-          data: {
-            title: 'Cancelar reserva',
-            msg: 'Se ha cancelado la reserva con éxito.'
-          }
-        })
+        const dialogRef = this._showDialog(
+          'Cancelar reserva',
+          'Se ha cancelado la reserva con éxito.'
+        )
         dialogRef.afterClosed().subscribe(() => {
-          window.location.href = '/reservas'
+          this.reservasUsuario = this.reservasUsuario.filter(
+            (r) => r.id_reserva != reserva.id_reserva
+          )
         })
       },
       error: (err) => {
-        this.dialog.open(DialogComponent, {
-          width: '300 px',
-          data: { title: `Error ${err.status}`, msg: err.error.msg }
-        })
+        this._showDialog(`Error ${err.status}`, err.error.msg)
       }
     })
   }
 
-  onEditReserva(reserva: any) {
-    const listaReservas: ReservaData[] = this.reservas
-      .map(({ id_reserva, fechaHora, id_mesa }) => ({
-        id_reserva,
-        fechaHora,
-        id_mesa
-      }))
-      .filter((r) => r.id_reserva != reserva.id_reserva)
+  onEditReserva(reserva: ReservaPendiente) {
+    const listaReservas = this.reservas.filter(
+      (r) => r.id_reserva != reserva.id_reserva
+    )
     const dialogRef = this.dialog.open(DialogEditarReservaComponent, {
       width: '600px',
       data: {
         reserva,
-        listaReservas
+        listaReservas,
+        mesas: this.mesas
       }
     })
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
         this._reservaService
-          .updateReserva(reserva.id_reserva, resultado.data)
+          .updateReserva(reserva.id_reserva, resultado.reservaEditada)
           .subscribe({
             // next - error - complete
-            next: (res: any) => {
-              const dialogRefEdit = this.dialog.open(DialogComponent, {
-                width: '375px',
-                autoFocus: true,
-                data: {
-                  title: 'Editar reserva',
-                  msg: 'Reserva editada correctamente.'
-                }
-              })
+            next: () => {
+              const dialogRefEdit = this._showDialog(
+                'Editar reserva',
+                'Reserva editada correctamente.'
+              )
               dialogRefEdit.afterClosed().subscribe(() => {
-                window.location.href = '/reservas'
+                // Busca el indice de la reserva que se actualizó
+                const index = this.reservasUsuario.findIndex(
+                  (r) => r.id_reserva === reserva.id_reserva
+                )
+
+                // Si la encuentra, reemplázala con la reserva actualizada
+                if (index !== -1) {
+                  const reservaActualizada = { ...resultado.reservaEditada }
+                  // Formatea la fecha al formato que la tabla espera
+                  reservaActualizada.fechaHora = moment(
+                    reservaActualizada.fechaHora
+                  ).format('DD/MM/yyyy HH:mm')
+
+                  this.reservasUsuario = [
+                    ...this.reservasUsuario.slice(0, index), // Elementos antes del que vamos a actualizar
+                    reservaActualizada, // El nuevo objeto
+                    ...this.reservasUsuario.slice(index + 1) // Elementos después
+                  ]
+                }
               })
             },
             error: (err) => {
               // Error 500 cuando no encuentra la tabla 'reservas' o la db, Error 404 cuando no encuentra la reserva por su id
-              this.dialog.open(DialogComponent, {
-                width: '375px',
-                autoFocus: true,
-                data: { title: `Error ${err.status}`, msg: err.error.msg }
-              })
+              this._showDialog(`Error ${err.status}`, err.error.msg)
             }
           })
       }
+    })
+  }
+
+  // Muestra un dialog, ya sea por error, o para hacer la lógica luego del afterClosed()
+  private _showDialog(
+    title: string,
+    msg: string
+  ): MatDialogRef<DialogComponent> {
+    return this.dialog.open(DialogComponent, {
+      width: '375px',
+      autoFocus: true,
+      data: { title, msg }
     })
   }
 }

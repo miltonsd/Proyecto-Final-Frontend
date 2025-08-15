@@ -5,7 +5,7 @@ import 'moment/locale/es'
 import { map } from 'rxjs'
 import { UsuariosService } from '../../services/usuarios.service'
 import { AuthService } from '@pa/shared/services/auth.service'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { PedidoDia } from 'src/app/modules/pedidos/models'
 
 interface Productos {

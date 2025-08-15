@@ -1,11 +1,3 @@
-<!-- Filtro (si la tabla lo requiere)  -->
-<ng-container *ngIf="isFilter">
-    <mat-form-field appearance="fill" class="filtro">
-        <mat-label>Filtrar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar" #input>
-    </mat-form-field>
-</ng-container>
-  
 <!-- Tabla -->
 <table mat-table [dataSource]="dataSource" matSort class="tabla mat-elevation-z8">
     <!-- Columnas -->

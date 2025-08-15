@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
+
 import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
 import { UsuarioLogin } from '@pa/shared/interfaces/auth/usuario-login.interface'
 import { AuthService } from '@pa/shared/services/auth.service'

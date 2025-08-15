@@ -10,7 +10,7 @@ import { ReservasDialogComponent } from '@pa/admin/components'
 import { ReservaData, ReservaTabla } from '@pa/reservas/models'
 import { DialogComponent } from '@pa/shared/components'
 import { ReservaService } from '@pa/shared/services/reserva.service'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 
 @Component({
   selector: 'pa-reservas',

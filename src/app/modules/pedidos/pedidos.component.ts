@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import * as moment from 'moment'
 import 'moment/locale/es'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { AuthService } from '@pa/shared/services/auth.service'
 import { PedidosService } from '@pa/carta/services'
 import { map } from 'rxjs'

@@ -4,7 +4,7 @@ import 'moment/locale/es'
 
 import { UsuariosService } from '../../services/usuarios.service'
 import { AuthService } from '@pa/shared/services/auth.service'
-import { TableColumn } from '@pa/shared/models'
+import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { map } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogEditarPerfilComponent } from '../../components/dialog-editar-perfil/dialog-editar-perfil.component'
