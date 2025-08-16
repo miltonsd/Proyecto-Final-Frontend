@@ -40,9 +40,7 @@ div.fechaHora {
   padding-inline: 2%;
 }
 
-mat-form-field.fechaHora {
-  height: 76px;
-}
+mat-form-field.fechaHora { height: 76px; }
 
 .mesas {
   padding-inline: 2%;
@@ -57,27 +55,17 @@ mat-form-field.fechaHora {
   justify-content: space-evenly;
 }
 
-.boton button {
-  width: 37%;
-}
+.boton button { width: 37%; }
 
  /* Límite hasta donde se puede desplazar la barra  */
-::-webkit-scrollbar-track {
-  background: rgb(255, 255, 255);
-}
+::-webkit-scrollbar-track { background: rgb(255, 255, 255); }
 
  /* Barra renderizada  */
-::-webkit-scrollbar-thumb {
-  background: rgb(61, 61, 61);
-}
+::-webkit-scrollbar-thumb { background: rgb(61, 61, 61); }
 
 /* Cuando se posiciona arriba de la barra  */
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(119, 119, 119);
-}
+::-webkit-scrollbar-thumb:hover { background: rgb(119, 119, 119); }
 
 @media only screen and (min-width: 992px) {
-  .reserva {
-    align-items: center;
-  }
-} 
+  .reserva { align-items: center; }
+}

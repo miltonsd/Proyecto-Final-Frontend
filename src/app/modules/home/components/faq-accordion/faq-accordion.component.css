@@ -25,6 +25,10 @@ mat-expansion-panel-header {
   background-color: rgb(61, 61, 61);
 }
 
+::ng-deep .faq-acordeon .mat-expansion-panel-header .mat-expansion-indicator::after {
+  color: #fff;
+}
+
 mat-panel-title {
   font-size: 20px;
   color: #f7bd00;

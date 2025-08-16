@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import * as moment from 'moment'
 import 'moment/locale/es'
-import { Observable, map } from 'rxjs'
 
 import { MesaReserva } from '@pa/shared/interfaces/mesa/mesa-reserva.interface'
 import { ReservaPendiente } from '@pa/shared/interfaces/reserva/reserva-pendiente.interface'

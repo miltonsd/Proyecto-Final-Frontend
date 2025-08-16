@@ -26,13 +26,9 @@
   font-weight: bold;
 }
 
-.available {
-  background-color: #1fcf1f;
-}
+.available { background-color: #1fcf1f; }
 
-.unavailable {
-  background-color: #c72519;
-}
+.unavailable { background-color: #c72519; }
 
 .selected {
   background-color: #f7bd00;

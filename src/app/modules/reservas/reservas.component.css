@@ -22,9 +22,7 @@
   margin-bottom: 4%;
 }
 
-.reserva-content h1 {
-  font-weight: 600;
-}
+.reserva-content h1 { font-weight: 600; }
 
 .reserva-input {
   width: 100%;
@@ -48,9 +46,7 @@ mat-form-field.fechaHora {
   justify-content: space-evenly;
 }
 
-.boton button {
-  width: 41%;
-}
+.boton button { width: 41%; }
 
 .table-container {
   width: 100%;
@@ -80,22 +76,16 @@ mat-form-field.fechaHora {
 }
 
 @media only screen and (min-width: 992px) {
-  .titulo {
-    font-size: 35px;
-  }
+  .titulo { font-size: 35px; }
 
-  .main {
-    flex-direction: row;
-  }
+  .main { flex-direction: row; }
   
   .reserva-content {
     align-self: flex-start;
     width: 33vw;
   }
 
-  .boton button {
-    width: 35%;
-  }
+  .boton button { width: 35%; }
 
   .table-container {
     width: 52%;
@@ -103,4 +93,4 @@ mat-form-field.fechaHora {
     padding-bottom: 4%;
     align-self: flex-start;
   }
-} 
+}
