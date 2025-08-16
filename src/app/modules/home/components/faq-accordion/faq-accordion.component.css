@@ -42,6 +42,8 @@ p {
   line-height: 1.6;
 }
 
+::ng-deep .faq-answer a { color: #f7bd00; }
+
 @media only screen and (min-width: 992px) {
   mat-expansion-panel-header {
     margin-top: auto;
