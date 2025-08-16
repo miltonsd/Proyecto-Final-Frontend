@@ -4,8 +4,10 @@
   <div class="questions">
    
     <ng-container *ngFor="let faq of faqs">
-      <p class="mat-h2 question">{{ faq.q }}</p>
-      <p class="mat-h3">{{ faq.a }}</p>
+      <pa-faq-accordion
+        [question]="faq.q"
+        [answer]="faq.a"
+      ></pa-faq-accordion>
       <br>
     </ng-container>
     

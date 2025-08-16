@@ -13,7 +13,7 @@ export class CarruselComponent implements OnInit {
   @Input() slideInterval = 3000 // 3 segundos por defecto
 
   selectedIndex = 0
-  intervalo!: any
+  intervalo!: NodeJS.Timer
 
   ngOnInit(): void {
     if (this.autoSlide) {

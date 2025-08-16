@@ -1,41 +1,18 @@
 .header {
-  background-color: rgb(41, 41, 41);
-}
-
-.barra {
-  /* background-color: rgb(132, 126, 138); */
   background-color: rgb(25, 25, 25);
   padding: 8px 8px;
   height: 10vh;
   color: white
 }
 
-.example-spacer {
-  flex: 1 1 auto;
-}
+.separador { flex: 1 1 auto; }
 
-.foto {
-  height: 60px;
-}
+.foto { height: 60px; }
 
-::ng-deep .celular {
-  background-color: rgb(25, 25, 25);
-}
-
-::ng-deep .celular .mat-mdc-button:not(:disabled) {
-  color: #fff !important;
-}
-
-.pc {
-  display: none;
-}
+.enlaces-pc { display: none; }
 
 @media only screen and (min-width: 992px) {
-  .celular {
-    display: none;
-  }
+  .enlaces-celular { display: none; }
 
-  .pc {
-    display: block;
-  }
+  .enlaces-pc { display: block; }
 } 

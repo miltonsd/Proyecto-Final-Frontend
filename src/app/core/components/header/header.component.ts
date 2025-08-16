@@ -1,11 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
+import { CookieService } from 'ngx-cookie-service'
+import { of, Subscription, switchMap, tap } from 'rxjs'
+
+import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
 import { QrScannerComponent } from '@pa/shared/components/qr-scanner/qr-scanner.component'
 import { AuthService } from '@pa/shared/services/auth.service'
 import { MesaService } from '@pa/shared/services/mesa.service'
-import { CookieService } from 'ngx-cookie-service'
-import { of, Subscription, switchMap, tap } from 'rxjs'
+
+// Se define una interface que contenga los enlaces
+export interface IEnlace {
+  routerLink: string
+  label: string
+  icon: string
+  roles: number[]
+}
 
 @Component({
   selector: 'pa-header',
@@ -15,6 +25,34 @@ import { of, Subscription, switchMap, tap } from 'rxjs'
 export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn = false // Estado del login del usuario
   private _authSubscription: Subscription = new Subscription()
+
+  enlacesUsuario: IEnlace[] = [
+    { routerLink: '/reservas', label: 'Reservar', icon: 'event', roles: [2] },
+    {
+      routerLink: '/mesas',
+      label: 'Gestión de mesas',
+      icon: 'table_bar',
+      roles: [3]
+    },
+    {
+      routerLink: '/pedidos',
+      label: 'Gestión de pedidos',
+      icon: 'pending_actions',
+      roles: [3, 4]
+    },
+    {
+      routerLink: '/admin',
+      label: 'Administrador',
+      icon: 'person_apron',
+      roles: [1]
+    },
+    {
+      routerLink: '/perfil/info',
+      label: 'Mi perfil',
+      icon: 'account_circle',
+      roles: [1, 2, 3, 4]
+    }
+  ]
 
   constructor(
     public dialog: MatDialog,
@@ -39,7 +77,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Getter público para usar el rol del usuario en el html
   get usuarioRol() {
-    return this._authService.loggedIn() ? this._authService.getRol() : undefined
+    return this._authService.loggedIn() ? this._authService.getRol() : 0
   }
 
   logout() {
@@ -67,9 +105,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => this._router.navigate(['/']),
         error: (err) => {
-          console.error(`Código de error ${err.status}: `, err.error.msg)
-          // Si hay un error, de todas formas se borran los datos locales
-          this._finalizarLogout()
+          const dialogRef = this.dialog.open(DialogComponent, {
+            width: '375px',
+            autoFocus: true,
+            data: { title: `Error ${err.status}`, msg: err.error.msg }
+          })
+          dialogRef.afterClosed().subscribe(() => {
+            // Si hay un error, de todas formas se borran los datos locales
+            this._finalizarLogout()
+          })
         }
       })
   }

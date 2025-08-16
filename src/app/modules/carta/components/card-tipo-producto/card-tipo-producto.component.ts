@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { TipoProducto } from 'src/app/shared/models/tipoProducto'
+import { TipoProducto } from '@pa/shared/interfaces/tipoProducto/tipoProducto.interface'
 
 @Component({
   selector: 'pa-card-tipo-producto',

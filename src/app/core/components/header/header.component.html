@@ -1,56 +1,39 @@
-<div class="header">
-  <mat-toolbar class="barra">
-    <a mat-button routerLink="/" class="logo">
-      <img src="../../../../assets/img/logo/Logo Pedidos Agiles.png" class="foto">
-    </a> 
-    <span class="example-spacer"></span> 
-    
-    <a *ngIf="isLoggedIn && usuarioRol === 2 " mat-button (click)="scanearQR()"><mat-icon>qr_code_scanner</mat-icon>Escanear QR</a>
+<mat-toolbar class="header">
+  <a mat-button routerLink="/" class="logo">
+    <img src="../../../../assets/img/logo/Logo Pedidos Agiles.png" class="foto">
+  </a>
+  <span class="separador"></span>
 
-    <a mat-button routerLink="/carta"><mat-icon>menu_book</mat-icon>Carta</a>
-    
-    <ng-template #noLogueado>
-      <a mat-button routerLink="/auth"><mat-icon>input</mat-icon>Autenticación</a>
-    </ng-template>
-    
-    <ng-container *ngIf="isLoggedIn; else noLogueado">
-      <div class="pc">
-        <!-- Renderiza el boton solo para la vista de Usuario  -->
-        <a *ngIf="usuarioRol === 2" mat-button routerLink="/reservas"><mat-icon>event</mat-icon>Reservar</a>
-      
-        <!-- Renderiza el boton solo para la vista de Mozo  -->
-        <a *ngIf="this.usuarioRol === 3" mat-button routerLink="/mesas"><mat-icon>table_bar</mat-icon>Gestión de mesas</a>
-        <!-- Renderiza el boton solo para la vista de Mozo/cocina  -->
-        <a *ngIf="usuarioRol === 3 || usuarioRol === 4" mat-button routerLink="/pedidos"><mat-icon>pending_actions</mat-icon>Gestión de pedidos</a>
+  <a *ngIf="isLoggedIn && usuarioRol === 2 " mat-button (click)="scanearQR()"><mat-icon>qr_code_scanner</mat-icon>Escanear QR</a>
 
-        <!-- Renderiza el boton solo para la vista de Administrador  -->
-          <a *ngIf="usuarioRol === 1" mat-button routerLink="/admin"><mat-icon>person_apron</mat-icon>Administrador</a>
-        <a mat-button routerLink="/perfil/info"> <mat-icon>account_circle</mat-icon>Mi perfil</a>
-        <a mat-raised-button color="warn" (click)="logout()" routerLink="/"> <mat-icon>power_settings_new</mat-icon>Cerrar sesión</a>
-      </div>
+  <a mat-button routerLink="/carta"><mat-icon>menu_book</mat-icon>Carta</a>
 
-      <button class="celular" mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu" class="celular">
-        <p>
-          <a *ngIf="usuarioRol === 2" mat-button routerLink="/reservas"><mat-icon>event</mat-icon>Reservar</a>
-        </p>
-        <p>
-          <a *ngIf="usuarioRol === 3" mat-button routerLink="/mesas"><mat-icon>table_bar</mat-icon>Gestión de mesas</a>
-        </p>
-        <p>
-          <a *ngIf="usuarioRol === 3 || usuarioRol === 4" mat-button routerLink="/pedidos"><mat-icon>pending_actions</mat-icon>Gestión de pedidos</a>
-        </p>
-        <p>
-          <a *ngIf="usuarioRol === 1" mat-button routerLink="/admin"><mat-icon>person_apron</mat-icon>Administrador</a>
-        </p>
-        <p>
-          <a mat-button routerLink="/perfil/info"> <mat-icon>account_circle</mat-icon>Mi perfil</a>
-        </p>
-        <a mat-raised-button color="warn" (click)="logout()" routerLink="/"> <mat-icon>power_settings_new</mat-icon>Cerrar sesión</a>
-      </mat-menu>
-    </ng-container>
-    
-  </mat-toolbar>
-</div>
+  <ng-container *ngIf="isLoggedIn; else noLogueado">
+    <div class="enlaces-pc">
+      <ng-container *ngFor="let enlace of enlacesUsuario">
+        <a *ngIf="enlace.roles.includes(usuarioRol)" mat-button [routerLink]="enlace.routerLink">
+          <mat-icon>{{ enlace.icon }}</mat-icon>{{ enlace.label }}
+        </a>
+      </ng-container>
+      <a mat-flat-button color="warn" (click)="logout()" routerLink="/"> <mat-icon>power_settings_new</mat-icon>Cerrar sesión</a>
+    </div>
+
+    <button class="enlaces-celular" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="enlaces-celular menu-enlaces-header">
+      <ng-container *ngFor="let enlace of enlacesUsuario">
+        <a *ngIf="enlace.roles.includes(usuarioRol)" mat-menu-item class="menu-enlace-item" [routerLink]="enlace.routerLink">
+          <mat-icon>{{ enlace.icon }}</mat-icon>{{ enlace.label }}
+        </a>
+      </ng-container>
+      <a mat-flat-button color="warn" (click)="logout()">
+        <mat-icon>power_settings_new</mat-icon>Cerrar sesión
+      </a>
+    </mat-menu>
+  </ng-container>
+
+  <ng-template #noLogueado>
+    <a mat-button routerLink="/auth"><mat-icon>input</mat-icon>Autenticación</a>
+  </ng-template>
+</mat-toolbar>

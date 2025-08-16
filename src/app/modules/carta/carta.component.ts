@@ -3,7 +3,7 @@ import { CartaService } from './services/carta.service'
 import { trigger, transition, animate, style } from '@angular/animations'
 
 import { map } from 'rxjs/operators'
-import { TipoProducto } from 'src/app/shared/models/tipoProducto'
+import { TipoProducto } from '@pa/shared/interfaces/tipoProducto/tipoProducto.interface'
 
 @Component({
   selector: 'pa-carta',

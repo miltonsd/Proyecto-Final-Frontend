@@ -1,16 +1,12 @@
-.main {
- /* background-color: rgba(90, 89, 89, 0.637); */
-}
-
-.foto {
+.main { 
+  min-height: 75vh; 
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../../assets/img/home/HomeBG.jpg');
-  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.texto {
+.titulo {
   font-size: 45px;
   font-weight: 800;
   color: white;
@@ -19,15 +15,7 @@
 
 /* Se aplica solo a los dispositos que tengan un ancho de mínimo 992px */
 @media only screen and (min-width: 992px) {
-  .main {
-    /* background-color: rgba(90, 89, 89, 0.637); */
-   }
+  .main { min-height: 81vh; }
    
-   .foto {
-     min-height: 100vh;
-   }
-   
-   .texto {
-     font-size: 55px;
-   }
+  .titulo { font-size: 55px; }
 }
