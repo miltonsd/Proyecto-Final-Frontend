@@ -23,14 +23,12 @@ h1 {
   margin-bottom: 10px;
 }
 
-.login-input {
-  width: 100%;
-}
+.login-input { width: 100%; }
 
 /* Label de los inputs: Etiqueta color blanco y asterisco color amarillo */
 ::ng-deep mat-form-field.login-input label {
-  mat-label { color: #fff; }
-  span { color: #f7bd00; }
+  :is(mat-label) { color: #fff; }
+  :is(span) { color: #f7bd00; }
 }
 
 ::ng-deep mat-form-field.login-input {
@@ -59,26 +57,26 @@ h1 {
 
 /* Errores de los inputs */
 ::ng-deep mat-form-field.login-input.mat-form-field-invalid {
-  mat-label { color: rgb(255, 41, 41); }
-  span { color: rgb(255, 41, 41); }
-  input { color: rgb(255, 41, 41); }
-  mat-error { color: rgb(255, 41, 41); }
-  input.ng-invalid.ng-touched { color: rgb(255, 41, 41); }
-  input::placeholder { color: rgb(255, 41, 41) !important; }
+  :is(mat-label) { color: rgb(255, 41, 41); }
+  :is(span) { color: rgb(255, 41, 41); }
+  :is(input) { color: rgb(255, 41, 41); }
+  :is(mat-error) { color: rgb(255, 41, 41); }
+  :is(input).ng-invalid.ng-touched { color: rgb(255, 41, 41); }
+  :is(input)::placeholder { color: rgb(255, 41, 41) !important; }
 
-  div.mdc-text-field--invalid:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline {
+  :is(div).mdc-text-field--invalid:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline {
     .mdc-notched-outline__leading { border-color: rgb(255, 41, 41); }
     .mdc-notched-outline__notch { border-color: rgb(255, 41, 41); }
     .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41); }
   }
 
-  div.mdc-text-field--invalid:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline {
+  :is(div).mdc-text-field--invalid:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline {
     .mdc-notched-outline__leading { border-color: rgb(255, 41, 41); }
     .mdc-notched-outline__notch { border-color: rgb(255, 41, 41); }
     .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41); }
   }
 
-  div.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
+  :is(div).mdc-text-field--invalid:not(.mdc-text-field--disabled) {
     .mdc-notched-outline__leading { border-color: rgb(255, 41, 41) }
     .mdc-notched-outline__notch { border-color: rgb(255, 41, 41) }
     .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41) }
