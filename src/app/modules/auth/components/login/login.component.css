@@ -1,58 +1,98 @@
 .login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 88vh;
-  }
-  
-  .login-content {
-    background-color: rgb(61, 61, 61);
-    width: 300px;
-    padding: 5%;
-    border-radius: 5%;
-    border: 1px solid #f7bd00;
-    box-shadow: 0px 0px 10px 1px #f7bd00;
-    color: rgb(255, 255, 255);
-  }
-  
-  .login-input {
-    width: 100%;
-    margin-bottom: 5%;
-  }
-  
-  .login-submit {
-    width: 100%;
-    margin-bottom: 3%;
+  display: flex;
+  justify-content: center;
+}
+
+.login-content {
+  background-color: rgb(61, 61, 61);
+  width: 300px;
+  padding: 17px 38px 38px 38px;
+  border-radius: 5%;
+  border: 1px solid #f7bd00;
+  box-shadow: 0px 0px 10px 1px #f7bd00;
+  color: rgb(255, 255, 255);
+}
+
+h1 {
+  color: #f7bd00;
+  text-align: center;
+}
+
+.fila-formulario {
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.login-input {
+  width: 100%;
+}
+
+/* Label de los inputs: Etiqueta color blanco y asterisco color amarillo */
+::ng-deep mat-form-field.login-input label {
+  mat-label { color: #fff; }
+  span { color: #f7bd00; }
+}
+
+::ng-deep mat-form-field.login-input {
+  input::placeholder { color: #fff !important; }
+  .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input { color: #f7bd00 }
+}
+
+/* Borde de los inputs de amarillo (Normal) */
+::ng-deep div.mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--outlined {
+  .mdc-notched-outline__leading { border-color: #f7bd00; }
+  .mdc-notched-outline__notch { border-color: #f7bd00; }
+  .mdc-notched-outline__trailing { border-color: #f7bd00; }
+}
+
+::ng-deep div.mdc-notched-outline.mdc-notched-outline--upgraded.ng-star-inserted.mdc-notched-outline--notched {
+  .mdc-notched-outline__leading { border-color: #f7bd00; }
+  .mdc-notched-outline__notch { border-color: #f7bd00; }
+  .mdc-notched-outline__trailing { border-color: #f7bd00; }
+}
+
+::ng-deep div.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline {
+  .mdc-notched-outline__leading { border-color: #f7bd00; }
+  .mdc-notched-outline__notch { border-color: #f7bd00; }
+  .mdc-notched-outline__trailing { border-color: #f7bd00; }
+} 
+
+/* Errores de los inputs */
+::ng-deep mat-form-field.login-input.mat-form-field-invalid {
+  mat-label { color: rgb(255, 41, 41); }
+  span { color: rgb(255, 41, 41); }
+  input { color: rgb(255, 41, 41); }
+  mat-error { color: rgb(255, 41, 41); }
+  input.ng-invalid.ng-touched { color: rgb(255, 41, 41); }
+  input::placeholder { color: rgb(255, 41, 41) !important; }
+
+  div.mdc-text-field--invalid:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline {
+    .mdc-notched-outline__leading { border-color: rgb(255, 41, 41); }
+    .mdc-notched-outline__notch { border-color: rgb(255, 41, 41); }
+    .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41); }
   }
 
-  .boton {
-    background-color: rgb(61, 61, 61);
-    color: rgb(255, 255, 255);
-    display: flex;
-    justify-content: center;
+  div.mdc-text-field--invalid:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline {
+    .mdc-notched-outline__leading { border-color: rgb(255, 41, 41); }
+    .mdc-notched-outline__notch { border-color: rgb(255, 41, 41); }
+    .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41); }
   }
 
-  ::ng-deep .filaFormulario .login-input {
-    color: rgb(255, 255, 255);
-  }
+  div.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
+    .mdc-notched-outline__leading { border-color: rgb(255, 41, 41) }
+    .mdc-notched-outline__notch { border-color: rgb(255, 41, 41) }
+    .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41) }
+  }  
+}
   
-  @media only screen and (min-width: 768px) {
-    .login-content {
-      width: 375px;
-      padding: 4%;
-    }
-  }
-  
-  @media only screen and (min-width: 992px) {
-    .login-content {
-      padding: 2%;
-    }
-  }
+.login-submit {
+  width: 100%;
+  margin-bottom: 3%;
+}
 
-  .login-input .mat-form-field-appearance-outline .mat-form-field-outline-start {
-    background: #f7bd00;
-  }
-
-  .mdc-notched-outline__leading {
-    border: 1px solid #f7bd00;
-  }
+.boton {
+  background-color: rgb(61, 61, 61);
+  color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+}

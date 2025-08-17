@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-
-import { AuthRoutingModule } from './auth-routing.module'
-import { AuthComponent } from './auth.component'
-import { LoginComponent } from './components/login/login.component'
-import { RegisterComponent } from './components/register/register.component'
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component'
-import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 import { ReactiveFormsModule } from '@angular/forms'
+
+import { AuthRoutingModule } from '@pa/auth/auth-routing.module'
+import { AuthComponent } from '@pa/auth/auth.component'
+import { LoginComponent } from '@pa/auth/components/login/login.component'
+import { RegisterComponent } from '@pa/auth/components/register/register.component'
+import { ResetPasswordComponent } from '@pa/auth/components/reset-password/reset-password.component'
+import { ComponentsModule, MaterialModule } from '@pa/shared/modules'
 
 const modules = [ComponentsModule, MaterialModule]
 
