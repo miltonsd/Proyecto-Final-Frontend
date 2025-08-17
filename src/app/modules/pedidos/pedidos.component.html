@@ -6,11 +6,9 @@
       <div class="header">
         <h2 class="content" style="margin-inline-end: 1vw; flex: 1">Pedido</h2>
         <h2 
-        class="content"
-        style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
-        >
-          Productos
-        </h2>
+          class="content"
+          style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
+        >Productos</h2>
         <h2 class="content observacion" style="justify-self: flex-end; flex: 1">Observación</h2>
         <h2 class="content" style="justify-self: flex-end; flex: 1">Mesa</h2>
         <h2 class="content" style="justify-self: flex-end; flex: 1">Estado</h2>
@@ -60,7 +58,7 @@
       <mat-card class="card">
         <div class="header">
           <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
-            MOMENTÁNEAMENTE NO HAY PEDIDOS PENDIENTES.
+            MOMENTÁNEAMENTE NO HAY PEDIDOS {{ rolUsuario === 3 ? "LISTOS" : "PENDIENTES" }}.
           </h2>
         </div>
       </mat-card>

@@ -49,6 +49,7 @@ export class PedidosComponent implements OnInit {
             montoImporte: res[p].montoImporte,
             usuario: res[p].Usuario.nombre + ' ' + res[p].Usuario.apellido,
             mesa: res[p].id_mesa,
+            observacion: res[p].observacion,
             productos: res[p].Productos.map(
               (pr: any) =>
                 pr.descripcion + ' (' + pr.PedidoProductos.cantidad_prod + ')'

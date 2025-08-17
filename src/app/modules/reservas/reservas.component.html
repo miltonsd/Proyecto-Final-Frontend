@@ -29,7 +29,7 @@
       <mat-form-field appearance="fill" class="reserva-input">
         <mat-label>Ingresar cantidad de personas</mat-label>
         <input matInput type="number" [min]="1" [max]="6" formControlName="cantidad">
-        <mat-hint>Para reservas de más de 6 personas, comunicarse con el bar.</mat-hint>
+        <mat-hint>Para reservas de más de 6 personas, comunicarse con administración.</mat-hint>
         <mat-error
           *ngIf="formulario.controls.fechaHoraCantidad.controls.cantidad.hasError('required')"
         >Campo obligatorio.</mat-error>
@@ -38,7 +38,7 @@
         >La cantidad mínima es 1 persona.</mat-error>
         <mat-error
           *ngIf="formulario.controls.fechaHoraCantidad.controls.cantidad.hasError('max')"
-        >Para reservas de más de 6 personas, comunicarse con el bar.</mat-error>
+        >Para reservas de más de 6 personas, comunicarse con administración.</mat-error>
       </mat-form-field>
     </div>
 
