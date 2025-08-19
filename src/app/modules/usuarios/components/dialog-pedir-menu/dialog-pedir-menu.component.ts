@@ -18,18 +18,18 @@ import { PromocionesService } from '@pa/admin/services'
 import { DialogComponent } from '@pa/shared/components'
 
 @Component({
-  selector: 'pa-menus-dialog',
-  templateUrl: './menus-dialog.component.html',
-  styleUrls: ['./menus-dialog.component.css']
+  selector: 'pa-dialog-pedir-menu',
+  templateUrl: './dialog-pedir-menu.component.html',
+  styleUrls: ['./dialog-pedir-menu.component.css']
 })
-export class MenusdialogComponent implements OnInit {
+export class DialogPedirMenuComponent implements OnInit {
   menu!: any
   lista_productos!: any[]
   productosSeleccionados: any[] = []
   promociones: any[] = []
 
   constructor(
-    public dialogRef: MatDialogRef<MenusdialogComponent>,
+    public dialogRef: MatDialogRef<DialogPedirMenuComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _promocionService: PromocionesService,
     private _cookieService: CookieService,
@@ -95,13 +95,15 @@ export class MenusdialogComponent implements OnInit {
               ' (' +
               (promocion.porcentaje_desc * 100).toString() +
               '% OFF)',
-            precio: p.precio - p.precio * promocion.porcentaje_desc
+            precio: p.precio - p.precio * promocion.porcentaje_desc,
+            stock: p.stock
           }
         } else {
           return {
             id_producto: p.id_producto,
             descripcion: p.descripcion,
-            precio: p.precio
+            precio: p.precio,
+            stock: p.stock
           }
         }
       })
@@ -117,7 +119,7 @@ export class MenusdialogComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close()
+    this.dialogRef.close({ confirmado: false })
   }
 
   onSubmit() {
@@ -130,9 +132,9 @@ export class MenusdialogComponent implements OnInit {
         id_usuario: parseInt(id_usuario),
         id_mesa: parseInt(id_mesa),
         lista_productos: this.formulario.value.productos as Producto[],
-        observacion: this.formulario.value.observacion as string | undefined
+        observacion: (this.formulario.value.observacion as string) || 'No hay.'
       }
-      this.dialogRef.close({ data: pedido })
+      this.dialogRef.close({ confirmado: true, pedido })
     } else {
       // Se hace un if dentro del else para mostrar 2 tipos distintos de error: Cuando no se seleccionan cant de productos o Cuando no se escaneo un qr
       if (!this.formulario.valid) {
@@ -166,7 +168,8 @@ export class MenusdialogComponent implements OnInit {
         cant_selecc: new FormControl(1, {
           validators: [Validators.min(0), Validators.max(10)]
         }),
-        subtotal: new FormControl(0)
+        subtotal: new FormControl(0),
+        stock: new FormControl()
       })
     )
   }

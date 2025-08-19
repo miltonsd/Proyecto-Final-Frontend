@@ -6,12 +6,14 @@ import { TableColumn } from '@pa/shared/interfaces/tabla/table-column.interface'
 import { MenuDataDialog } from '../../models/menuDataDialog'
 import { MatDialog } from '@angular/material/dialog'
 import { PedidosService } from '@pa/carta/services'
-import { MenusdialogComponent } from '../../components/menus-dialog/menus-dialog.component'
+import { DialogPedirMenuComponent } from '@pa/usuarios/components/dialog-pedir-menu/dialog-pedir-menu.component'
 import { MenusService } from '@pa/admin/services'
 import { DialogComponent } from '@pa/shared/components'
 import { CrearMenuDialogComponent } from '../../components/crear-menu-dialog/crear-menu-dialog.component'
 import { MenuTabla } from 'src/app/modules/admin/views/menus/models'
 import { AdminDataDialog } from '@pa/admin/models'
+import { ProductoMenu } from '@pa/shared/interfaces/producto/producto-menu.interface'
+import { PedidoPOST } from '@pa/modules/pedidos/models'
 
 @Component({
   selector: 'pa-menus',
@@ -56,11 +58,12 @@ export class MenusComponent implements OnInit {
           this.menus = Object.keys(res).map((m) => ({
             id_menu: res[m].id_menu,
             titulo: res[m].titulo,
-            lista_productos: res[m].Productos.map((prod: any) => {
+            lista_productos: res[m].Productos.map((prod: ProductoMenu) => {
               return {
                 id_producto: prod.id_producto,
                 precio: prod.precio,
-                descripcion: prod.descripcion
+                descripcion: prod.descripcion,
+                stock: prod.stock
               }
             }),
             productos: res[m].Productos.map(
@@ -78,13 +81,14 @@ export class MenusComponent implements OnInit {
     const dataDialog: MenuDataDialog = {
       menu: menu
     }
-    const dialogRef = this.dialog.open(MenusdialogComponent, {
+    const dialogRef = this.dialog.open(DialogPedirMenuComponent, {
       width: '900px',
       data: dataDialog
     })
-    dialogRef.afterClosed().subscribe((pedido) => {
-      if (pedido) {
-        this._pedidoService.createPedido(pedido.data).subscribe({
+    dialogRef.afterClosed().subscribe((respuesta) => {
+      if (respuesta.confirmado) {
+        const pedido: PedidoPOST = respuesta.pedido
+        this._pedidoService.createPedido(pedido).subscribe({
           // next - error - complete
           next: (respuesta: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {

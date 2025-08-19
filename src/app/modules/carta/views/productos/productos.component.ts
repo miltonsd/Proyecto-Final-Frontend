@@ -263,7 +263,7 @@ export class ProductosComponent implements OnInit, AfterViewInit {
           lista_productos: this.carrito,
           observacion: respuesta.observacion || 'No hay.'
         }
-
+        console.log(pedido)
         this._pedidoService.createPedido(pedido).subscribe({
           next: (res: any) => {
             const dialogRef = this.dialog.open(DialogComponent, {
