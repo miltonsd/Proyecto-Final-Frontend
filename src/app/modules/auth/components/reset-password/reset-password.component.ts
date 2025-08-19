@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { Router } from '@angular/router'
 
 import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
+import { ResetPasswordInterface } from '@pa/shared/interfaces/auth/reset-password-response.interface'
+import { UsuarioAuth } from '@pa/shared/interfaces/auth/usuario-auth.interface'
 import { AuthService } from '@pa/shared/services/auth.service'
 
 @Component({
@@ -16,7 +19,8 @@ export class ResetPasswordComponent {
       validators: [
         Validators.required,
         Validators.email,
-        Validators.minLength(5)
+        Validators.minLength(5),
+        Validators.maxLength(100)
       ]
     }),
     contrasenia: new FormControl('', {
@@ -38,7 +42,11 @@ export class ResetPasswordComponent {
   ocultarConfirmarContrasenia = true
   @Output() authOptionSwitch: EventEmitter<number> = new EventEmitter<number>()
 
-  constructor(private _authService: AuthService, public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private _authService: AuthService,
+    private _router: Router
+  ) {}
 
   onSubmit() {
     if (this.formulario.valid) {
@@ -46,29 +54,21 @@ export class ResetPasswordComponent {
         this.formulario.value.confirmarContrasenia ===
         this.formulario.value.contrasenia
       ) {
-        const usuario = {
-          email: this.formulario.value.email,
-          contraseña: this.formulario.value.contrasenia
+        const usuario: UsuarioAuth = {
+          email: this.formulario.value.email as string,
+          contraseña: this.formulario.value.contrasenia as string
         }
         this._authService.resetPassword(usuario).subscribe({
-          next: (res: any) => {
+          next: (res: ResetPasswordInterface) => {
             // Contraseña cambiada con éxito
-            const dialogRef = this.dialog.open(DialogComponent, {
-              width: '375px',
-              autoFocus: true,
-              data: { title: 'Editar contraseña', msg: res.msg }
-            })
+            const dialogRef = this._showDialog('Editar contraseña', res.msg)
             dialogRef.afterClosed().subscribe(() => {
-              window.location.href = '/'
+              this._router.navigate(['/'])
             })
           },
           error: (err) => {
             // El email ingresado no está registrado
-            const dialogRef = this.dialog.open(DialogComponent, {
-              width: '375px',
-              autoFocus: true,
-              data: { title: 'Error', msg: err.error.msg }
-            })
+            const dialogRef = this._showDialog('Error', err.error.msg)
             dialogRef.afterClosed().subscribe(() => {
               this.formulario.reset()
             })
@@ -76,14 +76,10 @@ export class ResetPasswordComponent {
         })
       } else {
         // Mostrar error de contraseñas no coinciden debajo en el formularo.
-        const dialogRef = this.dialog.open(DialogComponent, {
-          width: '375px',
-          autoFocus: true,
-          data: {
-            title: 'Error al editar la contraseña',
-            msg: 'Las contraseñas no coinciden'
-          }
-        })
+        const dialogRef = this._showDialog(
+          'Error al editar la contraseña',
+          'Las contraseñas no coinciden'
+        )
         dialogRef.afterClosed().subscribe(() => {
           this.formulario.controls.contrasenia.reset()
           this.formulario.controls.confirmarContrasenia.reset()
@@ -92,6 +88,18 @@ export class ResetPasswordComponent {
     } else {
       this.formulario.markAllAsTouched()
     }
+  }
+
+  // Muestra un dialog, ya sea por error, o para hacer la lógica luego del afterClosed()
+  private _showDialog(
+    title: string,
+    msg: string
+  ): MatDialogRef<DialogComponent> {
+    return this.dialog.open(DialogComponent, {
+      width: '375px',
+      autoFocus: true,
+      data: { title, msg }
+    })
   }
 
   onClick() {

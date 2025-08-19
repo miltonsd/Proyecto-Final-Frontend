@@ -1,96 +1,14 @@
-.login {
-  display: flex;
-  justify-content: center;
-}
-
-.login-content {
-  background-color: rgb(61, 61, 61);
-  width: 300px;
-  padding: 17px 38px 38px 38px;
-  border-radius: 5%;
-  border: 1px solid #f7bd00;
-  box-shadow: 0px 0px 10px 1px #f7bd00;
-  color: rgb(255, 255, 255);
-}
-
-h1 {
-  color: #f7bd00;
+.reset-link {
+  display: block;
+  text-decoration: none;
   text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f7bd00;
+  margin-top: 1rem;
 }
 
-.fila-formulario {
-  height: 100px;
-  margin-bottom: 10px;
-}
-
-.login-input { width: 100%; }
-
-/* Label de los inputs: Etiqueta color blanco y asterisco color amarillo */
-::ng-deep mat-form-field.login-input label {
-  :is(mat-label) { color: #fff; }
-  :is(span) { color: #f7bd00; }
-}
-
-::ng-deep mat-form-field.login-input {
-  input::placeholder { color: #fff !important; }
-  .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input { color: #f7bd00 }
-}
-
-/* Borde de los inputs de amarillo (Normal) */
-::ng-deep div.mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--outlined {
-  .mdc-notched-outline__leading { border-color: #f7bd00; }
-  .mdc-notched-outline__notch { border-color: #f7bd00; }
-  .mdc-notched-outline__trailing { border-color: #f7bd00; }
-}
-
-::ng-deep div.mdc-notched-outline.mdc-notched-outline--upgraded.ng-star-inserted.mdc-notched-outline--notched {
-  .mdc-notched-outline__leading { border-color: #f7bd00; }
-  .mdc-notched-outline__notch { border-color: #f7bd00; }
-  .mdc-notched-outline__trailing { border-color: #f7bd00; }
-}
-
-::ng-deep div.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline {
-  .mdc-notched-outline__leading { border-color: #f7bd00; }
-  .mdc-notched-outline__notch { border-color: #f7bd00; }
-  .mdc-notched-outline__trailing { border-color: #f7bd00; }
-} 
-
-/* Errores de los inputs */
-::ng-deep mat-form-field.login-input.mat-form-field-invalid {
-  :is(mat-label) { color: rgb(255, 41, 41); }
-  :is(span) { color: rgb(255, 41, 41); }
-  :is(input) { color: rgb(255, 41, 41); }
-  :is(mat-error) { color: rgb(255, 41, 41); }
-  :is(input).ng-invalid.ng-touched { color: rgb(255, 41, 41); }
-  :is(input)::placeholder { color: rgb(255, 41, 41) !important; }
-
-  :is(div).mdc-text-field--invalid:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline {
-    .mdc-notched-outline__leading { border-color: rgb(255, 41, 41); }
-    .mdc-notched-outline__notch { border-color: rgb(255, 41, 41); }
-    .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41); }
-  }
-
-  :is(div).mdc-text-field--invalid:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline {
-    .mdc-notched-outline__leading { border-color: rgb(255, 41, 41); }
-    .mdc-notched-outline__notch { border-color: rgb(255, 41, 41); }
-    .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41); }
-  }
-
-  :is(div).mdc-text-field--invalid:not(.mdc-text-field--disabled) {
-    .mdc-notched-outline__leading { border-color: rgb(255, 41, 41) }
-    .mdc-notched-outline__notch { border-color: rgb(255, 41, 41) }
-    .mdc-notched-outline__trailing { border-color: rgb(255, 41, 41) }
-  }  
-}
-  
-.login-submit {
-  width: 100%;
-  margin-bottom: 3%;
-}
-
-.boton {
-  background-color: rgb(61, 61, 61);
-  color: rgb(255, 255, 255);
-  display: flex;
-  justify-content: center;
+.reset-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }

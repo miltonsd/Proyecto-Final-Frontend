@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 
 import { DialogComponent } from '@pa/shared/components/dialog/dialog.component'
-import { UsuarioLogin } from '@pa/shared/interfaces/auth/usuario-login.interface'
+import { UsuarioAuth } from '@pa/shared/interfaces/auth/usuario-auth.interface'
 import { AuthService } from '@pa/shared/services/auth.service'
 
 @Component({
@@ -43,7 +43,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.formulario.valid) {
-      const usuario: UsuarioLogin = {
+      const usuario: UsuarioAuth = {
         email: this.formulario.value.email as string,
         contraseña: this.formulario.value.contrasenia as string
       }

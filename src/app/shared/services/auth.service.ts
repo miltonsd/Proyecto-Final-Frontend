@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { BehaviorSubject, finalize, tap } from 'rxjs'
+import jwtDecode from 'jwt-decode'
 
 import { environment } from 'src/environments/environment'
 import { LoginResponse } from '@pa/shared/interfaces/auth/login-response.interface'
-import { UsuarioLogin } from '@pa/shared/interfaces/auth/usuario-login.interface'
-import jwtDecode from 'jwt-decode'
-import { BehaviorSubject, finalize, tap } from 'rxjs'
+import { ResetPasswordInterface } from '@pa/shared/interfaces/auth/reset-password-response.interface'
+import { UsuarioAuth } from '@pa/shared/interfaces/auth/usuario-auth.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
     return this._http.post(`${environment.apiUrl}/usuarios/register`, usuario)
   }
 
-  login(usuario: UsuarioLogin) {
+  login(usuario: UsuarioAuth) {
     return this._http
       .post<LoginResponse>(`${environment.apiUrl}/usuarios/login`, usuario)
       .pipe(
@@ -31,8 +32,8 @@ export class AuthService {
       )
   }
 
-  resetPassword(usuario: any) {
-    return this._http.patch(
+  resetPassword(usuario: UsuarioAuth) {
+    return this._http.patch<ResetPasswordInterface>(
       `${environment.apiUrl}/usuarios/resetPassword`,
       usuario
     )

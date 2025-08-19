@@ -4,3 +4,102 @@
   min-height: 75vh;
   justify-content: center
 }
+
+/* Estilo del div que contiene al formulario */
+::ng-deep .auth-container {
+  display: flex;
+  justify-content: center;
+  
+  /* Estilo del formulario */
+  .auth-form {
+    background-color: rgb(61, 61, 61);
+    width: 300px;
+    padding: 17px 38px 38px 38px;
+    border-radius: 5%;
+    border: 1px solid #f7bd00;
+    box-shadow: 0px 0px 10px 1px #f7bd00;
+    color: rgb(255, 255, 255);
+  }
+
+  /* Título del formulario */
+  .auth-title {
+    color: #f7bd00;
+    text-align: center;
+  }
+
+  /* Tamaño de las filas del formulario */
+  .auth-row {
+    height: 100px;
+    margin-bottom: 10px;
+  }
+
+  /* Estilos de los inputs */
+  .auth-input {
+    /* Tamaño */
+    width: 100%;
+
+    /* Color de los labels */
+    :is(label) {
+      :is(mat-label) { color: #fff; }
+      :is(span) { color: #f7bd00; } /* El asterisco de required */
+    }
+
+    /* Color de los placeholders */
+    :is(input)::placeholder { color: #fff !important; }
+
+    /* Color del texto ingresado */
+    .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input { color: #f7bd00 }
+
+    /* Color de los bordes de los inputs */
+    .mdc-notched-outline div { border-color: #f7bd00 !important }
+
+    /* Cuando hay error en los inputs */
+    &.mat-form-field-invalid {
+      /* Color de error en los textos */
+      * { color: rgb(255, 41, 41) !important}
+      :is(input)::placeholder { color: rgb(255, 41, 41) !important; }
+
+      /* Color de los bordes de error */
+      :is(div).mdc-text-field--invalid:not(.mdc-text-field--disabled) div { border-color: rgb(255, 41, 41) !important }
+    }
+  }
+
+  /* Estilos para el botón principal */
+  .auth-button {
+    cursor: pointer;
+    border-radius: 50px;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #f7bd00 !important;
+    color: rgb(25, 25, 25) !important;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: 'Oswald', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Estilos para el divisor de botones */
+  .divider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0; /* Espacio vertical */
+
+    /* Estilos para el divisor de Material */
+    :is(mat-divider) { flex-grow: 1; }
+    
+    /* Estilos para el texto */
+    .divider-text {
+      padding: 0 16px; /* Espacio a los lados del texto */
+      font-size: 14px;
+      color: #888; /* Un color de texto más sutil */
+    }
+  }
+
+  /* Estilos para el botón secundario */
+  .auth-button--secondary {
+    background-color: transparent !important;
+    color: rgb(255, 255, 255) !important;
+    border: 2px solid #f7bd00;
+  }
+}
