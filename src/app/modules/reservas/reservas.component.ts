@@ -1,6 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { Router } from '@angular/router'
 import { forkJoin } from 'rxjs'
 import * as moment from 'moment'
 import 'moment/locale/es'
@@ -72,7 +73,8 @@ export class ReservasComponent implements OnInit {
     public dialog: MatDialog,
     private _authService: AuthService,
     private _mesaService: MesaService,
-    private _reservaService: ReservaService
+    private _reservaService: ReservaService,
+    private _router: Router
   ) {
     // Habilita para hacer reservas desde el mismo dia hasta el utlimo dia del mes siguiente
     const currentYear = new Date().getFullYear()
@@ -159,33 +161,14 @@ export class ReservasComponent implements OnInit {
         id_mesa: this.formulario.value.mesa as number
       }
       this._reservaService.createReserva(nuevaReserva).subscribe({
-        next: (res) => {
+        next: () => {
           const dialogRef = this._showDialog(
             'Realizar reserva',
             'Reserva registrada correctamente.'
           )
           dialogRef.afterClosed().subscribe(() => {
-            // Agrega la nueva reserva al array de reservas del usuario
-            const reservaCreada = res.elemento
-            reservaCreada.fechaHora = moment(reservaCreada.fechaHora).format(
-              'DD/MM/yyyy HH:mm'
-            )
-            const reservasUpdated = [...this.reservasUsuario, reservaCreada]
-            this.reservasUsuario = reservasUpdated.sort((a, b) => {
-              const dateA = moment(a.fechaHora, 'DD/MM/yyyy HH:mm').unix()
-              const dateB = moment(b.fechaHora, 'DD/MM/yyyy HH:mm').unix()
-              return dateA - dateB
-            })
-            // Muestra la tabla de reservas
-            this.mostrarReservas = true
-            this.formulario.get('fechaHoraCantidad')?.reset({
-              fecha: moment(this.minDate).format('YYYY-MM-DD'),
-              hora: '18:00',
-              cantidad: 1
-            })
-            this.formulario.get('mesa')?.setValue(null)
-            this.formulario.markAsPristine()
-            this.formulario.markAsUntouched()
+            // Redirige al histórico de reservas del perfil
+            this._router.navigate(['/perfil/reservas'])
           })
         },
         error: (err) => {
@@ -206,9 +189,8 @@ export class ReservasComponent implements OnInit {
           'Se ha cancelado la reserva con éxito.'
         )
         dialogRef.afterClosed().subscribe(() => {
-          this.reservasUsuario = this.reservasUsuario.filter(
-            (r) => r.id_reserva != reserva.id_reserva
-          )
+          // Redirige al histórico de reservas del perfil
+          this._router.navigate(['/perfil/reservas'])
         })
       },
       error: (err) => {
@@ -241,25 +223,8 @@ export class ReservasComponent implements OnInit {
                 'Reserva editada correctamente.'
               )
               dialogRefEdit.afterClosed().subscribe(() => {
-                // Busca el indice de la reserva que se actualizó
-                const index = this.reservasUsuario.findIndex(
-                  (r) => r.id_reserva === reserva.id_reserva
-                )
-
-                // Si la encuentra, reemplázala con la reserva actualizada
-                if (index !== -1) {
-                  const reservaActualizada = { ...resultado.reservaEditada }
-                  // Formatea la fecha al formato que la tabla espera
-                  reservaActualizada.fechaHora = moment(
-                    reservaActualizada.fechaHora
-                  ).format('DD/MM/yyyy HH:mm')
-
-                  this.reservasUsuario = [
-                    ...this.reservasUsuario.slice(0, index), // Elementos antes del que vamos a actualizar
-                    reservaActualizada, // El nuevo objeto
-                    ...this.reservasUsuario.slice(index + 1) // Elementos después
-                  ]
-                }
+                // Redirige al histórico de reservas del perfil
+                this._router.navigate(['/perfil/reservas'])
               })
             },
             error: (err) => {
