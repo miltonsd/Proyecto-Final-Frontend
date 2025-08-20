@@ -28,8 +28,9 @@
   width: 100%;
 }
 
-.logout {
+::ng-deep .logout {
   margin-top: auto;
+  :is(a) span { color: #f7bd00 !important; }
 }
 
 .contenido {
@@ -43,15 +44,15 @@ a.seleccionado{
   background-color: rgb(25, 25, 25);
 }
 
-/* Texto de la opción(item) seleccionada */
-::ng-deep a.seleccionado .mdc-list-item__primary-text {
-  font-weight: 600;
-  color: rgb(255, 255, 255) !important
+/* Texto por defecto de todos los items de la lista */
+::ng-deep a.opcion-perfil span.mdc-list-item__content span.mat-mdc-list-item-unscoped-content.mdc-list-item__primary-text {
+  color: #f7bd00 !important
 }
 
-/* Texto por defecto de todos los items de la lista */
-::ng-deep .mdc-list-item__primary-text {
-  color: #f7bd00 !important
+/* Texto de la opción(item) seleccionada */
+::ng-deep a.opcion-perfil.seleccionado span.mdc-list-item__content span.mdc-list-item__primary-text {
+  font-weight: 600;
+  color: rgb(255, 255, 255) !important
 }
 
 /* Item de la lista cuando pasas el mouse */
