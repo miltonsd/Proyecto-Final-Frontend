@@ -1,10 +1,10 @@
-<div class="dialog">
-  <h3> {{ message.title }} </h3>
-  <div>
-    {{ message.msg }}
+<div class="main">
+  <div class="dialog">
+    <h2>{{ message.title }}</h2>
+    <div>{{ message.msg }}</div>
   </div>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="primary" [mat-dialog-close]="true">Si</button>
-  <button mat-raised-button color="warn" mat-dialog-close (click)="onNoClick()">No</button>
+  <div class="dialog-botones" mat-dialog-actions>
+    <button class="dialog-btn dialog-btn--secondary" mat-flat-button color="warn" mat-dialog-close (click)="onNoClick()">No</button>
+    <button class="dialog-btn" mat-flat-button color="primary" [mat-dialog-close]="true">Si</button>
+  </div>
 </div>

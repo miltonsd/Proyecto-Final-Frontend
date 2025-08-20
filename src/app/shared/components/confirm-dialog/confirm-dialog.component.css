@@ -1,4 +1,32 @@
+.main {
+  border: 10px solid rgb(41, 41, 41);
+  background-color: #f7bd00;
+}
+
 .dialog {
-    padding: 2%;
-    text-align: center;
+  padding: 2%;
+  text-align: center;
+}
+
+.dialog-botones {
+  display: flex;
+  justify-content: center;
+}
+
+.dialog-btn {
+  cursor: pointer;
+  border-radius: 50px;
+  padding: 10px 20px;
+  background-color: rgb(25, 25, 25);
+  color: #f7bd00;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dialog-btn--secondary {
+  background-color: transparent;
+  color: rgb(25, 25, 25);
+  border: 2px solid rgb(25, 25, 25);
 }

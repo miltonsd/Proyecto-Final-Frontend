@@ -41,12 +41,15 @@ export class CartaComponent implements OnInit {
       .getAllTiposProducto()
       .pipe(
         map((res: any) => {
-          this.tiposP = Object.keys(res).map((tp) => ({
-            id_tipoProducto: res[tp].id_tipoProducto,
-            descripcion: res[tp].descripcion,
-            imagen: this._cartaService.getTipoProductoImagen(res[tp].imagen)
-            // El metodo getTipoProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
-          }))
+          this.tiposP = Object.keys(res)
+            .map((tp) => ({
+              id_tipoProducto: res[tp].id_tipoProducto,
+              descripcion: res[tp].descripcion,
+              imagen: this._cartaService.getTipoProductoImagen(res[tp].imagen),
+              cant_productos: res[tp].cant_productos
+              // El metodo getTipoProductoImagen devuelve la url completa de la imagen a partir del path que se almacena en la DB
+            }))
+            .filter((tp) => tp.cant_productos > 0) // Se queda con los tiposProducto que tengan más de 1 producto asociado
         })
       )
       .subscribe({

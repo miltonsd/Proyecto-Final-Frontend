@@ -1,9 +1,9 @@
-<div class="dialog">
-  <h3> {{ message.title }} </h3>
-  <div>
-    {{ message.msg }}
+<div class="main">
+  <div class="dialog">
+    <h2>{{ message.title }}</h2>
+    <div class="text-dialog">{{ message.msg }}</div>
   </div>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="primary" mat-dialog-close>Aceptar</button>
+  <div mat-dialog-actions class="dialog-botones">
+    <button class="dialog-btn" mat-flat-button color="primary" mat-dialog-close>Aceptar</button>
+  </div>
 </div>
