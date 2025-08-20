@@ -13,7 +13,7 @@ export class AuthComponent implements OnInit {
   authOption: number
 
   constructor(public dialog: MatDialog, private _route: ActivatedRoute) {
-    this.authOption = 1 // Por defecto 1: Login / 2: Register / 3: Reset Password
+    this.authOption = 2 // Por defecto 1: Login / 2: Register / 3: Reset Password
   }
 
   ngOnInit() {

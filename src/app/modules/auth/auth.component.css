@@ -27,11 +27,8 @@
     text-align: center;
   }
 
-  /* Tamaño de las filas del formulario */
-  .auth-row {
-    height: 100px;
-    margin-bottom: 10px;
-  }
+  /* Margin de las filas del formulario */
+  .auth-row { margin-bottom: 34px; }
 
   /* Estilos de los inputs */
   .auth-input {

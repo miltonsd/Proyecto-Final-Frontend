@@ -18,16 +18,27 @@ export class RegisterComponent {
   )
   formulario = new FormGroup({
     nombre: new FormControl('', {
-      validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')]
+      validators: [
+        Validators.required,
+        Validators.pattern('[a-zA-Z ]*'),
+        Validators.minLength(3),
+        Validators.maxLength(50)
+      ]
     }),
     apellido: new FormControl('', {
-      validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')]
+      validators: [
+        Validators.required,
+        Validators.pattern('[a-zA-Z ]*'),
+        Validators.minLength(3),
+        Validators.maxLength(50)
+      ]
     }),
     email: new FormControl('', {
       validators: [
         Validators.required,
         Validators.email,
-        Validators.minLength(5)
+        Validators.minLength(5),
+        Validators.maxLength(100)
       ]
     }),
     contrasenia: new FormControl('', {
@@ -53,7 +64,11 @@ export class RegisterComponent {
       ]
     }),
     direccion: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(3)]
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(500)
+      ]
     }),
     telefono: new FormControl('', {
       validators: [Validators.required, Validators.pattern('[0-9]*')]
