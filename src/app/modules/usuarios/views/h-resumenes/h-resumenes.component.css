@@ -1,0 +1,29 @@
+.container {
+  padding: 1%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.titulo { 
+  text-align: center;
+  color: #f7bd00;
+  font-size: 30px;
+}
+
+.tabla {
+  padding-bottom: 8%;
+  padding-inline: 1%;
+}
+
+@media only screen and (min-width: 992px) {
+  .titulo {
+    font-size: 35px;
+  }
+
+  .tabla {
+    padding-bottom: 5%;
+    padding-inline: 5%;
+  }
+} 

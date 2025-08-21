@@ -1,0 +1,15 @@
+<div class="main">
+
+  <h1 class="titulo">Preguntas frecuentes</h1>
+  <div class="questions">
+   
+    <ng-container *ngFor="let faq of faqs">
+      <pa-faq-accordion
+        [question]="faq.q"
+        [answer]="faq.a"
+      ></pa-faq-accordion>
+      <br>
+    </ng-container>
+    
+  </div>
+</div>

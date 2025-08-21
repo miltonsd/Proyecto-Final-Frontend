@@ -1,0 +1,19 @@
+<div class="main">
+  <pa-boton-volver [titulo]="'Tipos producto'"></pa-boton-volver>
+  <div class="tabla">
+    <pa-tabla
+      [tableData]="datosTabla" 
+      [tableColumns]="columnas" 
+      [isPaginator]="false"
+      (editAction)="onEdit($event)"
+      (deleteAction)="onDelete($event)"
+      [confirmDialogMsg]="msgConfirmacion"
+    ></pa-tabla>
+  </div>
+  
+  <div class="boton">
+    <button class="submit" type="submit" mat-raised-button color="primary" (click)="onAdd()">
+      Agregar tipo producto (+)
+    </button>
+  </div>
+</div>

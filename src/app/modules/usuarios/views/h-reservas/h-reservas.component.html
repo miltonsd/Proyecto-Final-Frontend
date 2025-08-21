@@ -1,0 +1,17 @@
+<div class="container">
+    <h1 class="titulo">Histórico de reservas</h1>
+    <div class="tabla">
+        
+        <pa-tabla class="celular"
+            [tableData]="reservas"
+            [tableColumns]="columnasCelu"
+            [isPaginator]="false">
+        </pa-tabla>
+        
+        <pa-tabla class="pc"
+            [tableData]="reservas"
+            [tableColumns]="columnasPC"
+            [isPaginator]="false">
+        </pa-tabla>
+    </div>
+</div>

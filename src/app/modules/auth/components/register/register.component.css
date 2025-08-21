@@ -1,0 +1,34 @@
+.register-form {
+  margin: 20px;
+  width: 360px;
+  padding-inline: 10px;
+}
+
+.register-row {
+  display: flex;
+  gap: 5px;
+  
+  .auth-input { flex-grow: 1; }
+  
+  .texto-largo-input .mat-mdc-text-field-wrapper .mdc-floating-label {
+    white-space: normal; /* Permite que el texto salte de línea */
+    line-height: 1.2;
+
+    &.mdc-floating-label--float-above { white-space: nowrap;}
+  }
+
+}
+
+.auth-input mat-hint { color: #f7bd00; }
+
+.auth-input mat-datepicker-toggle { color: rgb(255, 255, 255); }
+
+ @media only screen and (min-width: 768px) {
+  .register-form {
+    margin: 35px;
+    width: 450px;
+    padding-inline: 38px;
+  }
+
+  .register-row { gap: 10px; }
+}

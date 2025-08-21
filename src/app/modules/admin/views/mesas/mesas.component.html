@@ -1,0 +1,30 @@
+<div class="main">
+  <!-- El pa-boton-volver carga el boton para volver a la vista de Admin y tambien tiene el titulo de la tabla -->
+  <pa-boton-volver [titulo]="'Mesas'"></pa-boton-volver>
+  <div class="tabla">
+    <pa-tabla
+      class="tabla-pc"
+      [tableData]="datosTabla" 
+      [tableColumns]="columnasPC" 
+      [isPaginator]="false"
+      (editAction)="onEdit($event)"
+      (deleteAction)="onDelete($event)"
+      [confirmDialogMsg]="msgConfirmacion"
+    ></pa-tabla>
+    <pa-tabla
+      class="tabla-celu" 
+      [tableData]="datosTabla" 
+      [tableColumns]="columnasCelu" 
+      [isPaginator]="false"
+      (editAction)="onEdit($event)"
+      (deleteAction)="onDelete($event)"
+      [confirmDialogMsg]="msgConfirmacion"
+    ></pa-tabla>
+  </div>
+  
+  <div class="boton">
+    <button class="submit" type="submit" mat-raised-button color="primary" (click)="onAdd()">
+      Agregar mesa (+)
+    </button>
+  </div>
+</div>

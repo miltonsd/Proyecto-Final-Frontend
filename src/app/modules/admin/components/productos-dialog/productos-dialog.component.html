@@ -1,0 +1,78 @@
+<div class="main">
+    <!-- Comprueba que data.accion sea 'editar' o 'agregar' y muestra el Título correspondiente -->
+    <h1 class="titulo">{{data.editar ? 'Modificar' : 'Agregar'}} producto</h1>
+  
+      <div mat-dialog-content class="reserva">
+        <div class="reserva">
+          <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
+  
+            <div class="filaFormulario">
+              <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input" > 
+                <mat-label>Descripcion del producto</mat-label>
+                <input type="text" matInput formControlName="descripcion">
+                <mat-error *ngIf="formulario.controls.descripcion.hasError('required')">
+                  Ingrese una descripcion válida
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" [hideRequiredMarker]="data.editar" class="reserva-input fechaHora">
+                <mat-label>Seleccionar tipo producto</mat-label>
+                <mat-select formControlName="tipoProducto">
+                  <mat-option *ngFor="let tp of tiposProducto" [value]="tp.id_tipoProducto">{{
+                    tp.descripcion
+                  }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formulario.controls.tipoProducto.hasError('required')">
+                  Campo obligatorio.
+                </mat-error>
+              </mat-form-field>
+            </div> 
+
+            <div class="filaFormulario">
+              <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+                  <mat-label>Precio del producto</mat-label>
+                  <input type="number" min="0" matInput formControlName="precio">
+                  <mat-error *ngIf="formulario.controls.precio.hasError('required')">
+                    Ingrese un precio válido
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input">
+                  <mat-label>Stock del producto</mat-label>
+                  <input type="number" min="0" matInput formControlName="stock">
+                  <mat-error *ngIf="formulario.controls.stock.hasError('required')">
+                    Ingrese un stock válido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="filaFormulario">
+                <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input imagen detalle">
+                  <mat-label>Detalle del producto</mat-label>
+                  <textarea matInput formControlName="detalle"></textarea>
+                  <mat-error *ngIf="formulario.controls.detalle.hasError('required')">
+                    Ingrese un detalle válido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="filaFormulario">
+                <mat-form-field [hideRequiredMarker]="data.editar" class="reserva-input imagen">
+                  <mat-label>Imagen del producto</mat-label>
+                  <input type="text" matInput formControlName="imagen">
+                  <mat-error *ngIf="formulario.controls.imagen.hasError('required')">
+                    Ingrese una imagen válida
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              
+          <div class="boton">
+            <button type="submit" mat-raised-button color="primary">Confirmar</button>
+            <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+          </div>
+          
+        </form>
+        
+      </div>
+      
+  </div>  

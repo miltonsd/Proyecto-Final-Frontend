@@ -1,0 +1,11 @@
+<div class="main" [ngSwitch]="authOption">
+  <div *ngSwitchCase="2" class="flex-item">
+    <pa-register (authOptionSwitch)="changeAuthOption($event)"></pa-register>
+  </div>
+  <div *ngSwitchCase="3" class="flex-item">
+    <pa-reset-password (authOptionSwitch)="changeAuthOption($event)"></pa-reset-password>
+  </div>
+  <div *ngSwitchDefault class="flex-item">
+    <pa-login (authOptionSwitch)="changeAuthOption($event)"></pa-login>
+  </div>
+</div>

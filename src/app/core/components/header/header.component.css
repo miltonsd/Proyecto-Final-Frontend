@@ -1,0 +1,18 @@
+.header {
+  background-color: rgb(25, 25, 25);
+  padding: 8px 8px;
+  height: 10vh;
+  color: white
+}
+
+.separador { flex: 1 1 auto; }
+
+.foto { height: 60px; }
+
+.enlaces-pc { display: none; }
+
+@media only screen and (min-width: 992px) {
+  .enlaces-celular { display: none; }
+
+  .enlaces-pc { display: block; }
+} 

@@ -1,0 +1,78 @@
+.usuario-container {
+  min-height: 75vh;
+}
+
+.barra {
+  width: 285px;
+  min-height: 100%;
+}
+
+.button-celular {
+  background-color: rgb(61, 61, 61);
+  color: #f7bd00;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
+
+.mat-icon {
+  font-size: 24px
+}
+
+.opciones {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-color: rgb(41, 41, 41);
+  width: 100%;
+}
+
+::ng-deep .logout {
+  margin-top: auto;
+  :is(a) span { color: #f7bd00 !important; }
+}
+
+.contenido {
+  background-color: rgb(61, 61, 61);
+  color: rgb(255, 255, 255) !important;
+  min-height: 75vh;
+}
+
+/* Color de fondo de la opción(item) seleccionada */
+a.seleccionado{
+  background-color: rgb(25, 25, 25);
+}
+
+/* Texto por defecto de todos los items de la lista */
+::ng-deep a.opcion-perfil span.mdc-list-item__content span.mat-mdc-list-item-unscoped-content.mdc-list-item__primary-text {
+  color: #f7bd00 !important
+}
+
+/* Texto de la opción(item) seleccionada */
+::ng-deep a.opcion-perfil.seleccionado span.mdc-list-item__content span.mdc-list-item__primary-text {
+  font-weight: 600;
+  color: rgb(255, 255, 255) !important
+}
+
+/* Item de la lista cuando pasas el mouse */
+::ng-deep .mdc-list-item:hover {
+  background-color: rgb(255, 255, 255, 0.2);
+}
+
+/* Cuando pasas el mouse por cerrar sesión*/
+.logout:hover {
+  background-color: rgb(255, 0, 0, 0.6);
+}
+
+/* Color de la letra del cerrar sesión cuando pasas el mouse */
+::ng-deep .logout:hover .mdc-list-item__primary-text { 
+  color: rgb(255, 255, 255) !important;
+  font-weight: 600;
+}
+
+@media only screen and (min-width: 992px) {
+  .button-celular {
+    display: none;
+  }
+} 

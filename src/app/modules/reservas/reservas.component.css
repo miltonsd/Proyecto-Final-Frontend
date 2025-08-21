@@ -1,0 +1,96 @@
+.titulo {
+  font-size: 30px;
+  text-align: center;
+  color: #f7bd00;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 75vh;
+  margin: 3%;
+}
+
+.reserva-content {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 3%;
+  width: 100%;
+  color: #f7bd00;
+  margin-bottom: 4%;
+}
+
+.reserva-content h1 { font-weight: 600; }
+
+.reserva-input {
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+div.fechaHora {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+mat-form-field.fechaHora {
+  height: 76px;
+  width: 49%;
+}
+
+.boton {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.boton button { width: 41%; }
+
+.table-container {
+  width: 100%;
+  padding-inline: 3%;
+}
+
+.tabla {
+  width: 100%;
+  background-color: rgb(61, 61, 61);
+}
+
+.mat-column-fechaHora {
+  width: 60px;
+  color: rgb(255, 255, 255);
+}
+
+.mat-column-cant_personas {
+  width: 200px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+.mat-column-id_mesa {
+  width: 32px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+@media only screen and (min-width: 992px) {
+  .titulo { font-size: 35px; }
+
+  .main { flex-direction: row; }
+  
+  .reserva-content {
+    align-self: flex-start;
+    width: 33vw;
+  }
+
+  .boton button { width: 35%; }
+
+  .table-container {
+    width: 52%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    align-self: flex-start;
+  }
+}

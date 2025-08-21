@@ -1,0 +1,40 @@
+<div class="auth-container">
+  <form [formGroup]="formulario" class="auth-form mat-elevation-z6" (ngSubmit)="onSubmit()">
+
+    <h1 class="auth-title">Iniciar sesión</h1>
+
+    <div class="auth-row">
+      <mat-form-field appearance="outline" class="auth-input">
+        <mat-label>Ingresar email</mat-label>
+        <input matInput formControlName="email" placeholder="Email" tabindex="1">
+        <mat-error *ngIf="formulario.controls.email.hasError('required')">Campo obligatorio.</mat-error>
+        <mat-error *ngIf="formulario.controls.email.hasError('email')">Formato inválido.</mat-error>
+        <mat-error *ngIf="formulario.controls.email.hasError('minlength')">Debe contener mínimo 5 caracteres.</mat-error>
+        <mat-error *ngIf="formulario.controls.email.hasError('maxlength')">Debe contener máximo 100 caracteres.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="auth-row">
+      <mat-form-field appearance="outline" class="auth-input">
+        <mat-label>Ingresar contraseña</mat-label>
+        <input matInput [type]="ocultar ? 'password' : 'text'" formControlName="contrasenia" placeholder="Contraseña" tabindex="2">
+        <button type="button" mat-icon-button matSuffix (click)="ocultar = !ocultar" [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="ocultar" tabindex="-1"
+          ><mat-icon>{{ocultar ? 'visibility_off' : 'visibility'}}</mat-icon
+        ></button>
+        <mat-error *ngIf="formulario.controls.contrasenia.hasError('required')">Campo obligatorio.</mat-error>
+        <mat-error *ngIf="formulario.controls.contrasenia.hasError('minlength')">Debe contener mínimo 6 caracteres.</mat-error>
+        <mat-error *ngIf="formulario.controls.contrasenia.hasError('maxlength')">Debe contener máximo 20 caracteres.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <button class="auth-button" type="submit" mat-flat-button color="primary" tabindex="3">Iniciar sesión</button>
+    <a (click)="onClick(3)" class="reset-link" tabindex="4">¿Olvidaste tu contraseña?</a>
+    <div class="divider-container">
+      <mat-divider></mat-divider>
+      <span class="divider-text">O</span>
+      <mat-divider></mat-divider>
+    </div>
+    <a class="auth-button auth-button--secondary" mat-flat-button (click)="onClick(2)" tabindex="4">Registrarme</a>
+
+  </form>
+</div>

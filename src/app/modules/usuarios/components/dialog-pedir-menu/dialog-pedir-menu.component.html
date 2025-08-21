@@ -1,0 +1,59 @@
+<div class="cartel">
+    <h1 class="titulo"> Realizar pedido</h1>
+  
+      <div mat-dialog-content class="reserva">
+        <div class="reserva">
+          <form [formGroup]="formulario" class="reserva-content" (submit)="onSubmit()">
+
+            <div formArrayName="productos">
+              <div *ngFor="let producto of productos.controls; let i = index;" [formGroupName]="i">
+               
+                <mat-form-field appearance="fill" class="reserva-input fechaHora">
+                  <mat-label>Producto</mat-label>
+                  <input type="text" matInput formControlName="descripcion" readonly>
+                </mat-form-field>
+                
+                <mat-form-field class="example-full-width">
+                  <mat-label>Cantidad</mat-label>
+                  <input type="number" min="1" max="10" matInput formControlName="cant_selecc">
+                  <mat-error *ngIf="formulario.controls.productos.hasError('required')">
+                    Ingrese una cantidad válida (entre 1 y 10)
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                  <mat-label>Precio</mat-label>
+                  <input type="text" matInput formControlName="subtotal" readonly>
+                </mat-form-field>
+            
+                <button class="eliminar-producto" mat-mini-fab color="warn" (click)="removeProducto(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <br><br>
+          
+              </div>
+            </div>
+            
+            <div class="filaFormulario">
+              <mat-form-field class="observacion">
+                <mat-label>Observaciones del pedido</mat-label>
+                <textarea matInput formControlName="observacion"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="monto-importe-campo">
+              Monto total: {{ calculaMonto() | currency:'ARS' }}
+            </div>
+
+          <div class="boton">
+            <button type="submit" mat-raised-button color="primary">
+              Confirmar pedido
+            </button>
+            <button type="button" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+          </div>
+          
+        </form>
+        
+      </div>
+      
+  </div>

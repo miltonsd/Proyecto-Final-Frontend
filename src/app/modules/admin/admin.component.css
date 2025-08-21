@@ -1,0 +1,27 @@
+.main {
+  align-items: center;
+  min-height: 75vh;
+  display: grid;
+  justify-content: center;
+  padding-top: 2%;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media only screen and (min-width: 992px) {
+  .main {
+    margin-bottom: 1%;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    min-height: 72vh;
+    align-content: center;
+  }
+} 

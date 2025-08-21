@@ -1,0 +1,67 @@
+<div class="container">
+  <h1 class="titulo">Pedidos {{ rolUsuario === 3 ? "listos" : "pendientes" }}</h1>
+  
+  <ng-container *ngIf="datosTabla.length > 0; else sinPedidos">
+    <mat-card class="cardTitle">
+      <div class="header">
+        <h2 class="content" style="margin-inline-end: 1vw; flex: 1">Pedido</h2>
+        <h2 
+          class="content"
+          style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
+        >Productos</h2>
+        <h2 class="content observacion" style="justify-self: flex-end; flex: 1">Observación</h2>
+        <h2 class="content" style="justify-self: flex-end; flex: 1">Mesa</h2>
+        <h2 class="content" style="justify-self: flex-end; flex: 1">Estado</h2>
+      </div>
+      <mat-card-actions align="end">
+        <button style="visibility: hidden" class="button">Entregar</button>
+      </mat-card-actions>
+    </mat-card>
+      
+    <ng-container *ngFor="let pedido of datosTabla">
+      <mat-card class="card">
+      <!-- <mat-card class="card" @[remove]> -->
+        <div class="header">
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
+            {{ pedido.id_pedido }}
+          </h2>
+          <h2
+          class="content"
+          style="margin-inline-end: 1vw; flex: 10; flex-wrap: wrap"
+          >
+            {{ pedido.productos }}
+          </h2>
+          <h2 class="content observacion" style="justify-self: flex-end; flex: 1">
+            {{ pedido.observacion }}
+          </h2>
+          <h2 class="content" style="justify-self: flex-end; flex: 1">
+            {{ pedido.mesa }}
+          </h2>
+          <h2 class="content" style="justify-self: flex-end; flex: 1">
+            {{ pedido.estado }}
+          </h2>
+        </div>
+        <mat-card-actions align="end">
+          <button class="button button-pc" (click)="cambiarEstado(pedido.id_pedido)">
+            {{ pedido.estado === 'Pendiente'? 'Listo' : 'Entregar' }}
+          </button>
+          <button class="button button-celular" (click)="cambiarEstado(pedido.id_pedido)">
+            <mat-icon>{{ pedido.estado === 'Pendiente'? 'done_outline' : 'room_service' }}</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+    </ng-container>
+  </ng-container>
+  
+  <ng-template #sinPedidos>
+      <mat-card class="card">
+        <div class="header">
+          <h2 class="content" style="margin-inline-end: 1vw; flex: 1">
+            MOMENTÁNEAMENTE NO HAY PEDIDOS {{ rolUsuario === 3 ? "LISTOS" : "PENDIENTES" }}.
+          </h2>
+        </div>
+      </mat-card>
+  </ng-template>
+
+</div>

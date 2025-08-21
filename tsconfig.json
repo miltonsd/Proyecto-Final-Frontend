@@ -19,10 +19,29 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"],
+    "paths": {
+      "tslib" : ["node_modules/tslib/tslib.d.ts"],
+      
+      // Alias de nivel superior
+      "@pa/*" : ["src/app/*"],
+
+      // Alias para core
+      "@pa/core/*" : ["src/app/core/*"],
+
+      // Alias específicos para módulos
+      "@pa/admin/*" : ["src/app/modules/admin/*"],
+      "@pa/auth/*" : ["src/app/modules/auth/*"],
+      "@pa/carta/*" : ["src/app/modules/carta/*"],
+      "@pa/home/*" : ["src/app/modules/home/*"],
+      "@pa/mesas/*" : ["src/app/modules/mesas/*"],
+      "@pa/pedidos/*" : ["src/app/modules/pedidos/*"],
+      "@pa/reservas/*" : ["src/app/modules/reservas/*"],
+      "@pa/usuarios/*" : ["src/app/modules/usuarios/*"],
+      
+      // Alias para recursos compartidos
+      "@pa/shared/*" : ["src/app/shared/*"],
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

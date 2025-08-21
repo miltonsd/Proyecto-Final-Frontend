@@ -1,0 +1,32 @@
+.main {
+  min-height: 75vh;
+  margin-bottom: 3%;
+}
+
+.tabla {
+  padding: 1%;
+  padding-bottom: 8%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tabla-pc {
+  display: none;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 992px) {
+  .tabla-celu {
+    display: none;
+  }
+
+  .tabla-pc {
+    display: block;
+  }
+} 

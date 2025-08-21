@@ -1,0 +1,14 @@
+.reset-link {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f7bd00;
+  margin-top: 1rem;
+}
+
+.reset-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

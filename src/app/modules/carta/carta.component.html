@@ -1,0 +1,9 @@
+<div class="main">
+  <ng-container *ngIf="this.tiposP.length > 0">
+    <div class="cards" [@slide]>
+      <section *ngFor="let tipo of this.tiposP">
+        <pa-card-tipo-producto [tipo]="tipo"></pa-card-tipo-producto>
+      </section>
+    </div>
+  </ng-container>
+</div>

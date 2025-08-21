@@ -1,0 +1,172 @@
+<!-- Tabla -->
+<table mat-table [dataSource]="dataSource" matSort class="tabla mat-elevation-z8">
+    <!-- Columnas -->
+    <ng-container *ngFor="let tableColumn of tableColumns" [matColumnDef]="tableColumn.name" class="columna">
+        
+        <!-- Si se puede ordenar la columna -->
+        <ng-container *ngIf="tableColumn.isSortable; else notSortable">
+            <th mat-header-cell *matHeaderCellDef [mat-sort-header]="tableColumn.dataKey">
+                {{tableColumn.name}}
+            </th>
+        </ng-container>  
+        <!-- En caso de que no se pueda ordenar la columna --> 
+        <ng-template #notSortable>
+            <th mat-header-cell *matHeaderCellDef>
+                {{tableColumn.name}}
+            </th>
+        </ng-template>
+
+        <!-- Si el contenido de la columna permite ver detalles -->
+        <ng-container *ngIf="tableColumn.showDetails">
+            <td></td>
+        </ng-container>
+        
+      
+        <!-- Si el contenido de la columna tiene botones -->
+        <ng-container *ngIf="tableColumn.dataKey === 'actionButtons'">
+            <td mat-cell *matCellDef="let row">
+                <div class="botones">
+                    <!-- Si existe botón de 'Ver detalles' --> 
+                    <ng-container *ngIf="tableColumn.showDetailsButton">
+                        <div class="boton-c">
+                            <a mat-flat-button color="primary" routerLink="{{tableColumn.detailsUrl}}{{row.id}}" class="boton">
+                                Ver detalles
+                            </a>
+                        </div>
+                    </ng-container>
+                
+                    <ng-container *ngIf="tableColumn.editButton && tableColumn.deleteButton && !tableColumn.menuButton">
+                        <div class="boton-c edit-delete-pc">
+                            <a mat-flat-button color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>edit</mat-icon>
+                                Editar
+                            </a>
+                            <a mat-flat-button color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>delete</mat-icon>
+                                Eliminar
+                            </a>
+                        </div>                          
+                        <div class="boton-c edit-delete-celular">
+                            <a mat-mini-fab color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>
+                                    edit
+                                </mat-icon>
+                            </a>
+                            <a mat-mini-fab color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
+                            </a>
+                        </div>
+                    </ng-container>
+
+                    <!-- Si el usuario está logueado -->
+                    <ng-container *ngIf="usuarioLogueado">
+                        <!-- Si existe botón de '+1' y '-1' -->
+                        <ng-container *ngIf="tableColumn.addButton">
+                            <div class="boton-c botones-carta">
+                                <a mat-mini-fab color="primary" (click)="onAddCart(row)" class="boton">
+                                    <mat-icon>
+                                        exposure_plus_1
+                                    </mat-icon>
+                                </a>
+                                <a mat-mini-fab color="primary" (click)="onRemoveCart(row)" class="boton">
+                                    <mat-icon>
+                                        exposure_neg_1
+                                    </mat-icon>
+                                </a>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    
+                    
+
+                    <!-- Si existe botón para cargar el menú al momento de hacer un pedido -->
+                    <ng-container *ngIf="tableColumn.menuButton">
+                        <div class="boton-c edit-delete-pc">
+                            <a mat-flat-button color="accent" (click)="onCargarMenu(row)" class="boton">
+                                <fa-icon [icon]="faArrowPointer"></fa-icon>
+                                Elegir
+                            </a>
+                            <a mat-mini-fab color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>
+                                    edit
+                                </mat-icon>
+                            </a>
+                            <a mat-mini-fab color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
+                            </a>
+                        </div>                          
+                        <div class="boton-c edit-delete-celular">
+                            <a mat-mini-fab color="accent" (click)="onCargarMenu(row)" class="boton">
+                                <fa-icon [icon]="faArrowPointer"></fa-icon>
+                            </a>
+                            <a mat-mini-fab color="primary" (click)="onEdit(row)"class="boton">
+                                <mat-icon>
+                                    edit
+                                </mat-icon>
+                            </a>
+                            <a mat-mini-fab color="warn" (click)="onDelete(row)" class="boton">
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
+                            </a>
+                        </div>
+                    </ng-container>
+                    
+                </div>
+            </td>  
+        </ng-container>
+        
+        <!-- Si el contenido de la columna no es una imagen -->
+        <ng-container *ngIf="!tableColumn.isImage; else isImage">
+            <!-- Si existe botón para mostrar detalles del producto -->
+            <ng-container *ngIf="tableColumn.showDetails; else sinDetalles">
+                <td mat-cell *matCellDef="let row" (click)="onVerDetalles(row)">
+                    <ng-container *ngIf="tableColumn.isCurrency; else isText">
+                        {{ row[tableColumn.dataKey] | currency:'ARS' }}
+                    </ng-container>
+                    <ng-template #isText >
+                        {{row[tableColumn.dataKey]}}
+                    </ng-template>
+                </td>
+            </ng-container>
+
+            <ng-template #sinDetalles>
+                <td mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="tableColumn.isCurrency; else isText">
+                        {{ row[tableColumn.dataKey] | currency:'ARS' }}
+                    </ng-container>
+                    <ng-template #isText >
+                        {{row[tableColumn.dataKey]}}
+                    </ng-template>
+                </td>
+            </ng-template>
+                  
+        </ng-container>
+                
+        <!-- Si el contenido de la columna es una imagen -->
+        <ng-template #isImage>
+            <td mat-cell *matCellDef="let row">
+                <img class="cover" [src]="row[tableColumn.dataKey]" alt="{{row.name}} cover">
+            </td>
+        </ng-template>
+            
+    </ng-container>
+            
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> 
+        
+    <!-- Fila que se muestra cuando no se encuentran datos --> 
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">No se encontraron datos.</td>
+    </tr>
+    
+</table>
+  
+<!-- Paginación de la tabla -->
+<ng-container *ngIf="isPaginator">
+    <mat-paginator [pageSizeOptions]="pageOptions" aria-label="Selecciona una página"></mat-paginator>
+</ng-container>

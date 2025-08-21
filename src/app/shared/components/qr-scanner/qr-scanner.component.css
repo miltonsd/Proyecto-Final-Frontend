@@ -1,0 +1,22 @@
+.fondo {
+    background-color: rgb(61, 61, 61);
+    width: 350px;
+}
+
+.fondo h2 {
+    color:#f7bd00;
+    text-align: center;
+}
+
+.camara {
+    padding: 0%;
+    border: 1px solid #f7bd00;
+    box-shadow: 0px 0px 10px 1px #f7bd00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boton {
+    margin: 0 auto; /* 0 => arriba y abajo, auto => izquierda y derecha*/
+}

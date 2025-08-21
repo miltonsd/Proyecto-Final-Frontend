@@ -1,0 +1,70 @@
+.main {
+  border: 10px solid rgb(41, 41, 41);
+  background-color: #f7bd00;
+}
+
+.titulo {
+  font-size: 30px;
+  margin: 0%;
+  padding: 2%;
+  text-align: center;
+  color:rgb(41, 41, 41)
+}
+
+.foto-container {
+  display: flex;
+  /* width: 450px; */
+  height: 350px;
+  justify-content: center; /* Centrado horizontal */
+  align-items: center; /* Centrado vertical */
+}
+
+.foto {
+  /* width: 382px;
+  max-height: 450px; */
+  max-width: 90%;
+  max-height: 100%;
+  object-fit: contain; /* Ajusta la imagen sin deformarla */
+}
+
+.detalle-container {
+  padding-inline: 7%
+}
+
+.boton {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.boton button {
+  cursor: pointer;
+  border-radius: 50px;
+  padding: 10px 20px;
+  background-color: rgb(25, 25, 25);
+  color: #f7bd00;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ /* Límite hasta donde se puede desplazar la barra  */
+::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+}
+
+ /* Barra renderizada  */
+::-webkit-scrollbar-thumb {
+  background: rgb(61, 61, 61);
+}
+
+/* Cuando se posiciona arriba de la barra  */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(119, 119, 119);
+}
+
+@media only screen and (min-width: 992px) {
+  .reserva {
+    align-items: center;
+  }
+} 

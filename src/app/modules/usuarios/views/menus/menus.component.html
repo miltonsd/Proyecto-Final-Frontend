@@ -1,0 +1,21 @@
+<div class="container">
+    <h1 class="titulo">Mis menús</h1>
+    <div class="tabla">
+        
+        <pa-tabla
+            [tableData]="menus"
+            [tableColumns]="columnas"
+            [isPaginator]="false"
+            (menuAction)="onCargarMenu($event)"
+            (editAction)="onEdit($event)"
+            (deleteAction)="onDelete($event)"
+            [confirmDialogMsg]="msgConfirmacion">
+        </pa-tabla>
+    </div>
+
+    <div class="boton">
+        <button class="submit" type="submit" mat-raised-button color="primary" (click)="onAddMenu()">
+          Agregar menú (+)
+        </button>
+    </div>
+</div>

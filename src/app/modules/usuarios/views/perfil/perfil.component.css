@@ -1,0 +1,57 @@
+.titulo { 
+  text-align: center;
+  color: #f7bd00;
+  font-size: 30px
+}
+
+.perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  padding-left: 10%;
+}
+
+/* Recuadro principal */
+.perfil-container {
+  width: 100%;
+  background-color: rgb(61, 61, 61);
+  border: 1px solid #f7bd00;
+  padding: 3%;
+}
+
+/* Recuadro individual para cada dato del usuario */
+.perfil-campo { 
+  border: 1px solid #f7bd00;
+  padding-inline: 4%
+ }
+
+.titulo-campo { color: #f7bd00 }
+
+.botones {
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+}
+
+.boton { margin-right: 10px }
+
+@media only screen and (min-width: 992px) {
+  .titulo {
+    font-size: 35px;
+  }
+
+  .container {
+    padding: 1%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+
+  .perfil-container {
+    display: grid;
+    grid-template-columns: repeat(3, 0.5fr);
+    gap: 1rem;
+  }
+} 

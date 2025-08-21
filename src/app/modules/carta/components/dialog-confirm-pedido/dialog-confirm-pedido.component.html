@@ -1,0 +1,50 @@
+<div class="main">
+
+  <!-- Titulo de confirmar el pedido -->
+  <h1 class="titulo">Confirmar pedido</h1>
+  <!-- Detalle del producto  -->
+  <div class="detalle-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Descripción</th>
+          <th>Precio Unitario</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Generar filas dinámicamente usando *ngFor -->
+        <tr *ngFor="let producto of data.carrito">
+          <td>{{ producto.descripcion }}</td>
+          <td>{{ producto.precio | currency:'ARS' }}</td>
+          <td>{{ producto.cant_selecc }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-form-field class="observaciones">
+      <mat-label>Observaciones del pedido</mat-label>
+      <textarea matInput 
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="5" 
+        maxlength="500" 
+        #observacion
+        id="observacion"
+      ></textarea>
+      <mat-hint align="end">{{observacion.value.length}}/500</mat-hint>
+    </mat-form-field>
+    <p>
+      Mesa: {{ data.idMesa || "No hay." }}
+    </p>
+    <p>
+      Total: {{ montoImporte | currency:'ARS' }}
+    </p>
+  </div>
+  
+  <div class="boton">
+    <button mat-raised-button type="button" color="primary" (click)="onSubmit()">Realizar pedido</button>
+    <button mat-raised-button type="button" color="warn" (click)="onNoClick()">Cancelar</button>
+  </div>
+  <br>
+</div>

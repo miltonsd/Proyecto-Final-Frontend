@@ -1,0 +1,32 @@
+<div>
+  <div class="lista-prod">
+    <ng-container *ngFor="let tipo of getTipos()">
+      <h1 class="titulo" id="{{tipo}}">{{tipo}}</h1>
+      <pa-tabla
+        [tableData]="productosPorTipo[tipo]"
+        [tableColumns]="columnas"
+        [isPaginator]="false"
+        (addAction)="addToCart($event)"
+        (removeAction)="removeToCart($event)"
+        (detailsAction)="verDetalles($event)"
+      ></pa-tabla>
+    </ng-container>
+  </div>
+</div>
+
+<div class="pedido" *ngIf="usuarioLogueado">
+  
+  <button
+    class="boton-flotante"
+    [ngClass]="{ 'fijo': posicionFija, 'absoluto': !posicionFija, 'deshabilitado': !canPlaceOrder() }"
+    [ngStyle]="{ 'bottom': posicionBoton }"
+    type="submit"
+    [disabled]="!canPlaceOrder()"
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    >
+    
+    <fa-icon [icon]="faCartShopping"></fa-icon> Realizar pedido
+  </button>
+</div>

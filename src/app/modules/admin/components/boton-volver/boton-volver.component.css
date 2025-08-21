@@ -1,0 +1,28 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center; /* Centra el h1 horizontalmente */
+  align-items: center; /* Alinea verticalmente el botón y el h1 */
+  padding: 0 20px; /* Opcional: Añade un poco de padding */
+}
+
+.btn-volver {
+  position: absolute;
+  background-color: rgb(61, 61, 61);
+  border: 1px solid #f7bd00;
+  box-shadow: 0px 0px 10px 1px #f7bd00;
+  border-radius: 50px;
+  left: 20px; /* Ajusta la distancia al borde izquierdo */
+}
+
+.titulo {
+  color: white;
+  font-size: 30px;
+  text-align: center;
+}
+
+@media only screen and (min-width: 992px) {
+  .titulo {
+    font-size: 35px
+  }
+} 
